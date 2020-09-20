@@ -1,6 +1,11 @@
 import Vue from 'vue'
 import App from './App'
 import Vant from 'vant';
+import http from './utils/http.js'
+
+Vue.use(Vant);
+
+Vue.prototype.$http = http
 
 Vue.config.productionTip = false
 
