@@ -1,42 +1,69 @@
 {
 	"pages": [
 		{
-			"path": "pages/index/index",
+			"path": "pages/Index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "Index",
+				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path": "pages/map/index",
+			"path": "pages/Shops/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "Shops",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/Brand/index",
+			"style": {
+				"navigationBarTitleText": "Brand",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/My/index",
+			"style": {
+				"navigationBarTitleText": "My",
+				"navigationStyle": "custom"
 			}
 		}
 	],
 	"tabBar": {
-		"color": "#8a8a8a",
-		"selectedColor": "#d4237a",
-		"borderStyle": "black",
-		"backgroundColor": "#ffffff",
-		"list": [
-			{
-				"pagePath": "pages/index/index",
-				"text": "首页",
-				"iconPath": "static/logo.png",
-				"selectedIconPath": "static/logo.png"
+		"color": "#bdbdbd",
+		"selectedColor": "#1576FE",
+		"backgroundColor": "#FFFFFF",
+		"borderStyle": "white",
+		"list": [{
+				"pagePath": "pages/Index/index",
+				"iconPath": "static/images/home-o.png",
+				"selectedIconPath": "static/images/home.png",
+				"text": "首页"
 			},
 			{
-				"pagePath": "pages/map/index",
-				"text": "地图",
-				"iconPath": "static/logo.png",
-				"selectedIconPath": "static/logo.png"
+				"pagePath": "pages/Shops/index",
+				"iconPath": "static/images/shops-o.png",
+				"selectedIconPath": "static/images/shops.png",
+				"text": "商铺"
+			},
+			{
+				"pagePath": "pages/Brand/index",
+				"iconPath": "static/images/brand-o.png",
+				"selectedIconPath": "static/images/brand.png",
+				"text": "品牌"
+			},
+			{
+				"pagePath": "pages/My/index",
+				"iconPath": "static/images/my-o.png",
+				"selectedIconPath": "static/images/my.png",
+				"text": "我的"
 			}
 		]
 	},
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
+		"navigationBarTextStyle": "#1576FE",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#FFFFFF"
 	}
 }
