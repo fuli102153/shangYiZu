@@ -85,6 +85,7 @@
         <van-icon name="play" color="#002464" size="26rpx" />
       </view>
     </view>
+    <!-- 导航 -->
     <view class="nav">
       <view class="nav-item" v-for="(item, index) in navList"  :key="index">
         <image :src="item.src" />
@@ -121,11 +122,38 @@
         </van-swipe-item>
       </van-swipe>
     </view>
+    <!-- 合作企业 -->
+    <view class="coop">
+      <view class="coop-content">
+          <view class="coop-header">
+            <view class="coop-title">合作企业</view>
+            <view class="coop-more">更多 ></view>
+          </view>
+          <view class="coop-list">
+            <view class="coop-item" v-for="item in 4" :key="item">
+              <view class="image"></view>
+              <!-- <image :src="item.src" /> -->
+              <text>企业名称</text>
+            </view>
+          </view>
+      </view>
+    </view>
+    <!-- 猜你喜欢 -->
+    <view class="store">
+      <view class="store-header">猜你喜欢</view>
+      <view class="store-list">
+        <StoreCard v-for="item in 8" :key="item"/>
+      </view>
+    </view>
   </view>
 </template>
 
 <script>
+import StoreCard from '../../components/Card/Store'
 export default {
+  components: {
+    StoreCard,
+  },
   data() {
     return {
       locationShow: false,
@@ -161,9 +189,11 @@ export default {
 
 <style lang="scss" scoped>
 .v-index {
+  width: 100%;
+  background-color: #F5F8FA;
+
   .header {
-    width: 100%;
-    padding: 25rpx 26rpx;
+    padding: 25rpx 24rpx;
     background: #1676fe;
     display: flex;
 
@@ -209,6 +239,7 @@ export default {
     }
 
     .shop-partner {
+      flex: 1;
       color: #fff;
       font-size: 32rpx;
       display: flex;
@@ -255,7 +286,6 @@ export default {
   }
 
   .toutiao {
-    width: 100%;
     padding: 26rpx;
     background-color: #1676FE;
     position: relative;
@@ -334,6 +364,7 @@ export default {
 
   .recommend {
     background-color: #ffffff;
+    padding: 36rpx 0;
 
     .recommend-title {
       width: 258rpx;
@@ -345,7 +376,7 @@ export default {
       color: #fff;
       line-height: 55rpx;
       padding-left: 15rpx;
-      margin:36rpx 0 20rpx 26rpx;
+      margin:0 0 20rpx 26rpx;
     }
 
     /deep/ .van-swipe__track {
@@ -373,6 +404,73 @@ export default {
           background: rgba(0, 0, 0, 0.6);
         }
       }
+    }
+  }
+
+  .coop {
+    padding: 16rpx;
+    
+    .coop-content {
+      background-color: #fff;
+      border-radius: 10rpx;
+      padding-bottom: 35rpx;
+
+      .coop-header {
+        padding: 38rpx 34rpx 28rpx 34rpx;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .coop-title {
+          font-size: 32rpx;
+          color: #2D2D2D;
+        }
+
+        .coop-more {
+          font-size: 30rpx;
+          color: #1676FE;
+        }
+      }
+
+      .coop-list {
+        display: flex;
+        justify-content: space-evenly;
+
+        .coop-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          .image {
+            width: 126rpx;
+            height: 126rpx;
+            border-radius: 50%;
+            background: #DAE9FF;
+          }
+
+          text {
+            font-size: 30rpx;
+            color: #2D2D2D;
+            margin-top: 14rpx;
+          }
+        }
+      }
+    }
+  }
+  
+  .store {
+    padding: 0 26rpx;
+
+    .store-header {
+      width: 182rpx;
+      height: 55rpx;
+      background-image: url('../../static/images/title-bg-s.png');
+      background-position: center right;
+      background-size: 100%;
+      font-size: 36rpx;
+      color: #fff;
+      padding-left: 15rpx;
+      line-height: 55rpx;
     }
   }
 }
