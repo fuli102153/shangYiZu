@@ -31,9 +31,7 @@
       <van-cell-group class="city">
         <van-cell center title="当前定位">
           <template #default>
-            <van-button round plain hairline type="info" size="mini"
-              >手动定位</van-button
-            >
+            <van-button round plain hairline type="info" size="mini">手动定位</van-button>
           </template>
           <template #label>
             <van-icon
@@ -87,7 +85,7 @@
     </view>
     <!-- 导航 -->
     <view class="nav">
-      <view class="nav-item" v-for="(item, index) in navList"  :key="index">
+      <view class="nav-item" v-for="(item, index) in navList"  :key="index" @click="toPath()">
         <image :src="item.src" />
         <text>{{ item.name }}</text>
       </view>
@@ -160,16 +158,16 @@ export default {
       cityList: ["北京", "上海", "广州", "深圳"],
       activeCity: null,
       navList: [
-        {name: '地图找铺', src: '../../static/images/Map.png'},
-        {name: '招租发布', src: '../../static/images/Hire.png'},
-        {name: '开店发布', src: '../../static/images/OpenShop.png'},
-        {name: '购物中心', src: '../../static/images/Shopping.png'},
-        {name: '社区底商', src: '../../static/images/Community.png'},
-        {name: '整租物业', src: '../../static/images/WholeRent.png'},
-        {name: '商业街区', src: '../../static/images/CommercialStreet.png'},
-        {name: '综合配套', src: '../../static/images/ComprehensiveMatching.png'},
-        {name: '专业市场', src: '../../static/images/ProfessionalMarket.png'},
-        {name: '娱乐教育', src: '../../static/images/EntertainmentEducation.png'},
+        {name: '地图找铺', src: '../../static/images/Map.png', router: ''},
+        {name: '招租发布', src: '../../static/images/Hire.png', router: ''},
+        {name: '开店发布', src: '../../static/images/OpenShop.png', router: ''},
+        {name: '购物中心', src: '../../static/images/Shopping.png', router: ''},
+        {name: '社区底商', src: '../../static/images/Community.png', router: ''},
+        {name: '整租物业', src: '../../static/images/WholeRent.png', router: ''},
+        {name: '商业街区', src: '../../static/images/CommercialStreet.png', router: ''},
+        {name: '综合配套', src: '../../static/images/ComprehensiveMatching.png', router: ''},
+        {name: '专业市场', src: '../../static/images/ProfessionalMarket.png', router: ''},
+        {name: '娱乐教育', src: '../../static/images/EntertainmentEducation.png', router: ''},
       ]
     };
   },
@@ -183,6 +181,13 @@ export default {
     selectCity(index) {
       this.activeCity = index;
     },
+
+    toPath() {
+      console.log(11111)
+      uni.navigateTo({
+			  url:"../Map/index"
+		  })
+    }
   },
 };
 </script>

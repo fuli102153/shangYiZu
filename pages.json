@@ -27,6 +27,13 @@
 				"navigationBarTitleText": "My",
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/Map/index",
+			"style": {
+				"navigationBarTitleText": "Map",
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"tabBar": {
@@ -61,7 +68,7 @@
 		]
 	},
 	"globalStyle": {
-		"navigationBarTextStyle": "#1576FE",
+		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#FFFFFF"
