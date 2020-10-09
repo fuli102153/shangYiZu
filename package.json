@@ -1,0 +1,25 @@
+{
+  "name": "shangyizu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "dependencies": {
+    "babel-plugin-import": "^1.13.0",
+    "vant": "^2.10.7",
+    "vue-baidu-map": "^0.21.22"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fuli102153/shangYiZu.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fuli102153/shangYiZu/issues"
+  },
+  "homepage": "https://github.com/fuli102153/shangYiZu#readme"
+}
