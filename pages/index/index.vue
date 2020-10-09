@@ -11,7 +11,7 @@
         <text>深圳</text>
         <van-icon name="play" class="arrow" color="#fff" size="17rpx" />
       </view>
-      <view class="search">
+      <view class="search" @click="goSearch">
         <i class="search-icon" />
         <text class="search-text">搜索城市或店铺</text>
       </view>
@@ -71,7 +71,7 @@
       <van-swipe-item>4</van-swipe-item>
     </van-swipe>
     <!-- 头条 -->
-    <view class="toutiao">
+    <view class="toutiao" @click="goHeadlines">
       <view class="toutiao-icon">
         <view class="toutiao-text">
           <p>商易租</p>
@@ -184,11 +184,22 @@ export default {
       this.activeCity = index;
     },
     toPath() {
-      console.log(11111)
       uni.navigateTo({
 			  url:"../Map/index"
 		  })
     },
+    // 进入商易租头条
+    goHeadlines() {
+      uni.navigateTo({
+			  url:"../Headlines/index"
+		  })
+    },
+		// 进入搜索页
+		goSearch() {
+			uni.navigateTo({
+			  url:"../Search/index"
+			})
+		},
     // 查询所在城市
     handler ({BMap, map}) {
       const geolocation = new BMap.Geolocation();
