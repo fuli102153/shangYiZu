@@ -1,14 +1,17 @@
 <template>
 	<view class="v-search">
-		<van-search
-		  v-model="value"
-		  shape="round"
-		  background="#1676FE"
-		  placeholder="输入意向位置/业态">
-		<template #left>
-		    <van-icon name="arrow-left" color="#fff" :style="{marginRight: '24rpx'}" />
-		  </template>
-		</van-search>
+		<form action="/">
+			<van-search
+				v-model="value"
+				shape="round"
+				background="#1676FE"
+				placeholder="输入意向位置/业态"
+				@search="onSearch">
+				<template #left>
+					<van-icon name="arrow-left" color="#fff" :style="{marginRight: '24rpx'}" @click="onClickLeft" />
+				</template>
+			</van-search>
+		</form>
 		<!-- 热门搜索 -->
 		<view class="hot">
 			<view class="title">
@@ -35,9 +38,20 @@
 export default {
 	data() {
 		return {
+			value: '',
 			tagList: ['商场', '餐饮', '服装', '办公', '停车场', '地铁周边', '学校周边'],
 			historList: ['超市转让', '宾馆', '茶饮水吧']
 		}
+	},
+	methods: {
+		onSearch() {
+			uni.navigateTo({
+				url: './searchList'
+			})
+		},
+		onClickLeft() {
+			uni.navigateBack()
+		},
 	}
 }
 </script>

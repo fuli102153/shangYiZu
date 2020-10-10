@@ -48,6 +48,13 @@
 				"navigationBarTitleText": "Search",
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/Search/searchList",
+			"style": {
+				"navigationBarTitleText": "Search",
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"tabBar": {
