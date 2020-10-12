@@ -9,7 +9,10 @@ Vue.use(BaiduMap, {
     ak: 'aHuQcqxYQDEaDDeGmL4SviEf6DAPjSTO'
   })
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+
+Vue.prototype.userInfo = {};//存储用户的信息
+Vue.prototype.token = {};//存储用户的TOKEN值
 
 App.mpType = 'app'
 
