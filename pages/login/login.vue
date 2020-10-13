@@ -13,8 +13,8 @@
 </template>
 
 <script>
-
-
+	import {login} from "../../utils/api.js"
+	console.log(login)
 	export default{
 		components: {
 	
@@ -102,63 +102,13 @@
 				_requestLogin() {
 					var that = this;
 					//ajax⽤户登录
-					uni.request({
-						url: that.host+"/eos/xcx/auth/login",
-						method:"POST",
-						data: {
-							code:that.code,
-							nickname:that.userInfo.nickName,
-							avatar:that.userInfo.avatarUrl,
-							phone:"",
-						},
-						header:{"content-type":"application/x-www-form-urlencoded"},
-					}).then(res => {
-						var data  = res[1].data
-						console.log(data);
-						uni.hideLoading();
-						//判断用户是否有注册，如果5001没有注册就弹出输入验证码 
-						if(data.code=="200"){
-							
-							
-							console.log(data.result.status)
-							
-							//存储用户token
-							uni.setStorage({
-								key: "__userToken__",
-								data: data.result,
-								success: (res) => {
-									//如果获取用户信息的电话号码失败，那么提示用户去绑定手机号
-								},
-								fail: () => {
-									uni.showModal({
-										title: '用户信息获取失败!',
-										showCancel:false
-									})
-								}
-							})
-							that.accessToken = data.result.accessToken;
-							that.openid = data.result.openid
-							that.getUserInfoByLogin();
-							
-						}else if(data.code=="5001"){
-							that.showPop();
-							return;
-						}else{
-							//测试
-							uni.showModal({
-								content: data.message,
-								showCancel: false
-							});
-							
-						}
-						
-					}).catch(err => {
-						uni.showModal({
-							content: err.errMsg,
-							showCancel: false
-						});
-				
-						
+					const paras = {};
+					login(paras).then(response => {
+						console.log(response);
+						resolve();
+					})
+					.catch(error => {
+						reject(error);
 					});
 				},
 				

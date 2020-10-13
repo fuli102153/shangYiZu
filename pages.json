@@ -33,13 +33,6 @@
 				"navigationBarTitleText": "My",
 				"navigationStyle": "custom"
 			}
-		},
-		{
-			"path": "pages/Map/index",
-			"style": {
-				"navigationBarTitleText": "Map",
-				"navigationStyle": "custom"
-			}
 		}
 	],
 	"tabBar": {

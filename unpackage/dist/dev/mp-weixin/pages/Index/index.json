@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "Index",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "store-card": "/components/Card/Store"
+  }
+}
