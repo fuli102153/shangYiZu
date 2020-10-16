@@ -37,7 +37,8 @@
 			
 		},
 		onShow(){
-			this._getuserinfo();
+			//this._getuserinfo();
+			this._getuserTest();
 		},
 		methods: {
 			_getuserTest(){

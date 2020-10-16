@@ -1,6 +1,5 @@
 {
-  "navigationBarTitleText": "Index",
-  "navigationStyle": "custom",
+  "navigationBarTitleText": "",
   "usingComponents": {
     "van-button": "/wxcomponents/vant/dist/button/index",
     "van-cell": "/wxcomponents/vant/dist/cell/index",

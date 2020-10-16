@@ -316,9 +316,20 @@ __webpack_require__.r(__webpack_exports__);
       this.activeCity = index;
     },
     toPath: function toPath() {
-      console.log(11111);
       uni.navigateTo({
         url: "../Map/index" });
+
+    },
+    // 进入商易租头条
+    goHeadlines: function goHeadlines() {
+      uni.navigateTo({
+        url: "../Headlines/index" });
+
+    },
+    // 进入搜索页
+    goSearch: function goSearch() {
+      uni.navigateTo({
+        url: "../Search/index" });
 
     },
     // 查询所在城市
