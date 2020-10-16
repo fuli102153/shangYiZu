@@ -18,4 +18,7 @@
 	.uni-tabbar {
 		box-shadow: 0px 0px 50px 0px rgba(190, 190, 190, 0.5);
 	}
+	/deep/ .van-field__control[type=search]::-webkit-search-cancel-button{
+	  -webkit-appearance: none;  //此处去掉默认的小×
+	}
 </style>
