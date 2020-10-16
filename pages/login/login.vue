@@ -24,7 +24,7 @@
 				showLogin:true,
 				para:{},
 				verifyCode:"",
-				userInfo:{},
+				res:{},
 				code:"",
 				accessToken:"",
 				openid:"",
@@ -57,21 +57,23 @@
 							//发起网络请求
 							var code = res.code;
 						  
-							console.log(code)
+							console.log(res)
 						  	// 获取微信用户信息
 							wx.getUserInfo({
 							  success: function(res) {
-								var userInfo = res.userInfo;
-								console.log(userInfo)
+								var res = res;
+								that.res = res;
+								that.code = code;
 								uni.setStorage({
 									key: "__userInfo__",
-									data: userInfo,
+									data: res,
 									success: (res) => {
 										//如果获取用户信息的电话号码失败，那么提示用户去绑定手机号
-										that.userInfo = userInfo;
-										that.code = code,
+										
+										
 										that._requestLogin();
-										console.log(userInfo); 
+									
+										
 										
 									},
 									fail: () => {
@@ -102,13 +104,21 @@
 				_requestLogin() {
 					var that = this;
 					//ajax⽤户登录
-					const paras = {};
+					console.log(that.res)
+					const paras = {
+						appid:"wx659fdf8f4e2445d0",
+						code:that.code,
+						signature:that.res.signature,
+						rawData:that.res.rawData,
+						encryptedData:that.res.encryptedData,
+						iv:that.res.iv,
+					};
 					login(paras).then(response => {
 						console.log(response);
-						resolve();
+						
 					})
 					.catch(error => {
-						reject(error);
+					
 					});
 				},
 				
@@ -128,46 +138,7 @@
 						  
 							console.log(code)
 						  	// 获取微信用户信息
-							uni.request({
-								url: that.host+"/eos/xcx/auth/verifyLogin",
-								method:"POST",
-								data: {
-									code:code,
-									nickname:that.userInfo.nickName,
-									avatar:that.userInfo.avatarUrl,
-									verifyCode:that.verifyCode,
-									sex:that.userInfo.gender,
-									
-								},
-								header:{"content-type":"application/x-www-form-urlencoded"},
-							}).then(res => {
-								var data  = res[1].data
-								console.log(data);
-								uni.hideLoading();
-								
-								if(data.code=="200"){
-									//存储用户信息
-									that.accessToken = data.result.accessToken;
-									that.openid = data.result.openid
-									that.getUserInfoByLogin();
-								}else{
-									//测试
-									uni.showModal({
-										content: data.message,
-										showCancel: false
-									});
-									
-								}
-								
-							}).catch(err => {
-								uni.showModal({
-									content: err.errMsg,
-									showCancel: false
-								});
-											
-								
-							});
-								
+							
 								
 								
 							

@@ -1,6 +1,6 @@
 const http = (obj) => {
     return new Promise((resolve, reject) => {
-        const HOST = 'https://test.net/'
+        const HOST = 'https://app.wan0wan.com/'
         var method = obj.method || "GET";
         var url = HOST + obj.url || "";
         var data = obj.data || {};

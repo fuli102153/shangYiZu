@@ -5,7 +5,6 @@
   "main": "main.js",
   "dependencies": {
     "babel-plugin-import": "^1.13.0",
-    "vant": "^2.10.7",
     "vue-baidu-map": "^0.21.22"
   },
   "devDependencies": {},
