@@ -43,37 +43,6 @@
 				"navigationBarTitleText": "My",
 				"navigationStyle": "custom"
 			}
-<<<<<<< HEAD
-=======
-		},
-		{
-			"path": "pages/Map/index",
-			"style": {
-				"navigationBarTitleText": "Map",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/Headlines/index",
-			"style": {
-				"navigationBarTitleText": "Headlines",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/Search/index",
-			"style": {
-				"navigationBarTitleText": "Search",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/Search/searchList",
-			"style": {
-				"navigationBarTitleText": "Search",
-				"navigationStyle": "custom"
-			}
->>>>>>> c6730a03ab3eceba7934d19b7fb0d3fc4d14a297
 		}
 	],
 	"tabBar": {
