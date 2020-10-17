@@ -15,7 +15,7 @@ var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 5));function 
 _vue.default.config.productionTip = false;
 
 _vue.default.prototype.userInfo = {}; //存储用户的信息
-_vue.default.prototype.token = {}; //存储用户的TOKEN值
+_vue.default.prototype.accessToken = {}; //存储用户的TOKEN值
 
 
 _App.default.mpType = 'app';

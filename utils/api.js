@@ -1,7 +1,17 @@
 import http from '@/utils/http.js' 
+import Vue from 'vue'
  
- 
-
+export function getAccessToken(){
+	uni.getStorage({
+		key: "__accessToken__",
+		success: (res) => {
+			Vue.prototype.accessToken = res.data;
+		},
+		fail: () => {
+			
+		}
+	})
+}
 
  //1、用户登录
 export function login(data){ // 模拟登录
@@ -17,8 +27,9 @@ export function login(data){ // 模拟登录
 export function userInfo(data){ 
 	return http({
 	    url: 'api/user/info',
-		method: 'get',
-		data: data
+		method: 'post',
+		data: data,
+		accessToken:data.accessToken
 	})
 }
 
@@ -42,10 +53,11 @@ export function getCity(data){
 }
 
 //5、banner广告图
-export function weekRecommend(data){ 
+export function getBannerList(data){ 
 	return http({
-	    url: 'api/project/weekRecommend',
-		method: 'get',
+	    url: 'api/banner/getList',
+		method: 'post',
+		accessToken:data.accessToken,
 		data: data
 	})
 }

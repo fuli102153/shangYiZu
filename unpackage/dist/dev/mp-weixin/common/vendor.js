@@ -904,7 +904,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -7331,7 +7331,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -7352,14 +7352,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -7445,7 +7445,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -8038,10 +8038,20 @@ function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.login = login;exports.userInfo = userInfo;exports.setRole = setRole;exports.getCity = getCity;exports.weekRecommend = weekRecommend;exports.weekRecommend1 = weekRecommend1;var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getAccessToken = getAccessToken;exports.login = login;exports.userInfo = userInfo;exports.setRole = setRole;exports.getCity = getCity;exports.getBannerList = getBannerList;exports.weekRecommend1 = weekRecommend1;var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 18));
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
+function getAccessToken() {
+  uni.getStorage({
+    key: "__accessToken__",
+    success: function success(res) {
+      _vue.default.prototype.accessToken = res.data;
+    },
+    fail: function fail() {
 
+    } });
 
+}
 
 //1、用户登录
 function login(data) {// 模拟登录
@@ -8057,8 +8067,9 @@ function login(data) {// 模拟登录
 function userInfo(data) {
   return (0, _http.default)({
     url: 'api/user/info',
-    method: 'get',
-    data: data });
+    method: 'post',
+    data: data,
+    accessToken: data.accessToken });
 
 }
 
@@ -8082,10 +8093,11 @@ function getCity(data) {
 }
 
 //5、banner广告图
-function weekRecommend(data) {
+function getBannerList(data) {
   return (0, _http.default)({
-    url: 'api/project/weekRecommend',
-    method: 'get',
+    url: 'api/banner/getList',
+    method: 'post',
+    accessToken: data.accessToken,
     data: data });
 
 }
@@ -8098,6 +8110,7 @@ function weekRecommend1(data) {
     data: data });
 
 }
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 /* 18 */
@@ -8115,7 +8128,8 @@ function weekRecommend1(data) {
     var url = HOST + obj.url || "";
     var data = obj.data || {};
     var header = obj.header || {
-      'Content-Type': obj.contentType || 'application/json' };
+      'Content-Type': obj.contentType || 'application/json',
+      'Authorization': obj.accessToken || '' };
 
     var success = obj.success; // 成功回调函数
     var fail = obj.fail; //表示失败后，要执行的回调函数

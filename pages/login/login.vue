@@ -4,6 +4,7 @@
 		<view v-if="showLogin" class="text">登录中...</view>
 		<view v-else>
 			<button  class="btn_login" type="default"  @click="_getuserTest"  >体验一下</button>
+			<button class='btn_login' type='primary' open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">获取手机号</button>
 			<button  class="btn_login" type="primary"  open-type="getUserInfo" @getuserinfo="_getuserinfo" withCredentials="true">登录</button>
 		</view>
 		
@@ -13,7 +14,7 @@
 </template>
 
 <script>
-	import { login } from "../../utils/api.js"
+	import {login,userInfo,getAccessToken} from "../../utils/api.js"
 	console.log(login)
 	export default{
 		components: {
@@ -21,10 +22,9 @@
 		},
 		data() {
 			return {
-				showLogin: true,
+				showLogin:true,
 				para:{},
 				verifyCode:"",
-				res:{},
 				code:"",
 				accessToken:"",
 				openid:"",
@@ -37,8 +37,8 @@
 			
 		},
 		onShow(){
-			//this._getuserinfo();
-			this._getuserTest();
+			this._getuserinfo();
+			//this._getuserTest();
 		},
 		methods: {
 			_getuserTest(){
@@ -47,6 +47,9 @@
 				uni.switchTab({
 					 url: '../Index/index'
 				});
+			},
+			getPhoneNumber(val){
+				console.log(val)
 			},
 			_getuserinfo: function(){
 					var that = this;
@@ -62,8 +65,8 @@
 						  	// 获取微信用户信息
 							wx.getUserInfo({
 							  success: function(res) {
-								var res = res;
-								that.res = res;
+								
+								that.userInfo = res;
 								that.code = code;
 								uni.setStorage({
 									key: "__userInfo__",
@@ -105,17 +108,41 @@
 				_requestLogin() {
 					var that = this;
 					//ajax⽤户登录
-					console.log(that.res)
+					console.log(that.userInfo)
 					const paras = {
 						appid:"wx659fdf8f4e2445d0",
 						code:that.code,
-						signature:that.res.signature,
-						rawData:that.res.rawData,
-						encryptedData:that.res.encryptedData,
-						iv:that.res.iv,
+						signature:that.userInfo.signature,
+						rawData:that.userInfo.rawData,
+						encryptedData:that.userInfo.encryptedData,
+						iv:that.userInfo.iv,
 					};
-					login(paras).then(response => {
-						console.log(response);
+					login(paras).then(res => {
+						const data = res.data;
+						console.log(data);
+						
+						if(data.code=="200"){
+							that.accessToken = data.data.accessToken;
+							console.log(that.accessToken)
+							uni.setStorage({
+								key: "__accessToken__",
+								data: data.data.accessToken,
+								success: (res) => {
+									getAccessToken()
+								},
+								fail: () => {
+									uni.showModal({
+										title: '用户信息获取失败!',
+										showCancel:false
+									})
+								}
+							})
+							that.getUserInfoByLogin();
+							
+						}else{
+							
+							
+						}
 						
 					})
 					.catch(error => {
@@ -126,89 +153,29 @@
 				
 				
 				
-				_requestverifyLogin() {
-					var that = this;
-					//ajax⽤户登录
-					
-					// wx登录
-					wx.login({
-					  success (res) {
-					    if (res.code) {
-							//发起网络请求
-							var code = res.code;
-						  
-							console.log(code)
-						  	// 获取微信用户信息
-							
-								
-								
-							
-							
-					    } else {
-							
-					    }
-					  }
-					})
-					
-					
-					
-				},
-				
 				
 				getUserInfoByLogin(){
 					//ajax个人信息查询
 					var that = this;
-					uni.request({
-						url: that.host+"/eos/xcx/userInfo",
-						method:"POST",
-						data: {
-							openid:that.openid,
-							accessToken:that.accessToken,
-						},
-						header:{"content-type":"application/x-www-form-urlencoded"},
-					}).then(res => {
-						var data  = res[1].data
+					const paras = {};
+					paras.accessToken = this.accessToken;
+					userInfo(paras).then(res => {
+						const data = res.data;
 						console.log(data);
-						uni.hideLoading();
 						
 						if(data.code=="200"){
-							//存储用户信息
-							uni.setStorage({
-								key: "__userInfo__",
-								data: data.result,
-								success: (res) => {
-									//如果获取用户信息的电话号码失败，那么提示用户去绑定手机号
-									//跳转到首页
-									uni.switchTab({
-										 url: '../Index/index'
-									});
-									
-								},
-								fail: () => {
-									uni.showModal({
-										title: '用户信息获取失败!',
-										showCancel:false
-									})
-								}
-							})
-							
-							
-						}else{
-							//失败
-							uni.showModal({
-								content: data.message,
-								showCancel: false
+							uni.switchTab({
+								 url: '../Index/index'
 							});
+						
+						}else{
+							
 							
 						}
 						
-					}).catch(err => {
-						uni.showModal({
-							content: err.errMsg,
-							showCancel: false
-						});
-									
-						
+					})
+					.catch(error => {
+					
 					});
 				},
 				

@@ -150,6 +150,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var _api = __webpack_require__(/*! ../../utils/api.js */ 17);function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
 console.log(_api.login);var _default = _defineProperty({
 
@@ -161,7 +162,6 @@ console.log(_api.login);var _default = _defineProperty({
       showLogin: true,
       para: {},
       verifyCode: "",
-      res: {},
       code: "",
       accessToken: "",
       openid: "" };
@@ -174,8 +174,8 @@ console.log(_api.login);var _default = _defineProperty({
 
   },
   onShow: function onShow() {
-    //this._getuserinfo();
-    this._getuserTest();
+    this._getuserinfo();
+    //this._getuserTest();
   },
   methods: {
     _getuserTest: function _getuserTest() {
@@ -184,6 +184,9 @@ console.log(_api.login);var _default = _defineProperty({
       uni.switchTab({
         url: '../Index/index' });
 
+    },
+    getPhoneNumber: function getPhoneNumber(val) {
+      console.log(val);
     },
     _getuserinfo: function _getuserinfo() {
       var that = this;
@@ -199,8 +202,8 @@ console.log(_api.login);var _default = _defineProperty({
             // 获取微信用户信息
             wx.getUserInfo({
               success: function success(res) {
-                var res = res;
-                that.res = res;
+
+                that.userInfo = res;
                 that.code = code;
                 uni.setStorage({
                   key: "__userInfo__",
@@ -242,17 +245,41 @@ console.log(_api.login);var _default = _defineProperty({
     _requestLogin: function _requestLogin() {
       var that = this;
       //ajax⽤户登录
-      console.log(that.res);
+      console.log(that.userInfo);
       var paras = {
         appid: "wx659fdf8f4e2445d0",
         code: that.code,
-        signature: that.res.signature,
-        rawData: that.res.rawData,
-        encryptedData: that.res.encryptedData,
-        iv: that.res.iv };
+        signature: that.userInfo.signature,
+        rawData: that.userInfo.rawData,
+        encryptedData: that.userInfo.encryptedData,
+        iv: that.userInfo.iv };
 
-      (0, _api.login)(paras).then(function (response) {
-        console.log(response);
+      (0, _api.login)(paras).then(function (res) {
+        var data = res.data;
+        console.log(data);
+
+        if (data.code == "200") {
+          that.accessToken = data.data.accessToken;
+          console.log(that.accessToken);
+          uni.setStorage({
+            key: "__accessToken__",
+            data: data.data.accessToken,
+            success: function success(res) {
+              (0, _api.getAccessToken)();
+            },
+            fail: function fail() {
+              uni.showModal({
+                title: '用户信息获取失败!',
+                showCancel: false });
+
+            } });
+
+          that.getUserInfoByLogin();
+
+        } else {
+
+
+        }
 
       }).
       catch(function (error) {
@@ -263,88 +290,28 @@ console.log(_api.login);var _default = _defineProperty({
 
 
 
-    _requestverifyLogin: function _requestverifyLogin() {
-      var that = this;
-      //ajax⽤户登录
-
-      // wx登录
-      wx.login({
-        success: function success(res) {
-          if (res.code) {
-            //发起网络请求
-            var code = res.code;
-
-            console.log(code);
-            // 获取微信用户信息
-
-
-
-
-
-          } else {
-
-          }
-        } });
-
-
-
-
-    },
-
 
     getUserInfoByLogin: function getUserInfoByLogin() {
       //ajax个人信息查询
       var that = this;
-      uni.request({
-        url: that.host + "/eos/xcx/userInfo",
-        method: "POST",
-        data: {
-          openid: that.openid,
-          accessToken: that.accessToken },
-
-        header: { "content-type": "application/x-www-form-urlencoded" } }).
-      then(function (res) {
-        var data = res[1].data;
+      var paras = {};
+      paras.accessToken = this.accessToken;
+      (0, _api.userInfo)(paras).then(function (res) {
+        var data = res.data;
         console.log(data);
-        uni.hideLoading();
 
         if (data.code == "200") {
-          //存储用户信息
-          uni.setStorage({
-            key: "__userInfo__",
-            data: data.result,
-            success: function success(res) {
-              //如果获取用户信息的电话号码失败，那么提示用户去绑定手机号
-              //跳转到首页
-              uni.switchTab({
-                url: '../Index/index' });
-
-
-            },
-            fail: function fail() {
-              uni.showModal({
-                title: '用户信息获取失败!',
-                showCancel: false });
-
-            } });
-
+          uni.switchTab({
+            url: '../Index/index' });
 
 
         } else {
-          //失败
-          uni.showModal({
-            content: data.message,
-            showCancel: false });
 
 
         }
 
-      }).catch(function (err) {
-        uni.showModal({
-          content: err.errMsg,
-          showCancel: false });
-
-
+      }).
+      catch(function (error) {
 
       });
     },

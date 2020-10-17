@@ -6,6 +6,7 @@ const http = (obj) => {
         var data = obj.data || {};
         var header = obj.header || {
             'Content-Type': obj.contentType || 'application/json',
+			'Authorization': obj.accessToken || ''
         };
         var success = obj.success; // 成功回调函数
         var fail = obj.fail; //表示失败后，要执行的回调函数

@@ -49,35 +49,13 @@
       "current": -1,
       "list": []
     },
-    "plugin": {
-      "current": -1,
-      "list": []
-    },
     "game": {
-      "current": -1,
-      "list": []
-    },
-    "gamePlugin": {
       "current": -1,
       "list": []
     },
     "miniprogram": {
       "current": -1,
-      "list": [
-        {
-          "id": -1,
-          "name": "pages/ShopPartner/index",
-          "pathName": "pages/ShopPartner/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "pages/Index/index",
-          "pathName": "pages/Index/index",
-          "scene": null
-        }
-      ]
+      "list": []
     }
   }
 }
