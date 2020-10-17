@@ -13,7 +13,7 @@
 </template>
 
 <script>
-	import {login} from "../../utils/api.js"
+	import { login } from "../../utils/api.js"
 	console.log(login)
 	export default{
 		components: {
@@ -21,7 +21,7 @@
 		},
 		data() {
 			return {
-				showLogin:true,
+				showLogin: true,
 				para:{},
 				verifyCode:"",
 				res:{},

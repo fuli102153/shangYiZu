@@ -26,8 +26,7 @@
 /* 文章场景相关 */
 .vc-store-card.data-v-2d1d60c6 {
   width: 100%;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -40,16 +39,14 @@
 .vc-store-card .store-img.data-v-2d1d60c6 {
   width: 180rpx;
   height: 140rpx;
-  -webkit-border-radius: 15rpx;
-          border-radius: 15rpx;
+  border-radius: 15rpx;
   background: #999;
 }
 .vc-store-card .store-info.data-v-2d1d60c6 {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
           flex: 1;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   color: #2D2D2D;
   padding-left: 30rpx;
 }
@@ -72,8 +69,7 @@
   color: #1576fe;
   font-size: 20rpx;
   padding: 0rpx 12rpx;
-  -webkit-border-radius: 3rpx;
-          border-radius: 3rpx;
+  border-radius: 3rpx;
   margin-top: 11rpx;
 }
 .vc-store-card .store-info .store-payment .store-price.data-v-2d1d60c6 {
