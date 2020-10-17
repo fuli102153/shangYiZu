@@ -8035,10 +8035,20 @@ function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.login = login;exports.userInfo = userInfo;exports.setRole = setRole;exports.getCity = getCity;exports.weekRecommend = weekRecommend;exports.weekRecommend1 = weekRecommend1;var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getAccessToken = getAccessToken;exports.login = login;exports.userInfo = userInfo;exports.setRole = setRole;exports.getCity = getCity;exports.getBannerList = getBannerList;exports.weekRecommend1 = weekRecommend1;var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 18));
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
+function getAccessToken() {
+  uni.getStorage({
+    key: "__accessToken__",
+    success: function success(res) {
+      _vue.default.prototype.accessToken = res.data;
+    },
+    fail: function fail() {
 
+    } });
 
+}
 
 //1、用户登录
 function login(data) {// 模拟登录
@@ -8054,8 +8064,9 @@ function login(data) {// 模拟登录
 function userInfo(data) {
   return (0, _http.default)({
     url: 'api/user/info',
-    method: 'get',
-    data: data });
+    method: 'post',
+    data: data,
+    accessToken: data.accessToken });
 
 }
 
@@ -8079,10 +8090,11 @@ function getCity(data) {
 }
 
 //5、banner广告图
-function weekRecommend(data) {
+function getBannerList(data) {
   return (0, _http.default)({
-    url: 'api/project/weekRecommend',
-    method: 'get',
+    url: 'api/banner/getList',
+    method: 'post',
+    accessToken: data.accessToken,
     data: data });
 
 }
@@ -8095,6 +8107,7 @@ function weekRecommend1(data) {
     data: data });
 
 }
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 /* 18 */
@@ -8112,7 +8125,8 @@ function weekRecommend1(data) {
     var url = HOST + obj.url || "";
     var data = obj.data || {};
     var header = obj.header || {
-      'Content-Type': obj.contentType || 'application/json' };
+      'Content-Type': obj.contentType || 'application/json',
+      'Authorization': obj.accessToken || '' };
 
     var success = obj.success; // 成功回调函数
     var fail = obj.fail; //表示失败后，要执行的回调函数
