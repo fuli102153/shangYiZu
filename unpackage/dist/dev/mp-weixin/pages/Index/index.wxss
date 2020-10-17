@@ -55,7 +55,8 @@
 }
 .v-index .header .search.data-v-ce029268 {
   background: #fff;
-  border-radius: 12rpx;
+  -webkit-border-radius: 12rpx;
+          border-radius: 12rpx;
   position: relative;
   padding: 12rpx 60rpx;
   margin-left: 28rpx;
@@ -158,8 +159,10 @@
   -webkit-box-pack: end;
   -webkit-justify-content: flex-end;
           justify-content: flex-end;
-  border-radius: 32rpx;
-  box-sizing: border-box;
+  -webkit-border-radius: 32rpx;
+          border-radius: 32rpx;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   padding-right: 16rpx;
 }
 .v-index .toutiao .toutiao-link ._span.data-v-ce029268 {
@@ -229,12 +232,14 @@
 .v-index .recommend .recommend-content .recommend-list .recommend-item.data-v-ce029268 {
   width: 280rpx;
   height: 240rpx;
-  border-radius: 20rpx;
+  -webkit-border-radius: 20rpx;
+          border-radius: 20rpx;
   background-color: #eee;
   margin-right: 50rpx;
   display: inline-block;
   vertical-align: middle;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   overflow: hidden;
   position: relative;
 }
@@ -262,7 +267,8 @@
 }
 .v-index .coop .coop-content.data-v-ce029268 {
   background-color: #fff;
-  border-radius: 10rpx;
+  -webkit-border-radius: 10rpx;
+          border-radius: 10rpx;
   padding-bottom: 35rpx;
 }
 .v-index .coop .coop-content .coop-header.data-v-ce029268 {
@@ -308,7 +314,8 @@
 .v-index .coop .coop-content .coop-list .coop-item .image.data-v-ce029268 {
   width: 126rpx;
   height: 126rpx;
-  border-radius: 50%;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
   background: #DAE9FF;
 }
 .v-index .coop .coop-content .coop-list .coop-item text.data-v-ce029268 {
