@@ -6,7 +6,7 @@ import App from './App'
 Vue.config.productionTip = false;
 
 Vue.prototype.userInfo = {};//存储用户的信息
-Vue.prototype.token = {};//存储用户的TOKEN值
+Vue.prototype.accessToken = {};//存储用户的TOKEN值
 
 
 App.mpType = 'app'
