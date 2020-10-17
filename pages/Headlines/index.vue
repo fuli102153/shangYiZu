@@ -1,9 +1,5 @@
 <template>
   <view class="v-headlines">
-    <Header
-      title="商易租头条"
-			@onClickLeft="onClickLeft"
-    />
 		<view class="headline-list">
 			<view class="headline-item" v-for="item in 5" :key="item" @click="goHeadlinesDetails">
 				<view class="content">
@@ -19,15 +15,8 @@
 </template>
 
 <script>
-import Header from "../../components/Header/index";
 export default {
-  components: {
-    Header,
-  },
 	methods: {
-		onClickLeft() {
-			uni.navigateBack()
-		},
 		goHeadlinesDetails() {
 			console.log('进入详情页')
 		}
@@ -41,7 +30,7 @@ export default {
 		padding: 47rpx 54rpx;
 		.headline-item {
 			height: 130rpx;
-			background-image: url(../../static/images/headlines-bg-odd.png);
+			background-image: linear-gradient(to bottom right, #37BFFF, #1796FF);
 			background-size: 100%;
 			margin-bottom: 44rpx;
 			padding: 0 24rpx;
@@ -61,7 +50,7 @@ export default {
 			}
 		}
 		.headline-item:nth-child(even) {
-			background-image: url(../../static/images/headlines-bg-even.png);
+			background-image: linear-gradient(to bottom right, #7C7AF9, #5660BC);
 		}
 	}
 }

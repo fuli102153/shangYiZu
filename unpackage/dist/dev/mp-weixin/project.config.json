@@ -66,6 +66,13 @@
       "list": [
         {
           "id": -1,
+          "name": "pages/ShopPartner/index",
+          "pathName": "pages/ShopPartner/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
           "name": "pages/Index/index",
           "pathName": "pages/Index/index",
           "scene": null

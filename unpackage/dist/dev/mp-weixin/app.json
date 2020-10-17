@@ -4,7 +4,10 @@
     "pages/Index/index",
     "pages/Shops/index",
     "pages/Brand/index",
-    "pages/My/index"
+    "pages/My/index",
+    "pages/Headlines/index",
+    "pages/ShopPartner/index",
+    "pages/Search/index"
   ],
   "subPackages": [],
   "window": {

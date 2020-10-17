@@ -10,7 +10,7 @@
 				<i class="search-icon" />
 				<text class="search-text">搜索城市或店铺</text>
 			</view>
-			<view class="shop-partner">
+			<view class="shop-partner" @click="goShopPartner">
 				<text>商铺合伙人</text>
 				<van-icon name="play-circle" size="26rpx" color="#ffffff" />
 			</view>
@@ -203,6 +203,12 @@
 			toPath() {
 				uni.navigateTo({
 					url: "../Map/index"
+				})
+			},
+			// 进入商铺合伙人
+			goShopPartner() {
+				uni.navigateTo({
+					url: "../ShopPartner/index"
 				})
 			},
 			// 进入商易租头条
