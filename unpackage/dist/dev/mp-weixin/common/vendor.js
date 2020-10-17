@@ -8038,17 +8038,63 @@ function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.login = login;var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+Object.defineProperty(exports, "__esModule", { value: true });exports.login = login;exports.userInfo = userInfo;exports.setRole = setRole;exports.getCity = getCity;exports.weekRecommend = weekRecommend;exports.weekRecommend1 = weekRecommend1;var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
 
 
 
-
+//1、用户登录
 function login(data) {// 模拟登录
   return (0, _http.default)({
     url: 'api/user/auth/wxLogin',
     method: 'post',
-    //contentType:'application/x-www-form-urlencoded',
+    data: data });
+
+}
+
+
+//2、个人信息查询
+function userInfo(data) {
+  return (0, _http.default)({
+    url: 'api/user/info',
+    method: 'get',
+    data: data });
+
+}
+
+//3、设置个人角色
+function setRole(data) {
+  return (0, _http.default)({
+    url: 'api/user/setRole',
+    method: 'get',
+    data: data });
+
+}
+
+
+//4、城市列表
+function getCity(data) {
+  return (0, _http.default)({
+    url: 'api/user/setRole',
+    method: 'get',
+    data: data });
+
+}
+
+//5、banner广告图
+function weekRecommend(data) {
+  return (0, _http.default)({
+    url: 'api/project/weekRecommend',
+    method: 'get',
+    data: data });
+
+}
+
+//6、头条信息
+function weekRecommend1(data) {
+  return (0, _http.default)({
+    url: 'api/project/weekRecommend',
+    method: 'get',
     data: data });
 
 }

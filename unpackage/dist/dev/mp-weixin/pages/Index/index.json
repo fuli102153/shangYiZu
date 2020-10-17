@@ -1,6 +1,5 @@
 {
-  "navigationBarTitleText": "Index",
-  "navigationStyle": "custom",
+  "navigationBarTitleText": "",
   "usingComponents": {
     "uni-swiper-dot": "/components/uni-swiper-dot/uni-swiper-dot",
     "van-button": "/wxcomponents/vant/dist/button/index",

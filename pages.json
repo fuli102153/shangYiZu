@@ -10,8 +10,8 @@
 		{
 			"path": "pages/Index/index",
 			"style": {
-				"navigationBarTitleText": "Index",
-				"navigationStyle": "custom",
+				"navigationBarTitleText": "",
+				
 				"usingComponents":{
 					"van-button": "/wxcomponents/vant/dist/button/index",
 					"van-cell": "/wxcomponents/vant/dist/cell/index",
@@ -26,22 +26,22 @@
 		{
 			"path": "pages/Shops/index",
 			"style": {
-				"navigationBarTitleText": "Shops",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "Shops"
+			
 			}
 		},
 		{
 			"path": "pages/Brand/index",
 			"style": {
-				"navigationBarTitleText": "Brand",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "Brand"
+				
 			}
 		},
 		{
 			"path": "pages/My/index",
 			"style": {
-				"navigationBarTitleText": "My",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "My"
+			
 			}
 		}
 	],
@@ -79,7 +79,7 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#FFFFFF",
+		"navigationBarBackgroundColor": "#1676fe",
 		"backgroundColor": "#FFFFFF"
 	}
 }

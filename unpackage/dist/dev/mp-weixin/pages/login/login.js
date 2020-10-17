@@ -174,7 +174,8 @@ console.log(_api.login);var _default = _defineProperty({
 
   },
   onShow: function onShow() {
-    this._getuserinfo();
+    //this._getuserinfo();
+    this._getuserTest();
   },
   methods: {
     _getuserTest: function _getuserTest() {
