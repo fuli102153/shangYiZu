@@ -347,6 +347,12 @@ var _api = __webpack_require__(/*! ../../utils/api.js */ 17);var StoreCard = fun
         url: "../Map/index" });
 
     },
+    // 进入商铺合伙人
+    goShopPartner: function goShopPartner() {
+      uni.navigateTo({
+        url: "../ShopPartner/index" });
+
+    },
     // 进入商易租头条
     goHeadlines: function goHeadlines() {
       uni.navigateTo({

@@ -1,6 +1,6 @@
-(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],[
-/* 0 */,
-/* 1 */
+(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],{
+
+/***/ 1:
 /*!************************************************************!*\
   !*** ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js ***!
   \************************************************************/
@@ -1805,7 +1805,277 @@ var uni$1 = uni;var _default =
 uni$1;exports.default = _default;
 
 /***/ }),
-/* 2 */
+
+/***/ 10:
+/*!**********************************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \**********************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode, /* vue-cli only */
+  components, // fixed by xxxxxx auto components
+  renderjs // fixed by xxxxxx renderjs
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // fixed by xxxxxx auto components
+  if (components) {
+    if (!options.components) {
+      options.components = {}
+    }
+    var hasOwn = Object.prototype.hasOwnProperty
+    for (var name in components) {
+      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
+        options.components[name] = components[name]
+      }
+    }
+  }
+  // fixed by xxxxxx renderjs
+  if (renderjs) {
+    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
+      this[renderjs.__module] = this
+    });
+    (options.mixins || (options.mixins = [])).push(renderjs)
+  }
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+
+/***/ 118:
+/*!*****************************************************************!*\
+  !*** D:/付敏/商易租/源代码/miniprogress/shangYiZu/utils/bmap-wx.min.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+function _classCallCheck(t, a) {if (!(t instanceof a)) throw new TypeError("Cannot call a class as a function");}var _createClass = function () {function t(t, a) {for (var e = 0; e < a.length; e++) {var i = a[e];i.enumerable = i.enumerable || !1, i.configurable = !0, "value" in i && (i.writable = !0), Object.defineProperty(t, i.key, i);}}return function (a, e, i) {return e && t(a.prototype, e), i && t(a, i), a;};}(),BMapWX = function () {function t(a) {_classCallCheck(this, t), this.ak = a.ak;}return _createClass(t, [{ key: "getWXLocation", value: function value(t, a, e, i) {t = t || "gcj02", a = a || function () {}, e = e || function () {}, i = i || function () {}, wx.getLocation({ type: t, success: a, fail: e, complete: i });} }, { key: "search", value: function value(t) {var a = this;t = t || {};var e = { query: t.query || "生活服务$美食&酒店", scope: t.scope || 1, filter: t.filter || "", coord_type: t.coord_type || 2, page_size: t.page_size || 10, page_num: t.page_num || 0, output: t.output || "json", ak: a.ak, sn: t.sn || "", timestamp: t.timestamp || "", radius: t.radius || 2e3, ret_coordtype: "gcj02ll" },i = { iconPath: t.iconPath, iconTapPath: t.iconTapPath, width: t.width, height: t.height, alpha: t.alpha || 1, success: t.success || function () {}, fail: t.fail || function () {} },n = function n(t) {e.location = t.latitude + "," + t.longitude, wx.request({ url: "https://api.map.baidu.com/place/v2/search", data: e, header: { "content-type": "application/json" }, method: "GET", success: function success(t) {var a = t.data;if (0 === a.status) {var e = a.results,n = {};n.originalData = a, n.wxMarkerData = [];for (var s = 0; s < e.length; s++) {n.wxMarkerData[s] = { id: s, latitude: e[s].location.lat, longitude: e[s].location.lng, title: e[s].name, iconPath: i.iconPath, iconTapPath: i.iconTapPath, address: e[s].address, telephone: e[s].telephone, alpha: i.alpha, width: i.width, height: i.height };}i.success(n);} else i.fail({ errMsg: a.message, statusCode: a.status });}, fail: function fail(t) {i.fail(t);} });},s = function s(t) {i.fail(t);},o = function o(t) {};if (t.location) {var c = t.location.split(",")[1];n({ errMsg: "input location", latitude: t.location.split(",")[0], longitude: c });} else a.getWXLocation("gcj02", n, s, o);} }, { key: "suggestion", value: function value(t) {var a = this;t = t || {};var e = { query: t.query || "", region: t.region || "全国", city_limit: t.city_limit || !1, output: t.output || "json", ak: a.ak, sn: t.sn || "", timestamp: t.timestamp || "", ret_coordtype: "gcj02ll" },i = { success: t.success || function () {}, fail: t.fail || function () {} };wx.request({ url: "https://api.map.baidu.com/place/v2/suggestion", data: e, header: { "content-type": "application/json" }, method: "GET", success: function success(t) {var a = t.data;0 === a.status ? i.success(a) : i.fail({ errMsg: a.message, statusCode: a.status });}, fail: function fail(t) {i.fail(t);} });} }, { key: "regeocoding", value: function value(t) {var a = this;t = t || {};var e = { coordtype: t.coordtype || "gcj02ll", ret_coordtype: "gcj02ll", radius: t.radius || 1e3, ak: a.ak, sn: t.sn || "", output: t.output || "json", callback: t.callback || function () {}, extensions_poi: t.extensions_poi || 1, extensions_road: t.extensions_road || !1, extensions_town: t.extensions_town || !1, language: t.language || "zh-CN", language_auto: t.language_auto || 0 },i = { iconPath: t.iconPath, iconTapPath: t.iconTapPath, width: t.width, height: t.height, alpha: t.alpha || 1, success: t.success || function () {}, fail: t.fail || function () {} },n = function n(t) {e.location = t.latitude + "," + t.longitude, wx.request({ url: "https://api.map.baidu.com/reverse_geocoding/v3", data: e, header: { "content-type": "application/json" }, method: "GET", success: function success(a) {var e = a.data;if (0 === e.status) {var n = e.result,s = {};s.originalData = e, s.wxMarkerData = [], s.wxMarkerData[0] = { id: 0, latitude: t.latitude, longitude: t.longitude, address: n.formatted_address, iconPath: i.iconPath, iconTapPath: i.iconTapPath, desc: n.sematic_description, business: n.business, alpha: i.alpha, width: i.width, height: i.height }, i.success(s);} else i.fail({ errMsg: e.message, statusCode: e.status });}, fail: function fail(t) {i.fail(t);} });},s = function s(t) {i.fail(t);},o = function o(t) {};if (t.location) {var c = t.location.split(",")[1];n({ errMsg: "input location", latitude: t.location.split(",")[0], longitude: c });} else a.getWXLocation("gcj02", n, s, o);} }, { key: "geocoding", value: function value(t) {var a = this;t = t || {};var e = { address: t.address || "", city: t.city || "", ret_coordtype: t.coordtype || "gcj02ll", ak: a.ak, sn: t.sn || "", output: t.output || "json", callback: t.callback || function () {} },i = { iconPath: t.iconPath, iconTapPath: t.iconTapPath, width: t.width, height: t.height, alpha: t.alpha || 1, success: t.success || function () {}, fail: t.fail || function () {} };if (t.address) wx.request({ url: "https://api.map.baidu.com/geocoding/v3", data: e, header: { "content-type": "application/json" }, method: "GET", success: function success(t) {var a = t.data;if (0 === a.status) {var e = a.result,n = a;n.originalData = a, n.wxMarkerData = [], n.wxMarkerData[0] = { id: 0, latitude: e.location.lat, longitude: e.location.lng, iconPath: i.iconPath, iconTapPath: i.iconTapPath, alpha: i.alpha, width: i.width, height: i.height }, i.success(n);} else i.fail({ errMsg: a.message, statusCode: a.status });}, fail: function fail(t) {i.fail(t);} });else {var n = { errMsg: "input address!" };i.fail(n);}} }, { key: "weather", value: function value(t) {var a = this;t = t || {};var e = { coord_type: t.coord_type || "gcj02", output: t.output || "json", ak: a.ak, sn: t.sn || "", timestamp: t.timestamp || "" },i = { success: t.success || function () {}, fail: t.fail || function () {} },n = function n(t) {e.location = t.longitude + "," + t.latitude, wx.request({ url: "https://api.map.baidu.com/telematics/v3/weather", data: e, header: { "content-type": "application/json" }, method: "GET", success: function success(t) {var a = t.data;if (0 === a.error && "success" === a.status) {var e = a.results,n = {};n.originalData = a, n.currentWeather = [], n.currentWeather[0] = { currentCity: e[0].currentCity, pm25: e[0].pm25, date: e[0].weather_data[0].date, temperature: e[0].weather_data[0].temperature, weatherDesc: e[0].weather_data[0].weather, wind: e[0].weather_data[0].wind }, i.success(n);} else i.fail({ errMsg: a.message, statusCode: a.status });}, fail: function fail(t) {i.fail(t);} });},s = function s(t) {i.fail(t);},o = function o(t) {};if (t.location) {var c = t.location.split(",")[0];n({ errMsg: "input location", latitude: t.location.split(",")[1], longitude: c });} else a.getWXLocation("gcj02", n, s, o);} }]), t;}();module.exports.BMapWX = BMapWX;
+
+/***/ }),
+
+/***/ 17:
+/*!*********************************************************!*\
+  !*** D:/付敏/商易租/源代码/miniprogress/shangYiZu/utils/api.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getAccessToken = getAccessToken;exports.login = login;exports.userInfo = userInfo;exports.setRole = setRole;exports.getCity = getCity;exports.getBannerList = getBannerList;exports.weekRecommend1 = weekRecommend1;var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 18));
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+function getAccessToken() {
+  uni.getStorage({
+    key: "__accessToken__",
+    success: function success(res) {
+      _vue.default.prototype.accessToken = res.data;
+    },
+    fail: function fail() {
+
+    } });
+
+}
+
+//1、用户登录
+function login(data) {// 模拟登录
+  return (0, _http.default)({
+    url: 'api/user/auth/wxLogin',
+    method: 'post',
+    data: data });
+
+}
+
+
+//2、个人信息查询
+function userInfo(data) {
+  return (0, _http.default)({
+    url: 'api/user/info',
+    method: 'post',
+    data: data,
+    accessToken: data.accessToken });
+
+}
+
+//3、设置个人角色
+function setRole(data) {
+  return (0, _http.default)({
+    url: 'api/user/setRole',
+    method: 'get',
+    data: data });
+
+}
+
+
+//4、城市列表
+function getCity(data) {
+  return (0, _http.default)({
+    url: 'api/user/setRole',
+    method: 'get',
+    data: data });
+
+}
+
+//5、banner广告图
+function getBannerList(data) {
+  return (0, _http.default)({
+    url: 'api/banner/getList',
+    method: 'get',
+    accessToken: data.accessToken,
+    data: data });
+
+}
+
+//6、头条信息
+function weekRecommend1(data) {
+  return (0, _http.default)({
+    url: 'api/project/weekRecommend',
+    method: 'get',
+    data: data });
+
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 18:
+/*!**********************************************************!*\
+  !*** D:/付敏/商易租/源代码/miniprogress/shangYiZu/utils/http.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var http = function http(obj) {
+  return new Promise(function (resolve, reject) {
+    var HOST = 'https://app.wan0wan.com/';
+    var method = obj.method || "GET";
+    var url = HOST + obj.url || "";
+    var data = obj.data || {};
+    var header = obj.header || {
+      'Content-Type': obj.contentType || 'application/json',
+      'Authorization': obj.accessToken || '' };
+
+    var success = obj.success; // 成功回调函数
+    var fail = obj.fail; //表示失败后，要执行的回调函数
+    uni.request({
+      url: url,
+      data: data,
+      method: method,
+      header: header,
+      success: function success(res) {
+        if (res.statusCode === 403 || res.statusCode === 401) {
+          // 错误处理，返回登录页
+          uni.reLaunch({ url: '/pages/login/index' });
+        } else if (res.statusCode === 200) {
+          resolve(res);
+        }
+      },
+      fail: function fail(err) {
+        reject(err);
+      } });
+
+  });
+};var _default =
+http;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 2:
 /*!******************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js ***!
   \******************************************************************************************/
@@ -7848,7 +8118,8 @@ internalMixin(Vue);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3)))
 
 /***/ }),
-/* 3 */
+
+/***/ 3:
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
   \***********************************/
@@ -7878,7 +8149,8 @@ module.exports = g;
 
 
 /***/ }),
-/* 4 */
+
+/***/ 4:
 /*!*******************************************************!*\
   !*** D:/付敏/商易租/源代码/miniprogress/shangYiZu/pages.json ***!
   \*******************************************************/
@@ -7887,271 +8159,7 @@ module.exports = g;
 
 
 
-/***/ }),
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */
-/*!**********************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
-  \**********************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-function normalizeComponent (
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier, /* server only */
-  shadowMode, /* vue-cli only */
-  components, // fixed by xxxxxx auto components
-  renderjs // fixed by xxxxxx renderjs
-) {
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // fixed by xxxxxx auto components
-  if (components) {
-    if (!options.components) {
-      options.components = {}
-    }
-    var hasOwn = Object.prototype.hasOwnProperty
-    for (var name in components) {
-      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
-        options.components[name] = components[name]
-      }
-    }
-  }
-  // fixed by xxxxxx renderjs
-  if (renderjs) {
-    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
-      this[renderjs.__module] = this
-    });
-    (options.mixins || (options.mixins = [])).push(renderjs)
-  }
-
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-/* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */,
-/* 15 */,
-/* 16 */,
-/* 17 */
-/*!*********************************************************!*\
-  !*** D:/付敏/商易租/源代码/miniprogress/shangYiZu/utils/api.js ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.getAccessToken = getAccessToken;exports.login = login;exports.userInfo = userInfo;exports.setRole = setRole;exports.getCity = getCity;exports.getBannerList = getBannerList;exports.weekRecommend1 = weekRecommend1;var _http = _interopRequireDefault(__webpack_require__(/*! @/utils/http.js */ 18));
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-function getAccessToken() {
-  uni.getStorage({
-    key: "__accessToken__",
-    success: function success(res) {
-      _vue.default.prototype.accessToken = res.data;
-    },
-    fail: function fail() {
-
-    } });
-
-}
-
-//1、用户登录
-function login(data) {// 模拟登录
-  return (0, _http.default)({
-    url: 'api/user/auth/wxLogin',
-    method: 'post',
-    data: data });
-
-}
-
-
-//2、个人信息查询
-function userInfo(data) {
-  return (0, _http.default)({
-    url: 'api/user/info',
-    method: 'post',
-    data: data,
-    accessToken: data.accessToken });
-
-}
-
-//3、设置个人角色
-function setRole(data) {
-  return (0, _http.default)({
-    url: 'api/user/setRole',
-    method: 'get',
-    data: data });
-
-}
-
-
-//4、城市列表
-function getCity(data) {
-  return (0, _http.default)({
-    url: 'api/user/setRole',
-    method: 'get',
-    data: data });
-
-}
-
-//5、banner广告图
-function getBannerList(data) {
-  return (0, _http.default)({
-    url: 'api/banner/getList',
-    method: 'get',
-    accessToken: data.accessToken,
-    data: data });
-
-}
-
-//6、头条信息
-function weekRecommend1(data) {
-  return (0, _http.default)({
-    url: 'api/project/weekRecommend',
-    method: 'get',
-    data: data });
-
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-/* 18 */
-/*!**********************************************************!*\
-  !*** D:/付敏/商易租/源代码/miniprogress/shangYiZu/utils/http.js ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var http = function http(obj) {
-  return new Promise(function (resolve, reject) {
-    var HOST = 'https://app.wan0wan.com/';
-    var method = obj.method || "GET";
-    var url = HOST + obj.url || "";
-    var data = obj.data || {};
-    var header = obj.header || {
-      'Content-Type': obj.contentType || 'application/json',
-      'Authorization': obj.accessToken || '' };
-
-    var success = obj.success; // 成功回调函数
-    var fail = obj.fail; //表示失败后，要执行的回调函数
-    uni.request({
-      url: url,
-      data: data,
-      method: method,
-      header: header,
-      success: function success(res) {
-        if (res.statusCode === 403 || res.statusCode === 401) {
-          // 错误处理，返回登录页
-          uni.reLaunch({ url: '/pages/login/index' });
-        } else if (res.statusCode === 200) {
-          resolve(res);
-        }
-      },
-      fail: function fail(err) {
-        reject(err);
-      } });
-
-  });
-};var _default =
-http;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
 /***/ })
-]]);
+
+}]);
 //# sourceMappingURL=../../.sourcemap/mp-weixin/common/vendor.js.map

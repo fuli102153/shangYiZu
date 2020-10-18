@@ -27,7 +27,6 @@
 			"path": "pages/Shops/index",
 			"style": {
 				"navigationBarTitleText": "Shops"
-			
 			}
 		},
 		{
@@ -41,7 +40,81 @@
 			"path": "pages/My/index",
 			"style": {
 				"navigationBarTitleText": "My"
-			
+			}
+		},
+		{
+			"path": "pages/Headlines/index",
+			"style": {
+				"navigationBarTitleText": "商易租头条",
+				"usingComponents":{
+					"van-icon": "/wxcomponents/vant/dist/icon/index"
+				}
+			}
+		},
+		{
+			"path": "pages/ShopPartner/index",
+			"style": {
+				"navigationBarTitleText": "商铺合伙人",
+				"usingComponents":{
+					"van-nav-bar": "/wxcomponents/vant/dist/nav-bar/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index"
+				}
+			}
+		},
+		{
+			"path": "pages/ShopPartner/agent",
+			"style": {
+				"navigationBarTitleText": "经纪人合伙",
+				"usingComponents":{
+					"van-button": "/wxcomponents/vant/dist/button/index",
+					"van-field": "/wxcomponents/vant/dist/field/index",
+					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index"
+				}
+			}
+		},
+		{
+			"path": "pages/ShopPartner/company",
+			"style": {
+				"navigationBarTitleText": "公司合伙",
+				"usingComponents":{
+					"van-button": "/wxcomponents/vant/dist/button/index",
+					"van-field": "/wxcomponents/vant/dist/field/index",
+					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-uploader": "/wxcomponents/vant/dist/uploader/index"
+				}
+			}
+		},
+		{
+			"path": "pages/Search/index",
+			"style": {
+				"navigationBarTitleText": "",
+				"usingComponents":{
+					"van-search": "/wxcomponents/vant/dist/search/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-cell": "/wxcomponents/vant/dist/cell/index"
+				}
+			}
+		},
+		{
+			"path": "pages/Search/searchList",
+			"style": {
+				"navigationBarTitleText": "",
+				"usingComponents":{
+					"van-search": "/wxcomponents/vant/dist/search/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-tree-select": "/wxcomponents/vant/dist/tree-select/index",
+					"van-dropdown-menu": "/wxcomponents/vant/dist/dropdown-menu/index",
+					"van-dropdown-item": "/wxcomponents/vant/dist/dropdown-item/index",
+					"van-sticky": "/wxcomponents/vant/dist/sticky/index"
+				}
+			}
+		},
+		{
+			"path": "pages/Map/index",
+			"style": {
+				"navigationBarTitleText": "地图"
 			}
 		}
 	],

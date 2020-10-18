@@ -18,7 +18,7 @@
 				热门搜索
 			</view>
 			<view class="hot-tag">
-				<van-tag plain  size="large" color="#B2B2B2" class="tag-item" v-for="(item, index) in tagList" :key="index">{{ item }}</van-tag>
+				<view color="#B2B2B2" class="tag-item" v-for="(item, index) in tagList" :key="index">{{ item }}</view>
 			</view>
 		</view>
 		<!-- 历史记录 -->
@@ -45,6 +45,7 @@ export default {
 	},
 	methods: {
 		onSearch() {
+			console.log(11111)
 			uni.navigateTo({
 				url: './searchList'
 			})
@@ -64,9 +65,19 @@ export default {
 		background-color: #fff;
 		padding: 47rpx 26rpx 40rpx;
 		
-		.tag-item {
-			margin-top: 36rpx;
-			margin-right: 26rpx;
+		.hot-tag {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			.tag-item {
+				margin-top: 20rpx;
+				border: 1rpx solid #B2B2B2;
+				color: #B2B2B2;
+				font-size: 30rpx;
+				line-height: 30rpx;
+				padding: 15rpx 48rpx;
+				border-radius: 8rpx;
+			}
 		}
 	}
 	
