@@ -7,6 +7,8 @@
     "pages/My/index",
     "pages/Headlines/index",
     "pages/ShopPartner/index",
+    "pages/ShopPartner/agent",
+    "pages/ShopPartner/company",
     "pages/Search/index",
     "pages/Search/searchList",
     "pages/Map/index"
@@ -51,5 +53,5 @@
     ]
   },
   "usingComponents": {},
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap6.json"
 }

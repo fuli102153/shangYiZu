@@ -1,17 +1,17 @@
 <template>
   <view class="v-shop-partner">
 		<view class="shop-type">
-			<view class="shop-type-item agent" @click="goHeadlinesDetails">
+			<view class="shop-type-item agent" @click="goAgent">
 				<i class="item-icon"></i>
 				<view class="item-text">
 					经纪人合伙
 				</view>
 				<van-icon name="play-circle" size="37rpx" color="#fff"/>
 			</view>
-			<view class="shop-type-item company" @click="goHeadlinesDetails">
+			<view class="shop-type-item company" @click="goCompany">
 				<i class="item-icon"></i>
 				<view class="item-text">
-					经纪人合伙
+					公司合伙
 				</view>
 				<van-icon name="play-circle" size="37rpx" color="#fff"/>
 			</view>
@@ -22,8 +22,15 @@
 <script>
 export default {
 	methods: {
-		goHeadlinesDetails() {
-			console.log('进入详情页')
+		goAgent() {
+			uni.navigateTo({
+				url: './agent'
+			})
+		},
+		goCompany() {
+			uni.navigateTo({
+				url: './company'
+			})
 		}
 	}
 };

@@ -62,6 +62,31 @@
 			}
 		},
 		{
+			"path": "pages/ShopPartner/agent",
+			"style": {
+				"navigationBarTitleText": "经纪人合伙",
+				"usingComponents":{
+					"van-button": "/wxcomponents/vant/dist/button/index",
+					"van-field": "/wxcomponents/vant/dist/field/index",
+					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index"
+				}
+			}
+		},
+		{
+			"path": "pages/ShopPartner/company",
+			"style": {
+				"navigationBarTitleText": "公司合伙",
+				"usingComponents":{
+					"van-button": "/wxcomponents/vant/dist/button/index",
+					"van-field": "/wxcomponents/vant/dist/field/index",
+					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-uploader": "/wxcomponents/vant/dist/uploader/index"
+				}
+			}
+		},
+		{
 			"path": "pages/Search/index",
 			"style": {
 				"navigationBarTitleText": "",
