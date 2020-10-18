@@ -8093,7 +8093,7 @@ function getCity(data) {
 function getBannerList(data) {
   return (0, _http.default)({
     url: 'api/banner/getList',
-    method: 'post',
+    method: 'get',
     accessToken: data.accessToken,
     data: data });
 

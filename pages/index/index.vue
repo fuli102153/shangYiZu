@@ -113,6 +113,7 @@
 <script>
 	import StoreCard from '../../components/Card/Store'
 	import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
+	import {getBannerList,getAccessToken} from "../../utils/api.js"
 	export default {
 		components: {
 			StoreCard,
@@ -187,14 +188,19 @@
 			};
 		},
 		onLoad() {},
+		onShow(){
+			console.log("111")
+			this.ajaxGetBanner();
+			//this._getuserTest();
+		},
 		methods: {
       // 打开关闭弹出层
 			showPopup() {
 				this.locationShow = true;
-      },
-      onClose() {
-        this.locationShow = false;
-      },
+			},
+			onClose() {
+				this.locationShow = false;
+			},
 
 			// 选中城市
 			selectCity(index) {
@@ -242,6 +248,33 @@
 					console.log('定位失败, 请点击重试')
 				}, {
 					provider: 'baidu'
+				});
+			},
+			
+			//请求BANNER图片
+			ajaxGetBanner(){
+				//ajax个人信息查询
+				var that = this;
+				const paras = {};
+				paras.accessToken = that.accessToken;
+				
+				getBannerList(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						uni.switchTab({
+							 url: '../Index/index'
+						});
+					
+					}else{
+						
+						
+					}
+					
+				})
+				.catch(error => {
+				
 				});
 			},
 		},

@@ -56,7 +56,7 @@ export function getCity(data){
 export function getBannerList(data){ 
 	return http({
 	    url: 'api/banner/getList',
-		method: 'post',
+		method: 'get',
 		accessToken:data.accessToken,
 		data: data
 	})
