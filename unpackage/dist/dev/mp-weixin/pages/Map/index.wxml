@@ -1,0 +1,1 @@
+<view class="v-map data-v-0e925a96"><view class="map_container data-v-0e925a96"><map class="map data-v-0e925a96" id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="11" markers="{{markers}}"><cover-view class="controls data-v-0e925a96"><cover-view class="data-v-0e925a96">地图控件</cover-view></cover-view></map></view></view>
