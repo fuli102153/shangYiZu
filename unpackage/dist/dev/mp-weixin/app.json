@@ -7,7 +7,9 @@
     "pages/My/index",
     "pages/Headlines/index",
     "pages/ShopPartner/index",
-    "pages/Search/index"
+    "pages/Search/index",
+    "pages/Search/searchList",
+    "pages/Map/index"
   ],
   "subPackages": [],
   "window": {

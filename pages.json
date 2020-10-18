@@ -64,13 +64,32 @@
 		{
 			"path": "pages/Search/index",
 			"style": {
-				"navigationBarTitleText": "搜索",
+				"navigationBarTitleText": "",
 				"usingComponents":{
 					"van-search": "/wxcomponents/vant/dist/search/index",
 					"van-icon": "/wxcomponents/vant/dist/icon/index",
-					"van-tag": "/wxcomponents/vant/dist/tag/index",
 					"van-cell": "/wxcomponents/vant/dist/cell/index"
 				}
+			}
+		},
+		{
+			"path": "pages/Search/searchList",
+			"style": {
+				"navigationBarTitleText": "",
+				"usingComponents":{
+					"van-search": "/wxcomponents/vant/dist/search/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-tree-select": "/wxcomponents/vant/dist/tree-select/index",
+					"van-dropdown-menu": "/wxcomponents/vant/dist/dropdown-menu/index",
+					"van-dropdown-item": "/wxcomponents/vant/dist/dropdown-item/index",
+					"van-sticky": "/wxcomponents/vant/dist/sticky/index"
+				}
+			}
+		},
+		{
+			"path": "pages/Map/index",
+			"style": {
+				"navigationBarTitleText": "地图"
 			}
 		}
 	],
