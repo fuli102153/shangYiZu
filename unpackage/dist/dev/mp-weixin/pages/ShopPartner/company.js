@@ -164,16 +164,24 @@ var _default =
 {
   data: function data() {
     return {
+      // 表单数据
       city: '',
       corporateName: '',
       personInCharge: '',
       phone: '',
       unifiedCode: '',
 
-      fileList: [] };
+      // 上传文件
+      fileList: [],
+      // 选中协议
+      checked: true };
 
   },
   methods: {
+    // 
+    onChange: function onChange(event) {
+      this.checked = event.detail;
+    },
     afterRead: function afterRead(event) {var
 
       file =

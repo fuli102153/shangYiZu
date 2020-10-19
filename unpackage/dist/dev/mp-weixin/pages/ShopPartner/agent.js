@@ -189,9 +189,15 @@ var _default =
       phone: '',
       idNumber: '',
       city: '',
-      cause: '' };
+      cause: '',
 
-  } };exports.default = _default;
+      checked: true };
+
+  },
+  methods: {
+    onChange: function onChange(event) {
+      this.checked = event.detail;
+    } } };exports.default = _default;
 
 /***/ }),
 

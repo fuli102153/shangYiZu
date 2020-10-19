@@ -94,7 +94,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uniSwiperDot: function() {
-    return __webpack_require__.e(/*! import() | components/uni-swiper-dot/uni-swiper-dot */ "components/uni-swiper-dot/uni-swiper-dot").then(__webpack_require__.bind(null, /*! @/components/uni-swiper-dot/uni-swiper-dot.vue */ 104))
+    return __webpack_require__.e(/*! import() | components/uni-swiper-dot/uni-swiper-dot */ "components/uni-swiper-dot/uni-swiper-dot").then(__webpack_require__.bind(null, /*! @/components/uni-swiper-dot/uni-swiper-dot.vue */ 112))
   }
 }
 var render = function() {
@@ -249,7 +249,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _api = __webpack_require__(/*! ../../utils/api.js */ 17);var StoreCard = function StoreCard() {__webpack_require__.e(/*! require.ensure | components/Card/Store */ "components/Card/Store").then((function () {return resolve(__webpack_require__(/*! ../../components/Card/Store */ 111));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniSwiperDot = function uniSwiperDot() {__webpack_require__.e(/*! require.ensure | components/uni-swiper-dot/uni-swiper-dot */ "components/uni-swiper-dot/uni-swiper-dot").then((function () {return resolve(__webpack_require__(/*! @/components/uni-swiper-dot/uni-swiper-dot.vue */ 104));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+var _api = __webpack_require__(/*! ../../utils/api.js */ 17);var StoreCard = function StoreCard() {__webpack_require__.e(/*! require.ensure | components/Card/Store */ "components/Card/Store").then((function () {return resolve(__webpack_require__(/*! ../../components/Card/Store */ 119));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniSwiperDot = function uniSwiperDot() {__webpack_require__.e(/*! require.ensure | components/uni-swiper-dot/uni-swiper-dot */ "components/uni-swiper-dot/uni-swiper-dot").then((function () {return resolve(__webpack_require__(/*! @/components/uni-swiper-dot/uni-swiper-dot.vue */ 112));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 {
   components: {
     StoreCard: StoreCard,
@@ -273,12 +273,12 @@ var _api = __webpack_require__(/*! ../../utils/api.js */ 17);var StoreCard = fun
       navList: [{
         name: '地图找铺',
         src: '../../static/images/Map.png',
-        router: '' },
+        router: '../Map/index' },
 
       {
         name: '招租发布',
         src: '../../static/images/Hire.png',
-        router: '' },
+        router: '../Rental/index' },
 
       {
         name: '开店发布',
@@ -342,9 +342,9 @@ var _api = __webpack_require__(/*! ../../utils/api.js */ 17);var StoreCard = fun
     selectCity: function selectCity(index) {
       this.activeCity = index;
     },
-    toPath: function toPath() {
+    toPath: function toPath(url) {
       uni.navigateTo({
-        url: "../Map/index" });
+        url: url });
 
     },
     // 进入商铺合伙人

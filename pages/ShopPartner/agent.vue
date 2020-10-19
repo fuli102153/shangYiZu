@@ -36,14 +36,14 @@
 		</view>
 		<view class="submit-btn">
 			<view class="agreement">
-				<van-icon name="passed" size="36rpx"/>
+				<van-checkbox :value="checked" @change="onChange" />
 				<text>《XXX协议》</text>
 			</view>
 			<view class="tip">
-				温馨提示：XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+				温馨提示：身份证号码需与本人一致，将影响您本人权益
 			</view>
 			<view class="btn">
-				<van-button type="info" block>块级元素</van-button>
+				<van-button type="info" block>提交</van-button>
 			</view>
 		</view>
 	</view>
@@ -58,7 +58,14 @@
 				idNumber: '',
 				city: '',
 				cause: '',
+				
+				checked: true,
 			}
+		},
+		methods: {
+			onChange(event) {
+				this.checked = event.detail
+			},
 		}
 	}
 </script>
@@ -70,14 +77,29 @@
 			padding: 0 20rpx;
 		}
 		.submit-btn {
+			padding: 0 46rpx;
 			background-color: #f8f8f8;
+		
 			.agreement {
+				padding-top: 20rpx;
 				display: flex;
 				align-items: center;
-				
+		
 				text {
-					color: #007AFF;
+					font-size: 28rpx;
+					color: #1676FE;
 				}
+			}
+		
+			.tip {
+				font-size: 21rpx;
+				color: #2d2d2d;
+				margin-top: 30rpx;
+			}
+		
+			.btn {
+				padding: 0 18rpx;
+				margin-top: 125rpx;
 			}
 		}
 	}

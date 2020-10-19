@@ -28,9 +28,11 @@
   padding: 0 20rpx;
 }
 .v-agent .submit-btn.data-v-2b03645f {
+  padding: 0 46rpx;
   background-color: #f8f8f8;
 }
 .v-agent .submit-btn .agreement.data-v-2b03645f {
+  padding-top: 20rpx;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -39,6 +41,16 @@
           align-items: center;
 }
 .v-agent .submit-btn .agreement text.data-v-2b03645f {
-  color: #007AFF;
+  font-size: 28rpx;
+  color: #1676FE;
+}
+.v-agent .submit-btn .tip.data-v-2b03645f {
+  font-size: 21rpx;
+  color: #2d2d2d;
+  margin-top: 30rpx;
+}
+.v-agent .submit-btn .btn.data-v-2b03645f {
+  padding: 0 18rpx;
+  margin-top: 125rpx;
 }
 

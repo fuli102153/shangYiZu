@@ -63,7 +63,7 @@
 		</view>
 		<!-- 导航 -->
 		<view class="nav">
-			<view class="nav-item" v-for="(item, index) in navList" :key="index" @click="toPath()">
+			<view class="nav-item" v-for="(item, index) in navList" :key="index" @click="toPath(item.router)">
 				<image :src="item.src" />
 				<text>{{ item.name }}</text>
 			</view>
@@ -137,12 +137,12 @@
 				navList: [{
 						name: '地图找铺',
 						src: '../../static/images/Map.png',
-						router: ''
+						router: '../Map/index'
 					},
 					{
 						name: '招租发布',
 						src: '../../static/images/Hire.png',
-						router: ''
+						router: '../Rental/index'
 					},
 					{
 						name: '开店发布',
@@ -206,9 +206,9 @@
 			selectCity(index) {
 				this.activeCity = index;
 			},
-			toPath() {
+			toPath(url) {
 				uni.navigateTo({
-					url: "../Map/index"
+					url: url
 				})
 			},
 			// 进入商铺合伙人
@@ -343,9 +343,12 @@
 				color: #fff;
 				font-size: 32rpx;
 				display: flex;
-				justify-content: space-between;
+				justify-content: flex-end;
 				align-items: center;
-				margin-left: 28rpx;
+				
+				text {
+					margin-right: 10rpx;
+				}
 			}
 		}
 

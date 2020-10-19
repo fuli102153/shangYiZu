@@ -9,6 +9,7 @@
     "pages/ShopPartner/index",
     "pages/ShopPartner/agent",
     "pages/ShopPartner/company",
+    "pages/Rental/index",
     "pages/Search/index",
     "pages/Search/searchList",
     "pages/Map/index"
@@ -52,5 +53,6 @@
       }
     ]
   },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap97.json"
 }
