@@ -100,7 +100,7 @@
 		</view>
 		<!-- 猜你喜欢 -->
 		<view class="store">
-			<view class="store-header">猜你喜欢</view>
+			<view class="store-header">猜你喜欢1</view>
 			<view class="store-list">
 				<StoreCard v-for="item in 8" :key="item" />
 			</view>
@@ -269,9 +269,7 @@
 					console.log(data);
 					
 					if(data.code=="200"){
-						uni.switchTab({
-							 url: '../Index/index'
-						});
+						
 					
 					}else{
 						
