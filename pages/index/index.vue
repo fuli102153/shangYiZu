@@ -269,9 +269,7 @@
 					console.log(data);
 					
 					if(data.code=="200"){
-						uni.switchTab({
-							 url: '../Index/index'
-						});
+						
 					
 					}else{
 						
