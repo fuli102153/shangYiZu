@@ -135,6 +135,32 @@
 			}
 		},
 		{
+			"path": "pages/StoreOpen/index",
+			"style": {
+				"navigationBarTitleText": "招租发布",
+				"usingComponents":{
+					"van-button": "/wxcomponents/vant/dist/button/index",
+					"van-field": "/wxcomponents/vant/dist/field/index",
+					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-uploader": "/wxcomponents/vant/dist/uploader/index",
+					"van-checkbox-group": "/wxcomponents/vant/dist/checkbox-group/index",
+					"van-checkbox": "/wxcomponents/vant/dist/checkbox/index",
+					"van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index",
+					"van-area": "/wxcomponents/vant/dist/area/index"
+				}
+			}
+		},
+		{
+			"path": "pages/StoreOpen/engineering",
+			"style": {
+				"navigationBarTitleText": "工程条件",
+				"usingComponents":{
+					"van-button": "/wxcomponents/vant/dist/button/index"
+				}
+			}
+		},
+		{
 			"path": "pages/Search/index",
 			"style": {
 				"navigationBarTitleText": "",

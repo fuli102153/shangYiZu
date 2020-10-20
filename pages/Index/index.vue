@@ -147,7 +147,7 @@
 					{
 						name: '开店发布',
 						src: '../../static/images/OpenShop.png',
-						router: ''
+						router: '../StoreOpen/index'
 					},
 					{
 						name: '购物中心',
