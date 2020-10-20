@@ -107,6 +107,34 @@
 			}
 		},
 		{
+			"path": "pages/Rental/engineering",
+			"style": {
+				"navigationBarTitleText": "工程条件",
+				"usingComponents":{
+					"van-button": "/wxcomponents/vant/dist/button/index"
+				}
+			}
+		},
+		{
+			"path": "pages/Rental/investmentCategory",
+			"style": {
+				"navigationBarTitleText": "招商类型",
+				"usingComponents":{
+					"van-button": "/wxcomponents/vant/dist/button/index"
+				}
+			}
+		},
+		{
+			"path": "pages/Rental/storeInfo",
+			"style": {
+				"navigationBarTitleText": "店铺信息",
+				"usingComponents":{
+					"van-button": "/wxcomponents/vant/dist/button/index",
+					"van-field": "/wxcomponents/vant/dist/field/index"
+				}
+			}
+		},
+		{
 			"path": "pages/Search/index",
 			"style": {
 				"navigationBarTitleText": "",

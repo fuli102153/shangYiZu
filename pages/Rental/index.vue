@@ -67,18 +67,16 @@
           label="工程条件"
           placeholder="请选择您商铺具备的工程条件"
           disabled
-          @click.native="showPosition('position')"
+          @click.native="goEngineering"
           is-link
-          arrow-direction="down"
         />
         <van-field
           :value="investmentCategory"
           label="期望招商类别"
           placeholder="请选择您期望的招商类别"
           disabled
-          @click.native="showPosition('position')"
+          @click.native="goInvestmentCategory"
           is-link
-          arrow-direction="down"
         />
         <van-field
           :value="rent"
@@ -86,21 +84,26 @@
           clearable
           label="月租金"
           placeholder="请输入您期望的月租金"
-        />
+					use-button-slot >
+					<text slot="button">元</text>
+				</van-field>
         <van-field
           :value="area"
           required
           clearable
           label="面积"
           placeholder="请输入您商铺的面积"
-        />
+					use-button-slot >
+					<text slot="button">m²</text>
+				</van-field>
         <van-field
           :value="freePeriod"
           clearable
           label="免租期"
           placeholder="请输入您商铺的免租期"
-        />
-
+					use-button-slot >
+					<text slot="button">月</text>
+				</van-field>
         <van-field
           :value="environment"
           clearable
@@ -113,19 +116,40 @@
           label="店铺信息"
           placeholder="请选择您期望的招商类别"
           disabled
-          @click.native="showPosition('position')"
+          @click.native="goStoreInfo"
           is-link
-          arrow-direction="down"
         />
       </van-cell-group>
     </view>
     <view class="submit-btn">
       <view class="updata">
       	<text>商铺照片</text>
-				<view class="">
-					
+				<view class="updata-image">
+					<view class="image-type">
+						<van-uploader :file-list="fileList" @after-read="afterRead" preview-size="126rpx" />
+						<view class="image-text">
+							正面门面
+						</view>
+					</view>
+					<view class="image-type">
+						<van-uploader :file-list="fileList" @after-read="afterRead" preview-size="126rpx" />
+						<view class="image-text">
+							外部全景
+						</view>
+					</view>
+					<view class="image-type">
+						<van-uploader :file-list="fileList" @after-read="afterRead" preview-size="126rpx" />
+						<view class="image-text">
+							商铺内部
+						</view>
+					</view>
+					<view class="image-type">
+						<van-uploader :file-list="fileList" @after-read="afterRead" preview-size="126rpx" />
+						<view class="image-text">
+							商铺内部
+						</view>
+					</view>
 				</view>
-      	<van-uploader :file-list="fileList" @after-read="afterRead" />
       </view>
       <view class="btn">
         <van-button type="info" block>提交</van-button>
@@ -280,6 +304,49 @@ export default {
     hideCityPosition() {
       this.positionShow = false;
     },
+		// 上传图片
+		afterRead(event) {
+			const {
+				file
+			} = event.detail;
+			// 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
+			wx.uploadFile({
+				url: 'https://example.weixin.qq.com/upload', // 仅为示例，非真实的接口地址
+				filePath: file.path,
+				name: 'file',
+				formData: {
+					user: 'test'
+				},
+				success(res) {
+					// 上传完成需要更新 fileList
+					const {
+						fileList = []
+					} = this.data;
+					fileList.push({ ...file,
+						url: res.data
+					});
+					this.fileList = fileList;
+				},
+			});
+		},
+		// 跳转工程条件
+		goEngineering() {
+			uni.navigateTo({
+				url: "./engineering"
+			})
+		},
+		// 跳转招商类别
+		goInvestmentCategory() {
+			uni.navigateTo({
+				url: "./investmentCategory"
+			})
+		},
+		// 跳转店铺信息
+		goStoreInfo() {
+			uni.navigateTo({
+				url: "./storeInfo"
+			})
+		}
   },
 };
 </script>
@@ -305,6 +372,21 @@ export default {
     .updata {
     	display: flex;
     	flex-direction: column;
+			
+			.updata-image {
+				display: flex;
+				justify-content: space-between;
+				
+				.image-type {
+					text-align: center;
+					
+					.image-text {
+						font-size: 28rpx;
+						color: #888888;
+						margin-top: 28rpx;;
+					}
+				}
+			}
     
     	text {
     		font-size: 28rpx;
@@ -314,6 +396,7 @@ export default {
     
     	/deep/ .van-uploader__upload {
     		border: 1rpx solid #CACDD0;
+				margin: 0;
     	}
     }
 
@@ -326,6 +409,7 @@ export default {
     .btn {
       padding: 0 18rpx;
       margin-top: 125rpx;
+      margin-bottom: 250rpx;
     }
   }
 }
