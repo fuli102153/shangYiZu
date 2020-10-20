@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "商易租头条",
-  "usingComponents": {
-    "van-icon": "/wxcomponents/vant/dist/icon/index"
-  }
-}

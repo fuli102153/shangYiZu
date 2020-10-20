@@ -13,8 +13,8 @@ help.md
 .classpath
  
  
+unpackage/
 /node_modules/
-/unpackage/
 /dist/
 /build/
  

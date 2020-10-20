@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "商铺合伙人",
-  "usingComponents": {
-    "van-nav-bar": "/wxcomponents/vant/dist/nav-bar/index",
-    "van-icon": "/wxcomponents/vant/dist/icon/index"
-  }
-}

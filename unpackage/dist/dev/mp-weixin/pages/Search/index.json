@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "",
-  "usingComponents": {
-    "van-search": "/wxcomponents/vant/dist/search/index",
-    "van-icon": "/wxcomponents/vant/dist/icon/index",
-    "van-cell": "/wxcomponents/vant/dist/cell/index"
-  }
-}

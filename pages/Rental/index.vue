@@ -120,12 +120,12 @@
       </van-cell-group>
     </view>
     <view class="submit-btn">
-      <view class="agreement">
-        <van-checkbox :value="checked" @change="onChange" />
-        <text>《XXX协议》</text>
-      </view>
-      <view class="tip">
-        温馨提示：身份证号码需与本人一致，将影响您本人权益
+      <view class="updata">
+      	<text>商铺照片</text>
+				<view class="">
+					
+				</view>
+      	<van-uploader :file-list="fileList" @after-read="afterRead" />
       </view>
       <view class="btn">
         <van-button type="info" block>提交</van-button>
@@ -302,15 +302,19 @@ export default {
     padding: 0 46rpx;
     background-color: #f8f8f8;
 
-    .agreement {
-      padding-top: 20rpx;
-      display: flex;
-      align-items: center;
-
-      text {
-        font-size: 28rpx;
-        color: #1676fe;
-      }
+    .updata {
+    	display: flex;
+    	flex-direction: column;
+    
+    	text {
+    		font-size: 28rpx;
+    		color: #2D2D2D;
+    		margin: 20rpx 0 26rpx;
+    	}
+    
+    	/deep/ .van-uploader__upload {
+    		border: 1rpx solid #CACDD0;
+    	}
     }
 
     .tip {
