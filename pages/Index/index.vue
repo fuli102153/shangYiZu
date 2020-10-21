@@ -73,10 +73,12 @@
 			<view class="recommend-title">本周重点推荐</view>
 			<view class="recommend-content">
 				<view class="recommend-list">
-					<view class="recommend-item" v-for="item in 5" :key="item">
-						<view class="recommend-image"></view>
+					<view class="recommend-item" v-for="item in weekRecommendList" :key="item">
+						<view class="recommend-image">
+							<image :src="item.projectImg"></image>
+						</view>
 						<view class="recommend-text">
-							示意文字售楼
+							{{item.projectName}}
 						</view>
 					</view>
 				</view>
@@ -100,9 +102,9 @@
 		</view>
 		<!-- 猜你喜欢 -->
 		<view class="store">
-			<view class="store-header">猜你喜欢1</view>
+			<view class="store-header">猜你喜欢</view>
 			<view class="store-list">
-				<StoreCard v-for="item in 8" :key="item" />
+				<StoreCard v-for="item in guessYouLikeList" :sourceData="item" :key="item" />
 			</view>
 		</view>
 		<!-- 获取定位城市 -->
@@ -113,7 +115,7 @@
 <script>
 	import StoreCard from '../../components/Card/Store'
 	import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
-	import {getBannerList,getAccessToken} from "../../utils/api.js"
+	import {getBannerList,getAccessToken,getWeekRecommendList,getGuessYouLike} from "../../utils/api.js"
 	export default {
 		components: {
 			StoreCard,
@@ -184,13 +186,21 @@
 						src: '../../static/images/EntertainmentEducation.png',
 						router: ''
 					},
-				]
+				],
+				
+				weekRecommendList:[],
+				guessYouLikeList:[],
 			};
 		},
 		onLoad() {},
 		onShow(){
 			console.log("111")
+			//请求BANNER
 			this.ajaxGetBanner();
+			//本周重点推荐
+			this.ajaxGetWeekRecommendList();
+			//猜你喜欢
+			this.ajaxGetGuessYouLike();
 			//this._getuserTest();
 		},
 		methods: {
@@ -270,6 +280,64 @@
 					
 					if(data.code=="200"){
 						
+					
+					}else{
+						
+						
+					}
+					
+				})
+				.catch(error => {
+				
+				});
+			},
+			
+			
+			//请求本周重点推荐
+			ajaxGetWeekRecommendList(){
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					cityCode:"440300"
+				};
+				paras.accessToken = that.accessToken;
+				
+				getWeekRecommendList(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						that.weekRecommendList = data.data;
+					
+					}else{
+						
+						
+					}
+					
+				})
+				.catch(error => {
+				
+				});
+			},
+			
+			
+			//猜你喜欢
+			ajaxGetGuessYouLike(){
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					cityCode:"440300",
+					pageNo:1,
+					pageSize:10,
+				};
+				paras.accessToken = that.accessToken;
+				
+				getGuessYouLike(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						that.guessYouLikeList = data.data;
 					
 					}else{
 						

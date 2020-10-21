@@ -1,7 +1,7 @@
 {
     "name" : "shangYiZu-app",
-    "appid" : "",
-    "description" : "",
+    "appid" : "__UNI__shangYiZu-app.com",
+    "description" : "商易租APP",
     "versionName" : "1.0.0",
     "versionCode" : "100",
     "transformPx" : false,
@@ -62,7 +62,12 @@
             "urlCheck" : false,
             "es6" : false
         },
-        "usingComponents" : true
+        "usingComponents" : true,
+		"permission": {
+			"scope.userLocation": {
+				"desc": "你的位置信息将用于小程序位置接口的效果展示"
+			}
+		}
     },
     "mp-alipay" : {
         "usingComponents" : true

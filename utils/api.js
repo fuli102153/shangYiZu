@@ -57,13 +57,13 @@ export function getBannerList(data){ return get(data,'api/banner/getList')}
 export function getTopInfo(data){ return get(data,'api/banner/getList')}
 
 //7、本周重点推荐
-export function getWeekRecommendList(data){ return get(data,'api/project/weekRecommend')}
+export function getWeekRecommendList(data){ return get(data,'project/weekRecommend')}
 
 //8、合作企业
 export function getCooperativeList(data){ return get(data,'api/cooperativeEnterprise/getList')}
 
 //9、猜你喜欢
-export function getGuessYouLike(data){ return get(data,'api/shop/guessYouLike')}
+export function getGuessYouLike(data){ return post(data,'shop/guessYouLike')}
 
 //10、地图找铺
 export function getMapForShop(data){ return get(data,'api/shop/mapForShop')}

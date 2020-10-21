@@ -1,11 +1,8 @@
 <template>
 	<view class="v-map">
 		<view class="map_container">
-			<map class="map" id="map" :longitude="longitude" :latitude="latitude" scale="11" :markers="markers">
+			<map class="map" id="map" :longitude="longitude" @markertap="selectMarker" :latitude="latitude"  :markers="markers">
 				<cover-view class="controls">
-				  <cover-view>
-				    地图控件
-				  </cover-view>
 				</cover-view>
 			</map>
 		</view>
@@ -18,21 +15,40 @@
 	export default {
 		data() {
 			return {
-				markers: [],
-				longitude: 114.063402,
-				latitude: 22.547388,
+				markers: [
+					{
+						id:"0",
+						latitude: 22.53332,
+						longitude: 113.93041,
+						iconPath: '../../static/images/my.png',
+						title:"宝马",
+						label:"宝马宝马"
+					}, {
+						id:"1",
+						latitude: 22.53332,
+						longitude: 113.94041,
+						iconPath: '../../static/images/my.png',
+						title:"奔驰",
+						label:"奔驰奔驰"
+					}
+				],
+				latitude: "",
+				longitude: "",
+				scale:11,
 				placeData: {},
 			}
 		},
 		onLoad: function() {
 			//首先获取经纬度
-			// this.getWxLocation();
+			 this.getWxLocation();
 			// this.getOverlay()
 			var bmap = require('../../utils/bmap-wx.min.js');
 			var BMap = new bmap.BMapWX({
 				ak: "TOPhniVWlhX34XtcVVVzAYyus2EyQW1D",
 			});
 			console.log(BMap)
+			
+		
 		},
 		methods: {
 			getOverlay() {
@@ -43,18 +59,25 @@
 			getWxLocation: function() {
 				var _this = this;
 				//调用wx.getLocation()获取经纬度
-				wx.getLocation({
-					type: 'wgs84',
-					success: function(res) {
-						var latitude = res.latitude
-						var longitude = res.longitude
-						var speed = res.speed
-						var accuracy = res.accuracy
-						console.log('坐标', latitude, longitude)
-						_this.latitude = latitude
-						_this.longitude = longitude
-					}
-				})
+				
+				
+				uni.getLocation({
+				    type: 'wgs84',
+				    success: function (res) {
+				        var latitude = res.latitude
+				        var longitude = res.longitude
+				        var speed = res.speed
+				        var accuracy = res.accuracy
+				        console.log('坐标', latitude, longitude)
+				        _this.latitude = latitude
+				        _this.longitude = longitude
+						
+				    }
+				});
+			},
+			
+			selectMarker(e){
+				console.log(e)
 			},
 		}
 	}

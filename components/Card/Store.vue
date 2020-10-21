@@ -1,21 +1,21 @@
 <template>
   <view class="vc-store-card">
       <view class="store-img">
-          <!-- <image src=""></image> -->
+           <image :src="sourceData.shopPhotos.split(',')[0] || '../../static/logo.png'"></image> 
       </view>
       <view class="store-info">
-        <view class="store-title">南山后海鹏润广场内铺</view>
+        <view class="store-title">{{sourceData.shopName || ""}}</view>
         <view class="store-size">
-          <span>面积：100 m²</span>
-          <span>楼层：二层</span>
+          <span>面积：{{sourceData.measureArea || ""}}m²</span>
+          <span>楼层：{{sourceData.floorNum || ""}}层</span>
         </view>
         <view class="store-payment">
           <view class="store-tag">
-            <view class="tag">物业类型：购物中心</view>
-            <view class="tag">支付方式：押一付二</view>
+            <view class="tag">物业类型：{{sourceData.propertyType || ""}}</view>
+            <view class="tag">支付方式：{{sourceData.payMode || ""}}</view>
           </view>
           <view class="store-price">
-            <span>30000</span>
+            <span>{{sourceData.monthRent || ""}}</span>
             <span class="company">元/月</span>
           </view>
         </view>
@@ -25,7 +25,23 @@
 
 <script>
 export default {
-
+	name: 'store',
+	props:{
+		sourceData:[],
+	},
+	data() {
+	 	return {
+	 	}
+	},
+	mounted(){
+	    var that = this;
+	    this.$nextTick(function(){
+	      console.log(that.sourceData)
+	    })
+	  },
+	methods: {
+	 	
+	 }
 }
 </script>
 
@@ -43,6 +59,12 @@ export default {
     height: 140rpx;
     border-radius: 15rpx;
     background: #999;
+	
+	image{
+		width: 180rpx;
+		height: 140rpx;
+		border-radius: 15rpx;
+	}
   }
 
   .store-info {
