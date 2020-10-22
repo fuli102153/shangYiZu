@@ -137,7 +137,7 @@
 		{
 			"path": "pages/StoreOpen/index",
 			"style": {
-				"navigationBarTitleText": "招租发布",
+				"navigationBarTitleText": "开店发布",
 				"usingComponents":{
 					"van-button": "/wxcomponents/vant/dist/button/index",
 					"van-field": "/wxcomponents/vant/dist/field/index",
@@ -147,7 +147,9 @@
 					"van-checkbox-group": "/wxcomponents/vant/dist/checkbox-group/index",
 					"van-checkbox": "/wxcomponents/vant/dist/checkbox/index",
 					"van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index",
-					"van-area": "/wxcomponents/vant/dist/area/index"
+					"van-area": "/wxcomponents/vant/dist/area/index",
+					"van-radio": "/wxcomponents/vant/dist/radio/index",
+					"van-radio-group": "/wxcomponents/vant/dist/radio-group/index"
 				}
 			}
 		},

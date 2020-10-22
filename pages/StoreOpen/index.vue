@@ -84,77 +84,102 @@
           clearable
           label="月租金"
           placeholder="请输入您期望的月租金"
-					use-button-slot >
-					<text slot="button">元</text>
-				</van-field>
+          use-button-slot
+        >
+          <text slot="button">元</text>
+        </van-field>
         <van-field
           :value="area"
           required
           clearable
           label="面积"
           placeholder="请输入您商铺的面积"
-					use-button-slot >
-					<text slot="button">m²</text>
-				</van-field>
+          use-button-slot
+        >
+          <text slot="button">m²</text>
+        </van-field>
         <van-field
-          :value="freePeriod"
+          :value="brandName"
           clearable
-          label="免租期"
-          placeholder="请输入您商铺的免租期"
-					use-button-slot >
-					<text slot="button">月</text>
-				</van-field>
+          required
+          label="品牌名称"
+          placeholder="请输入您的品牌名称"
+        >
+        </van-field>
         <van-field
-          :value="environment"
+          :value="brandProfile"
           clearable
-          label="物业环境"
-          placeholder="请介绍您点评周边物业环境配套情况"
+          required
+          label="开店品牌简介"
+          placeholder="请简单介绍一下您的品牌"
+        />
+        <van-field
+          :value="targetCustomers"
+          clearable
+          label="目标客户"
+          placeholder="请输入您开店针对的客户人群"
+        />
+        <van-field
+          :value="unitPrice"
+          clearable
+          label="客单价"
+          placeholder="请输入您开店的人均消费单价"
+        />
+        <van-field
+          :value="storeNum"
+          clearable
+          required
+          label="数量"
+          placeholder="请输入您计划开店数量"
         />
 
-        <van-field
-          :value="storeInfo"
-          label="店铺信息"
-          placeholder="请选择您期望的招商类别"
-          disabled
-          @click.native="goStoreInfo"
-          is-link
-        />
+        <view class="is-investment">
+					<text>您品牌是否开放招商加盟</text>
+          <van-radio-group :value="isInvestment" class="store-radio" @change="isJoinIn">
+            <van-radio name="1" label-disabled>是</van-radio>
+            <van-radio name="2" label-disabled>否</van-radio>
+          </van-radio-group>
+        </view>
+				<van-field
+				  :value="franchiseConditions"
+				  clearable
+				  label="加盟条件"
+				  placeholder="请输入您品牌加盟的条件"
+				/>
       </van-cell-group>
     </view>
     <view class="submit-btn">
       <view class="updata">
-      	<text>商铺照片</text>
-				<view class="updata-image">
-					<view class="image-type">
-						<van-uploader :file-list="fileList" @after-read="afterRead" preview-size="126rpx" />
-						<view class="image-text">
-							正面门面
-						</view>
-					</view>
-					<view class="image-type">
-						<van-uploader :file-list="fileList" @after-read="afterRead" preview-size="126rpx" />
-						<view class="image-text">
-							外部全景
-						</view>
-					</view>
-					<view class="image-type">
-						<van-uploader :file-list="fileList" @after-read="afterRead" preview-size="126rpx" />
-						<view class="image-text">
-							商铺内部
-						</view>
-					</view>
-					<view class="image-type">
-						<van-uploader :file-list="fileList" @after-read="afterRead" preview-size="126rpx" />
-						<view class="image-text">
-							商铺内部
-						</view>
-					</view>
-				</view>
+        <text>商铺照片</text>
+        <view class="updata-image">
+          <view class="image-type">
+            <van-uploader
+              :file-list="fileList"
+              @after-read="afterRead"
+              preview-size="126rpx"
+            />
+            <view class="image-text">品牌logo</view>
+          </view>
+        </view>
       </view>
-      <view class="btn">
-        <van-button type="info" block>提交</van-button>
-      </view>
+			<view class="updata">
+			  <text>效果图</text>
+			  <view class="updata-image">
+			    <view class="image-type">
+			      <van-uploader
+			        :file-list="fileList"
+			        @after-read="afterRead"
+			        preview-size="126rpx"
+			      />
+			      <view class="image-text">您计划开店效果图</view>
+			    </view>
+			  </view>
+			</view>
     </view>
+		
+		<view class="btn">
+		  <van-button type="info" block>提交</van-button>
+		</view>
     <van-action-sheet
       :show="show"
       :actions="actions"
@@ -200,12 +225,20 @@ export default {
       rent: "",
       // 面积
       area: "",
-      // 免租期
-      freePeriod: "",
-      // 物业环境
-      environment: "",
-      // 店铺信息
-      storeInfo: "",
+      // 品牌名称
+      brandName: "",
+      // 开店品牌简介
+      brandProfile: "",
+      // 目标客户
+      targetCustomers: "",
+      // 客单价
+      unitPrice: "",
+      // 数量
+      storeNum: "",
+      // 是否开放加盟
+      isInvestment: "1",
+			// 加盟条件
+			franchiseConditions: "",
 
       checked: true,
 
@@ -300,47 +333,46 @@ export default {
       console.log(event.detail);
       this.positionShow = false;
     },
+    // 是否开放招商加盟
+    isJoinIn(event) {
+			this.isInvestment = event.detail;
+		},
     // 隐藏位置弹窗
     hideCityPosition() {
       this.positionShow = false;
     },
-		// 上传图片
-		afterRead(event) {
-			const {
-				file
-			} = event.detail;
-			// 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
-			wx.uploadFile({
-				url: 'https://example.weixin.qq.com/upload', // 仅为示例，非真实的接口地址
-				filePath: file.path,
-				name: 'file',
-				formData: {
-					user: 'test'
-				},
-				success(res) {
-					// 上传完成需要更新 fileList
-					const {
-						fileList = []
-					} = this.data;
-					fileList.push({ ...file,
-						url: res.data
-					});
-					this.fileList = fileList;
-				},
-			});
-		},
-		// 跳转工程条件
-		goEngineering() {
-			uni.navigateTo({
-				url: "./engineering"
-			})
-		}
+    // 上传图片
+    afterRead(event) {
+      const { file } = event.detail;
+      // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
+      wx.uploadFile({
+        url: "https://example.weixin.qq.com/upload", // 仅为示例，非真实的接口地址
+        filePath: file.path,
+        name: "file",
+        formData: {
+          user: "test",
+        },
+        success(res) {
+          // 上传完成需要更新 fileList
+          const { fileList = [] } = this.data;
+          fileList.push({ ...file, url: res.data });
+          this.fileList = fileList;
+        },
+      });
+    },
+    // 跳转工程条件
+    goEngineering() {
+      uni.navigateTo({
+        url: "./engineering",
+      });
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .v-agent {
+		
   .from {
     padding: 0 20rpx;
 
@@ -351,41 +383,58 @@ export default {
     /deep/ .van-field__input--disabled {
       color: #323232;
     }
+		
+		.is-investment {
+			display: flex;
+			justify-content: space-between;
+			padding: 28rpx 20rpx;
+			font-size: 28rpx;
+			
+			.store-radio {
+				display: flex;
+				
+				/deep/ .van-radio {
+					margin-left: 20rpx;
+				}
+			}
+		}
   }
 
   .submit-btn {
     padding: 0 46rpx;
     background-color: #f8f8f8;
+		display: flex;
 
     .updata {
-    	display: flex;
-    	flex-direction: column;
-			
-			.updata-image {
-				display: flex;
-				justify-content: space-between;
-				
-				.image-type {
-					text-align: center;
-					
-					.image-text {
-						font-size: 28rpx;
-						color: #888888;
-						margin-top: 28rpx;;
-					}
-				}
-			}
-    
-    	text {
-    		font-size: 28rpx;
-    		color: #2D2D2D;
-    		margin: 20rpx 0 26rpx;
-    	}
-    
-    	/deep/ .van-uploader__upload {
-    		border: 1rpx solid #CACDD0;
-				margin: 0;
-    	}
+      display: flex;
+      flex-direction: column;
+			margin-right: 40rpx;
+
+      .updata-image {
+        display: flex;
+        justify-content: space-between;
+
+        .image-type {
+          text-align: left;
+
+          .image-text {
+            font-size: 28rpx;
+            color: #888888;
+            margin-top: 28rpx;
+          }
+        }
+      }
+
+      text {
+        font-size: 28rpx;
+        color: #2d2d2d;
+        margin: 20rpx 0 26rpx;
+      }
+
+      /deep/ .van-uploader__upload {
+        border: 1rpx solid #cacdd0;
+        margin: 0;
+      }
     }
 
     .tip {
@@ -393,12 +442,10 @@ export default {
       color: #2d2d2d;
       margin-top: 30rpx;
     }
-
-    .btn {
-      padding: 0 18rpx;
-      margin-top: 125rpx;
-      margin-bottom: 250rpx;
-    }
   }
+	.btn {
+	  padding: 125rpx 64rpx 250rpx;
+    background-color: #f8f8f8;
+	}
 }
 </style>
