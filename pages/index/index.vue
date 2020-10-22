@@ -154,32 +154,31 @@
 					{
 						name: '购物中心',
 						src: '../../static/images/Shopping.png',
-						router: ''
+						router: '../ShoppingMall/index'
 					},
 					{
 						name: '社区底商',
 						src: '../../static/images/Community.png',
-						router: ''
+						router: '../CommunityBottomBusiness/index'
 					},
 					{
 						name: '整租物业',
 						src: '../../static/images/WholeRent.png',
-						router: ''
 					},
 					{
 						name: '商业街区',
 						src: '../../static/images/CommercialStreet.png',
-						router: ''
+						router: '../BlockBusiness/index'
 					},
 					{
 						name: '综合配套',
 						src: '../../static/images/ComprehensiveMatching.png',
-						router: ''
+						router: '../ComprehensiveMatching/index'
 					},
 					{
 						name: '专业市场',
 						src: '../../static/images/ProfessionalMarket.png',
-						router: ''
+						router: '../ProfessionalMarket/index'
 					},
 					{
 						name: '娱乐教育',

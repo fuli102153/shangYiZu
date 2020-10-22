@@ -11,7 +11,6 @@
 			"path": "pages/Index/index",
 			"style": {
 				"navigationBarTitleText": "",
-				
 				"usingComponents":{
 					"van-button": "/wxcomponents/vant/dist/button/index",
 					"van-cell": "/wxcomponents/vant/dist/cell/index",
@@ -26,7 +25,16 @@
 		{
 			"path": "pages/Shops/index",
 			"style": {
-				"navigationBarTitleText": "Shops"
+				"navigationBarTitleText": "",
+				"usingComponents":{
+					"van-button": "/wxcomponents/vant/dist/button/index",
+					"van-cell": "/wxcomponents/vant/dist/cell/index",
+					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-image": "/wxcomponents/vant/dist/image/index",
+					"van-popup": "/wxcomponents/vant/dist/popup/index",
+					"van-calendar": "/wxcomponents/vant/dist/calendar/index"
+				}
 			}
 		},
 		{
@@ -159,6 +167,102 @@
 				"navigationBarTitleText": "工程条件",
 				"usingComponents":{
 					"van-button": "/wxcomponents/vant/dist/button/index"
+				}
+			}
+		},
+		{
+			"path": "pages/ShoppingMall/index",
+			"style": {
+				"navigationBarTitleText": "购物中心",
+				"usingComponents":{
+					"van-search": "/wxcomponents/vant/dist/search/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-tree-select": "/wxcomponents/vant/dist/tree-select/index",
+					"van-dropdown-menu": "/wxcomponents/vant/dist/dropdown-menu/index",
+					"van-dropdown-item": "/wxcomponents/vant/dist/dropdown-item/index",
+					"van-sticky": "/wxcomponents/vant/dist/sticky/index",
+					"van-sidebar": "/wxcomponents/vant/dist/sidebar/index",
+					"van-sidebar-item": "/wxcomponents/vant/dist/sidebar-item/index"
+				}
+			}
+		},
+		{
+			"path": "pages/CommunityBottomBusiness/index",
+			"style": {
+				"navigationBarTitleText": "社区底商",
+				"usingComponents":{
+					"van-search": "/wxcomponents/vant/dist/search/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-tree-select": "/wxcomponents/vant/dist/tree-select/index",
+					"van-dropdown-menu": "/wxcomponents/vant/dist/dropdown-menu/index",
+					"van-dropdown-item": "/wxcomponents/vant/dist/dropdown-item/index",
+					"van-sticky": "/wxcomponents/vant/dist/sticky/index",
+					"van-sidebar": "/wxcomponents/vant/dist/sidebar/index",
+					"van-sidebar-item": "/wxcomponents/vant/dist/sidebar-item/index"
+				}
+			}
+		},
+		{
+			"path": "pages/BlockBusiness/index",
+			"style": {
+				"navigationBarTitleText": "街区商业",
+				"usingComponents":{
+					"van-search": "/wxcomponents/vant/dist/search/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-tree-select": "/wxcomponents/vant/dist/tree-select/index",
+					"van-dropdown-menu": "/wxcomponents/vant/dist/dropdown-menu/index",
+					"van-dropdown-item": "/wxcomponents/vant/dist/dropdown-item/index",
+					"van-sticky": "/wxcomponents/vant/dist/sticky/index",
+					"van-sidebar": "/wxcomponents/vant/dist/sidebar/index",
+					"van-sidebar-item": "/wxcomponents/vant/dist/sidebar-item/index"
+				}
+			}
+		},
+		{
+			"path": "pages/ProfessionalMarket/index",
+			"style": {
+				"navigationBarTitleText": "专业市场",
+				"usingComponents":{
+					"van-search": "/wxcomponents/vant/dist/search/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-tree-select": "/wxcomponents/vant/dist/tree-select/index",
+					"van-dropdown-menu": "/wxcomponents/vant/dist/dropdown-menu/index",
+					"van-dropdown-item": "/wxcomponents/vant/dist/dropdown-item/index",
+					"van-sticky": "/wxcomponents/vant/dist/sticky/index",
+					"van-sidebar": "/wxcomponents/vant/dist/sidebar/index",
+					"van-sidebar-item": "/wxcomponents/vant/dist/sidebar-item/index"
+				}
+			}
+		},
+		{
+			"path": "pages/ComprehensiveMatching/index",
+			"style": {
+				"navigationBarTitleText": "综合配套",
+				"usingComponents":{
+					"van-search": "/wxcomponents/vant/dist/search/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-tree-select": "/wxcomponents/vant/dist/tree-select/index",
+					"van-dropdown-menu": "/wxcomponents/vant/dist/dropdown-menu/index",
+					"van-dropdown-item": "/wxcomponents/vant/dist/dropdown-item/index",
+					"van-sticky": "/wxcomponents/vant/dist/sticky/index",
+					"van-sidebar": "/wxcomponents/vant/dist/sidebar/index",
+					"van-sidebar-item": "/wxcomponents/vant/dist/sidebar-item/index"
+				}
+			}
+		},
+		{
+			"path": "pages/WeekRecommended/index",
+			"style": {
+				"navigationBarTitleText": "本周重点推荐",
+				"usingComponents":{
+					"van-search": "/wxcomponents/vant/dist/search/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-tree-select": "/wxcomponents/vant/dist/tree-select/index",
+					"van-dropdown-menu": "/wxcomponents/vant/dist/dropdown-menu/index",
+					"van-dropdown-item": "/wxcomponents/vant/dist/dropdown-item/index",
+					"van-sticky": "/wxcomponents/vant/dist/sticky/index",
+					"van-sidebar": "/wxcomponents/vant/dist/sidebar/index",
+					"van-sidebar-item": "/wxcomponents/vant/dist/sidebar-item/index"
 				}
 			}
 		},
