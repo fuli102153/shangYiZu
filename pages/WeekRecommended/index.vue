@@ -1,4 +1,5 @@
 <template>
+	<!-- 本周重点推荐 -->
 	<view class="v-week-recommended">
 		<van-sticky>
 			<van-dropdown-menu>

@@ -1,4 +1,5 @@
 <template>
+	<!-- 购物中心 -->
 	<view class="v-shopping-mall">
 		<van-sticky>
 			<van-dropdown-menu>

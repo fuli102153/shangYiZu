@@ -1,4 +1,5 @@
 <template>
+	<!-- 社区底商 -->
 	<view class="v-community-bottom-business">
 		<van-sticky>
 			<van-dropdown-menu>
