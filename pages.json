@@ -27,21 +27,33 @@
 			"style": {
 				"navigationBarTitleText": "",
 				"usingComponents":{
-					"van-button": "/wxcomponents/vant/dist/button/index",
+					"van-search": "/wxcomponents/vant/dist/search/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-tree-select": "/wxcomponents/vant/dist/tree-select/index",
+					"van-dropdown-menu": "/wxcomponents/vant/dist/dropdown-menu/index",
+					"van-dropdown-item": "/wxcomponents/vant/dist/dropdown-item/index",
+					"van-popup": "/wxcomponents/vant/dist/popup/index",
 					"van-cell": "/wxcomponents/vant/dist/cell/index",
 					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
-					"van-icon": "/wxcomponents/vant/dist/icon/index",
-					"van-image": "/wxcomponents/vant/dist/image/index",
-					"van-popup": "/wxcomponents/vant/dist/popup/index",
-					"van-calendar": "/wxcomponents/vant/dist/calendar/index"
+					"van-sticky": "/wxcomponents/vant/dist/sticky/index"
 				}
 			}
 		},
 		{
 			"path": "pages/Brand/index",
 			"style": {
-				"navigationBarTitleText": "Brand"
-				
+				"navigationBarTitleText": "",
+				"usingComponents":{
+					"van-search": "/wxcomponents/vant/dist/search/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-tree-select": "/wxcomponents/vant/dist/tree-select/index",
+					"van-dropdown-menu": "/wxcomponents/vant/dist/dropdown-menu/index",
+					"van-dropdown-item": "/wxcomponents/vant/dist/dropdown-item/index",
+					"van-popup": "/wxcomponents/vant/dist/popup/index",
+					"van-cell": "/wxcomponents/vant/dist/cell/index",
+					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
+					"van-sticky": "/wxcomponents/vant/dist/sticky/index"
+				}
 			}
 		},
 		{

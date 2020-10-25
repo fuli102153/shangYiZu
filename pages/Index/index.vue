@@ -242,29 +242,7 @@
 			change(e) {
 				this.current = e.detail.current;
 			},
-			// 查询所在城市
-			handler({
-				BMap,
-				map
-			}) {
-				const geolocation = new BMap.Geolocation();
-				this.$toast.loading({
-					message: '正在定位...',
-					forbidClick: true,
-					loadingType: 'spinner',
-				});
-				geolocation.getCurrentPosition(function getinfo(position) {
-					let city = position.address.city; //获取城市信息
-					let province = position.address.province; //获取省份信息
-					this.LocationCity = city;
-					console.log(city)
-				}, function(e) {
-					this.LocationCity = '定位失败, 请点击重试';
-					console.log('定位失败, 请点击重试')
-				}, {
-					provider: 'baidu'
-				});
-			},
+			
 			
 			//请求BANNER图片
 			ajaxGetBanner(){
