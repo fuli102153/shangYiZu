@@ -59,7 +59,11 @@
 		{
 			"path": "pages/My/index",
 			"style": {
-				"navigationBarTitleText": "My"
+				"navigationBarTitleText": "",
+				"usingComponents":{
+					"van-cell": "/wxcomponents/vant/dist/cell/index",
+					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index"
+				}
 			}
 		},
 		{
