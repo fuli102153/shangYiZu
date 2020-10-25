@@ -1,7 +1,7 @@
 <template>
 	<view class="v-map">
 		<view class="map_container">
-			<map class="map" id="map" :longitude="longitude" @markertap="selectMarker" :latitude="latitude"  :markers="markers">
+			<map class="map" ref="map" id="map" :longitude="longitude" :show-location="true" @regionchange="regionchange" @markertap="selectMarker" :latitude="latitude"  :markers="markers">
 				<cover-view class="controls">
 				</cover-view>
 			</map>
@@ -32,15 +32,16 @@
 						label:"奔驰奔驰"
 					}
 				],
-				latitude: "",
-				longitude: "",
+				latitude: 22.5333,
+				longitude:113.94041,
 				scale:11,
 				placeData: {},
 			}
 		},
 		onLoad: function() {
 			//首先获取经纬度
-			 this.getWxLocation();
+			 //this.getWxLocation();
+			 this.regionchange();
 			// this.getOverlay()
 			var bmap = require('../../utils/bmap-wx.min.js');
 			var BMap = new bmap.BMapWX({
@@ -74,6 +75,30 @@
 						
 				    }
 				});
+			},
+			
+			
+			regionchange() {
+			    let map = uni.createMapContext('map');
+			    map.getRegion({
+			         success: res => {
+			             let obj = {
+			                  latitude: JSON.stringify([{
+			                      min: res.southwest.latitude.toString(),
+			                      max: res.northeast.latitude.toString()
+			                  }]),
+			                  longitude: JSON.stringify([{
+			                      min: res.southwest.longitude.toString(),
+			                      max: res.northeast.longitude.toString()
+			                  }])
+			             }
+						 console.log(obj)
+			             //this.getMarks(obj);//捕获到对角线经纬度后，调用方法传参给后端
+			         },
+			         fail: (data, code) => {
+			               console.log('fail' + JSON.stringify(data));
+			         }
+			    })
 			},
 			
 			selectMarker(e){
