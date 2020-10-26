@@ -2,11 +2,11 @@
 	<view class="v-my">
 		<view class="user-info">
 			<view class="user-img">
-				
+				<image :src="userInfo.avatarUrl || ''" mode=""></image>
 			</view>
 			<view class="user-name">
 				<view class="user-text">
-					Hai-ShangYiZu
+					{{ userInfo.nickName || '' }}
 				</view>
 				<view class="user-id">
 					ID:188****8888
@@ -59,8 +59,18 @@
 						router: ''
 					},
 				],
+				userInfo: {},
 			}
-		}
+		},
+		onLoad() {
+			uni.getStorage({
+				key: "__userInfo__",
+				success: (res) => {
+					console.log('我的', res)
+					this.userInfo = res.data.userInfo
+				},
+			})
+		},
 	}
 </script>
 
@@ -80,6 +90,12 @@
 			height: 120rpx;
 			background-color: #D3D9DD;
 			border-radius: 50%;
+			overflow: hidden;
+			
+			image {
+				width: 100%;
+				height: 100%;
+			}
 		}
 		
 		.user-name {
