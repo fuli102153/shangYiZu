@@ -27,16 +27,17 @@
 export default {
 	name: 'store',
 	props:{
-		sourceData:[],
+		sourceData:{},
 	},
 	data() {
 	 	return {
+			
 	 	}
 	},
 	mounted(){
 	    var that = this;
 	    this.$nextTick(function(){
-	      console.log(that.sourceData)
+	     
 	    })
 	  },
 	methods: {

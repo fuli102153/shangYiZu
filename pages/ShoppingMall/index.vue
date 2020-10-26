@@ -24,7 +24,7 @@
 		<view class="image-list">
 			<view class="recommend-content">
 				<view class="recommend-list">
-					<view class="recommend-item" v-for="item in 8" :key="item">
+					<view class="recommend-item" v-for="(item,index) in projectList" :key="index">
 						<view class="recommend-image">
 							<image :src="item.projectImg"></image>
 						</view>
@@ -42,7 +42,7 @@
 			  <van-sidebar-item title="标签名" />
 			</van-sidebar>
 			<view class="store-list">
-				<StoreCard v-for="item in 8" :key="item" />
+				<StoreCard v-for="(item,index) in shopList" :sourceData="item" :key="index" />
 			</view>
 		</view>
 	</view>
@@ -50,6 +50,7 @@
 
 <script>
 	import StoreCard from '../../components/Card/Store'
+	import {getProjectList} from "../../utils/api.js"
 	export default {
 		components: {
 			StoreCard
@@ -127,8 +128,15 @@
 						children: []
 					},
 				],
-				activeKey: 0
+				activeKey: 0,
+				projectList:[],
+				shopList:[],
+			
 			}
+		},
+		onShow(){
+			//项目列表
+			this.ajaxProjectList();
 		},
 		methods: {
 			onClickLeft() {
@@ -144,7 +152,39 @@
 			onChange(event) {
 				this.activeKey = event.detail
 				console.log(event.detail)
-			}
+			},
+			
+			//ajax请求数据 
+			ajaxProjectList(){
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					projectType:1,
+					latitude: 22.53332,
+					longitude: 113.93041,
+					pageNo:1,
+					pageSize:10,
+				};
+				paras.accessToken = that.accessToken;
+				
+				getProjectList(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						that.projectList = data.projectList;
+						that.shopList = data.shopList;
+					
+					}else{
+						
+						
+					}
+					
+				})
+				.catch(error => {
+				
+				});
+			},
 		}
 	}
 </script>

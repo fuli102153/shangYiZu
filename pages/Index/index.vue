@@ -92,10 +92,12 @@
 					<view class="coop-more">更多 ></view>
 				</view>
 				<view class="coop-list">
-					<view class="coop-item" v-for="item in 4" :key="item">
-						<view class="image"></view>
+					<view class="coop-item" v-for="(item,index) in cooperativeList" :key="index">
+						
+							<image class="image" :src="item.logo"></image>
+						
 						<!-- <image :src="item.src" /> -->
-						<text>企业名称</text>
+						<text>{{item.enterpriseName}}</text>
 					</view>
 				</view>
 			</view>
@@ -115,7 +117,7 @@
 <script>
 	import StoreCard from '../../components/Card/Store'
 	import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
-	import {getBannerList,getAccessToken,getWeekRecommendList,getGuessYouLike} from "../../utils/api.js"
+	import {getBannerList,getAccessToken,getWeekRecommendList,getGuessYouLike,getCooperativeList} from "../../utils/api.js"
 	export default {
 		components: {
 			StoreCard,
@@ -189,6 +191,7 @@
 				
 				weekRecommendList:[],
 				guessYouLikeList:[],
+				cooperativeList:[],
 			};
 		},
 		onLoad() {},
@@ -200,7 +203,8 @@
 			this.ajaxGetWeekRecommendList();
 			//猜你喜欢
 			this.ajaxGetGuessYouLike();
-			//this._getuserTest();
+			//合作企业
+			this.ajaxGetCooperative();
 		},
 		methods: {
       // 打开关闭弹出层
@@ -326,6 +330,38 @@
 				
 				});
 			},
+			
+			
+			//合作企业
+			ajaxGetCooperative(){
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					pageNo:1,
+					pageSize:10,
+				};
+				paras.accessToken = that.accessToken;
+				
+				getCooperativeList(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						that.cooperativeList = data.data;
+					
+					}else{
+						
+						
+					}
+					
+				})
+				.catch(error => {
+				
+				});
+			},
+			
+			
+			
 		},
 	};
 </script>

@@ -72,7 +72,7 @@ export function getMapForShop(data){ return get(data,'api/shop/mapForShop')}
 export function getMapForShop111(data){ return get(data,'api/shop/mapForShop')}
 
 //12、项目列表
-export function getProjectList(data){ return get(data,'api/project/projectList')}
+export function getProjectList(data){ return post(data,'project/projectList')}
 
 //13、项目信息及旗下的物业列表
 export function getProjectAndShopList(data){ return get(data,'api/project/projectAndShopList')}

@@ -33,7 +33,12 @@
 		
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
 		    
-			
+			uni.login({  
+			                success: function(res) {  
+			                    // 获取code  
+			                    // console.log(JSON.stringify(res));  
+			                }  
+			            }); 
 			
 		},
 		onShow(){

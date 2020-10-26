@@ -1,40 +1,45 @@
 <template>
   <view class="v-agent">
     <view class="from">
+		
       <van-cell-group>
         <van-field
-          :value="contacts"
-          required
-          clearable
-          label="联系人"
-          placeholder="请输入您的姓名"
+			:value="contactUsername"
+			required
+			clearable
+			label="联系人"
+			placeholder="请输入您的姓名"
+			@input="changeContactUsername"
         />
         <van-field
-          :value="phone"
-          label="联系电话"
-          placeholder="请输入您的手机号"
-          error-message=" "
-          required
+			:value="contactMobile"
+			label="联系电话"
+			placeholder="请输入您的手机号"
+			error-message=" "
+			required
+			@input="changeContactMobile"
         />
         <van-field
-          :value="idType"
+          :value="indentity"
           label="身份"
           placeholder="请输入您的身份"
           required
           disabled
-          @click.native="showActionSheet('idType')"
+          @click.native="showActionSheet('indentity')"
           is-link
           arrow-direction="down"
+		  @input="changeIndentity"
         />
         <van-field
-          :value="propertStatus"
+          :value="propertyStatus"
           label="物业现况"
           placeholder="请选择您商铺物业现况"
           required
           disabled
-          @click.native="showActionSheet('propertStatus')"
+          @click.native="showActionSheet('propertyStatus')"
           is-link
           arrow-direction="down"
+		  @input="changePropertyStatus"
         />
         <van-field
           :value="propertType"
@@ -45,6 +50,7 @@
           @click.native="showActionSheet('propertType')"
           is-link
           arrow-direction="down"
+		  @input="changePropertyType"
         />
         <van-field
           :value="position"
@@ -61,54 +67,61 @@
           label="详细位置"
           placeholder="请输入您商铺详细地址，详至门牌"
           required
+		  @input="changeDetailedLocation"
         />
         <van-field
-          :value="engineering"
+          :value="engineeringConditions"
           label="工程条件"
           placeholder="请选择您商铺具备的工程条件"
           disabled
           @click.native="goEngineering"
           is-link
+		 
         />
         <van-field
-          :value="investmentCategory"
+          :value="businessType"
           label="期望招商类别"
           placeholder="请选择您期望的招商类别"
           disabled
           @click.native="goInvestmentCategory"
           is-link
+		  
         />
         <van-field
-          :value="rent"
+          :value="monthRent"
           required
           clearable
           label="月租金"
           placeholder="请输入您期望的月租金"
+			@input="changeMonthRent"
 					use-button-slot >
 					<text slot="button">元</text>
 				</van-field>
         <van-field
-          :value="area"
+          :value="measureArea"
           required
           clearable
           label="面积"
           placeholder="请输入您商铺的面积"
+		 @input="changeMeasureArea"
 					use-button-slot >
 					<text slot="button">m²</text>
 				</van-field>
         <van-field
-          :value="freePeriod"
+          :value="freeTenancy"
           clearable
           label="免租期"
           placeholder="请输入您商铺的免租期"
+		  @input="changeFreeTenancy"
 					use-button-slot >
 					<text slot="button">月</text>
 				</van-field>
         <van-field
-          :value="environment"
+          :value="propertyEnvironment"
           clearable
           label="物业环境"
           placeholder="请介绍您点评周边物业环境配套情况"
+		  @input="changePropertyEnvironment"
         />
 
         <van-field
@@ -152,7 +165,7 @@
 				</view>
       </view>
       <view class="btn">
-        <van-button type="info" block>提交</van-button>
+        <van-button type="info" block @click="submit">提交</van-button>
       </view>
     </view>
     <van-action-sheet
@@ -179,11 +192,11 @@ export default {
   data() {
     return {
       // 联系人
-      contacts: "",
+      contactUsername: "",
       // 联系电话
-      phone: "",
+      contactMobile: "",
       // 身份
-      idType: "",
+      indentity: "",
       // 物业现况
       propertStatus: "",
       // 物业类型
@@ -191,7 +204,7 @@ export default {
       // 位置
       position: "",
       // 详细位置
-      detailedLocation: "",
+      detailedLocation: "11",
       // 工程条件
       engineering: "",
       // 期望招商类别
@@ -346,6 +359,60 @@ export default {
 			uni.navigateTo({
 				url: "./storeInfo"
 			})
+		},
+		//联系人
+		changeContactUsername(e) {
+			this.contactUsername = e.detail
+		},
+		//联系电话
+		changeContactMobile(e) {
+			this.contactMobile = e.detail
+		},
+		//身份
+		changeIndentity(e) {
+			this.indentity = e.detail
+		},
+		//物业现况
+		changePropertyStatus(e) {
+			this.propertyStatus = e.detail
+		},
+		//物业类型
+		changePropertyType(e) {
+			this.propertyType = e.detail
+		},
+		//详细信息
+		changeDetailLocation(e) {
+			this.detailLocation = e.detail
+		},
+		//工程条件
+		changeEngineeringConditions(e) {
+			this.engineeringConditions = e.detail
+		},
+		//期望招商类别
+		changeBusinessType(e) {
+			this.businessType = e.detail
+		},
+		//月租金
+		changeMonthRent(e) {
+			this.monthRent = e.detail
+		},
+		//面积
+		changeMeasureArea(e) {
+			this.measureArea = e.detail
+		},
+		//免租期
+		changeFreeTenancy(e) {
+			this.freeTenancy = e.detail
+		},
+		//物业环境
+		changePropertyEnvironment(e) {
+			this.propertyEnvironment = e.detail
+		},
+
+		
+		//提交数据
+		submit(){
+			console.log(this.contactUsername)
 		}
   },
 };
