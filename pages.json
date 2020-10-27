@@ -18,7 +18,8 @@
 					"van-icon": "/wxcomponents/vant/dist/icon/index",
 					"van-image": "/wxcomponents/vant/dist/image/index",
 					"van-popup": "/wxcomponents/vant/dist/popup/index",
-					"van-calendar": "/wxcomponents/vant/dist/calendar/index"
+					"van-calendar": "/wxcomponents/vant/dist/calendar/index",
+					 "van-notice-bar": "/wxcomponents/vant/dist/notice-bar/index"
 				}
 			}
 		},
@@ -35,7 +36,8 @@
 					"van-popup": "/wxcomponents/vant/dist/popup/index",
 					"van-cell": "/wxcomponents/vant/dist/cell/index",
 					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
-					"van-sticky": "/wxcomponents/vant/dist/sticky/index"
+					"van-sticky": "/wxcomponents/vant/dist/sticky/index",
+					"van-dialog": "/wxcomponents/vant/dist/dialog/index"
 				}
 			}
 		},

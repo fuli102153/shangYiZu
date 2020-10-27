@@ -23,7 +23,7 @@
 			<van-cell-group class="city">
 				<van-cell center title="当前定位">
 					<template #default>
-						<van-button round plain hairline type="info" size="mini">手动定位</van-button>
+						<van-button round plain type="info" size="mini">手动定位</van-button>
 					</template>
 					<template #label>
 						<van-icon name="location" class="location-icon" color="#1676fe" size="30rpx" />
@@ -43,7 +43,8 @@
 			<swiper class="swiper-box" @change="change">
 				<swiper-item v-for="(item ,index) in info" :key="index">
 					<view class="swiper-item">
-						{{item.content}}
+						<!-- {{item.content}} -->
+						<image src="../../static/images/swiper.png" mode="" style="width: 100%; height: 300rpx;"></image>
 					</view>
 				</swiper-item>
 			</swiper>
@@ -57,7 +58,8 @@
 				</view>
 			</view>
 			<view class="toutiao-link">
-				<span>商易租正式上线！现招募合伙人加入！</span>
+				<!-- <span>商易租正式上线！现招募合伙人加入！</span> -->
+				<van-notice-bar class="scrollable" scrollable text="商易租正式上线！现招募合伙人加入！   商易租正式上线！现招募合伙人加入！" :speed="35" background="#fff" color="#2E2E2E" />
 				<van-icon name="play" color="#002464" size="26rpx" />
 			</view>
 		</view>
@@ -73,6 +75,31 @@
 			<view class="recommend-title">本周重点推荐</view>
 			<view class="recommend-content">
 				<view class="recommend-list">
+					<view class="recommend-item" v-for="item in weekRecommendList" :key="item">
+						<view class="recommend-image">
+							<image :src="item.projectImg"></image>
+						</view>
+						<view class="recommend-text">
+							{{item.projectName}}
+						</view>
+					</view>
+					<!-- 到时候删掉 -->
+					<view class="recommend-item" v-for="item in weekRecommendList" :key="item">
+						<view class="recommend-image">
+							<image :src="item.projectImg"></image>
+						</view>
+						<view class="recommend-text">
+							{{item.projectName}}
+						</view>
+					</view>
+					<view class="recommend-item" v-for="item in weekRecommendList" :key="item">
+						<view class="recommend-image">
+							<image :src="item.projectImg"></image>
+						</view>
+						<view class="recommend-text">
+							{{item.projectName}}
+						</view>
+					</view>
 					<view class="recommend-item" v-for="item in weekRecommendList" :key="item">
 						<view class="recommend-image">
 							<image :src="item.projectImg"></image>
@@ -502,8 +529,10 @@
 				border-radius: 32rpx;
 				box-sizing: border-box;
 				padding-right: 16rpx;
+				overflow: hidden;
 
-				span {
+				.scrollable {
+					width: 100%;
 					font-size: 26rpx;
 					color: #2E2E2E;
 					margin-right: 26rpx;

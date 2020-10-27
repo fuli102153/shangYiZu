@@ -15,7 +15,8 @@
 					  placeholder="搜索店铺或区域"
 					/>
 				</view>
-				<van-icon name="phone" color="#fff" class="phone" />
+				<van-icon name="phone" color="#fff" class="phone" @click="callPhone"/>
+				<van-dialog id="van-dialog" />
 			</view>
 			<!-- 地址弹出层 -->
 			<van-popup :show="locationShow" @close="onClose" position="top" round>
@@ -67,6 +68,7 @@
 
 <script>
 	import StoreCard from '../../components/Card/Store'
+	import Dialog from '../../wxcomponents/vant/dist/dialog/dialog';
 	export default {
 		components: {
 			StoreCard
@@ -145,6 +147,19 @@
 			},
 			onSearch() {
 				console.log('搜索')
+			},
+			callPhone() {
+				Dialog.confirm({
+				  title: '客服电话',
+				  message: '400-666-888',
+					confirmButtonText: '拨打'
+				})
+				  .then(() => {
+				    // on confirm
+				  })
+				  .catch(() => {
+				    // on cancel
+				  });
 			},
 			onClickLeft() {
 				uni.navigateBack()
