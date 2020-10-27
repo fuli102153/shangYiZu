@@ -57,13 +57,13 @@ export function getBannerList(data){ return get(data,'api/banner/getList')}
 export function getTopInfo(data){ return get(data,'api/banner/getList')}
 
 //7、本周重点推荐
-export function getWeekRecommendList(data){ return get(data,'project/weekRecommend')}
+export function getWeekRecommendList(data){ return get(data,'api/project/weekRecommend')}
 
 //8、合作企业
 export function getCooperativeList(data){ return get(data,'api/cooperativeEnterprise/getList')}
 
 //9、猜你喜欢
-export function getGuessYouLike(data){ return post(data,'shop/guessYouLike')}
+export function getGuessYouLike(data){ return post(data,'api/shop/guessYouLike')}
 
 //10、地图找铺
 export function getMapForShop(data){ return get(data,'api/shop/mapForShop')}
@@ -72,13 +72,16 @@ export function getMapForShop(data){ return get(data,'api/shop/mapForShop')}
 export function getMapForShop111(data){ return get(data,'api/shop/mapForShop')}
 
 //12、项目列表
-export function getProjectList(data){ return post(data,'project/projectList')}
+export function getProjectList(data){ return post(data,'api/project/projectList')}
 
 //13、项目信息及旗下的物业列表
-export function getProjectAndShopList(data){ return get(data,'api/project/projectAndShopList')}
+export function getProjectAndShopList(data){ return post(data,'api/project/projectAndShopList')}
 
 //15、招租发布
 export function get111(data){ return get(data,'api/shop/mapForShop')}
+
+//37、上传
+export function upload(data){ return post(data,'api/upload')}
 
 
 

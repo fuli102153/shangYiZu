@@ -50,7 +50,7 @@
 
 <script>
 	import StoreCard from '../../components/Card/Store'
-	import {getProjectList} from "../../utils/api.js"
+	import {getProjectList,getProjectAndShopList} from "../../utils/api.js"
 	export default {
 		components: {
 			StoreCard
@@ -134,9 +134,18 @@
 			
 			}
 		},
+		onLoad(paras) {
+			console.log(paras)
+			//如果有项目ID
+			if(paras.projectId){
+				this.ajaxGetProjectAndShopList(paras.projectId);
+			}else{
+				this.ajaxProjectList(paras.projectType);
+			}
+		},
 		onShow(){
 			//项目列表
-			this.ajaxProjectList();
+			
 		},
 		methods: {
 			onClickLeft() {
@@ -155,11 +164,12 @@
 			},
 			
 			//ajax请求数据 
-			ajaxProjectList(){
+			ajaxProjectList(projectType){
 				//ajax个人信息查询
 				var that = this;
+				var projectType = projectType || 1;
 				const paras = {
-					projectType:1,
+					projectType:projectType,
 					latitude: 22.53332,
 					longitude: 113.93041,
 					pageNo:1,
@@ -168,6 +178,35 @@
 				paras.accessToken = that.accessToken;
 				
 				getProjectList(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						that.projectList = data.projectList;
+						that.shopList = data.shopList;
+					
+					}else{
+						
+						
+					}
+					
+				})
+				.catch(error => {
+				
+				});
+			},
+			
+			ajaxGetProjectAndShopList(projectId){
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					projectId:projectId,
+					pageNo:1,
+					pageSize:10,
+				};
+				paras.accessToken = that.accessToken;
+				
+				getProjectAndShopList(paras).then(res => {
 					const data = res.data;
 					console.log(data);
 					

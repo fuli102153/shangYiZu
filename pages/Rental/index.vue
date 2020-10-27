@@ -78,6 +78,8 @@
           is-link
 		 
         />
+		<van-cell title="工程条件" is-link @click="showEngineeringPopup" />
+		
         <van-field
           :value="businessType"
           label="期望招商类别"
@@ -139,25 +141,25 @@
       	<text>商铺照片</text>
 				<view class="updata-image">
 					<view class="image-type">
-						<van-uploader :file-list="fileList" @after-read="afterRead" preview-size="126rpx" />
+						<van-uploader :file-list="fileList[0]" max-count="1" @after-read="afterRead($event,0)" preview-size="126rpx" />
 						<view class="image-text">
 							正面门面
 						</view>
 					</view>
 					<view class="image-type">
-						<van-uploader :file-list="fileList" @after-read="afterRead" preview-size="126rpx" />
+						<van-uploader :file-list="fileList[1]" max-count="1" @after-read="afterRead($event,1)" preview-size="126rpx" />
 						<view class="image-text">
 							外部全景
 						</view>
 					</view>
 					<view class="image-type">
-						<van-uploader :file-list="fileList" @after-read="afterRead" preview-size="126rpx" />
+						<van-uploader :file-list="fileList[2]" max-count="1" @after-read="afterRead($event,2)" preview-size="126rpx" />
 						<view class="image-text">
 							商铺内部
 						</view>
 					</view>
 					<view class="image-type">
-						<van-uploader :file-list="fileList" @after-read="afterRead" preview-size="126rpx" />
+						<van-uploader :file-list="fileList[3]" max-count="1" @after-read="afterRead($event,3)" preview-size="126rpx" />
 						<view class="image-text">
 							商铺内部
 						</view>
@@ -184,6 +186,10 @@
         @confirm="getCityPosition"
       />
     </van-action-sheet>
+	
+	<van-popup  :show="showEngineering"  @close="onEngineeringClose" position="right" custom-style="width: 80%;height:100%"	>
+		内容内容内容内容内容
+	</van-popup>
   </view>
 </template>
 
@@ -223,6 +229,7 @@ export default {
       checked: true,
 
       show: false,
+	  showEngineering:false,
       positionShow: false,
 
       // 城市列表
@@ -267,6 +274,10 @@ export default {
           name: "综合配套",
         },
       ],
+	  
+	  fileList:[[],[],[],[]],
+
+	  
     };
     // 选择的内容
     activeItme: "";
@@ -300,6 +311,13 @@ export default {
     showPosition() {
       this.positionShow = true;
     },
+	showEngineeringPopup() {
+		this.showEngineering = true
+	},
+
+	onEngineeringClose() {
+		this.showEngineering = false
+	},
     onClose() {
       this.show = false;
       this.actions = [];
@@ -318,27 +336,31 @@ export default {
       this.positionShow = false;
     },
 		// 上传图片
-		afterRead(event) {
+		afterRead(event,index) {
 			const {
 				file
 			} = event.detail;
+			var that  = this;
 			// 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
 			wx.uploadFile({
-				url: 'https://example.weixin.qq.com/upload', // 仅为示例，非真实的接口地址
+				url: this.HOST+'api/upload', 
 				filePath: file.path,
+				header:{
+					'Authorization': this.accessToken,
+				},
+				
 				name: 'file',
 				formData: {
 					user: 'test'
 				},
 				success(res) {
 					// 上传完成需要更新 fileList
-					const {
-						fileList = []
-					} = this.data;
-					fileList.push({ ...file,
-						url: res.data
-					});
-					this.fileList = fileList;
+					that.fileList[index]= [{
+						url:JSON.parse(res.data)["data"],
+						name:""
+					}];
+					that.$forceUpdate()
+					
 				},
 			});
 		},
@@ -479,5 +501,9 @@ export default {
       margin-bottom: 250rpx;
     }
   }
+}
+
+.van-uploader__preview{
+	margin: 0rpx !important;
 }
 </style>

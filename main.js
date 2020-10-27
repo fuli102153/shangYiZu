@@ -7,7 +7,7 @@ Vue.config.productionTip = false;
 
 Vue.prototype.userInfo = {};//存储用户的信息
 Vue.prototype.accessToken = {};//存储用户的TOKEN值
-
+Vue.prototype.HOST = "https://app.wan0wan.com/"
 
 App.mpType = 'app'
 

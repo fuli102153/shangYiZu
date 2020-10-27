@@ -41,10 +41,9 @@
 		<!-- 轮播图 -->
 		<uni-swiper-dot :info="info" :current="current" field="content" :mode="mode">
 			<swiper class="swiper-box" @change="change">
-				<swiper-item v-for="(item ,index) in info" :key="index">
+				<swiper-item v-for="(item ,index) in bannerList" :key="index">
 					<view class="swiper-item">
-						<!-- {{item.content}} -->
-						<image src="../../static/images/swiper.png" mode="" style="width: 100%; height: 300rpx;"></image>
+						<image :src="item.pics?item.pics : '../../static/images/swiper.png'" mode="" style="width: 100%; height: 300rpx;"></image>
 					</view>
 				</swiper-item>
 			</swiper>
@@ -59,7 +58,7 @@
 			</view>
 			<view class="toutiao-link">
 				<!-- <span>商易租正式上线！现招募合伙人加入！</span> -->
-				<van-notice-bar class="scrollable" scrollable text="商易租正式上线！现招募合伙人加入！   商易租正式上线！现招募合伙人加入！" :speed="35" background="#fff" color="#2E2E2E" />
+				<van-notice-bar class="scrollable" scrollable :text="noticeMessage" :speed="35" background="#fff" color="#2E2E2E" />
 				<van-icon name="play" color="#002464" size="26rpx" />
 			</view>
 		</view>
@@ -75,7 +74,7 @@
 			<view class="recommend-title">本周重点推荐</view>
 			<view class="recommend-content">
 				<view class="recommend-list">
-					<view class="recommend-item" v-for="item in weekRecommendList" :key="item">
+					<view class="recommend-item" @click="toProject(item.id)" v-for="item in weekRecommendList" :key="item">
 						<view class="recommend-image">
 							<image :src="item.projectImg"></image>
 						</view>
@@ -83,31 +82,7 @@
 							{{item.projectName}}
 						</view>
 					</view>
-					<!-- 到时候删掉 -->
-					<view class="recommend-item" v-for="item in weekRecommendList" :key="item">
-						<view class="recommend-image">
-							<image :src="item.projectImg"></image>
-						</view>
-						<view class="recommend-text">
-							{{item.projectName}}
-						</view>
-					</view>
-					<view class="recommend-item" v-for="item in weekRecommendList" :key="item">
-						<view class="recommend-image">
-							<image :src="item.projectImg"></image>
-						</view>
-						<view class="recommend-text">
-							{{item.projectName}}
-						</view>
-					</view>
-					<view class="recommend-item" v-for="item in weekRecommendList" :key="item">
-						<view class="recommend-image">
-							<image :src="item.projectImg"></image>
-						</view>
-						<view class="recommend-text">
-							{{item.projectName}}
-						</view>
-					</view>
+					
 				</view>
 			</view>
 		</view>
@@ -119,10 +94,9 @@
 					<view class="coop-more">更多 ></view>
 				</view>
 				<view class="coop-list">
-					<view class="coop-item" v-for="item in 4" :key="item">
-						<view class="image"></view>
-						<!-- <image :src="item.src" /> -->
-						<text>企业名称</text>
+					<view class="coop-item" v-for="(item,index) in cooperativeList" :key="index">
+						<image class="image" :src="item.logo" /> 
+						<text>{{item.enterpriseName}}</text>
 					</view>
 				</view>
 			</view>
@@ -142,7 +116,7 @@
 <script>
 	import StoreCard from '../../components/Card/Store'
 	import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
-	import {getBannerList,getAccessToken,getWeekRecommendList,getGuessYouLike} from "../../utils/api.js"
+	import {getBannerList,getAccessToken,getWeekRecommendList,getGuessYouLike,getCooperativeList} from "../../utils/api.js"
 	export default {
 		components: {
 			StoreCard,
@@ -181,53 +155,61 @@
 					{
 						name: '购物中心',
 						src: '../../static/images/Shopping.png',
-						router: '../ShoppingMall/index'
+						router: '../ShoppingMall/index?projectType=1'
 					},
 					{
 						name: '社区底商',
 						src: '../../static/images/Community.png',
-						router: '../CommunityBottomBusiness/index'
+						router: '../ShoppingMall/index?projectType=2'
 					},
 					{
 						name: '整租物业',
 						src: '../../static/images/WholeRent.png',
+						router: '../ShoppingMall/index?projectType=3'
 					},
 					{
 						name: '商业街区',
 						src: '../../static/images/CommercialStreet.png',
-						router: '../BlockBusiness/index'
+						router: '../ShoppingMall/index?projectType=4'
 					},
 					{
 						name: '综合配套',
 						src: '../../static/images/ComprehensiveMatching.png',
-						router: '../ComprehensiveMatching/index'
+						router: '../ShoppingMall/index?projectType=5'
 					},
 					{
 						name: '专业市场',
 						src: '../../static/images/ProfessionalMarket.png',
-						router: '../ProfessionalMarket/index'
+						router: '../ShoppingMall/index?projectType=6'
 					},
 					{
 						name: '娱乐教育',
 						src: '../../static/images/EntertainmentEducation.png',
-						router: ''
+						router: '../ShoppingMall/index?projectType=7'
 					},
 				],
-				
+				bannerList:[],
 				weekRecommendList:[],
 				guessYouLikeList:[],
+				cooperativeList:[],
+				noticeMessage:"你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好",
+				
 			};
 		},
-		onLoad() {},
-		onShow(){
-			console.log("111")
+		onLoad() {
 			//请求BANNER
 			this.ajaxGetBanner();
 			//本周重点推荐
 			this.ajaxGetWeekRecommendList();
 			//猜你喜欢
 			this.ajaxGetGuessYouLike();
-			//this._getuserTest();
+			//合作企业
+			this.ajaxGetCooperativeList();
+		},
+		onShow(){
+			
+			
+			
 		},
 		methods: {
       // 打开关闭弹出层
@@ -264,6 +246,12 @@
 					url: "../Search/index"
 				})
 			},
+			//项目信息和旗下的物业列表
+			toProject(id){
+				uni.navigateTo({
+					url: "../ShoppingMall/index?projectId="+id
+				})
+			},
 			// 轮播图
 			change(e) {
 				this.current = e.detail.current;
@@ -282,7 +270,7 @@
 					console.log(data);
 					
 					if(data.code=="200"){
-						
+						that.bannerList = data.data;
 					
 					}else{
 						
@@ -341,6 +329,34 @@
 					
 					if(data.code=="200"){
 						that.guessYouLikeList = data.data;
+					
+					}else{
+						
+						
+					}
+					
+				})
+				.catch(error => {
+				
+				});
+			},
+			
+			//合作企业
+			ajaxGetCooperativeList(){
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					pageNo:1,
+					pageSize:10,
+				};
+				paras.accessToken = that.accessToken;
+				
+				getCooperativeList(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						that.cooperativeList = data.data;
 					
 					}else{
 						
@@ -434,6 +450,9 @@
 					}
 				}
 			}
+		}
+		.swiper-box{
+			height: 300rpx;
 		}
 		.toutiao {
 			padding: 26rpx;
