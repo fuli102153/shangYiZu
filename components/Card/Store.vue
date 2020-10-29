@@ -2,7 +2,7 @@
   <view class="vc-store-card" >
 	 
       <view class="store-img">
-           <image :src="sourceData.shopPhotos.split(',')[0] || '../../static/logo.png'"></image> 
+           <image :src="sourceData.shopPhotos? sourceData.shopPhotos.split(',')[0] : '../../static/logo.png'"></image> 
       </view>
       <view class="store-info">
         <view class="store-title">{{sourceData.shopName || ""}}</view>

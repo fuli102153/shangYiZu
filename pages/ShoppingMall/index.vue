@@ -134,6 +134,21 @@
 				projectList:[],
 				shopList:[],
 				loading:true,
+				paras:{
+					openFlag:"",
+					openMetroFlag:"",
+					nearbyResouce:"",
+					businessType:"",
+					measureAreaStart:"",
+					measureAreaEnd:"",
+					distance:"",
+					regionId:"",
+					streetId:"",
+					longitude:"",
+					latitude:"",
+					pageNo:1,
+					pageSize:99,
+				}
 			
 			}
 		},
@@ -174,8 +189,8 @@
 				var projectType = projectType || 1;
 				const paras = {
 					projectType:projectType,
-					latitude: 22.53332,
-					longitude: 113.93041,
+					latitude: that.location.latitude,
+					longitude: that.location.longitude,
 					pageNo:1,
 					pageSize:10,
 				};

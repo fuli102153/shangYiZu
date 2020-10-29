@@ -31,26 +31,28 @@ export function getAccessToken(){
 		}
 	})
 	
-	uni.getStorage({
-		key: "__userInfo__",
-		success: (res) => {
-			Vue.prototype.userInfo = res.data;
-		},
-		fail: () => {
-			
-		}
-	})
+
 	
-	
+	//设置用户的基础信息
 	uni.getStorage({
 		key: "__userDetail__",
 		success: (res) => {
 			Vue.prototype.userDetail = res.data;
+			console.log(res.data)
 		},
 		fail: () => {
 			
 		}
 	})
+	
+	//设置用户的坐标信息
+	uni.getLocation({
+	    type: 'wgs84',
+	    success: function (res) {
+			Vue.prototype.location = res;
+			console.log(res)
+	    }
+	});
 }
 
  //1、用户登录

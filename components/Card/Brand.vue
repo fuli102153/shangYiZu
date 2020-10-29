@@ -1,7 +1,7 @@
 <template>
   <view class="vc-brand-card" @click="toDetail(sourceData.id)">
       <view class="store-img">
-           <image :src="sourceData.brandLogo.split(',')[0] || '../../static/logo.png'"></image> 
+           <image :src="sourceData.brandLogo ? sourceData.brandLogo.split(',')[0] : '../../static/logo.png'"></image> 
       </view>
       <view class="store-info">
         <!-- <view class="store-title">{{sourceData.shopName || ""}}</view> -->

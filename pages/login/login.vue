@@ -15,7 +15,7 @@
 
 <script>
 	import {login,userInfo,getAccessToken} from "../../utils/api.js"
-	console.log(login)
+
 	export default{
 		components: {
 	
@@ -33,12 +33,6 @@
 		
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
 		    
-			uni.login({  
-			                success: function(res) {  
-			                    // 获取code  
-			                    // console.log(JSON.stringify(res));  
-			                }  
-			            }); 
 			
 		},
 		onShow(){
@@ -65,8 +59,6 @@
 					    if (res.code) {
 							//发起网络请求
 							var code = res.code;
-						  
-							console.log(res)
 						  	// 获取微信用户信息
 							wx.getUserInfo({
 							  success: function(res) {
@@ -113,7 +105,6 @@
 				_requestLogin() {
 					var that = this;
 					//ajax⽤户登录
-					console.log(that.userInfo)
 					const paras = {
 						appid:"wx659fdf8f4e2445d0",
 						code:that.code,
@@ -124,16 +115,16 @@
 					};
 					login(paras).then(res => {
 						const data = res.data;
-						console.log(data);
+						
 						
 						if(data.code=="200"){
 							that.accessToken = data.data.accessToken;
-							console.log(that.accessToken)
+						
 							uni.setStorage({
 								key: "__accessToken__",
 								data: data.data.accessToken,
 								success: (res) => {
-									getAccessToken()
+									that.getUserInfoByLogin();
 								},
 								fail: () => {
 									uni.showModal({
@@ -142,7 +133,7 @@
 									})
 								}
 							})
-							that.getUserInfoByLogin();
+							
 							
 						}else{
 							
@@ -166,7 +157,7 @@
 					paras.accessToken = this.accessToken;
 					userInfo(paras).then(res => {
 						const data = res.data;
-						console.log(data);
+						
 						
 						if(data.code=="200"){
 							uni.setStorage({
