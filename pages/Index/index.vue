@@ -116,7 +116,7 @@
 <script>
 	import StoreCard from '../../components/Card/Store'
 	import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
-	import {getBannerList,getAccessToken,getWeekRecommendList,getGuessYouLike,getCooperativeList} from "../../utils/api.js"
+	import {getBannerList,getAccessToken,getWeekRecommendList,getGuessYouLike,getCooperativeList,getHeadline} from "../../utils/api.js"
 	export default {
 		components: {
 			StoreCard,
@@ -192,6 +192,7 @@
 				weekRecommendList:[],
 				guessYouLikeList:[],
 				cooperativeList:[],
+				headlineList:[],
 				noticeMessage:"你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好",
 				
 			};
@@ -205,6 +206,8 @@
 			this.ajaxGetGuessYouLike();
 			//合作企业
 			this.ajaxGetCooperativeList();
+			//头条信息
+			this.ajaxGetHeadline();
 		},
 		onShow(){
 			
@@ -357,6 +360,34 @@
 					
 					if(data.code=="200"){
 						that.cooperativeList = data.data;
+					
+					}else{
+						
+						
+					}
+					
+				})
+				.catch(error => {
+				
+				});
+			},
+			
+			//头条信息
+			ajaxGetHeadline(){
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					pageNo:1,
+					pageSize:10,
+				};
+				paras.accessToken = that.accessToken;
+				
+				getHeadline(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						that.headlineList = data.data;
 					
 					}else{
 						

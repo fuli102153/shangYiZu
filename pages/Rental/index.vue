@@ -178,10 +178,9 @@
       @select="onSelect"
     />
     <van-action-sheet :show="positionShow">
-      <!-- 需要开启小程序云服务才可以获取城市列表 -->
       <van-area
         :area-list="areaList"
-        value="110101"
+        :value="positionValue"
         @cancel="hideCityPosition"
         @confirm="getCityPosition"
       />
@@ -194,6 +193,7 @@
 </template>
 
 <script>
+	import area from "../../utils/areaT.js"
 export default {
   data() {
     return {
@@ -231,14 +231,14 @@ export default {
       show: false,
 	  showEngineering:false,
       positionShow: false,
-
+		positionValue:"110101",
       // 城市列表
-      areaList: [],
+      areaList: area,
       actions: [],
       // 点击的表单
       clickInput: "",
 
-      idTypeList: [
+      indentityList: [
         {
           name: "业主",
         },
@@ -246,7 +246,7 @@ export default {
           name: "非业主",
         },
       ],
-      propertStatusList: [
+      propertyStatusList: [
         {
           name: "毛坯",
         },
@@ -283,20 +283,7 @@ export default {
     activeItme: "";
   },
   onLoad() {
-    wx.cloud.init();
-    const db = wx.cloud.database();
-
-    db.collection("region")
-      .limit(1)
-      .get()
-      .then((res) => {
-        if (res.data && res.data.length > 0) {
-          this.areaList = res.data[0];
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+		console.log(area)
   },
   methods: {
     onChange(event) {
@@ -329,6 +316,12 @@ export default {
     // 获取城市定位
     getCityPosition(event) {
       console.log(event.detail);
+	  let position = ""
+	  event.detail.values.forEach((item)=>{
+		  position+= item.name
+	  })
+	  this.position = position;
+	  this.positionValue = event.detail.values[event.detail.values.length-1].code;
       this.positionShow = false;
     },
     // 隐藏位置弹窗

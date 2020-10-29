@@ -60,13 +60,14 @@
 			</van-dropdown-menu>
 		</van-sticky>
 		<view class="store-list">
-			<BrandCard v-for="item in 8" :key="item" />
+			<BrandCard v-for="(item,index) in brandList" :sourceData="item" :key="index" />
 		</view>
 	</view>
 </template>
 
 <script>
 	import BrandCard from '../../components/Card/Brand'
+	import {getBrandList} from "../../utils/api.js"
 	export default {
 		components: {
 			BrandCard
@@ -127,7 +128,13 @@
 						children: []
 					},
 				],
+				brandList:[],
 			}
+		},
+		onLoad() {
+			//请求品牌列表
+			this.ajaxGetBrandList();
+			
 		},
 		methods: {
 			// 打开关闭弹出层
@@ -155,6 +162,35 @@
 			onClickItem({detail = {}}) {
 				const activeId = this.activeId === detail.id ? null : detail.id;
 				this.activeId = activeId
+			},
+			//品牌列表
+			ajaxGetBrandList(){
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					cityCode:"440300",
+					pageNo:1,
+					pageSize:10,
+				};
+				paras.accessToken = that.accessToken;
+				
+				getBrandList(paras).then(res => {
+					const data = res.data;
+					console.log(data.data.records);
+					
+					if(data.code=="200"){
+						that.brandList = data.data.records;
+						
+					
+					}else{
+						
+						
+					}
+					
+				})
+				.catch(error => {
+				
+				});
 			},
 		}
 	}

@@ -1,25 +1,25 @@
 <template>
-  <view class="vc-brand-card">
+  <view class="vc-brand-card" @click="toDetail(sourceData.id)">
       <view class="store-img">
-           <image :src="sourceData.shopPhotos.split(',')[0] || '../../static/logo.png'"></image> 
+           <image :src="sourceData.brandLogo.split(',')[0] || '../../static/logo.png'"></image> 
       </view>
       <view class="store-info">
         <!-- <view class="store-title">{{sourceData.shopName || ""}}</view> -->
 				<view class="store-title">
 					<view class="text">
-						肯德基
+						{{sourceData.brandName}}
 					</view>
 					<view class="num">
-						品牌编号：xxxx
+						品牌编号：{{sourceData.brandNo}}
 					</view>
 				</view>
         <view class="store-size">
-          <span>需求面积：200 m²-300 m²</span>
+          <span>需求面积：{{sourceData.measureArea}}</span>
         </view>
         <view class="store-payment">
           <view class="store-tag">
-            <view class="tag">物业类型：餐饮</view>
-            <view class="tag">拓展区域：宝安区</view>
+            <view class="tag">物业类型：{{sourceData.propertyType}}</view>
+            <view class="tag">拓展区域：{{sourceData.region}}</view>
           </view>
         </view>
       </view>
@@ -27,10 +27,11 @@
 </template>
 
 <script>
+	import {getBrandDetail} from "../../utils/api.js"
 export default {
 	name: 'store',
 	props:{
-		sourceData:[],
+		sourceData:{},
 	},
 	data() {
 	 	return {
@@ -39,11 +40,36 @@ export default {
 	mounted(){
 	    var that = this;
 	    this.$nextTick(function(){
-	      console.log(that.sourceData)
+	     
 	    })
 	  },
 	methods: {
-	 	
+	 	toDetail(brandNo){
+	 		//跳转到查询页面 
+	 		//ajax个人信息查询
+	 		var that = this;
+	 		const paras = {
+	 			id:brandNo
+	 		};
+	 		paras.accessToken = that.accessToken;
+	 		
+	 		getBrandDetail(paras).then(res => {
+	 			const data = res.data;
+	 			console.log(data);
+	 			
+	 			if(data.code=="200"){
+	 				
+	 			
+	 			}else{
+	 				
+	 				
+	 			}
+	 			
+	 		})
+	 		.catch(error => {
+	 		
+	 		});
+	 	},
 	 }
 }
 </script>

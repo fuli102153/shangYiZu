@@ -42,7 +42,9 @@
 			  <van-sidebar-item title="标签名" />
 			</van-sidebar>
 			<view class="store-list">
-				<StoreCard v-for="(item,index) in shopList" :sourceData="item" :key="index" />
+				<van-loading v-show="loading" type="spinner" color="#1989fa" />
+				<van-empty v-if="shopList.length==0" description="暂无数据" />
+				<StoreCard v-else v-for="(item,index) in shopList" :sourceData="item" :key="index" />
 			</view>
 		</view>
 	</view>
@@ -131,6 +133,7 @@
 				activeKey: 0,
 				projectList:[],
 				shopList:[],
+				loading:true,
 			
 			}
 		},
@@ -167,6 +170,7 @@
 			ajaxProjectList(projectType){
 				//ajax个人信息查询
 				var that = this;
+				that.loading = true;
 				var projectType = projectType || 1;
 				const paras = {
 					projectType:projectType,
@@ -180,7 +184,7 @@
 				getProjectList(paras).then(res => {
 					const data = res.data;
 					console.log(data);
-					
+					that.loading = false;
 					if(data.code=="200"){
 						that.projectList = data.projectList;
 						that.shopList = data.shopList;

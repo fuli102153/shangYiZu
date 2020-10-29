@@ -61,7 +61,7 @@
 			</van-dropdown-menu>
 		</van-sticky>
 		<view class="store-list">
-			<StoreCard v-for="item in 8" :key="item" />
+			<StoreCard v-for="(item,index) in shopList" :sourceData="item" :key="index" />
 		</view>
 	</view>
 </template>
@@ -69,6 +69,8 @@
 <script>
 	import StoreCard from '../../components/Card/Store'
 	import Dialog from '../../wxcomponents/vant/dist/dialog/dialog';
+	import {getShopList} from "../../utils/api.js"
+	
 	export default {
 		components: {
 			StoreCard
@@ -129,7 +131,13 @@
 						children: []
 					},
 				],
+				shopList:[],
 			}
+		},
+		onLoad() {
+			//请求品牌列表
+			this.ajaxGetShopList();
+			
 		},
 		methods: {
 			// 打开关闭弹出层
@@ -170,6 +178,35 @@
 			onClickItem({detail = {}}) {
 				const activeId = this.activeId === detail.id ? null : detail.id;
 				this.activeId = activeId
+			},
+			
+			//商铺列表
+			ajaxGetShopList(){
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					cityCode:"440300",
+					pageNo:1,
+					pageSize:10,
+				};
+				paras.accessToken = that.accessToken;
+				
+				getShopList(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						that.shopList = data.data;
+					
+					}else{
+						
+						
+					}
+					
+				})
+				.catch(error => {
+				
+				});
 			},
 		}
 	}

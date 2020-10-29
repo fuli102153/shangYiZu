@@ -169,6 +169,19 @@
 						console.log(data);
 						
 						if(data.code=="200"){
+							uni.setStorage({
+								key: "__userDetail__",
+								data: data.data,
+								success: (res) => {
+									getAccessToken()
+								},
+								fail: () => {
+									uni.showModal({
+										title: '用户信息获取失败!',
+										showCancel:false
+									})
+								}
+							})
 							uni.switchTab({
 								 url: '../Index/index'
 							});

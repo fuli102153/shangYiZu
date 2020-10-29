@@ -1,11 +1,11 @@
 <template>
   <view class="v-headlines">
 		<view class="headline-list">
-			<view class="headline-item" v-for="item in 5" :key="item" @click="goHeadlinesDetails">
+			<view class="headline-item" v-for="(item,index) in headlineList" :key="index" @click="goHeadlinesDetails(item)">
 				<view class="content">
-					<text>商易租正式上线啦，合伙人火热招募中</text>
+					<text>{{item.title}}</text>
 					<view class="time">
-						2020年8月11日 08:33
+						{{item.updateTime}}
 					</view>
 				</view>
 				<van-icon name="play-circle" size="37rpx" color="#fff"/>
@@ -15,13 +15,54 @@
 </template>
 
 <script>
-export default {
-	methods: {
-		goHeadlinesDetails() {
-			console.log('进入详情页')
+	import {getHeadline} from "../../utils/api.js"
+	
+	export default {
+		data() {
+			return {
+				
+				headlineList:[],
+				
+				
+			};
+		},
+		onLoad() {
+			//头条信息
+			this.ajaxGetHeadline();
+		},
+		methods: {
+			goHeadlinesDetails() {
+				console.log('进入详情页')
+			},
+			//头条信息
+			ajaxGetHeadline(){
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					pageNo:1,
+					pageSize:10,
+				};
+				paras.accessToken = that.accessToken;
+				
+				getHeadline(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						that.headlineList = data.data;
+					
+					}else{
+						
+						
+					}
+					
+				})
+				.catch(error => {
+				
+				});
+			},
 		}
-	}
-};
+	};
 </script>
 
 <style lang="scss" scoped>
