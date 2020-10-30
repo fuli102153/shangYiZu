@@ -61,7 +61,7 @@
 			</van-dropdown-menu>
 		</van-sticky>
 		<view class="store-list">
-			<StoreCard v-for="(item,index) in shopList" :sourceData="item" :key="index" />
+			<StoreCard v-for="(item,index) in shopList" :sourceData="item" :key="index" @click.native="goShopdetails(item)" />
 		</view>
 	</view>
 </template>
@@ -178,6 +178,12 @@
 			onClickItem({detail = {}}) {
 				const activeId = this.activeId === detail.id ? null : detail.id;
 				this.activeId = activeId
+			},
+			// 进入商铺详情页
+			goShopdetails() {
+				uni.navigateTo({
+					url: './shopDetails',
+				})
 			},
 			
 			//商铺列表
