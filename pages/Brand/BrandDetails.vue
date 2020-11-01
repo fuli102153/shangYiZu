@@ -1,10 +1,10 @@
 <template>
 	<view class="v-brand-details">
-		<uni-swiper-dot :info="info" :current="current" field="content" :mode="mode">
+		<uni-swiper-dot >
 			<swiper class="swiper-box" @change="change">
-				<swiper-item v-for="(item ,index) in 8" :key="index">
+				<swiper-item v-for="(item ,index) in brand.effectPhotos?brand.effectPhotos.split(',') : []" :key="index">
 					<view class="swiper-item">
-						<image src="../../static/images/swiper.png" mode="" style="width: 100%; height: 430rpx;"></image>
+						<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
 					</view>
 				</swiper-item>
 			</swiper>
@@ -12,10 +12,10 @@
 		<view class="content">
 			<view class="header">
 				<view class="title">
-					肯德基
+					{{brand.brandName}}
 				</view>
 				<view class="id">
-					商铺编号：szlg123456
+					商铺编号：{{brand.brandNo}}
 				</view>
 			</view>
 			<view class="main">
@@ -24,7 +24,7 @@
 						品牌身份
 					</view>
 					<view class="right">
-						品牌连锁
+						{{brand.indentity}}
 					</view>
 				</view>
 				<view class="cell">
@@ -32,7 +32,7 @@
 						期望物业类型
 					</view>
 					<view class="right">
-						购物中心、社区底商、商业街区
+						{{brand.propertyType}}
 					</view>
 				</view>
 				<view class="cell">
@@ -40,7 +40,7 @@
 						拓展区域
 					</view>
 					<view class="right">
-						深圳市 宝安区
+						{{brand.city}} {{brand.region}} {{brand.street}}
 					</view>
 				</view>
 				<view class="cell">
@@ -48,7 +48,7 @@
 						需求面积
 					</view>
 					<view class="right">
-						200m²-300m²
+						{{brand.measureArea}}m²
 					</view>
 				</view>
 				<view class="cell">
@@ -56,15 +56,18 @@
 						加盟条件
 					</view>
 					<view class="right">
-						开店发布时填写的加盟条件内容
+						{{brand.joinConditions}}
 					</view>
 				</view>
 			</view>
 		</view>
+		<van-toast id="van-toast" />
 	</view>
 </template>
 
 <script>
+	import {getBrandDetail} from "../../utils/api.js"
+	import Toast from '../../wxcomponents/vant/dist/toast/toast';
 	export default {
 		data() {
 			return {
@@ -78,7 +81,49 @@
 				}],
 				current: 0,
 				mode: 'nav',
+				brand:{}
 			}
+		},
+		onLoad(paras) {
+			console.log(paras)
+			
+			//如果有项目ID
+			if(paras.brandNo){
+				this.getDetail(paras.brandNo);
+			}
+		},
+		methods:{
+			getDetail(brandNo){
+				
+				var that = this;
+				const paras = {
+					id:brandNo
+				};
+				paras.accessToken = that.accessToken;
+				Toast.loading({
+				  message: '加载中...',
+				  forbidClick: true,
+				  loadingType: 'spinner',
+				});
+				console.log(paras)
+				getBrandDetail(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						Toast.clear();
+						that.brand = data.data;
+					
+					}else{
+						Toast.fail(data.message);
+						
+					}
+					
+				})
+				.catch(error => {
+					Toast.fail(error.message);
+				});
+			},
 		}
 	}
 </script>

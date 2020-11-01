@@ -53,7 +53,8 @@
 				"navigationBarTitleText": "",
 				"usingComponents":{
 					"van-button": "/wxcomponents/vant/dist/button/index",
-					"van-icon": "/wxcomponents/vant/dist/icon/index"
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-toast": "/wxcomponents/vant/dist/toast/index"
 				}
 			}
 		},
@@ -66,7 +67,8 @@
 					"van-field": "/wxcomponents/vant/dist/field/index",
 					"van-cell": "/wxcomponents/vant/dist/cell/index",
 					"van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index",
-					"van-datetime-picker": "/wxcomponents/vant/dist/datetime-picker/index"
+					"van-datetime-picker": "/wxcomponents/vant/dist/datetime-picker/index",
+					"van-toast": "/wxcomponents/vant/dist/toast/index"
 				}
 			}
 		},
@@ -92,7 +94,8 @@
 			"style": {
 				"navigationBarTitleText": "",
 				"usingComponents":{
-					"van-icon": "/wxcomponents/vant/dist/icon/index"
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-toast": "/wxcomponents/vant/dist/toast/index"
 				}
 			}
 		},

@@ -239,9 +239,10 @@
 						<text>分享</text>
 					</view>
 				</view>
-				<view class="button" @click="addSubscribe(shop.shopNo)">预约看铺</view>
+				<view class="button" @click="toSubscribe(shop.shopNo)">预约看铺</view>
 			</view>
 		</view>
+		<van-toast id="van-toast" />
 	</view>
 </template>
 
@@ -249,6 +250,7 @@
 	import StoreCard from '../../components/Card/Store'
 	import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
 	import {getShopDetail,getSubscribeAdd,getCollectAdd,getShareAdd} from "../../utils/api.js"
+	import Toast from '../../wxcomponents/vant/dist/toast/toast';
 	export default {
 		components: {
 			StoreCard,
@@ -294,12 +296,17 @@
 					shopNo:shopNo
 				};
 				paras.accessToken = that.accessToken;
-				
+				Toast.loading({
+				  message: '加载中...',
+				  forbidClick: true,
+				  loadingType: 'spinner',
+				});
 				getShopDetail(paras).then(res => {
 					const data = res.data;
 					console.log(data);
 					
 					if(data.code=="200"){
+						Toast.clear();
 						that.shop = data.data.shop;
 						that.property = data.data.property;
 						
@@ -314,45 +321,21 @@
 						
 						
 					}else{
-						
+						Toast.fail(data.message);
 						
 					}
 					
 				})
 				.catch(error => {
-				
+					Toast.fail(error.message);
 				});
 			},
 			
-			addSubscribe(shopNo){
+			toSubscribe(shopNo){
 				
-				var that = this;
-				const paras = {
-					shopNo:shopNo,
-					appUid:this.userDetail.id,
-					type:1,
-					subscribeTimeStart:"2020-10-29 08:08:08",
-					subscribeTimeEnd:"2020-10-29 18:08:08",
-					
-				};
-				paras.accessToken = that.accessToken;
-				
-				getSubscribeAdd(paras).then(res => {
-					const data = res.data;
-					console.log(data);
-					
-					if(data.code=="200"){
-						
-					
-					}else{
-						
-						
-					}
-					
+				uni.navigateTo({
+					url: "../Shops/appointment?shopNo="+shopNo
 				})
-				.catch(error => {
-				
-				});
 			},
 			
 			
@@ -372,16 +355,16 @@
 					console.log(data);
 					
 					if(data.code=="200"){
-						
+						Toast.success('收藏成功');
 					
 					}else{
-						
+						Toast.fail(data.message);
 						
 					}
 					
 				})
 				.catch(error => {
-				
+					Toast.fail(error.message);
 				});
 			},
 			
@@ -402,16 +385,16 @@
 					console.log(data);
 					
 					if(data.code=="200"){
-						
+						Toast.success('分享成功');
 					
 					}else{
-						
+						Toast.fail(data.message);
 						
 					}
 					
 				})
 				.catch(error => {
-				
+					Toast.fail(error.message);
 				});
 			},
 			

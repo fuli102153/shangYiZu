@@ -60,7 +60,7 @@
 			</van-dropdown-menu>
 		</van-sticky>
 		<view class="store-list">
-			<BrandCard v-for="(item,index) in brandList" :sourceData="item" :key="index" @click.native="goBrandDetails"/>
+			<BrandCard v-for="(item,index) in brandList" :sourceData="item" :key="index" />
 		</view>
 	</view>
 </template>
@@ -163,11 +163,7 @@
 				const activeId = this.activeId === detail.id ? null : detail.id;
 				this.activeId = activeId
 			},
-			goBrandDetails() {
-				uni.navigateTo({
-					url: './BrandDetails'
-				})
-			},
+	
 			//品牌列表
 			ajaxGetBrandList(){
 				//ajax个人信息查询

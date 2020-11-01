@@ -1,5 +1,5 @@
 <template>
-  <view class="vc-brand-card" @click="toDetail(sourceData.id)">
+  <view class="vc-brand-card" @click="goBrandDetails(sourceData.id)">
       <view class="store-img">
            <image :src="sourceData.brandLogo ? sourceData.brandLogo.split(',')[0] : '../../static/logo.png'"></image> 
       </view>
@@ -45,32 +45,12 @@ export default {
 	    })
 	  },
 	methods: {
-	 	toDetail(brandNo){
-	 		//跳转到查询页面 
-	 		//ajax个人信息查询
-	 		var that = this;
-	 		const paras = {
-	 			id:brandNo
-	 		};
-	 		paras.accessToken = that.accessToken;
-	 		
-	 		getBrandDetail(paras).then(res => {
-	 			const data = res.data;
-	 			console.log(data);
-	 			
-	 			if(data.code=="200"){
-	 				
-	 			
-	 			}else{
-	 				
-	 				
-	 			}
-	 			
-	 		})
-	 		.catch(error => {
-	 		
-	 		});
-	 	},
+		goBrandDetails(brandNo) {
+			uni.navigateTo({
+				url: './BrandDetails?brandNo='+brandNo
+			})
+		},
+	 	
 	 }
 }
 </script>
