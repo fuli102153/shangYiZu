@@ -35,7 +35,7 @@
 </template>
 
 <script>
-	import {getMyShopList,getEntrustmentList,getContractList,getCollectList,getMySubscribe,getMyShare} from "../../utils/api.js"
+	import {getContractList,getCollectList,getMySubscribe,getMyShare} from "../../utils/api.js"
 	export default {
 		data() {
 			return {
@@ -75,10 +75,7 @@
 		methods:{
 			toPath(item){
 				if(item.name == "委托管理"){
-					//招租委托查询
-					this.ajaxGetMyShopList();
-					//开店委托查询
-					this.ajaxGetEntrustmentList();
+					
 				}else if(item.name == "电子合同"){
 					//我的合同查询
 					this.ajaxGetContractList();
@@ -94,59 +91,6 @@
 				})
 			},
 			
-			//招租委托查询
-			ajaxGetMyShopList(){
-				//ajax个人信息查询
-				var that = this;
-				const paras = {
-					appUid:this.userDetail.id,
-				};
-				paras.accessToken = that.accessToken;
-				
-				getMyShopList(paras).then(res => {
-					const data = res.data;
-					console.log(data);
-					
-					if(data.code=="200"){
-						
-					
-					}else{
-						
-						
-					}
-					
-				})
-				.catch(error => {
-				
-				});
-			},
-			
-			//开店委托查询
-			ajaxGetEntrustmentList(){
-				//ajax个人信息查询
-				var that = this;
-				const paras = {
-					
-				};
-				paras.accessToken = that.accessToken;
-				
-				getEntrustmentList(paras).then(res => {
-					const data = res.data;
-					console.log(data);
-					
-					if(data.code=="200"){
-						
-					
-					}else{
-						
-						
-					}
-					
-				})
-				.catch(error => {
-				
-				});
-			},
 			
 			
 			//我的合同查询

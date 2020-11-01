@@ -12,6 +12,62 @@
 </template>
 
 <script>
+	import {getSubscribeAdd} from "../../utils/api.js"
+	import Toast from '../../wxcomponents/vant/dist/toast/toast';
+	export default {
+		data() {
+			return {
+				list: [],
+
+			}
+		},
+		onLoad(paras) {
+			console.log(paras)
+			//如果有项目ID
+			this.getList();
+		},
+		methods: {
+			
+			
+			getList(){
+				
+				var that = this;
+				
+				const paras = {
+
+					
+				};
+				paras.accessToken = that.accessToken;
+				Toast.loading({
+				  message: '加载中...',
+				  forbidClick: true,
+				  loadingType: 'spinner',
+				});
+				getSubscribeAdd(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						Toast.success('预约成功');
+						setTimeout(()=>{
+							uni.navigateBack({
+							    delta: 1
+							});
+						},2000)
+						
+					
+					}else{
+						Toast.fail(data.message);
+						
+					}
+					
+				})
+				.catch(error => {
+				
+				});
+			},
+		}
+	}
 </script>
 
 <style lang="scss" scoped>
