@@ -18,9 +18,9 @@
 								工作人员正在努力为您寻找合适的品牌入驻<br />
 								您的商铺编号为：xxxx<br />
 							</p>
-							<view class="btn">
+							<view class="btn" @click="yourStore">
 								点击查看您的商铺
-								<van-icon name="arrow" color="#1676FE"/>
+								<van-icon name="arrow" color="#1676FE" />
 							</view>
 						</view>
 					</view>
@@ -35,12 +35,11 @@
 						</view>
 						<view class="content">
 							<p>
-								您提交的商铺招租委托已成功发布<br />
-								工作人员正在努力为您寻找合适的品牌入驻<br />
-								您的商铺编号为：xxxx<br />
+								您提交的商铺招租委托审核失败，未能发布<br />
+								审核意见：xxxx<br />
 							</p>
 							<view class="btn">
-								点击查看您的商铺
+								继续发布招租
 								<van-icon name="arrow" color="#1676FE"/>
 							</view>
 						</view>
@@ -62,6 +61,12 @@
 		methods: {
 			onChange() {
 				console.log('切换tab')
+			},
+			yourStore() {
+				console.log(1111111)
+				uni.navigateTo({
+					url: './feedback'
+				})
 			}
 		}
 	}
@@ -117,6 +122,8 @@
 						position: absolute;
 						right: 34rpx;
 						bottom: 37rpx;
+						display: flex;
+						align-items: center;
 					}
 				}
 			}

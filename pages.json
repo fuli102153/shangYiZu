@@ -109,10 +109,19 @@
 		{
 			"path": "pages/My/entrust",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "我的预约",
 				"usingComponents":{
 					"van-tab": "/wxcomponents/vant/dist/tab/index",
 					"van-tabs": "/wxcomponents/vant/dist/tabs/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index"
+				}
+			}
+		},
+		{
+			"path": "pages/My/feedback",
+			"style": {
+				"navigationBarTitleText": "商铺反馈",
+				"usingComponents":{
 					"van-icon": "/wxcomponents/vant/dist/icon/index"
 				}
 			}
