@@ -164,7 +164,10 @@
 								key: "__userDetail__",
 								data: data.data,
 								success: (res) => {
-									getAccessToken()
+									getAccessToken();
+									uni.switchTab({
+										 url: '../Index/index'
+									});
 								},
 								fail: () => {
 									uni.showModal({
@@ -173,9 +176,7 @@
 									})
 								}
 							})
-							uni.switchTab({
-								 url: '../Index/index'
-							});
+							
 						
 						}else{
 							

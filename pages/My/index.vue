@@ -9,10 +9,10 @@
 					{{ userInfo.nickName || '' }}
 				</view>
 				<view class="user-id">
-					ID:188****8888
+					手机号:188****8888
 				</view>
 			</view>
-			<view class="user-edit">
+			<view v-if="0" class="user-edit">
 				<i class="edit-icon"></i>
 				<text>编辑</text>
 			</view>

@@ -9,10 +9,11 @@
 					<view class="text">
 						{{sourceData.brandName}}
 					</view>
-					<view class="num">
-						品牌编号：{{sourceData.brandNo}}
-					</view>
+					
 				</view>
+		<view class="store-size num">
+		  <span>品牌编号：{{sourceData.brandNo}}</span>
+		</view>
         <view class="store-size">
           <span>需求面积：{{sourceData.measureArea}}</span>
         </view>
@@ -110,15 +111,17 @@ export default {
 			.text {
 				font-size: 32rpx;
 			}
-			.num {
-				font-size: 20rpx;
-				color: #BDBDBD;
-			}
+			
     }
 
     .store-size {
       font-size: 23rpx;
     }
+	
+	.num {
+		font-size: 20rpx;
+		color: #BDBDBD;
+	}
 
     .store-payment {
       display: flex;
