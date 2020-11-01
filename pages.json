@@ -24,6 +24,12 @@
 			}
 		},
 		{
+			"path": "pages/Index/CooperativeEnterprise",
+			"style": {
+				"navigationBarTitleText": "合作企业"
+			}
+		},
+		{
 			"path": "pages/Shops/index",
 			"style": {
 				"navigationBarTitleText": "",
@@ -97,6 +103,17 @@
 				"usingComponents":{
 					"van-cell": "/wxcomponents/vant/dist/cell/index",
 					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index"
+				}
+			}
+		},
+		{
+			"path": "pages/My/entrust",
+			"style": {
+				"navigationBarTitleText": "",
+				"usingComponents":{
+					"van-tab": "/wxcomponents/vant/dist/tab/index",
+					"van-tabs": "/wxcomponents/vant/dist/tabs/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index"
 				}
 			}
 		},

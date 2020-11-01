@@ -91,7 +91,7 @@
 			<view class="coop-content">
 				<view class="coop-header">
 					<view class="coop-title">合作企业</view>
-					<view class="coop-more">更多 ></view>
+					<view class="coop-more" @click="goCoop">更多 ></view>
 				</view>
 				<view class="coop-list">
 					<view class="coop-item" v-for="(item,index) in cooperativeList" :key="index">
@@ -253,6 +253,12 @@
 			toProject(id){
 				uni.navigateTo({
 					url: "../ShoppingMall/index?projectId="+id
+				})
+			},
+			// 进入合作企业
+			goCoop() {
+				uni.navigateTo({
+					url: './CooperativeEnterprise'
 				})
 			},
 			// 轮播图

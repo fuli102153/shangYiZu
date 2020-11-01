@@ -42,7 +42,7 @@
 				navList: [{
 						name: '委托管理',
 						src: '../../static/images/Entrusted.png',
-						router: ''
+						router: './entrust'
 					},
 					{
 						name: '电子合同',
@@ -89,11 +89,9 @@
 					//我的预约记录
 					this.ajaxGetMySubscribe();
 				}
-				
-				
-				
-				
-				
+				uni.navigateTo({
+					url: item.router
+				})
 			},
 			
 			//招租委托查询
