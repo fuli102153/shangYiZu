@@ -1,23 +1,22 @@
 <template>
 	<view class="v-cooperative-enterprise">
-		<view class="coop" v-for="(item, index) in 8" :key="index">
-			<view class="logo">
-				
-			</view>
+		<view class="coop" v-for="(item, index) in enterpriseList" :key="index">
+			<image class="logo" :src="item.logo" />
 			<view class="name">
-				企业名称
+				{{item.enterpriseName}}
 			</view>
 		</view>
+		<van-toast id="van-toast" />
 	</view>
 </template>
 
 <script>
-	import {getSubscribeAdd} from "../../utils/api.js"
+	import {getCooperativeList} from "../../utils/api.js"
 	import Toast from '../../wxcomponents/vant/dist/toast/toast';
 	export default {
 		data() {
 			return {
-				list: [],
+				enterpriseList: [],
 
 			}
 		},
@@ -38,22 +37,18 @@
 					
 				};
 				paras.accessToken = that.accessToken;
-				Toast.loading({
+				const toast =Toast.loading({
 				  message: '加载中...',
 				  forbidClick: true,
 				  loadingType: 'spinner',
 				});
-				getSubscribeAdd(paras).then(res => {
+				getCooperativeList(paras).then(res => {
 					const data = res.data;
 					console.log(data);
 					
 					if(data.code=="200"){
-						Toast.success('预约成功');
-						setTimeout(()=>{
-							uni.navigateBack({
-							    delta: 1
-							});
-						},2000)
+						toast.clear();
+						that.enterpriseList = data.data;
 						
 					
 					}else{
