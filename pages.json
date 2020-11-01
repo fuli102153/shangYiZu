@@ -82,6 +82,15 @@
 			}
 		},
 		{
+			"path": "pages/Brand/BrandDetails",
+			"style": {
+				"navigationBarTitleText": "",
+				"usingComponents":{
+					"van-icon": "/wxcomponents/vant/dist/icon/index"
+				}
+			}
+		},
+		{
 			"path": "pages/My/index",
 			"style": {
 				"navigationBarTitleText": "",
