@@ -3,22 +3,22 @@
 		<van-tabs :active="active" bind:change="onChange">
 		  <van-tab title="招商委托">
 				<view class="tab-content">
-					<view class="card success">
+					<view class="card success" v-for="(item,index) in entrustmentList" :key="index">
 						<view class="header">
 							<view class="title">
 								委托成功
 							</view>
 							<view class="time">
-								2020年08月20日22:20:56
+								{{item.createTime}}
 							</view>
 						</view>
 						<view class="content">
 							<p>
 								您提交的商铺招租委托已成功发布<br />
 								工作人员正在努力为您寻找合适的品牌入驻<br />
-								您的商铺编号为：xxxx<br />
+								您的商铺编号为：{{item.brandNo}}<br />
 							</p>
-							<view class="btn" @click="yourStore">
+							<view class="btn" @click="goBrandDetails(item.id)">
 								点击查看您的商铺
 								<van-icon name="arrow" color="#1676FE" />
 							</view>
@@ -46,28 +46,146 @@
 					</view>
 				</view>
 			</van-tab>
-		  <van-tab title="开店委托">内容 2</van-tab>
+		  <van-tab title="开店委托">
+			  <view class="tab-content">
+			  		<view class="card success" v-for="(item,index) in entrustmentList" :key="index">
+			  			<view class="header">
+			  				<view class="title">
+			  					委托成功
+			  				</view>
+			  				<view class="time">
+			  					{{item.createTime}}
+			  				</view>
+			  			</view>
+			  			<view class="content">
+			  				<p>
+			  					您提交的商铺招租委托已成功发布<br />
+			  					工作人员正在努力为您寻找合适的品牌入驻<br />
+			  					您的商铺编号为：{{item.brandNo}}<br />
+			  				</p>
+			  				<view class="btn" @click="goBrandDetails(item.id)">
+			  					点击查看您的商铺
+			  					<van-icon name="arrow" color="#1676FE"/>
+			  				</view>
+			  			</view>
+			  		</view>
+			  		<view class="card fail">
+			  			<view class="header">
+			  				<view class="title">
+			  					委托成功
+			  				</view>
+			  				<view class="time">
+			  					2020年08月20日22:20:56
+			  				</view>
+			  			</view>
+			  			<view class="content">
+			  				<p>
+			  					您提交的商铺招租委托已成功发布<br />
+			  					工作人员正在努力为您寻找合适的品牌入驻<br />
+			  					您的商铺编号为：xxxx<br />
+			  				</p>
+			  				<view class="btn">
+			  					点击查看您的商铺
+			  					<van-icon name="arrow" color="#1676FE"/>
+			  				</view>
+			  			</view>
+			  		</view>
+			  	</view>
+			  
+		  </van-tab>
 		</van-tabs>
+		<van-toast id="van-toast" />
 	</view>
 </template>
 
 <script>
+	import {getMyShopList,getEntrustmentList} from "../../utils/api.js"
+	import Toast from '../../wxcomponents/vant/dist/toast/toast';
 	export default {
 		data() {
 			return {
-				active: 0
+				active: 0,
+				entrustmentList:[],
+				shopList:[],
 			}
+		},
+		onLoad(paras) {
+			console.log(paras)
+			//如果有项目ID
+			this.ajaxGetMyShopList();
+			this.ajaxGetEntrustmentList();
 		},
 		methods: {
 			onChange() {
 				console.log('切换tab')
 			},
-			yourStore() {
-				console.log(1111111)
+			goBrandDetails(brandNo) {
 				uni.navigateTo({
-					url: './feedback'
+					url: '../Brand/BrandDetails?brandNo='+brandNo
 				})
-			}
+				
+			},
+			
+			//招租委托查询
+			ajaxGetMyShopList(){
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					appUid:this.userDetail.id,
+				};
+				paras.accessToken = that.accessToken;
+				Toast.loading({
+				  message: '加载中...',
+				  forbidClick: true,
+				  loadingType: 'spinner',
+				});
+				getMyShopList(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						//Toast.clear();
+						that.shopList = data.data.records;
+					}else{
+						Toast.fail(data.message);
+						
+					}
+					
+				})
+				.catch(error => {
+					Toast.fail(error.message);
+				
+				});
+			},
+			
+			//开店委托查询
+			ajaxGetEntrustmentList(){
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					
+				};
+				paras.accessToken = that.accessToken;
+				
+				getEntrustmentList(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						//Toast.clear();
+						that.entrustmentList = data.data.records;
+						console.log(that.entrustmentList)
+					}else{
+						Toast.fail(data.message);
+						
+					}
+					
+				})
+				.catch(error => {
+					Toast.fail(error.message);
+				});
+			},
+			
 		}
 	}
 </script>

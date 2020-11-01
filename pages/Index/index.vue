@@ -116,7 +116,7 @@
 <script>
 	import StoreCard from '../../components/Card/Store'
 	import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
-	import {getBannerList,getAccessToken,getWeekRecommendList,getGuessYouLike,getCooperativeList,getHeadline} from "../../utils/api.js"
+	import {getBannerList,getWeekRecommendList,getGuessYouLike,getCooperativeList,getHeadline} from "../../utils/api.js"
 	export default {
 		components: {
 			StoreCard,

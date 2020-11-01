@@ -1,17 +1,68 @@
 <template>
 	<view class="v-cooperative-enterprise">
-		<view class="coop" v-for="(item, index) in 8" :key="index">
-			<view class="logo">
-				
-			</view>
+		<view class="coop" v-for="(item, index) in enterpriseList" :key="index">
+			<image class="logo" :src="item.logo" />
 			<view class="name">
-				企业名称
+				{{item.enterpriseName}}
 			</view>
 		</view>
+		<van-toast id="van-toast" />
 	</view>
 </template>
 
 <script>
+	import {getCooperativeList} from "../../utils/api.js"
+	import Toast from '../../wxcomponents/vant/dist/toast/toast';
+	export default {
+		data() {
+			return {
+				enterpriseList: [],
+
+			}
+		},
+		onLoad(paras) {
+			console.log(paras)
+			//如果有项目ID
+			this.getList();
+		},
+		methods: {
+			
+			
+			getList(){
+				
+				var that = this;
+				
+				const paras = {
+
+					
+				};
+				paras.accessToken = that.accessToken;
+				const toast =Toast.loading({
+				  message: '加载中...',
+				  forbidClick: true,
+				  loadingType: 'spinner',
+				});
+				getCooperativeList(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						toast.clear();
+						that.enterpriseList = data.data;
+						
+					
+					}else{
+						Toast.fail(data.message);
+						
+					}
+					
+				})
+				.catch(error => {
+				
+				});
+			},
+		}
+	}
 </script>
 
 <style lang="scss" scoped>

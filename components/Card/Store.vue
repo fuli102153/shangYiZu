@@ -1,8 +1,8 @@
 <template>
-  <view class="vc-store-card" >
+  <view class="vc-store-card" @click="toDetail(sourceData.shopNo)">
 	 
       <view class="store-img">
-           <image :src="sourceData.shopPhotos.split(',')[0] || '../../static/logo.png'"></image> 
+           <image :src="sourceData.shopPhotos? sourceData.shopPhotos.split(',')[0] : '../../static/logo.png'"></image> 
       </view>
       <view class="store-info">
         <view class="store-title">{{sourceData.shopName || ""}}</view>
@@ -22,18 +22,12 @@
 		  
 		  
         </view>
-		<view>
-					  <text @click="toDetail(sourceData.shopNo)">详情</text>  
-					  <text @click="addSubscribe(sourceData.shopNo)">预约</text> 
-					  <text @click="ajaxAddCollect(sourceData.shopNo)">收藏</text> 
-					  <text @click="ajaxAddShare(sourceData.shopNo)">分享</text> 
-		</view>
       </view>
   </view>
 </template>
 
 <script>
-	import {getShopDetail,getSubscribeAdd,getCollectAdd,getShareAdd} from "../../utils/api.js"
+	
 export default {
 	name: 'store',
 	props:{
@@ -52,122 +46,13 @@ export default {
 	  },
 	methods: {
 	 	toDetail(shopNo){
-			//跳转到查询页面 
-			//ajax个人信息查询
-			var that = this;
-			const paras = {
-				shopNo:shopNo
-			};
-			paras.accessToken = that.accessToken;
-			
-			getShopDetail(paras).then(res => {
-				const data = res.data;
-				console.log(data);
-				
-				if(data.code=="200"){
-					
-				
-				}else{
-					
-					
-				}
-				
+			//跳转到详情页面
+			uni.navigateTo({
+				url: "../Shops/shopDetails?shopNo="+shopNo
 			})
-			.catch(error => {
-			
-			});
-		},
-		
-		addSubscribe(shopNo){
-			
-			var that = this;
-			const paras = {
-				shopNo:shopNo,
-				appUid:this.userDetail.id,
-				type:1,
-				subscribeTimeStart:"2020-10-29 08:08:08",
-				subscribeTimeEnd:"2020-10-29 18:08:08",
-				
-			};
-			paras.accessToken = that.accessToken;
-			
-			getSubscribeAdd(paras).then(res => {
-				const data = res.data;
-				console.log(data);
-				
-				if(data.code=="200"){
-					
-				
-				}else{
-					
-					
-				}
-				
-			})
-			.catch(error => {
-			
-			});
 		},
 		
 		
-		ajaxAddCollect(shopNo){
-			
-			var that = this;
-			const paras = {
-				shopName:shopNo,
-				appUid:this.userDetail.id,
-				type:1,
-				
-			};
-			paras.accessToken = that.accessToken;
-			
-			getCollectAdd(paras).then(res => {
-				const data = res.data;
-				console.log(data);
-				
-				if(data.code=="200"){
-					
-				
-				}else{
-					
-					
-				}
-				
-			})
-			.catch(error => {
-			
-			});
-		},
-		
-		
-		ajaxAddShare(shopNo){
-			
-			var that = this;
-			const paras = {
-				shopName:shopNo,
-				appUid:this.userDetail.id,
-				type:1,
-				
-			};
-			paras.accessToken = that.accessToken;
-			
-			getShareAdd(paras).then(res => {
-				const data = res.data;
-				console.log(data);
-				
-				if(data.code=="200"){
-					
-				
-				}else{
-					
-					
-				}
-				
-			})
-			.catch(error => {
-			
-			});
-		},
 	 }
 }
 </script>

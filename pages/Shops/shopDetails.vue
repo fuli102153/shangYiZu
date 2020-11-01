@@ -1,42 +1,42 @@
 <template>
 	<view class="v-shop-details">
 		<uni-swiper-dot :info="info" :current="current" field="content" :mode="mode">
-			<swiper class="swiper-box" @change="change">
-				<swiper-item v-for="(item ,index) in 8" :key="index">
+			<swiper class="swiper-box" >
+				<swiper-item v-for="(item ,index) in shop.shopPhotos? shop.shopPhotos.split(',') : []" :key="index">
 					<view class="swiper-item">
-						<image src="../../static/images/swiper.png" mode="" style="width: 100%; height: 430rpx;"></image>
+						<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
 					</view>
 				</swiper-item>
 			</swiper>
 		</uni-swiper-dot>
 		<view class="shop-name">
 			<view class="title">
-				南山后海鹏润广场内铺
+				{{shop.shopName}}
 			</view>
-			<view class="title-tag">
-				<view color="#B2B2B2" class="tag-item" v-for="(item, index) in tagList" :key="index">{{ item }}</view>
+			<view class="title-tag" v-if="shop.label">
+				<view color="#B2B2B2" class="tag-item" v-for="(item, index) in shop.label ? shop.label.split(',') : []" :key="index">{{ item }}</view>
 			</view>
 		</view>
 		<view class="shop-info">
-			<view class="shop-price">
+			<view class="shop-price" v-if="shop.monthRent">
 				<text class="label">租金：</text>
-				<text class="num">66000</text>
+				<text class="num">{{shop.monthRent}}</text>
 				<text class="unit">元/月</text>
-				<text class="unit-num">200元/m²/月</text>
+				<text class="unit-num" v-if="shop.measureArea">{{Math.floor(shop.monthRent/shop.measureArea)}}元/m²/月</text>
 			</view>
-			<view class="shop-price">
+			<view class="shop-price" v-if="shop.measureArea">
 				<text class="label">面积：</text>
-				<text class="num">300</text>
+				<text class="num">{{shop.measureArea}}</text>
 				<text class="unit">m²</text>
 			</view>
-			<view class="shop-price">
+			<view class="shop-price" v-if="property.transferFee">
 				<text class="label">转让费：</text>
-				<text class="num">无/3000</text>
+				<text class="num">{{property.transferFee}}</text>
 				<text class="unit">元</text>
 			</view>
-			<view class="shop-price">
+			<view class="shop-price" v-if="property.manageFee">
 				<text class="label">管理费：</text>
-				<text class="num">无/300</text>
+				<text class="num">{{property.manageFee}}</text>
 				<text class="unit">元/月</text>
 			</view>
 		</view>
@@ -44,12 +44,36 @@
 		<view class="recommend">
 			<view class="recommend-content">
 				<view class="recommend-list">
-					<view class="recommend-item" @click="toProject(item.id)" v-for="item in 8" :key="item">
+					<view class="recommend-item" v-if="property.payMode">
 						<view class="top">
 							支付方式
 						</view>
 						<view class="bottom">
-							押一付二
+							{{property.payMode}}
+						</view>
+					</view>
+					<view class="recommend-item"  v-if="property.rentIncrease">
+						<view class="top">
+							租金递增
+						</view>
+						<view class="bottom">
+							{{property.rentIncrease}} 元
+						</view>
+					</view>
+					<view class="recommend-item"  v-if="property.powerRate">
+						<view class="top">
+							电费
+						</view>
+						<view class="bottom">
+							{{property.powerRate}} 元
+						</view>
+					</view>
+					<view class="recommend-item"  v-if="property.waterRate">
+						<view class="top">
+							水费
+						</view>
+						<view class="bottom">
+							{{property.waterRate}} 元
 						</view>
 					</view>
 				</view>
@@ -62,12 +86,76 @@
 		<view class="recommend">
 			<view class="recommend-content">
 				<view class="recommend-list">
-					<view class="recommend-item" @click="toProject(item.id)" v-for="item in 8" :key="item">
+					<view class="recommend-item" v-if="shop.propertyType">
 						<view class="top">
 							物业类型
 						</view>
 						<view class="bottom">
-							购物中心
+							{{shop.propertyType}}
+						</view>
+					</view>
+					<view class="recommend-item" v-if="property.floorNum">
+						<view class="top">
+							楼层
+						</view>
+						<view class="bottom">
+							{{property.floorNum}} 层
+						</view>
+					</view>
+					<view class="recommend-item" v-if="property.floorHeight">
+						<view class="top">
+							层高
+						</view>
+						<view class="bottom">
+							{{property.floorHeight}} m
+						</view>
+					</view>
+					<view class="recommend-item" v-if="property.bayWidth">
+						<view class="top">
+							开间
+						</view>
+						<view class="bottom">
+							{{property.bayWidth}} m
+						</view>
+					</view>
+					<view class="recommend-item" v-if="property.depthLength">
+						<view class="top">
+							进深
+						</view>
+						<view class="bottom">
+							{{property.depthLength}} m
+						</view>
+					</view>
+					<view class="recommend-item" v-if="shop.propertyStatus">
+						<view class="top">
+							装修
+						</view>
+						<view class="bottom">
+							{{shop.propertyStatus}}
+						</view>
+					</view>
+					<view class="recommend-item" v-if="shop.location">
+						<view class="top">
+							位置
+						</view>
+						<view class="bottom">
+							{{shop.location}}
+						</view>
+					</view>
+					<view class="recommend-item" v-if="shop.businessType">
+						<view class="top">
+							目前状态
+						</view>
+						<view class="bottom">
+							{{shop.businessType}}
+						</view>
+					</view>
+					<view class="recommend-item" v-if="shop.createTime">
+						<view class="top">
+							更新时间
+						</view>
+						<view class="bottom">
+							{{shop.createTime}}
 						</view>
 					</view>
 				</view>
@@ -78,8 +166,8 @@
 			<view class="title">
 				配套设施
 			</view>
-			<view class="title-tag">
-				<view color="#B2B2B2" class="tag-item" v-for="(item, index) in facilitiesList" :key="index">{{ item }}</view>
+			<view class="title-tag" v-if="shop.engineeringConditions">
+				<view color="#B2B2B2" class="tag-item" v-for="(item, index) in shop.engineeringConditions?shop.engineeringConditions.split(','):[]" :key="index">{{ item }}</view>
 			</view>
 		</view>
 		<!-- 店铺活动介绍图 -->
@@ -142,24 +230,27 @@
 			</view>
 			<view class="btns">
 				<view class="btns-collection">
-					<view class="collection">
+					<view class="collection" @click="ajaxAddCollect(shop.shopNo)">
 						<van-icon name="like-o" color="#1576FE" size="40rpx" />
 						<text>收藏</text>
 					</view>
-					<view class="share">
+					<view class="share" @click="ajaxAddShare(shop.shopNo)">
 						<van-icon name="share-o" color="#1576FE" size="40rpx" />
 						<text>分享</text>
 					</view>
 				</view>
-				<view class="button" @click="goAppointment">预约看铺</view>
+				<view class="button" @click="toSubscribe(shop.shopNo)">预约看铺</view>
 			</view>
 		</view>
+		<van-toast id="van-toast" />
 	</view>
 </template>
 
 <script>
 	import StoreCard from '../../components/Card/Store'
 	import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
+	import {getShopDetail,getSubscribeAdd,getCollectAdd,getShareAdd} from "../../utils/api.js"
+	import Toast from '../../wxcomponents/vant/dist/toast/toast';
 	export default {
 		components: {
 			StoreCard,
@@ -168,35 +259,146 @@
 		data() {
 			return {
 				// 轮播图
-				info: [{
-					content: '内容 A'
-				}, {
-					content: '内容 B'
-				}, {
-					content: '内容 C'
-				}],
+				info: [],
 				current: 0,
 				mode: 'nav',
 				
 				tagList: ['临近地铁', '临近学校', '居民密集区', '无进场费'],
 				facilitiesList: ['上下水', '排油烟', '独立卫生间', '中央空调'],
 				
-				latitude: 22.5333,
-				longitude: 113.94041,
+				latitude: "",
+				longitude: "",
 				
 				attestationList: [
 					{name: '实地测量', src: '../../static/images/measure.png'},
 					{name: '实地拍摄', src: '../../static/images/shooting.png'},
 					{name: '实地勘察', src: '../../static/images/survey.png'}
-				]
+				],
+				
+				shop:[],//商铺信息
+				property:[],//店铺信息
 			}
 		},
-		methods: {
-			goAppointment() {
-				uni.navigateTo({
-					url: './appointment'
-				})
+		onLoad(paras) {
+			console.log(paras)
+			console.log(this.location.longitude+":"+this.location.latitude)
+			//如果有项目ID
+			if(paras.shopNo){
+				this.getDetail(paras.shopNo);
 			}
+		},
+		methods:{
+			//ajax查询商铺信息查询
+			getDetail(shopNo){
+				
+				var that = this;
+				const paras = {
+					shopNo:shopNo
+				};
+				paras.accessToken = that.accessToken;
+				Toast.loading({
+				  message: '加载中...',
+				  forbidClick: true,
+				  loadingType: 'spinner',
+				});
+				getShopDetail(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						Toast.clear();
+						that.shop = data.data.shop;
+						that.property = data.data.property;
+						
+						that.latitude = that.shop.latitude || that.location.latitude;
+						that.longitude = that.shop.longitude || that.location.longitude;
+						
+						var infoPhotos = that.shop.shopPhotos.split(",");
+						that.info = [];
+						infoPhotos.forEach((item)=>{
+							that.info.push({"content":"商铺编号："+that.shop.shopNo})
+						})
+						
+						
+					}else{
+						Toast.fail(data.message);
+						
+					}
+					
+				})
+				.catch(error => {
+					Toast.fail(error.message);
+				});
+			},
+			
+			toSubscribe(shopNo){
+				
+				uni.navigateTo({
+					url: "../Shops/appointment?shopNo="+shopNo
+				})
+			},
+			
+			
+			ajaxAddCollect(shopNo){
+				
+				var that = this;
+				const paras = {
+					shopName:shopNo,
+					appUid:this.userDetail.id,
+					type:1,
+					
+				};
+				paras.accessToken = that.accessToken;
+				
+				getCollectAdd(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						Toast.success('收藏成功');
+					
+					}else{
+						Toast.fail(data.message);
+						
+					}
+					
+				})
+				.catch(error => {
+					Toast.fail(error.message);
+				});
+			},
+			
+			
+			ajaxAddShare(shopNo){
+				
+				var that = this;
+				const paras = {
+					shopName:shopNo,
+					appUid:this.userDetail.id,
+					type:1,
+					
+				};
+				paras.accessToken = that.accessToken;
+				
+				getShareAdd(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						Toast.success('分享成功');
+					
+					}else{
+						Toast.fail(data.message);
+						
+					}
+					
+				})
+				.catch(error => {
+					Toast.fail(error.message);
+				});
+			},
+			
+			
 		}
 	}
 </script>

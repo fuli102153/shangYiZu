@@ -1,7 +1,7 @@
 <template>
-  <view class="vc-brand-card" @click="toDetail(sourceData.id)">
+  <view class="vc-brand-card" @click="goBrandDetails(sourceData.id)">
       <view class="store-img">
-           <image :src="sourceData.brandLogo.split(',')[0] || '../../static/logo.png'"></image> 
+           <image :src="sourceData.brandLogo ? sourceData.brandLogo.split(',')[0] : '../../static/logo.png'"></image> 
       </view>
       <view class="store-info">
         <!-- <view class="store-title">{{sourceData.shopName || ""}}</view> -->
@@ -9,10 +9,11 @@
 					<view class="text">
 						{{sourceData.brandName}}
 					</view>
-					<view class="num">
-						品牌编号：{{sourceData.brandNo}}
-					</view>
+					
 				</view>
+		<view class="store-size num">
+		  <span>品牌编号：{{sourceData.brandNo}}</span>
+		</view>
         <view class="store-size">
           <span>需求面积：{{sourceData.measureArea}}</span>
         </view>
@@ -44,32 +45,12 @@ export default {
 	    })
 	  },
 	methods: {
-	 	toDetail(brandNo){
-	 		//跳转到查询页面 
-	 		//ajax个人信息查询
-	 		var that = this;
-	 		const paras = {
-	 			id:brandNo
-	 		};
-	 		paras.accessToken = that.accessToken;
-	 		
-	 		getBrandDetail(paras).then(res => {
-	 			const data = res.data;
-	 			console.log(data);
-	 			
-	 			if(data.code=="200"){
-	 				
-	 			
-	 			}else{
-	 				
-	 				
-	 			}
-	 			
-	 		})
-	 		.catch(error => {
-	 		
-	 		});
-	 	},
+		goBrandDetails(brandNo) {
+			uni.navigateTo({
+				url: './BrandDetails?brandNo='+brandNo
+			})
+		},
+	 	
 	 }
 }
 </script>
@@ -110,15 +91,17 @@ export default {
 			.text {
 				font-size: 32rpx;
 			}
-			.num {
-				font-size: 20rpx;
-				color: #BDBDBD;
-			}
+			
     }
 
     .store-size {
       font-size: 23rpx;
     }
+	
+	.num {
+		font-size: 20rpx;
+		color: #BDBDBD;
+	}
 
     .store-payment {
       display: flex;
