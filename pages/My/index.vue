@@ -52,12 +52,12 @@
 					{
 						name: '我的收藏',
 						src: '../../static/images/Collection.png',
-						router: ''
+						router: './myCollection'
 					},
 					{
 						name: '我的预约',
 						src: '../../static/images/appointment.png',
-						router: ''
+						router: './myAppointment'
 					},
 				],
 				userInfo: {},
