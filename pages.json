@@ -24,6 +24,12 @@
 			}
 		},
 		{
+			"path": "pages/Index/CooperativeEnterprise",
+			"style": {
+				"navigationBarTitleText": "合作企业"
+			}
+		},
+		{
 			"path": "pages/Shops/index",
 			"style": {
 				"navigationBarTitleText": "",
@@ -52,6 +58,19 @@
 			}
 		},
 		{
+			"path": "pages/Shops/appointment",
+			"style": {
+				"navigationBarTitleText": "预约看铺",
+				"usingComponents":{
+					"van-button": "/wxcomponents/vant/dist/button/index",
+					"van-field": "/wxcomponents/vant/dist/field/index",
+					"van-cell": "/wxcomponents/vant/dist/cell/index",
+					"van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index",
+					"van-datetime-picker": "/wxcomponents/vant/dist/datetime-picker/index"
+				}
+			}
+		},
+		{
 			"path": "pages/Brand/index",
 			"style": {
 				"navigationBarTitleText": "",
@@ -69,12 +88,32 @@
 			}
 		},
 		{
+			"path": "pages/Brand/BrandDetails",
+			"style": {
+				"navigationBarTitleText": "",
+				"usingComponents":{
+					"van-icon": "/wxcomponents/vant/dist/icon/index"
+				}
+			}
+		},
+		{
 			"path": "pages/My/index",
 			"style": {
 				"navigationBarTitleText": "",
 				"usingComponents":{
 					"van-cell": "/wxcomponents/vant/dist/cell/index",
 					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index"
+				}
+			}
+		},
+		{
+			"path": "pages/My/entrust",
+			"style": {
+				"navigationBarTitleText": "",
+				"usingComponents":{
+					"van-tab": "/wxcomponents/vant/dist/tab/index",
+					"van-tabs": "/wxcomponents/vant/dist/tabs/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index"
 				}
 			}
 		},

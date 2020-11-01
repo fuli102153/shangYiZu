@@ -9,7 +9,6 @@
 				</swiper-item>
 			</swiper>
 		</uni-swiper-dot>
-		<van-icon name="arrow-left" class="go-back" color="#fff" size="34rpx" />
 		<view class="shop-name">
 			<view class="title">
 				{{shop.shopName}}
@@ -423,16 +422,10 @@
 
 <style lang="scss" scoped>
 	.v-shop-details {
-		position: relative;
 		background-color: #F5F8FA;
 		
 		.swiper-box {
 			height: 430rpx;
-		}
-		.go-back {
-			position: absolute;
-			top: 17rpx;
-			left: 22rpx;
 		}
 		
 		.shop-name {
