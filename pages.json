@@ -52,6 +52,19 @@
 			}
 		},
 		{
+			"path": "pages/Shops/appointment",
+			"style": {
+				"navigationBarTitleText": "预约看铺",
+				"usingComponents":{
+					"van-button": "/wxcomponents/vant/dist/button/index",
+					"van-field": "/wxcomponents/vant/dist/field/index",
+					"van-cell": "/wxcomponents/vant/dist/cell/index",
+					"van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index",
+					"van-datetime-picker": "/wxcomponents/vant/dist/datetime-picker/index"
+				}
+			}
+		},
+		{
 			"path": "pages/Brand/index",
 			"style": {
 				"navigationBarTitleText": "",

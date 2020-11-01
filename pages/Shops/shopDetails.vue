@@ -9,7 +9,6 @@
 				</swiper-item>
 			</swiper>
 		</uni-swiper-dot>
-		<van-icon name="arrow-left" class="go-back" color="#fff" size="34rpx" />
 		<view class="shop-name">
 			<view class="title">
 				南山后海鹏润广场内铺
@@ -152,7 +151,7 @@
 						<text>分享</text>
 					</view>
 				</view>
-				<view class="button">预约看铺</view>
+				<view class="button" @click="goAppointment">预约看铺</view>
 			</view>
 		</view>
 	</view>
@@ -191,22 +190,23 @@
 					{name: '实地勘察', src: '../../static/images/survey.png'}
 				]
 			}
+		},
+		methods: {
+			goAppointment() {
+				uni.navigateTo({
+					url: './appointment'
+				})
+			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
 	.v-shop-details {
-		position: relative;
 		background-color: #F5F8FA;
 		
 		.swiper-box {
 			height: 430rpx;
-		}
-		.go-back {
-			position: absolute;
-			top: 17rpx;
-			left: 22rpx;
 		}
 		
 		.shop-name {
