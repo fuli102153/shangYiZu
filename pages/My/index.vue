@@ -25,9 +25,9 @@
 		</view>
 		<van-cell-group>
 		  <van-cell title="我的分享" is-link size="large" @click="ajaxGetMyShare" icon="manager" title-class="fontSize: '28rpx'; color: '#2d2d2d'; margin-left='20rpx'"/>
-		  <van-cell title="关于我们" is-link size="large" icon="award" />
-		  <van-cell title="帮助及反馈" is-link size="large" icon="question" />
-		  <van-cell title="设置" is-link size="large" icon="setting" />
+		  <van-cell title="关于我们" is-link size="large" @click="goAbout" icon="award" />
+		  <van-cell title="帮助及反馈" is-link size="large" @click="goFeedBack" icon="question" />
+		  <van-cell title="设置" is-link size="large" @click="goSet" icon="setting" />
 		  <van-cell title="分享商易租" is-link size="large" icon="share" />
 		  <van-cell title="分享商易租" is-link size="large" icon="service" />
 		</van-cell-group>
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-	import {getContractList,getCollectList,getMySubscribe,getMyShare} from "../../utils/api.js"
+	import {getContractList,getMyShare} from "../../utils/api.js"
 	export default {
 		data() {
 			return {
@@ -80,14 +80,24 @@
 					//我的合同查询
 					this.ajaxGetContractList();
 				}else if(item.name == "我的收藏"){
-					//我的收藏列表
-					this.ajaxGetMyCollect();
+					
 				}else if(item.name == "我的预约"){
 					//我的预约记录
-					this.ajaxGetMySubscribe();
+					
 				}
 				uni.navigateTo({
 					url: item.router
+				})
+			},
+			
+			goAbout(){
+				
+			},
+			
+			goFeedBack(){
+				console.log("11")
+				uni.navigateTo({
+					url: "./feedback"
 				})
 			},
 			
@@ -120,65 +130,9 @@
 				});
 			},
 			
-			//我的收藏列表
-			ajaxGetMyCollect(){
-				//ajax个人信息查询
-				var that = this;
-				const paras = {
-					appUid:this.userDetail.id,
-					pageNo:1,
-					pageSize:10,
-				};
-				paras.accessToken = that.accessToken;
-				
-				getCollectList(paras).then(res => {
-					const data = res.data;
-					console.log(data);
-					
-					if(data.code=="200"){
-						
-					
-					}else{
-						
-						
-					}
-					
-				})
-				.catch(error => {
-				
-				});
-			},
 			
 			
 			
-			//我的收藏列表
-			ajaxGetMySubscribe(){
-				//ajax个人信息查询
-				var that = this;
-				const paras = {
-					appUid:this.userDetail.id,
-					pageNo:1,
-					pageSize:10,
-				};
-				paras.accessToken = that.accessToken;
-				
-				getMySubscribe(paras).then(res => {
-					const data = res.data;
-					console.log(data);
-					
-					if(data.code=="200"){
-						
-					
-					}else{
-						
-						
-					}
-					
-				})
-				.catch(error => {
-				
-				});
-			},
 			
 			
 			//我的收藏列表

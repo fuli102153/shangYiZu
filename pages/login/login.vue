@@ -4,24 +4,32 @@
 		<view v-if="showLogin" class="text">登录中...</view>
 		<view v-else>
 			<button  class="btn_login" type="default"  @click="_getuserTest"  >体验一下</button>
-			<button class='btn_login' type='primary' open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">获取手机号</button>
+			
 			<button  class="btn_login" type="primary"  open-type="getUserInfo" @getuserinfo="_getuserinfo" withCredentials="true">登录</button>
 		</view>
 		
 
-		
+		<van-toast id="van-toast" />
+		<van-dialog id="van-dialog" title="请绑定手机号"
+		  :show="showDialog"
+		  show-cancel-button
+		  confirm-button-open-type="getPhoneNumber"
+			@cancel = "_requestLogin"
+		  @getphonenumber="getPhoneNumber"/>
 	</view>
 </template>
 
 <script>
 	import {login,userInfo,getAccessToken} from "../../utils/api.js"
-
+	import Toast from '../../wxcomponents/vant/dist/toast/toast';
+	import Dialog from '../../wxcomponents/vant/dist/dialog/dialog';
 	export default{
 		components: {
 	
 		},
 		data() {
 			return {
+				showDialog:false,
 				showLogin:true,
 				para:{},
 				verifyCode:"",
@@ -48,7 +56,16 @@
 				});
 			},
 			getPhoneNumber(val){
-				console.log(val)
+				//用户接受
+				var that = this;
+				console.log(val);
+				if(val.detail.errMsg=="getPhoneNumber:ok"){
+					that.userInfo.encryptedData = val.detail.encryptedData;
+					that.userInfo.iv = val.detail.iv;
+					that._requestLogin();
+				}else{
+					console.log('用户点击了拒绝') ;  
+				}
 			},
 			_getuserinfo: function(){
 					var that = this;
@@ -58,20 +75,21 @@
 					  success (res) {
 					    if (res.code) {
 							//发起网络请求
-							var code = res.code;
+							that.code = res.code;
 						  	// 获取微信用户信息
+							console.log(that.code)
 							wx.getUserInfo({
 							  success: function(res) {
 								
 								that.userInfo = res;
-								that.code = code;
+								
 								uni.setStorage({
 									key: "__userInfo__",
 									data: res,
 									success: (res) => {
 										//如果获取用户信息的电话号码失败，那么提示用户去绑定手机号
 										
-										
+										//that.showDialog = true;
 										that._requestLogin();
 									
 										
@@ -102,7 +120,9 @@
 					})
 				},
 				
-				_requestLogin() {
+				_requestLogin(n) {
+					this.showDialog = false;
+					console.log("ajax⽤户登录"+n)
 					var that = this;
 					//ajax⽤户登录
 					const paras = {
@@ -113,11 +133,17 @@
 						encryptedData:that.userInfo.encryptedData,
 						iv:that.userInfo.iv,
 					};
+					const toast = Toast.loading({
+					  message: '登录中...',
+					  forbidClick: true,
+					  loadingType: 'spinner',
+					});
 					login(paras).then(res => {
 						const data = res.data;
 						
 						
 						if(data.code=="200"){
+							toast.clear();
 							that.accessToken = data.data.accessToken;
 						
 							uni.setStorage({
@@ -127,22 +153,19 @@
 									that.getUserInfoByLogin();
 								},
 								fail: () => {
-									uni.showModal({
-										title: '用户信息获取失败!',
-										showCancel:false
-									})
+									Toast.fail("用户信息获取失败!");
 								}
 							})
 							
 							
 						}else{
-							
+							Toast.fail(data.message);
 							
 						}
 						
 					})
 					.catch(error => {
-					
+						Toast.fail(error.message);
 					});
 				},
 				
@@ -155,11 +178,17 @@
 					var that = this;
 					const paras = {};
 					paras.accessToken = this.accessToken;
+					const toast = Toast.loading({
+					  message: '获取信息中...',
+					  forbidClick: true,
+					  loadingType: 'spinner',
+					});
 					userInfo(paras).then(res => {
 						const data = res.data;
 						
 						
 						if(data.code=="200"){
+							toast.clear();
 							uni.setStorage({
 								key: "__userDetail__",
 								data: data.data,
@@ -170,22 +199,20 @@
 									});
 								},
 								fail: () => {
-									uni.showModal({
-										title: '用户信息获取失败!',
-										showCancel:false
-									})
+									
+									Toast.fail('用户信息获取失败!');
 								}
 							})
 							
 						
 						}else{
-							
+							Toast.fail(data.message);
 							
 						}
 						
 					})
 					.catch(error => {
-					
+						Toast.fail(error.message);
 					});
 				},
 				

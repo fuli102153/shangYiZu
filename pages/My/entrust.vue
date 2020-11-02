@@ -18,7 +18,7 @@
 								工作人员正在努力为您寻找合适的品牌入驻<br />
 								您的商铺编号为：{{item.brandNo}}<br />
 							</p>
-							<view class="btn" @click="goBrandDetails(item.id)">
+							<view class="btn" @click="goShopFeedBack(item.id)">
 								点击查看您的商铺
 								<van-icon name="arrow" color="#1676FE" />
 							</view>
@@ -126,6 +126,13 @@
 				
 			},
 			
+			goShopFeedBack(brandNo) {
+				uni.navigateTo({
+					url: './feedback?brandNo='+brandNo
+				})
+				
+			},
+			
 			//招租委托查询
 			ajaxGetMyShopList(){
 				//ajax个人信息查询
@@ -134,7 +141,7 @@
 					appUid:this.userDetail.id,
 				};
 				paras.accessToken = that.accessToken;
-				Toast.loading({
+				const toast = Toast.loading({
 				  message: '加载中...',
 				  forbidClick: true,
 				  loadingType: 'spinner',
@@ -144,7 +151,7 @@
 					console.log(data);
 					
 					if(data.code=="200"){
-						//Toast.clear();
+						toast.clear();
 						that.shopList = data.data.records;
 					}else{
 						Toast.fail(data.message);
@@ -166,13 +173,17 @@
 					
 				};
 				paras.accessToken = that.accessToken;
-				
+				const toast = Toast.loading({
+				  message: '加载中...',
+				  forbidClick: true,
+				  loadingType: 'spinner',
+				});
 				getEntrustmentList(paras).then(res => {
 					const data = res.data;
 					console.log(data);
 					
 					if(data.code=="200"){
-						//Toast.clear();
+						toast.clear();
 						that.entrustmentList = data.data.records;
 						console.log(that.entrustmentList)
 					}else{

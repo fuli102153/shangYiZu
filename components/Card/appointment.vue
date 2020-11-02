@@ -22,7 +22,7 @@
 			  <view class="store-payment">
 			    <view class="store-tag">
 			      <view class="tag">物业类型：{{sourceData.propertyType || ""}}</view>
-			      <view class="tag">支付方式：{{sourceData.payMode || ""}}</view>
+			      <view class="tag">业态：{{sourceData.businessType || ""}}</view>
 			    </view>
 			    <view class="store-price">
 			      <span>{{sourceData.monthRent || ""}}</span>
@@ -51,25 +51,28 @@ export default {
 	 	}
 	},
 	created() {
-		console.log(this.sourceData)
-		if (this.sourceData.type === '1') {
+		
+		if (this.sourceData.status === '1') {
 			this.type = 'wait';
 			this.typeText = '正在为您安排业务员';
-		} else if (this.sourceData.type === '2') {
+		} else if (this.sourceData.status === '2') {
 			this.type = 'success';
 			this.typeText = '看铺时间：08/20 12:30';
-		} else if (this.sourceData.type === '3') {
+		} else if (this.sourceData.status === '3') {
 			this.type = 'seen';
 			this.typeText = '已看铺';
-		} else if (this.sourceData.type === '4') {
+		} else if (this.sourceData.status === '4') {
 			this.type = 'lease';
 			this.typeText = '店铺已出租';
+		}else{
+			this.type = 'wait';
+			this.typeText = '正在为您安排业务员';
 		}
 	},
 	mounted(){
 	    var that = this;
 	    this.$nextTick(function(){
-	     
+			
 	    })
 	  },
 	methods: {
@@ -157,6 +160,9 @@ export default {
 
     .store-size {
       font-size: 23rpx;
+	  span{
+	  		  margin-right:10rpx
+	  }
     }
 
     .store-payment {

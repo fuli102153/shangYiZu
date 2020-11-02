@@ -23,10 +23,70 @@
 				</view>
 			</view>
 		</view>
+		<van-toast id="van-toast" />
 	</view>
 </template>
 
 <script>
+
+	import {getLookShopFeedback} from "../../utils/api.js"
+	import Toast from '../../wxcomponents/vant/dist/toast/toast';
+	export default {
+		components: {
+		
+		},
+		data() {
+			return {
+				subscribeList: []
+			}
+		},
+		onLoad(paras) {
+			console.log(paras)
+			//如果有项目ID
+			this.getList(paras.shopNo);
+		},
+		methods: {
+			
+			
+			getList(shopNo){
+				
+				var that = this;
+				
+				const paras = {
+					appUid:this.userDetail.id,
+					shopNo:shopNo,
+					pageNo:1,
+					pageSize:10,
+					
+				};
+				paras.accessToken = that.accessToken;
+				const toast =Toast.loading({
+				  message: '加载中...',
+				  forbidClick: true,
+				  loadingType: 'spinner',
+				});
+				getLookShopFeedback(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						toast.clear();
+						
+						
+						
+					
+					}else{
+						Toast.fail(data.message);
+						
+					}
+					
+				})
+				.catch(error => {
+					Toast.fail(error.message);
+				});
+			},
+		}
+	}
 </script>
 
 <style lang="scss" scoped>

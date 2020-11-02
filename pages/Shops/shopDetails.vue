@@ -296,7 +296,7 @@
 					shopNo:shopNo
 				};
 				paras.accessToken = that.accessToken;
-				Toast.loading({
+				const toast = Toast.loading({
 				  message: '加载中...',
 				  forbidClick: true,
 				  loadingType: 'spinner',
@@ -306,7 +306,7 @@
 					console.log(data);
 					
 					if(data.code=="200"){
-						Toast.clear();
+						toast.clear();
 						that.shop = data.data.shop;
 						that.property = data.data.property;
 						

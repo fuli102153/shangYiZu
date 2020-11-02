@@ -4,17 +4,17 @@
            <image :src="sourceData.shopPhotos? sourceData.shopPhotos.split(',')[0] : '../../static/logo.png'"></image> 
       </view>
       <view class="store-info">
-        <view class="store-title">{{sourceData.shopName || "南山后海鹏润广场内铺"}}</view>
+        <view class="store-title">{{sourceData.shopName || ""}}</view>
         <view class="store-size">
-          <span>面积：{{sourceData.measureArea || "100"}}m²</span>
-          <span>楼层：{{sourceData.floorNum || "二"}}层</span>
+          <span>面积：{{sourceData.measureArea || ""}}m²</span>
+          <span>楼层：{{sourceData.floorNum || ""}}层</span>
         </view>
         <view class="store-payment">
           <view class="store-tag">
-            <view class="tag" v-for="(item, index) in 3" :key="index">物业类型</view>
+            <view class="tag">物业类型：{{sourceData.propertyType || ""}}</view>
           </view>
           <view class="store-price">
-            <span>{{sourceData.monthRent || "1000000"}}</span>
+            <span>{{sourceData.monthRent || ""}}</span>
             <span class="company">元/月</span>
           </view>
         </view>
@@ -89,6 +89,9 @@ export default {
 
     .store-size {
       font-size: 23rpx;
+	  span{
+		  margin-right:10rpx
+	  }
     }
 
     .store-payment {
@@ -103,7 +106,7 @@ export default {
           padding: 0rpx 12rpx;
           border-radius: 3rpx;
           margin-top: 11rpx;
-					margin-right: 10rpx;
+			margin-right: 10rpx;
         }
       }
 

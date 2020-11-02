@@ -13,7 +13,7 @@
         <view class="store-payment">
           <view class="store-tag">
             <view class="tag">物业类型：{{sourceData.propertyType || ""}}</view>
-            <view class="tag">支付方式：{{sourceData.payMode || ""}}</view>
+            <view class="tag">业态：{{sourceData.businessType || ""}}</view>
           </view>
           <view class="store-price">
             <span>{{sourceData.monthRent || ""}}</span>
@@ -91,6 +91,9 @@ export default {
 
     .store-size {
       font-size: 23rpx;
+	  span{
+	  		  margin-right:10rpx
+	  }
     }
 
     .store-payment {

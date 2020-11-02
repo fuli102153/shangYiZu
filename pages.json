@@ -4,7 +4,11 @@
 			"path": "pages/login/login",
 			"style": {
 				"navigationBarTitleText": "登录",
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"usingComponents":{
+					"van-toast": "/wxcomponents/vant/dist/toast/index",
+					"van-dialog": "/wxcomponents/vant/dist/dialog/index"
+				}
 			}
 		},
 		{
@@ -129,7 +133,8 @@
 			"style": {
 				"navigationBarTitleText": "商铺反馈",
 				"usingComponents":{
-					"van-icon": "/wxcomponents/vant/dist/icon/index"
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-toast": "/wxcomponents/vant/dist/toast/index"
 				}
 			}
 		},
@@ -138,14 +143,19 @@
 			"style": {
 				"navigationBarTitleText": "我的收藏",
 				"usingComponents":{
-					"van-icon": "/wxcomponents/vant/dist/icon/index"
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-toast": "/wxcomponents/vant/dist/toast/index"
 				}
 			}
 		},
 		{
 			"path": "pages/My/myAppointment",
 			"style": {
-				"navigationBarTitleText": "我的预约"
+				"navigationBarTitleText": "我的预约",
+				"usingComponents":{
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-toast": "/wxcomponents/vant/dist/toast/index"
+				}
 			}
 		},
 		{
@@ -153,7 +163,8 @@
 			"style": {
 				"navigationBarTitleText": "商易租头条",
 				"usingComponents":{
-					"van-icon": "/wxcomponents/vant/dist/icon/index"
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-toast": "/wxcomponents/vant/dist/toast/index"
 				}
 			}
 		},
@@ -163,7 +174,8 @@
 				"navigationBarTitleText": "商铺合伙人",
 				"usingComponents":{
 					"van-nav-bar": "/wxcomponents/vant/dist/nav-bar/index",
-					"van-icon": "/wxcomponents/vant/dist/icon/index"
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-toast": "/wxcomponents/vant/dist/toast/index"
 				}
 			}
 		},
@@ -177,7 +189,8 @@
 					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
 					"van-icon": "/wxcomponents/vant/dist/icon/index",
 					"van-checkbox-group": "/wxcomponents/vant/dist/checkbox-group/index",
-					"van-checkbox": "/wxcomponents/vant/dist/checkbox/index"
+					"van-checkbox": "/wxcomponents/vant/dist/checkbox/index",
+					"van-toast": "/wxcomponents/vant/dist/toast/index"
 				}
 			}
 		},
@@ -191,7 +204,8 @@
 					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
 					"van-uploader": "/wxcomponents/vant/dist/uploader/index",
 					"van-checkbox-group": "/wxcomponents/vant/dist/checkbox-group/index",
-					"van-checkbox": "/wxcomponents/vant/dist/checkbox/index"
+					"van-checkbox": "/wxcomponents/vant/dist/checkbox/index",
+					"van-toast": "/wxcomponents/vant/dist/toast/index"
 				}
 			}
 		},

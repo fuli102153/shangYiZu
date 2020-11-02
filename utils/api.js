@@ -51,6 +51,7 @@ export function getAccessToken(){
 	    success: function (res) {
 			Vue.prototype.location = res;
 			console.log(res)
+			
 	    }
 	});
 }
@@ -125,7 +126,7 @@ export function getBrandDetail(data){ return get(data,'api/brand/detail')}
 export function getMyShopList(data){ return post(data,'api/shop/myShopList')}
 
 //23、商铺反馈
-export function getLookShopFeedback(data){ return get(data,'api/shop/lookShopFeedback')}
+export function getLookShopFeedback(data){ return post(data,'api/shop/lookShopFeedback')}
 
 //23、开店委托查询
 export function getEntrustmentList(data){ return get(data,'api/brand/entrustment/list')}

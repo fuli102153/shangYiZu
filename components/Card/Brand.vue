@@ -15,7 +15,7 @@
 		  <span>品牌编号：{{sourceData.brandNo}}</span>
 		</view>
         <view class="store-size">
-          <span>需求面积：{{sourceData.measureArea}}</span>
+          <span>需求面积：{{sourceData.measureArea}}m²</span>
         </view>
         <view class="store-payment">
           <view class="store-tag">
