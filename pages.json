@@ -159,6 +159,39 @@
 			}
 		},
 		{
+			"path": "pages/My/myShare",
+			"style": {
+				"navigationBarTitleText": "我的分享"
+			}
+		},
+		{
+			"path": "pages/My/help",
+			"style": {
+				"navigationBarTitleText": "帮助及反馈",
+				"usingComponents":{
+					"van-button": "/wxcomponents/vant/dist/button/index",
+					"van-cell": "/wxcomponents/vant/dist/cell/index",
+					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index"
+				}
+			}
+		},
+		{
+			"path": "pages/My/QA",
+			"style": {
+				"navigationBarTitleText": "常见问题解答"
+			}
+		},
+		{
+			"path": "pages/My/setting",
+			"style": {
+				"navigationBarTitleText": "设置",
+				"usingComponents":{
+					"van-cell": "/wxcomponents/vant/dist/cell/index",
+					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index"
+				}
+			}
+		},
+		{
 			"path": "pages/Headlines/index",
 			"style": {
 				"navigationBarTitleText": "商易租头条",

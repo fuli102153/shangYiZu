@@ -26,7 +26,7 @@
 		<van-cell-group>
 		  <van-cell title="我的分享" is-link size="large" @click="ajaxGetMyShare" icon="manager" title-class="fontSize: '28rpx'; color: '#2d2d2d'; margin-left='20rpx'"/>
 		  <van-cell title="关于我们" is-link size="large" @click="goAbout" icon="award" />
-		  <van-cell title="帮助及反馈" is-link size="large" @click="goFeedBack" icon="question" />
+		  <van-cell title="帮助及反馈" is-link size="large" @click="goHelp" icon="question" />
 		  <van-cell title="设置" is-link size="large" @click="goSet" icon="setting" />
 		  <van-cell title="分享商易租" is-link size="large" icon="share" />
 		  <van-cell title="分享商易租" is-link size="large" icon="service" />
@@ -94,10 +94,16 @@
 				
 			},
 			
-			goFeedBack(){
+			goHelp(){
 				console.log("11")
 				uni.navigateTo({
-					url: "./feedback"
+					url: "./help"
+				})
+			},
+			
+			goSet() {
+				uni.navigateTo({
+					url: "./setting"
 				})
 			},
 			
@@ -151,7 +157,9 @@
 					console.log(data);
 					
 					if(data.code=="200"){
-						
+							uni.navigateTo({
+								url: './myShare'
+							})
 					
 					}else{
 						
