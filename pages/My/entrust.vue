@@ -3,7 +3,9 @@
 		<van-tabs :active="active" bind:change="onChange">
 		  <van-tab title="招商委托">
 				<view class="tab-content">
-					<view class="card success" v-for="(item,index) in entrustmentList" :key="index">
+					<van-empty v-if="shopList.length==0" description="暂无数据" />
+					<!--fail-->
+					<view class="card success" v-for="(item,index) in shopList" :key="index">
 						<view class="header">
 							<view class="title">
 								委托成功
@@ -24,30 +26,12 @@
 							</view>
 						</view>
 					</view>
-					<view class="card fail">
-						<view class="header">
-							<view class="title">
-								委托成功
-							</view>
-							<view class="time">
-								2020年08月20日22:20:56
-							</view>
-						</view>
-						<view class="content">
-							<p>
-								您提交的商铺招租委托审核失败，未能发布<br />
-								审核意见：xxxx<br />
-							</p>
-							<view class="btn">
-								继续发布招租
-								<van-icon name="arrow" color="#1676FE"/>
-							</view>
-						</view>
-					</view>
+					
 				</view>
 			</van-tab>
 		  <van-tab title="开店委托">
 			  <view class="tab-content">
+				  <van-empty v-if="entrustmentList.length==0" description="暂无数据" />
 			  		<view class="card success" v-for="(item,index) in entrustmentList" :key="index">
 			  			<view class="header">
 			  				<view class="title">
@@ -69,27 +53,7 @@
 			  				</view>
 			  			</view>
 			  		</view>
-			  		<view class="card fail">
-			  			<view class="header">
-			  				<view class="title">
-			  					委托成功
-			  				</view>
-			  				<view class="time">
-			  					2020年08月20日22:20:56
-			  				</view>
-			  			</view>
-			  			<view class="content">
-			  				<p>
-			  					您提交的商铺招租委托已成功发布<br />
-			  					工作人员正在努力为您寻找合适的品牌入驻<br />
-			  					您的商铺编号为：xxxx<br />
-			  				</p>
-			  				<view class="btn">
-			  					点击查看您的商铺
-			  					<van-icon name="arrow" color="#1676FE"/>
-			  				</view>
-			  			</view>
-			  		</view>
+			  		
 			  	</view>
 			  
 		  </van-tab>
@@ -111,13 +75,13 @@
 		},
 		onLoad(paras) {
 			console.log(paras)
-			//如果有项目ID
+			//获取列表数据
 			this.ajaxGetMyShopList();
 			this.ajaxGetEntrustmentList();
 		},
 		methods: {
 			onChange() {
-				console.log('切换tab')
+				
 			},
 			goBrandDetails(brandNo) {
 				uni.navigateTo({
@@ -139,6 +103,8 @@
 				var that = this;
 				const paras = {
 					appUid:this.userDetail.id,
+					pageNo:1,
+					pageSize:10,
 				};
 				paras.accessToken = that.accessToken;
 				const toast = Toast.loading({
@@ -170,7 +136,8 @@
 				//ajax个人信息查询
 				var that = this;
 				const paras = {
-					
+					pageNo:1,
+					pageSize:10,
 				};
 				paras.accessToken = that.accessToken;
 				const toast = Toast.loading({
@@ -185,7 +152,7 @@
 					if(data.code=="200"){
 						toast.clear();
 						that.entrustmentList = data.data.records;
-						console.log(that.entrustmentList)
+						
 					}else{
 						Toast.fail(data.message);
 						

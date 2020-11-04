@@ -4,19 +4,22 @@
 		  <van-cell title="常见问题解答" is-link size="large" @click="goQA" />
 		</van-cell-group>
 		<view class="content">
-			<textarea v-model="value" placeholder="请输入反馈给平台的问题" />
+			<textarea v-model="content" placeholder="请输入反馈给平台的问题" />
 		</view>
 		<view class="btn">
-			<van-button type="info" block>提交</van-button>
+			<van-button type="info" block @click="submit">提交</van-button>
 		</view>
+		<van-toast id="van-toast" />
 	</view>
 </template>
 
 <script>
+	import {getFeedBackAdd} from "../../utils/api.js"
+	import Toast from '../../wxcomponents/vant/dist/toast/toast';
 	export default {
 		data() {
 			return {
-				value: ''
+				content: ''
 			}
 		},
 		methods: {
@@ -24,6 +27,38 @@
 					uni.navigateTo({
 						url: './QA'
 					})
+			},
+			
+			submit(){
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					appUid:this.userDetail.id,
+					content:this.content,
+				};
+				paras.accessToken = that.accessToken;
+				const toast = Toast.loading({
+				  message: '提交中...',
+				  forbidClick: true,
+				  loadingType: 'spinner',
+				});
+				getFeedBackAdd(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						Toast.success("提交成功！");
+						that.content = "";
+					}else{
+						Toast.fail(data.message);
+						
+					}
+					
+				})
+				.catch(error => {
+					Toast.fail(error.message);
+				
+				});
 			}
 		}
 	}

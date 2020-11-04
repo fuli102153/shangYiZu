@@ -1,17 +1,76 @@
 <template>
 	<view class="v-my-share">
-		<view class="share-card" v-for="(item, index) in 3" :key="index">
+		<van-empty v-if="shareList.length==0" description="暂无数据" />
+		<view class="share-card" v-for="(item, index) in shareList" :key="index">
 			<view class="store-id">
-				分享商铺编号：xxxxxx
+				分享商铺编号：{{item.shopNo || "无"}}
 			</view>
-			<view class="share-info">
+			<view class="share-info" v-if="item.status">
 				分享成功
 			</view>
+			<view class="share-info" v-else>
+				分享失败
+			</view>
 		</view>
+		<van-toast id="van-toast" />
 	</view>
 </template>
 
 <script>
+	import {getMyShare} from "../../utils/api.js"
+	import Toast from '../../wxcomponents/vant/dist/toast/toast';
+	export default {
+		data() {
+			return {
+				shareList:[],
+			}
+		},
+		onLoad(paras) {
+			console.log(paras)
+			//如果有项目ID
+			this.ajaxGetMyShare();
+	
+		},
+		methods: {
+			
+			
+			//招租委托查询
+			ajaxGetMyShare(){
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					appUid:this.userDetail.id,
+					pageNo:1,
+					pageSize:10,
+				};
+				paras.accessToken = that.accessToken;
+				const toast = Toast.loading({
+				  message: '加载中...',
+				  forbidClick: true,
+				  loadingType: 'spinner',
+				});
+				getMyShare(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						toast.clear();
+						that.shareList = data.data;
+					}else{
+						Toast.fail(data.message);
+						
+					}
+					
+				})
+				.catch(error => {
+					Toast.fail(error.message);
+				
+				});
+			},
+			
+			
+		}
+	}
 </script>
 
 <style lang="scss" scoped>

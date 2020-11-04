@@ -21,7 +21,7 @@
 				</van-dropdown-item>
 			</van-dropdown-menu>
 		</van-sticky>
-		<view class="image-list">
+		<view class="image-list" v-if="projectList.length>0">
 			<view class="recommend-content">
 				<view class="recommend-list">
 					<view class="recommend-item" v-for="(item,index) in projectList" :key="index">
@@ -41,8 +41,8 @@
 			  <van-sidebar-item title="标签名" />
 			  <van-sidebar-item title="标签名" />
 			</van-sidebar>
-			<view class="store-list">
-				<van-loading v-show="loading" type="spinner" color="#1989fa" />
+			<view class="store-list" >
+				
 				<van-empty v-if="shopList.length==0" description="暂无数据" />
 				<StoreCard v-else v-for="(item,index) in shopList" :sourceData="item" :key="index" />
 			</view>

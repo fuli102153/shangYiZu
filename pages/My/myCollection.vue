@@ -4,6 +4,7 @@
 			以下商铺已加入我的收藏
 		</view>
 		<view class="store-list">
+			<van-empty v-if="collectionList.length==0" description="暂无数据" />
 			<CollCard  v-for="item in collectionList" :sourceData="item" :key="item"></CollCard>
 		</view>
 		<van-toast id="van-toast" />

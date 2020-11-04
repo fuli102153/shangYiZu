@@ -25,6 +25,41 @@ export function getAccessToken(){
 		key: "__accessToken__",
 		success: (res) => {
 			Vue.prototype.accessToken = res.data;
+			
+			//请求常量
+			getAllDictItems({accessToken:res.data}).then(res => {
+				const data = res.data;
+				
+				if(data.code=="200"){
+					let dict = data.data;
+					let _d = {}
+					dict.forEach((item)=>{
+						_d[item.dictCode] = item.dictItemVos
+					})
+					Vue.prototype.Dict = _d;
+					
+				}else{}
+				
+			})
+			.catch(error => {});
+			
+			getAllConfigs({accessToken:res.data}).then(res => {
+				const data = res.data;
+				
+				if(data.code=="200"){
+					let dict = data.data;
+					let _d = {}
+					dict.forEach((item)=>{
+						_d[item.confKey] = item.confValue
+					})
+					Vue.prototype.Configs = _d;
+					
+					
+				}else{}
+				
+			})
+			.catch(error => {});
+			
 		},
 		fail: () => {
 			
@@ -54,6 +89,8 @@ export function getAccessToken(){
 			
 	    }
 	});
+	
+	
 }
 
  //1、用户登录
@@ -63,6 +100,45 @@ export function login(data){
 		method: 'post',
 		data: data
 	})
+}
+
+//2、字典查询
+/*
+Dict
+	brand_identify 	开店身份
+	business_type  招商类别
+	delFlag 删除标记
+	engineering_conditions 工程条件
+	plat_real_auth 企业实名认证
+	property_status 物业状况
+	property_type 物业类型
+	search_area 筛选-面积
+	search_more_floorNum  筛选-更多-楼层
+	search_more_rentNature  筛选-更多-租赁性质
+	search_more_sort  筛选-更多-排序
+	search_region_nearby  筛选-区域-附近
+	shop_sort 商铺排序
+	user_status 后台用户状态
+
+Configs
+	service_phone  客户电话
+	about_us  关于我们
+*/
+export function getDict(para){
+	getAllDictItems(para).then(res => {
+		const data = res.data;
+		if(data.code=="200"){
+			let dict = data.data;
+			let _d = {}
+			dict.forEach((item)=>{
+				_d[item.dictCode] = item.dictItemVos
+			})
+			Vue.prototype.Dict = _d;
+			
+		}else{}
+	})
+	.catch(error => {
+	});
 }
 
 //2、个人信息查询
@@ -93,7 +169,7 @@ export function getGuessYouLike(data){ return post(data,'api/shop/guessYouLike')
 export function getMapForShop(data){ return get(data,'api/shop/mapForShop')}
 
 //11、常量查询
-export function getMapForShop111(data){ return get(data,'api/shop/mapForShop')}
+export function getAllDictItems(data){ return get(data,'api/dict/auth/getAllDictItems')}
 
 //12、项目列表
 export function getProjectList(data){ return post(data,'api/project/projectList')}
@@ -159,7 +235,7 @@ export function getMyShare(data){ return post(data,'api/share/getMyShare')}
 export function getMyShare11(data){ return get(data,'api/share/getMyShare')}
 
 //33、帮助及反馈
-export function getFeedBackAdd(data){ return get(data,'api/feedBack/feedBackAdd')}
+export function getFeedBackAdd(data){ return post(data,'api/feedBack/feedBackAdd')}
 
 //34、关于我们
 export function getFeedBackAdd1(data){ return get(data,'api/feedBack/feedBackAdd')}
@@ -172,6 +248,9 @@ export function getAddNumber(data){ return get(data,'api/shop/addNumber')}
 
 //37、上传
 export function upload(data){ return post(data,'api/upload')}
+
+//38、系统配置
+export function getAllConfigs(data){ return get(data,'api/config/auth/getAllConfigs')}
 
 
 

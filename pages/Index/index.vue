@@ -74,6 +74,7 @@
 			<view class="recommend-title">本周重点推荐</view>
 			<view class="recommend-content">
 				<view class="recommend-list">
+					<van-empty v-if="weekRecommendList.length==0" description="暂无数据" />
 					<view class="recommend-item" @click="toProject(item.id)" v-for="item in weekRecommendList" :key="item">
 						<view class="recommend-image">
 							<image :src="item.projectImg"></image>
@@ -208,9 +209,11 @@
 			this.ajaxGetCooperativeList();
 			//头条信息
 			this.ajaxGetHeadline();
+			
+			
 		},
 		onShow(){
-			
+			console.log(this.Dict)
 			
 			
 		},

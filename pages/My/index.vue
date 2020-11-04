@@ -24,18 +24,18 @@
 			</view>
 		</view>
 		<van-cell-group>
-		  <van-cell title="我的分享" is-link size="large" @click="ajaxGetMyShare" icon="manager" title-class="fontSize: '28rpx'; color: '#2d2d2d'; margin-left='20rpx'"/>
+		  <van-cell title="我的分享" is-link size="large" @click="goShare" icon="manager" title-class="fontSize: '28rpx'; color: '#2d2d2d'; margin-left='20rpx'"/>
 		  <van-cell title="关于我们" is-link size="large" @click="goAbout" icon="award" />
 		  <van-cell title="帮助及反馈" is-link size="large" @click="goHelp" icon="question" />
 		  <van-cell title="设置" is-link size="large" @click="goSet" icon="setting" />
 		  <van-cell title="分享商易租" is-link size="large" icon="share" />
-		  <van-cell title="分享商易租" is-link size="large" icon="service" />
+		  <van-cell title="联系客服" is-link size="large" icon="service" @click="makePhoneCall(Configs.service_phone)" />
 		</van-cell-group>
 	</view>
 </template>
 
 <script>
-	import {getContractList,getMyShare} from "../../utils/api.js"
+	import {getContractList} from "../../utils/api.js"
 	export default {
 		data() {
 			return {
@@ -91,11 +91,12 @@
 			},
 			
 			goAbout(){
-				
+				uni.navigateTo({
+					url: "./about"
+				})
 			},
 			
 			goHelp(){
-				console.log("11")
 				uni.navigateTo({
 					url: "./help"
 				})
@@ -104,6 +105,21 @@
 			goSet() {
 				uni.navigateTo({
 					url: "./setting"
+				})
+			},
+			
+			goShare(){
+				uni.navigateTo({
+					url: './myShare'
+				})
+			},
+			
+			makePhoneCall: function (tel) {
+				uni.makePhoneCall({
+					phoneNumber: tel,
+					success: () => {
+						console.log("成功拨打电话")
+					}
 				})
 			},
 			
@@ -141,36 +157,7 @@
 			
 			
 			
-			//我的收藏列表
-			ajaxGetMyShare(){
-				//ajax个人信息查询
-				var that = this;
-				const paras = {
-					appUid:this.userDetail.id,
-					pageNo:1,
-					pageSize:10,
-				};
-				paras.accessToken = that.accessToken;
-				
-				getMyShare(paras).then(res => {
-					const data = res.data;
-					console.log(data);
-					
-					if(data.code=="200"){
-							uni.navigateTo({
-								url: './myShare'
-							})
-					
-					}else{
-						
-						
-					}
-					
-				})
-				.catch(error => {
-				
-				});
-			},
+			
 			
 			
 		}
