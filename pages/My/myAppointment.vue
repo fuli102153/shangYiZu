@@ -1,5 +1,6 @@
 <template>
 	<view class="v-myAppointment">
+		<van-empty v-if="subscribeList.length==0" description="暂无数据" />
 		<AppointmentCard v-for="(item, index) in subscribeList" :key="index" :sourceData="item"></AppointmentCard>
 		<van-toast id="van-toast" />
 	</view>

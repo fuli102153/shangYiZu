@@ -15,7 +15,7 @@
 					  placeholder="搜索店铺或区域"
 					/>
 				</view>
-				<van-icon name="phone" color="#fff" class="phone" @click="callPhone"/>
+				<van-icon name="phone" color="#fff" class="phone" @click="makePhoneCall(Configs.service_phone)"/>
 				<van-dialog id="van-dialog" />
 			</view>
 			<!-- 地址弹出层 -->
@@ -46,14 +46,10 @@
 					<van-tree-select height="55vw" :items="items" :main-active-index="mainActiveIndex" :active-id="activeId" selected-icon="success"
 					 @click-nav="onClickNav" @click-item="onClickItem" />
 				</van-dropdown-item>
-				<van-dropdown-item title="月租金">
-					<van-tree-select height="55vw" :items="items" :main-active-index="mainActiveIndex" :active-id="activeId" selected-icon="success"
-					 @click-nav="onClickNav" @click-item="onClickItem" />
+				<van-dropdown-item title="月租金" value="" :options="Dict.search_area">
+					
 				</van-dropdown-item>
-				<van-dropdown-item title="物业">
-					<van-tree-select height="55vw" :items="items" :main-active-index="mainActiveIndex" :active-id="activeId" selected-icon="success"
-					 @click-nav="onClickNav" @click-item="onClickItem" />
-				</van-dropdown-item>
+				<van-dropdown-item title="物业" value="" :options="propertyList"></van-dropdown-item>
 				<van-dropdown-item title="更多">
 					<van-tree-select height="55vw" :items="items" :main-active-index="mainActiveIndex" :active-id="activeId" selected-icon="success"
 					 @click-nav="onClickNav" @click-item="onClickItem" />
@@ -61,6 +57,7 @@
 			</van-dropdown-menu>
 		</van-sticky>
 		<view class="store-list">
+			<van-empty v-if="shopList.length==0" description="暂无数据" />
 			<StoreCard v-for="(item,index) in shopList" :sourceData="item" :key="index" @click.native="goShopdetails(item)" />
 		</view>
 	</view>
@@ -132,6 +129,10 @@
 					},
 				],
 				shopList:[],
+				propertyList:[],//物业
+				moneyList:[
+					{text: "0-2000元", value: 0}
+				],
 			}
 		},
 		onLoad() {
@@ -139,7 +140,21 @@
 			this.ajaxGetShopList();
 			
 		},
+		onShow() {
+			console.log(this.Dict.property_type)
+			//把字典格式进行转换
+			this.changeDict();
+		},
 		methods: {
+			//转换格式
+			changeDict(){
+				
+				this.Dict.property_type.forEach((item)=>{
+					this.propertyList.push({
+						text: item.itemText, value: item.itemValue
+					})
+				})
+			},
 			// 打开关闭弹出层
 			showPopup() {
 				this.locationShow = true;
@@ -156,18 +171,13 @@
 			onSearch() {
 				console.log('搜索')
 			},
-			callPhone() {
-				Dialog.confirm({
-				  title: '客服电话',
-				  message: '400-666-888',
-					confirmButtonText: '拨打'
+			makePhoneCall: function (tel) {
+				uni.makePhoneCall({
+					phoneNumber: tel,
+					success: () => {
+						console.log("成功拨打电话")
+					}
 				})
-				  .then(() => {
-				    // on confirm
-				  })
-				  .catch(() => {
-				    // on cancel
-				  });
 			},
 			onClickLeft() {
 				uni.navigateBack()
