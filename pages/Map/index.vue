@@ -1,7 +1,7 @@
 <template>
 	<view class="v-map">
 		<view class="map_container">
-			<map class="map" ref="map" id="map" :longitude="longitude" :show-location="true" @regionchange="regionchange" @markertap="selectMarker" :latitude="latitude"  :markers="markers">
+			<map class="map" ref="map" id="map" :longitude="longitude" :latitude="latitude" :enable-zoom="false"  :show-location="false" @regionchange="regionchange" @markertap="selectMarker" scale="11"  :markers="markers">
 				<cover-view class="controls">
 				</cover-view>
 			</map>
@@ -27,13 +27,11 @@
 						id:"1",
 						latitude: 22.53332,
 						longitude: 113.94041,
-						iconPath: '../../static/images/my.png',
-						title:"奔驰",
 						label:"奔驰奔驰"
 					}
 				],
-				latitude: 22.5333,
-				longitude:113.94041,
+				latitude: 22.54985,
+				longitude:114.063812,
 				scale:11,
 				placeData: {},
 			}
@@ -47,7 +45,7 @@
 			var BMap = new bmap.BMapWX({
 				ak: "TOPhniVWlhX34XtcVVVzAYyus2EyQW1D",
 			});
-			console.log(BMap)
+			console.log(BMap, 111)
 			
 		
 		},
