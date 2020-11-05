@@ -209,7 +209,7 @@ export function getProjectList(data){ return post(data,'api/project/projectList'
 export function getProjectAndShopList(data){ return post(data,'api/project/projectAndShopList')}
 
 //15、招租发布
-export function get111(data){ return get(data,'api/shop/mapForShop')}
+export function getShopAdd(data){ return post(data,'api/shop/shopAdd')}
 
 //16、商铺列表
 export function getShopList(data){ return post(data,'api/shop/shopList')}

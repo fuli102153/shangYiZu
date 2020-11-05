@@ -1,26 +1,30 @@
 <template>
   <view class="v-agent">
     <view class="from">
-		
       <van-cell-group>
         <van-field
-			:value="contactUsername"
-			required
-			clearable
-			label="联系人"
-			placeholder="请输入您的姓名"
-			@input="changeContactUsername"
+          :value="form.contactUsername"
+					:error-message="errMsg.contactUsername"
+          required
+          clearable
+          label="联系人"
+          placeholder="请输入您的姓名"
+					@blur="checkInput"
+          @input="changeContactUsername"
         />
         <van-field
-			:value="contactMobile"
-			label="联系电话"
-			placeholder="请输入您的手机号"
-			error-message=" "
-			required
-			@input="changeContactMobile"
+          :value="form.contactMobile"
+					:error-message="errMsg.contactMobile"
+          label="联系电话"
+          placeholder="请输入您的手机号"
+          error-message=" "
+          required
+					@blur="checkInput"
+          @input="changeContactMobile"
         />
         <van-field
-          :value="indentity"
+          :value="form.indentity"
+					:error-message="errMsg.indentity"
           label="身份"
           placeholder="请输入您的身份"
           required
@@ -28,10 +32,12 @@
           @click.native="showActionSheet('indentity')"
           is-link
           arrow-direction="down"
-		  @input="changeIndentity"
+					@blur="checkInput"
+          @input="changeIndentity"
         />
         <van-field
-          :value="propertyStatus"
+          :value="form.propertyStatus"
+					:error-message="errMsg.propertyStatus"
           label="物业现况"
           placeholder="请选择您商铺物业现况"
           required
@@ -39,10 +45,12 @@
           @click.native="showActionSheet('propertyStatus')"
           is-link
           arrow-direction="down"
-		  @input="changePropertyStatus"
+					@blur="checkInput"
+          @input="changePropertyStatus"
         />
         <van-field
-          :value="propertType"
+          :value="form.propertType"
+					:error-message="errMsg.propertType"
           label="物业类型"
           placeholder="请选择您商铺物业类型"
           required
@@ -50,10 +58,12 @@
           @click.native="showActionSheet('propertType')"
           is-link
           arrow-direction="down"
-		  @input="changePropertyType"
+					@blur="checkInput"
+          @input="changePropertyType"
         />
         <van-field
-          :value="position"
+          :value="form.position"
+					:error-message="errMsg.position"
           label="位置"
           placeholder="请选择您商铺所在位置"
           required
@@ -61,110 +71,139 @@
           @click.native="showPosition('position')"
           is-link
           arrow-direction="down"
+					@blur="checkInput"
+					@input="changePosition"
         />
         <van-field
-          :value="detailedLocation"
+          :value="form.detailedLocation"
+					:error-message="errMsg.detailedLocation"
           label="详细位置"
           placeholder="请输入您商铺详细地址，详至门牌"
           required
-		  @input="changeDetailedLocation"
+          @input="changeDetailedLocation"
+					@blur="checkInput"
         />
         <van-field
-          :value="engineeringConditions"
+          :value="form.engineeringConditions"
+					:error-message="errMsg.engineeringConditions"
           label="工程条件"
           placeholder="请选择您商铺具备的工程条件"
           disabled
-          @click.native="goEngineering"
+          @click.native="showEngineeringPopup('engineering_conditions')"
           is-link
-		 
+					@blur="checkInput"
         />
-		<van-cell title="工程条件" is-link @click="showEngineeringPopup" />
-		
+
         <van-field
-          :value="businessType"
+          :value="form.businessType"
+					:error-message="errMsg.businessType"
           label="期望招商类别"
           placeholder="请选择您期望的招商类别"
           disabled
-          @click.native="goInvestmentCategory"
+          @click.native="showEngineeringPopup('business_type')"
           is-link
-		  
+					@blur="checkInput"
         />
         <van-field
-          :value="monthRent"
+          :value="form.monthRent"
+					:error-message="errMsg.monthRent"
           required
           clearable
           label="月租金"
           placeholder="请输入您期望的月租金"
-			@input="changeMonthRent"
-					use-button-slot >
-					<text slot="button">元</text>
-				</van-field>
+          @input="changeMonthRent"
+          use-button-slot
+					@blur="checkInput"
+        >
+          <text slot="button">元</text>
+        </van-field>
         <van-field
-          :value="measureArea"
+          :value="form.measureArea"
+					:error-message="errMsg.measureArea"
           required
           clearable
           label="面积"
           placeholder="请输入您商铺的面积"
-		 @input="changeMeasureArea"
-					use-button-slot >
-					<text slot="button">m²</text>
-				</van-field>
+          @input="changeMeasureArea"
+          use-button-slot
+					@blur="checkInput"
+        >
+          <text slot="button">m²</text>
+        </van-field>
         <van-field
-          :value="freeTenancy"
+          :value="form.freeTenancy"
+					:error-message="errMsg.freeTenancy"
           clearable
           label="免租期"
           placeholder="请输入您商铺的免租期"
-		  @input="changeFreeTenancy"
-					use-button-slot >
-					<text slot="button">月</text>
-				</van-field>
+          @input="changeFreeTenancy"
+          use-button-slot
+					@blur="checkInput"
+        >
+          <text slot="button">月</text>
+        </van-field>
         <van-field
-          :value="propertyEnvironment"
+          :value="form.propertyEnvironment"
+					:error-message="errMsg.propertyEnvironment"
           clearable
           label="物业环境"
           placeholder="请介绍您点评周边物业环境配套情况"
-		  @input="changePropertyEnvironment"
+          @input="changePropertyEnvironment"
         />
 
         <van-field
-          :value="storeInfo"
+          :value="form.storeInfo"
+					:error-message="errMsg.storeInfo"
           label="店铺信息"
           placeholder="请选择您期望的招商类别"
           disabled
           @click.native="goStoreInfo"
           is-link
+					@blur="checkInput"
         />
       </van-cell-group>
     </view>
     <view class="submit-btn">
       <view class="updata">
-      	<text>商铺照片</text>
-				<view class="updata-image">
-					<view class="image-type">
-						<van-uploader :file-list="fileList[0]" max-count="1" @after-read="afterRead($event,0)" preview-size="126rpx" />
-						<view class="image-text">
-							正面门面
-						</view>
-					</view>
-					<view class="image-type">
-						<van-uploader :file-list="fileList[1]" max-count="1" @after-read="afterRead($event,1)" preview-size="126rpx" />
-						<view class="image-text">
-							外部全景
-						</view>
-					</view>
-					<view class="image-type">
-						<van-uploader :file-list="fileList[2]" max-count="1" @after-read="afterRead($event,2)" preview-size="126rpx" />
-						<view class="image-text">
-							商铺内部
-						</view>
-					</view>
-					<view class="image-type">
-						<van-uploader :file-list="fileList[3]" max-count="1" @after-read="afterRead($event,3)" preview-size="126rpx" />
-						<view class="image-text">
-							商铺内部
-						</view>
-					</view>
-				</view>
+        <text>商铺照片</text>
+        <view class="updata-image">
+          <view class="image-type">
+            <van-uploader
+              :file-list="fileList[0]"
+              max-count="1"
+              @after-read="afterRead($event, 0)"
+              preview-size="126rpx"
+            />
+            <view class="image-text"> 正面门面 </view>
+          </view>
+          <view class="image-type">
+            <van-uploader
+              :file-list="fileList[1]"
+              max-count="1"
+              @after-read="afterRead($event, 1)"
+              preview-size="126rpx"
+            />
+            <view class="image-text"> 外部全景 </view>
+          </view>
+          <view class="image-type">
+            <van-uploader
+              :file-list="fileList[2]"
+              max-count="1"
+              @after-read="afterRead($event, 2)"
+              preview-size="126rpx"
+            />
+            <view class="image-text"> 商铺内部 </view>
+          </view>
+          <view class="image-type">
+            <van-uploader
+              :file-list="fileList[3]"
+              max-count="1"
+              @after-read="afterRead($event, 3)"
+              preview-size="126rpx"
+            />
+            <view class="image-text"> 商铺内部 </view>
+          </view>
+        </view>
       </view>
       <view class="btn">
         <van-button type="info" block @click="submit">提交</van-button>
@@ -185,250 +224,439 @@
         @confirm="getCityPosition"
       />
     </van-action-sheet>
-	
-	<van-popup  :show="showEngineering"  @close="onEngineeringClose" position="right" custom-style="width: 80%;height:100%"	>
-		内容内容内容内容内容
-	</van-popup>
+		<!-- 工程条件 -->
+    <van-popup
+      :show="showEngineering"
+      @close="onEngineeringClose"
+      position="right"
+      custom-style="width: 80%;height:100%"
+    >
+      <view class="pop-content">
+      	<view class="hot">
+      		<view class="title">
+      			热门搜索
+      		</view>
+      		<view class="hot-tag">
+      			<view color="#B2B2B2" class="tag-item" :class="selectList.includes(index) ? 'active' : ''" v-for="(item, index) in tagList" :key="index" @click="selectTag(index)">{{ item }}</view>
+      		</view>
+      	</view>
+      	<view class="btn">
+      	  <van-button type="info" block @click="complete">完成</van-button>
+      	</view>
+      </view>
+    </van-popup>
+		
+		<!-- 招商类别 -->
+		<van-popup
+		  :show="businessShowEngineering"
+		  @close="onEngineeringClose"
+		  position="right"
+		  custom-style="width: 80%;height:100%"
+		>
+		  <view class="pop-content">
+		  	<view class="hot">
+		  		<view class="title">
+		  			热门搜索
+		  		</view>
+		  		<view class="hot-tag">
+		  			<view color="#B2B2B2" class="tag-item" :class="businessSelectList.includes(index) ? 'active' : ''" v-for="(item, index) in businessTypeList" :key="index" @click="selectTag(index)">{{ item }}</view>
+		  		</view>
+		  	</view>
+		  	<view class="btn">
+		  	  <van-button type="info" block @click="complete">完成</van-button>
+		  	</view>
+		  </view>
+		</van-popup>
   </view>
 </template>
 
 <script>
-	import area from "../../utils/areaT.js"
+import area from "../../utils/areaT.js";
+	import { getShopAdd } from "../../utils/api.js"
 export default {
   data() {
     return {
-      // 联系人
-      contactUsername: "",
-      // 联系电话
-      contactMobile: "",
-      // 身份
-      indentity: "",
-      // 物业现况
-      propertStatus: "",
-      // 物业类型
-      propertType: "",
-      // 位置
-      position: "",
-      // 详细位置
-      detailedLocation: "11",
-      // 工程条件
-      engineering: "",
-      // 期望招商类别
-      investmentCategory: "",
-      // 月租金
-      rent: "",
-      // 面积
-      area: "",
-      // 免租期
-      freePeriod: "",
-      // 物业环境
-      environment: "",
-      // 店铺信息
-      storeInfo: "",
+			form: {
+				// 联系人
+				contactUsername: "",
+				// 联系电话
+				contactMobile: "",
+				// 身份
+				indentity: "",
+				// 物业现况
+				propertStatus: "",
+				// 物业类型
+				propertType: "",
+				// 位置
+				position: "",
+				// 详细位置
+				detailedLocation: "",
+				// 工程条件
+				engineeringConditions: "",
+				// 期望招商类别
+				businessType: "",
+				// 月租金
+				rent: "",
+				// 面积
+				area: "",
+				// 免租期
+				freePeriod: "",
+				// 物业环境
+				environment: "",
+				// 店铺信息
+				storeInfo: "",
+			},
+			errMsg: {
+				// 联系人
+				contactUsername: "",
+				// 联系电话
+				contactMobile: "",
+				// 身份
+				indentity: "",
+				// 物业现况
+				propertStatus: "",
+				// 物业类型
+				propertType: "",
+				// 位置
+				position: "",
+				// 详细位置
+				detailedLocation: "",
+				// 工程条件
+				engineeringConditions: "",
+				// 期望招商类别
+				businessType: "",
+				// 月租金
+				rent: "",
+				// 面积
+				area: "",
+				// 免租期
+				freePeriod: "",
+				// 物业环境
+				environment: "",
+				// 店铺信息
+				storeInfo: "",
+			},
+      
 
       checked: true,
 
       show: false,
-	  showEngineering:false,
       positionShow: false,
-		positionValue:"110101",
+      positionValue: "110101",
       // 城市列表
       areaList: area,
       actions: [],
       // 点击的表单
       clickInput: "",
 
-      indentityList: [
-        {
-          name: "业主",
-        },
-        {
-          name: "非业主",
-        },
-      ],
-      propertyStatusList: [
-        {
-          name: "毛坯",
-        },
-        {
-          name: "带装修",
-        },
-        {
-          name: "在经营",
-        },
-      ],
-      propertTypeList: [
-        {
-          name: "购物中心",
-        },
-        {
-          name: "社区底商",
-        },
-        {
-          name: "整租物业",
-        },
-        {
-          name: "商业街区",
-        },
-        {
-          name: "综合配套",
-        },
-      ],
-	  
-	  fileList:[[],[],[],[]],
+			// 身份下拉菜单数据
+      indentityList: [],
+			// 物业状况下拉菜单数据
+      propertyStatusList: [],
+			// 物业类型下拉菜单数据
+      propertTypeList: [],
 
-	  
+      fileList: [[], [], [], []],
+			
+			
+			showEngineering: false,
+			businessShowEngineering: false,
+			
+			tagList: [],
+			selectList: [],
+			popupType: '',
+			
+			businessTypeList: [],
+			businessSelectList: [],
     };
     // 选择的内容
     activeItme: "";
   },
   onLoad() {
-		console.log(area)
+    console.log(area);
+		// 获取身份下拉菜单数据
+		if (this.Dict && this.Dict.brand_identify && this.Dict.brand_identify.length > 0) {
+			this.indentityList = this.Dict.brand_identify.map((item, index) => {
+				return  {value: item.itemValue, name: item.itemText}
+			})
+		}
+		// 获取物业状况下拉菜单数据
+		if (this.Dict && this.Dict.property_status && this.Dict.property_status.length > 0) {
+			this.propertyStatusList = this.Dict.property_status.map((item, index) => {
+				return  {value: item.itemValue, name: item.itemText}
+			})
+		}
+		// 获取物业类型下拉菜单数据
+		if (this.Dict && this.Dict.property_type && this.Dict.property_type.length > 0) {
+			this.propertTypeList = this.Dict.property_type.map((item, index) => {
+				return  {value: item.itemValue, name: item.itemText}
+			})
+		}
   },
   methods: {
     onChange(event) {
       this.checked = event.detail;
     },
+		
+		// 选择侧边框选项
+		selectTag(index) {
+			let list = []
+			if (this.popupType === 'engineering_conditions') {
+				list = JSON.parse(JSON.stringify(this.selectList))
+			} else if (this.popupType === 'business_type') {
+				list = JSON.parse(JSON.stringify(this.businessSelectList))
+			}
+			console.log(1111, list)
+			if (list.includes(index)) {
+				list.forEach((item, idx) => {
+					if (item === index) {
+						list.splice(idx,1); 
+					}
+				})
+			} else {
+				list.push(index)
+			}
+			console.log(list)
+			if (this.popupType === 'engineering_conditions') {
+				this.selectList = list
+			} else if (this.popupType === 'business_type') {
+				this.businessSelectList = list
+			}
+			
+		},
+		// 打开侧边弹窗
+		showEngineeringPopup(type) {
+			if (type === 'engineering_conditions') {
+				this.showEngineering = true;
+				this.tagList = this.Dict.engineering_conditions.map(item => item.itemValue)
+			} else if (type === 'business_type') {
+				this.businessShowEngineering = true;
+				this.businessTypeList = this.Dict.business_type.map(item => item.itemValue)
+			}
+			this.popupType = type
+		},
+		
+		onEngineeringClose() {
+		  this.showEngineering = false;
+			this.businessShowEngineering = false;
+		},
+		complete() {
+			if (this.popupType === 'engineering_conditions') {
+				this.showEngineering = false;
+				let res = this.selectList.map(item => {
+					return this.tagList[item]
+				})
+				console.log(res)
+				this.form.engineeringConditions = res.join(',')
+				console.log(this.form.engineeringConditions)
+			} else if (this.popupType === 'business_type') {
+				this.businessShowEngineering = false;
+				let res = this.businessSelectList.map(item => {
+					return this.businessTypeList[item]
+				})
+				this.form.businessType = res.join(',')
+				console.log(this.form.businessType)
+			}
+		},
+		
+		
+		// 打开下拉框，重置下拉框中的选项
     showActionSheet(type) {
       this.clickInput = type;
       this.actions = this[`${type}List`];
       this.show = true;
+			this.checkInput()
     },
     // 选择位置弹窗
     showPosition() {
       this.positionShow = true;
     },
-	showEngineeringPopup() {
-		this.showEngineering = true
-	},
-
-	onEngineeringClose() {
-		this.showEngineering = false
-	},
+		
     onClose() {
       this.show = false;
       this.actions = [];
     },
     onSelect(event) {
-      this[`${this.clickInput}`] = event.detail.name;
-      console.log(this.clickInput, this[`${this.clickInput}`], event.detail);
+			this.checkInput()
+      this.form[`${this.clickInput}`] = event.detail.name;
+      console.log(this.clickInput, this.form[`${this.clickInput}`], event.detail);
     },
+		
+		
     // 获取城市定位
     getCityPosition(event) {
+			this.checkInput()
       console.log(event.detail);
-	  let position = ""
-	  event.detail.values.forEach((item)=>{
-		  position+= item.name
-	  })
-	  this.position = position;
-	  this.positionValue = event.detail.values[event.detail.values.length-1].code;
+      let position = "";
+      event.detail.values.forEach((item) => {
+        position += item.name;
+      });
+      this.form.position = position;
+      this.positionValue =
+        event.detail.values[event.detail.values.length - 1].code;
       this.positionShow = false;
     },
     // 隐藏位置弹窗
     hideCityPosition() {
       this.positionShow = false;
     },
-		// 上传图片
-		afterRead(event,index) {
-			const {
-				file
-			} = event.detail;
-			var that  = this;
-			// 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
-			wx.uploadFile({
-				url: this.HOST+'api/upload', 
-				filePath: file.path,
-				header:{
-					'Authorization': this.accessToken,
-				},
-				
-				name: 'file',
-				formData: {
-					user: 'test'
-				},
-				success(res) {
-					// 上传完成需要更新 fileList
-					that.fileList[index]= [{
-						url:JSON.parse(res.data)["data"],
-						name:""
-					}];
-					that.$forceUpdate()
-					
-				},
-			});
+    // 上传图片
+    afterRead(event, index) {
+      const { file } = event.detail;
+      var that = this;
+      // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
+      wx.uploadFile({
+        url: this.HOST + "api/upload",
+        filePath: file.path,
+        header: {
+          Authorization: this.accessToken,
+        },
+
+        name: "file",
+        formData: {
+          user: "test",
+        },
+        success(res) {
+          // 上传完成需要更新 fileList
+          that.fileList[index] = [
+            {
+              url: JSON.parse(res.data)["data"],
+              name: "",
+            },
+          ];
+          that.$forceUpdate();
+        },
+      });
+    },
+		
+    // 跳转店铺信息
+    goStoreInfo() {
+      uni.navigateTo({
+        url: "./storeInfo",
+      });
+    },
+    //联系人
+    changeContactUsername(e) {
+      this.form.contactUsername = e.detail.trim();
+    },
+    //联系电话
+    changeContactMobile(e) {
+      this.form.contactMobile = e.detail.trim();
+    },
+    //身份
+    changeIndentity(e) {
+      this.form.indentity = e.detail.trim();
+    },
+    //物业现况
+    changePropertyStatus(e) {
+      this.form.propertyStatus = e.detail.trim();
+    },
+    //物业类型
+    changePropertyType(e) {
+      this.form.propertyType = e.detail.trim();
+    },
+		// 位置
+		changePosition(e) {
+			this.form.position = e.detail.trim();
 		},
-		// 跳转工程条件
-		goEngineering() {
-			uni.navigateTo({
-				url: "./engineering"
-			})
-		},
-		// 跳转招商类别
-		goInvestmentCategory() {
-			uni.navigateTo({
-				url: "./investmentCategory"
-			})
-		},
-		// 跳转店铺信息
-		goStoreInfo() {
-			uni.navigateTo({
-				url: "./storeInfo"
-			})
-		},
-		//联系人
-		changeContactUsername(e) {
-			this.contactUsername = e.detail
-		},
-		//联系电话
-		changeContactMobile(e) {
-			this.contactMobile = e.detail
-		},
-		//身份
-		changeIndentity(e) {
-			this.indentity = e.detail
-		},
-		//物业现况
-		changePropertyStatus(e) {
-			this.propertyStatus = e.detail
-		},
-		//物业类型
-		changePropertyType(e) {
-			this.propertyType = e.detail
-		},
-		//详细信息
-		changeDetailLocation(e) {
-			this.detailLocation = e.detail
-		},
-		//工程条件
-		changeEngineeringConditions(e) {
-			this.engineeringConditions = e.detail
-		},
-		//期望招商类别
-		changeBusinessType(e) {
-			this.businessType = e.detail
-		},
-		//月租金
-		changeMonthRent(e) {
-			this.monthRent = e.detail
-		},
-		//面积
-		changeMeasureArea(e) {
-			this.measureArea = e.detail
-		},
-		//免租期
-		changeFreeTenancy(e) {
-			this.freeTenancy = e.detail
-		},
-		//物业环境
-		changePropertyEnvironment(e) {
-			this.propertyEnvironment = e.detail
+    //详细信息
+    changeDetailedLocation(e) {
+      this.form.detailLocation = e.detail.trim();
+    },
+    //工程条件
+    changeEngineeringConditions(e) {
+      this.form.engineeringConditions = e.detail.trim();
+    },
+    //期望招商类别
+    changeBusinessType(e) {
+      this.form.businessType = e.detail.trim();
+    },
+    //月租金
+    changeMonthRent(e) {
+      this.form.monthRent = e.detail.trim();
+    },
+    //面积
+    changeMeasureArea(e) {
+      this.form.measureArea = e.detail.trim();
+    },
+    //免租期
+    changeFreeTenancy(e) {
+      this.form.freeTenancy = e.detail.trim();
+    },
+    //物业环境
+    changePropertyEnvironment(e) {
+      this.form.propertyEnvironment = e.detail.trim();
+    },
+		
+		// 表单校验
+		checkInput() {
+			this.errMsg = {
+				contactUsername: "",
+				contactMobile: "",
+				indentity: "",
+				propertStatus: "",
+				propertType: "",
+				position: "",
+				detailedLocation: "",
+				engineering: "",
+				investmentCategory: "",
+				rent: "",
+				area: "",
+				freePeriod: "",
+				environment: "",
+				storeInfo: "",
+			};
+			if (!this.form.contactUsername) {
+				this.errMsg.contactUsername = '联系人不能为空！'
+				console.log(1)
+				return
+			} else if (!this.form.contactMobile) {
+				this.errMsg.contactMobile = '联系电话不能为空！'
+				console.log(2)
+				return
+			} else if (!this.form.indentity) {
+				this.errMsg.indentity = '身份不能为空！'
+				console.log(3)
+				return
+			} else if (!this.form.propertyStatus) {
+				this.errMsg.propertyStatus = '物业类型不能为空！'
+				console.log(4)
+				return
+			} else if (!this.form.propertyType) {
+				this.errMsg.propertyType = '物业类型不能为空！'
+				console.log(5)
+				return
+			} else if (!this.form.position) {
+				this.errMsg.position = '位置不能为空！'
+				console.log(6)
+				return
+			} else if (!this.form.detailLocation) {
+				this.errMsg.detailLocation = '详细位置不能为空！'
+				console.log(7)
+				return
+			} else if (!this.form.monthRent) {
+				this.errMsg.monthRent = '月租金不能为空！'
+				console.log(8)
+				return
+			} else if (!this.form.measureArea) {
+				this.errMsg.measureArea = '面积不能为空！'
+				console.log(9)
+				return
+			}
 		},
 
-		
-		//提交数据
-		submit(){
-			console.log(this.contactUsername)
-		}
+    //提交数据
+    submit() {
+      console.log("联系人", this.form.contactUsername, 111);
+			console.log('校验', this.checkInput())
+			const params = this.form
+			
+			params.accessToken = this.accessToken;
+			console.log(this.accessToken)
+			getShopAdd(params).then(res => {
+				console.log(res)
+			})
+    },
   },
 };
 </script>
@@ -452,34 +680,34 @@ export default {
     background-color: #f8f8f8;
 
     .updata {
-    	display: flex;
-    	flex-direction: column;
-			
-			.updata-image {
-				display: flex;
-				justify-content: space-between;
-				
-				.image-type {
-					text-align: center;
-					
-					.image-text {
-						font-size: 28rpx;
-						color: #888888;
-						margin-top: 28rpx;;
-					}
-				}
-			}
-    
-    	text {
-    		font-size: 28rpx;
-    		color: #2D2D2D;
-    		margin: 20rpx 0 26rpx;
-    	}
-    
-    	/deep/ .van-uploader__upload {
-    		border: 1rpx solid #CACDD0;
-				margin: 0;
-    	}
+      display: flex;
+      flex-direction: column;
+
+      .updata-image {
+        display: flex;
+        justify-content: space-between;
+
+        .image-type {
+          text-align: center;
+
+          .image-text {
+            font-size: 28rpx;
+            color: #888888;
+            margin-top: 28rpx;
+          }
+        }
+      }
+
+      text {
+        font-size: 28rpx;
+        color: #2d2d2d;
+        margin: 20rpx 0 26rpx;
+      }
+
+      /deep/ .van-uploader__upload {
+        border: 1rpx solid #cacdd0;
+        margin: 0;
+      }
     }
 
     .tip {
@@ -494,9 +722,42 @@ export default {
       margin-bottom: 250rpx;
     }
   }
+	
+	.pop-content {
+		.hot {
+			background-color: #fff;
+			padding: 47rpx 26rpx 40rpx;
+			
+			.hot-tag {
+				display: flex;
+				flex-wrap: wrap;
+				
+				.tag-item {
+					margin-top: 20rpx;
+					margin-right: 20rpx;
+					border: 1rpx solid #B2B2B2;
+					color: #B2B2B2;
+					font-size: 30rpx;
+					line-height: 30rpx;
+					padding: 15rpx 48rpx;
+					border-radius: 8rpx;
+				}
+				.active {
+					color: #fff;
+					background-color: #1676FE;
+					border: 1rpx solid #1676FE;
+				}
+			}
+		}
+		
+		.btn {
+			margin-top: 116rpx;
+			padding: 0 128rpx;
+		}
+	}
 }
 
-.van-uploader__preview{
-	margin: 0rpx !important;
+.van-uploader__preview {
+  margin: 0rpx !important;
 }
 </style>
