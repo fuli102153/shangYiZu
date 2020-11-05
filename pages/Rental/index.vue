@@ -9,17 +9,15 @@
           clearable
           label="联系人"
           placeholder="请输入您的姓名"
-					@blur="checkInput"
           @input="changeContactUsername"
         />
         <van-field
           :value="form.contactMobile"
 					:error-message="errMsg.contactMobile"
           label="联系电话"
+					type="digit"
           placeholder="请输入您的手机号"
-          error-message=" "
           required
-					@blur="checkInput"
           @input="changeContactMobile"
         />
         <van-field
@@ -32,7 +30,6 @@
           @click.native="showActionSheet('indentity')"
           is-link
           arrow-direction="down"
-					@blur="checkInput"
           @input="changeIndentity"
         />
         <van-field
@@ -45,20 +42,18 @@
           @click.native="showActionSheet('propertyStatus')"
           is-link
           arrow-direction="down"
-					@blur="checkInput"
           @input="changePropertyStatus"
         />
         <van-field
-          :value="form.propertType"
-					:error-message="errMsg.propertType"
+          :value="form.propertyType"
+					:error-message="errMsg.propertyType"
           label="物业类型"
           placeholder="请选择您商铺物业类型"
           required
           disabled
-          @click.native="showActionSheet('propertType')"
+          @click.native="showActionSheet('propertyType')"
           is-link
           arrow-direction="down"
-					@blur="checkInput"
           @input="changePropertyType"
         />
         <van-field
@@ -71,7 +66,6 @@
           @click.native="showPosition('position')"
           is-link
           arrow-direction="down"
-					@blur="checkInput"
 					@input="changePosition"
         />
         <van-field
@@ -81,7 +75,6 @@
           placeholder="请输入您商铺详细地址，详至门牌"
           required
           @input="changeDetailedLocation"
-					@blur="checkInput"
         />
         <van-field
           :value="form.engineeringConditions"
@@ -91,7 +84,6 @@
           disabled
           @click.native="showEngineeringPopup('engineering_conditions')"
           is-link
-					@blur="checkInput"
         />
 
         <van-field
@@ -102,7 +94,6 @@
           disabled
           @click.native="showEngineeringPopup('business_type')"
           is-link
-					@blur="checkInput"
         />
         <van-field
           :value="form.monthRent"
@@ -113,7 +104,6 @@
           placeholder="请输入您期望的月租金"
           @input="changeMonthRent"
           use-button-slot
-					@blur="checkInput"
         >
           <text slot="button">元</text>
         </van-field>
@@ -126,7 +116,6 @@
           placeholder="请输入您商铺的面积"
           @input="changeMeasureArea"
           use-button-slot
-					@blur="checkInput"
         >
           <text slot="button">m²</text>
         </van-field>
@@ -138,7 +127,6 @@
           placeholder="请输入您商铺的免租期"
           @input="changeFreeTenancy"
           use-button-slot
-					@blur="checkInput"
         >
           <text slot="button">月</text>
         </van-field>
@@ -159,7 +147,6 @@
           disabled
           @click.native="goStoreInfo"
           is-link
-					@blur="checkInput"
         />
       </van-cell-group>
     </view>
@@ -267,13 +254,27 @@
 		  	</view>
 		  </view>
 		</van-popup>
+		<!-- 店铺信息 -->
+		<van-popup
+		  :show="isStoreInfo"
+		  @close="closeStoreInfo"
+		  position="right"
+		  custom-style="width: 90%;height:100%"
+		>
+		  <StoreInfo @subimtStoreInfo="subimtStoreInfo"/>
+		</van-popup>
   </view>
 </template>
 
 <script>
 import area from "../../utils/areaT.js";
-	import { getShopAdd } from "../../utils/api.js"
+import { getShopAdd } from "../../utils/api.js"
+import StoreInfo from "./storeInfo"
+
 export default {
+	components: {
+		StoreInfo
+	},
   data() {
     return {
 			form: {
@@ -284,9 +285,9 @@ export default {
 				// 身份
 				indentity: "",
 				// 物业现况
-				propertStatus: "",
+				propertyStatus: "",
 				// 物业类型
-				propertType: "",
+				propertyType: "",
 				// 位置
 				position: "",
 				// 详细位置
@@ -296,16 +297,17 @@ export default {
 				// 期望招商类别
 				businessType: "",
 				// 月租金
-				rent: "",
+				monthRent: "",
 				// 面积
-				area: "",
+				measureArea: "",
 				// 免租期
-				freePeriod: "",
+				freeTenancy: "",
 				// 物业环境
-				environment: "",
+				propertyEnvironment: "",
 				// 店铺信息
 				storeInfo: "",
 			},
+			property: {},
 			errMsg: {
 				// 联系人
 				contactUsername: "",
@@ -314,9 +316,9 @@ export default {
 				// 身份
 				indentity: "",
 				// 物业现况
-				propertStatus: "",
+				propertyStatus: "",
 				// 物业类型
-				propertType: "",
+				propertyType: "",
 				// 位置
 				position: "",
 				// 详细位置
@@ -336,13 +338,20 @@ export default {
 				// 店铺信息
 				storeInfo: "",
 			},
+			
+			// 城市
+			cityId: null,
+			// 区域code
+			regionId: null,
+			// 街道code
+			streetId: null,
       
 
       checked: true,
 
       show: false,
       positionShow: false,
-      positionValue: "110101",
+      positionValue: "",
       // 城市列表
       areaList: area,
       actions: [],
@@ -354,13 +363,15 @@ export default {
 			// 物业状况下拉菜单数据
       propertyStatusList: [],
 			// 物业类型下拉菜单数据
-      propertTypeList: [],
+      propertyTypeList: [],
 
       fileList: [[], [], [], []],
 			
 			
 			showEngineering: false,
 			businessShowEngineering: false,
+			
+			isStoreInfo: false,
 			
 			tagList: [],
 			selectList: [],
@@ -388,7 +399,7 @@ export default {
 		}
 		// 获取物业类型下拉菜单数据
 		if (this.Dict && this.Dict.property_type && this.Dict.property_type.length > 0) {
-			this.propertTypeList = this.Dict.property_type.map((item, index) => {
+			this.propertyTypeList = this.Dict.property_type.map((item, index) => {
 				return  {value: item.itemValue, name: item.itemText}
 			})
 		}
@@ -440,6 +451,16 @@ export default {
 		  this.showEngineering = false;
 			this.businessShowEngineering = false;
 		},
+		
+		subimtStoreInfo(property) {
+			this.property = property;
+			console.log('this.property', this.property)
+			this.isStoreInfo = false
+		},
+		closeStoreInfo() {
+			this.isStoreInfo = false
+		},
+		
 		complete() {
 			if (this.popupType === 'engineering_conditions') {
 				this.showEngineering = false;
@@ -465,7 +486,6 @@ export default {
       this.clickInput = type;
       this.actions = this[`${type}List`];
       this.show = true;
-			this.checkInput()
     },
     // 选择位置弹窗
     showPosition() {
@@ -477,7 +497,6 @@ export default {
       this.actions = [];
     },
     onSelect(event) {
-			this.checkInput()
       this.form[`${this.clickInput}`] = event.detail.name;
       console.log(this.clickInput, this.form[`${this.clickInput}`], event.detail);
     },
@@ -485,15 +504,19 @@ export default {
 		
     // 获取城市定位
     getCityPosition(event) {
-			this.checkInput()
       console.log(event.detail);
       let position = "";
       event.detail.values.forEach((item) => {
         position += item.name;
       });
       this.form.position = position;
-      this.positionValue =
-        event.detail.values[event.detail.values.length - 1].code;
+      this.positionValue = event.detail.values[event.detail.values.length - 1].code;
+			// 城市code
+			this.cityId = event.detail.values[0].code;
+			// 区域code
+			this.regionId = event.detail.values[1].code;
+			// 街道code
+			this.streetId = event.detail.values[2].code;
       this.positionShow = false;
     },
     // 隐藏位置弹窗
@@ -531,9 +554,10 @@ export default {
 		
     // 跳转店铺信息
     goStoreInfo() {
-      uni.navigateTo({
-        url: "./storeInfo",
-      });
+			this.isStoreInfo = true
+      // uni.navigateTo({
+      //   url: "./storeInfo",
+      // });
     },
     //联系人
     changeContactUsername(e) {
@@ -649,7 +673,19 @@ export default {
     submit() {
       console.log("联系人", this.form.contactUsername, 111);
 			console.log('校验', this.checkInput())
-			const params = this.form
+			const params = {
+				shop: Object.assign(
+					this.form,
+					{
+						cityId: this.cityId,
+						regionId: this.regionId,
+						streetId: this.streetId,
+						indentity: this.indentity === '业主' ? 1 : 0,
+					}
+				),
+				property: this.property
+			}
+			console.log('params', params)
 			
 			params.accessToken = this.accessToken;
 			console.log(this.accessToken)
