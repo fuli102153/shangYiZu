@@ -33,7 +33,7 @@
 							<span>深圳</span>
 						</template>
 					</van-cell>
-					<van-cell v-for="(item, index) in cityList" :key="index" center :label="item" :title="index === 0 ? '已开通城市' : ''"
+					<van-cell v-for="(item, index) in cityList" :key="index" center :label="item.cityName" :title="index === 0 ? '已开通城市' : ''"
 					 :class="activeCity === index ? 'active' : ''" @click="selectCity(index, item)">
 						<template #right-icon>
 							<van-icon v-if="activeCity === index" name="success" color="#1676FE" />
@@ -46,10 +46,10 @@
 					<van-tree-select height="55vw" :items="items" :main-active-index="mainActiveIndex" :active-id="activeId" selected-icon="success"
 					 @click-nav="onClickNav" @click-item="onClickItem" />
 				</van-dropdown-item>
-				<van-dropdown-item title="月租金" value="" :options="Dict.search_area">
+				<van-dropdown-item title="月租金"  :options="monthRentList" @change="changeMonthRent">
 					
 				</van-dropdown-item>
-				<van-dropdown-item title="物业" value="" :options="propertyList"></van-dropdown-item>
+				<van-dropdown-item title="物业" value="" :options="propertyList" @change="changePropertyType"></van-dropdown-item>
 				<van-dropdown-item title="更多">
 					<van-tree-select height="55vw" :items="items" :main-active-index="mainActiveIndex" :active-id="activeId" selected-icon="success"
 					 @click-nav="onClickNav" @click-item="onClickItem" />
@@ -66,7 +66,7 @@
 <script>
 	import StoreCard from '../../components/Card/Store'
 	import Dialog from '../../wxcomponents/vant/dist/dialog/dialog';
-	import {getShopList} from "../../utils/api.js"
+	import {getShopList,getAreaStreets,getCity} from "../../utils/api.js"
 	
 	export default {
 		components: {
@@ -75,7 +75,7 @@
 		data() {
 			return {
 				locationShow: false,
-				cityList: ["北京", "上海", "广州", "深圳"],
+				cityList: [],
 				activeCity: '',
 				value: '',
 				mainActiveIndex: 0,
@@ -85,7 +85,11 @@
 						children: [{
 								id: 1,
 								text: '不限',
-								children: []
+								children: [{
+									id: 1,
+									text: '不限',
+									children: []
+								}]
 							},
 							{
 								id: 2,
@@ -130,15 +134,38 @@
 				],
 				shopList:[],
 				propertyList:[],//物业
+				monthRentList:[],
 				moneyList:[
 					{text: "0-2000元", value: 0}
 				],
+				paras:{
+					shopName:"",
+					label:"",
+					distance:"",
+					regionId:"",
+					streetId:"",
+					metroLine:"",
+					monthRentStart:"",
+					monthRentEnd:"",
+					sort:"",
+					floorNum:"",
+					indentity:"",
+					engineeringConditions:"",
+					propertyType:"",
+					measureAreaStart:"",
+					measureAreaEnd:"",
+					longitude:"",
+					latitude:"",
+				}
 			}
 		},
 		onLoad() {
 			//请求品牌列表
 			this.ajaxGetShopList();
-			
+			//城市列表
+			this.ajaxGetCityList();
+			//请求城市联动
+			this.ajaxGetAreaStreets();
 		},
 		onShow() {
 			console.log(this.Dict.property_type)
@@ -148,12 +175,19 @@
 		methods: {
 			//转换格式
 			changeDict(){
-				
+				this.propertyList = [];
 				this.Dict.property_type.forEach((item)=>{
 					this.propertyList.push({
 						text: item.itemText, value: item.itemValue
 					})
 				})
+				this.monthRentList = [];
+				this.Dict.search_month_rent.forEach((item)=>{
+					this.monthRentList.push({
+						text: item.itemText, value: item.itemValue
+					})
+				})
+				
 			},
 			// 打开关闭弹出层
 			showPopup() {
@@ -179,6 +213,18 @@
 					}
 				})
 			},
+			changeMonthRent(e){
+				this.paras.monthRentStart = Number(e.detail.split("-")[0]);
+				this.paras.monthRentEnd = Number(e.detail.split("-")[1]);
+				this.ajaxGetShopList();
+			
+			},
+			changePropertyType(e){
+				
+				this.paras.propertyType = e.detail;
+				this.ajaxGetShopList();
+			
+			},
 			onClickLeft() {
 				uni.navigateBack()
 			},
@@ -202,6 +248,23 @@
 				var that = this;
 				const paras = {
 					cityCode:"440300",
+					shopName:this.paras.shopName,
+					label:this.paras.label,
+					distance:this.paras.distance,
+					regionId:this.paras.regionId,
+					streetId:this.paras.streetId,
+					metroLine:this.paras.metroLine,
+					monthRentStart:this.paras.monthRentStart,
+					monthRentEnd:this.paras.monthRentEnd,
+					sort:this.paras.sort,
+					floorNum:this.paras.floorNum,
+					indentity:this.paras.indentity,
+					engineeringConditions:this.paras.engineeringConditions,
+					propertyType:this.paras.propertyType,
+					measureAreaStart:this.paras.measureAreaStart,
+					measureAreaEnd:this.paras.measureAreaEnd,
+					longitude:this.paras.longitude,
+					latitude:this.paras.latitude,
 					pageNo:1,
 					pageSize:10,
 				};
@@ -224,6 +287,60 @@
 				
 				});
 			},
+			
+			ajaxGetCityList(){
+				var that = this;
+				const paras = {
+				};
+				paras.accessToken = that.accessToken;
+				
+				getCity(paras).then(res => {
+					const data = res.data;
+					that.cityList = data;
+					console.log(data);
+					if(data.code=="200"){
+						that.cityList = data.data;
+					
+					}else{
+						
+						
+					}
+					
+				})
+				.catch(error => {
+				
+				});
+				
+			},
+			
+			//城市联动
+			ajaxGetAreaStreets(){
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					cityCode:"440300",
+				};
+				paras.accessToken = that.accessToken;
+				
+				getAreaStreets(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						that.AreaStreets = data.data;
+					
+					}else{
+						
+						
+					}
+					
+				})
+				.catch(error => {
+				
+				});
+			},
+			
+			
 		}
 	}
 </script>

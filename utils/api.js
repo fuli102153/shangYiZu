@@ -119,6 +119,7 @@ Dict
 	search_region_nearby  筛选-区域-附近
 	shop_sort 商铺排序
 	user_status 后台用户状态
+	search_month_rent 月租金
 
 Configs
 	service_phone  客户电话
@@ -148,7 +149,7 @@ export function userInfo(data){ return post(data,'api/user/info')}
 export function setRole(data){ return get(data,'api/user/setRole')}
 
 //4、城市列表
-export function getCity(data){ return get(data,'api/user/setRole')}
+export function getCity(data){ return get(data,'api/region/city')}
 
 //5、banner广告图
 export function getBannerList(data){ return get(data,'api/banner/getList')}
@@ -251,6 +252,9 @@ export function upload(data){ return post(data,'api/upload')}
 
 //38、系统配置
 export function getAllConfigs(data){ return get(data,'api/config/auth/getAllConfigs')}
+
+//39、城市联动
+export function getAreaStreets(data){ return get(data,'api/region/auth/getAreaStreets')}
 
 
 

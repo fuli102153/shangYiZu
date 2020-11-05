@@ -30,7 +30,7 @@
 						<span>深圳</span>
 					</template>
 				</van-cell>
-				<van-cell v-for="(item, index) in cityList" :key="index" center :label="item" :title="index === 0 ? '已开通城市' : ''"
+				<van-cell v-for="(item, index) in cityList" :key="index" center :label="item.cityName" :title="index === 0 ? '已开通城市' : ''"
 				 :class="activeCity === index ? 'active' : ''" @click="selectCity(index, item)">
 					<template #right-icon>
 						<van-icon v-if="activeCity === index" name="success" color="#1676FE" />
@@ -117,7 +117,7 @@
 <script>
 	import StoreCard from '../../components/Card/Store'
 	import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
-	import {getBannerList,getWeekRecommendList,getGuessYouLike,getCooperativeList,getHeadline} from "../../utils/api.js"
+	import {getBannerList,getWeekRecommendList,getGuessYouLike,getCooperativeList,getHeadline,getCity} from "../../utils/api.js"
 	export default {
 		components: {
 			StoreCard,
@@ -126,7 +126,7 @@
 		data() {
 			return {
 				locationShow: false,
-				cityList: ["北京", "上海", "广州", "深圳"],
+				cityList: [],
 				activeCity: null,
 				// 轮播图
 				info: [{
@@ -209,7 +209,8 @@
 			this.ajaxGetCooperativeList();
 			//头条信息
 			this.ajaxGetHeadline();
-			
+			//城市列表
+			this.ajaxGetCityList();
 			
 		},
 		onShow(){
@@ -408,6 +409,33 @@
 				
 				});
 			},
+			
+			ajaxGetCityList(){
+				var that = this;
+				const paras = {
+				};
+				paras.accessToken = that.accessToken;
+				
+				getCity(paras).then(res => {
+					const data = res.data;
+					that.cityList = data;
+					console.log(data);
+					if(data.code=="200"){
+						that.cityList = data.data;
+					
+					}else{
+						
+						
+					}
+					
+				})
+				.catch(error => {
+				
+				});
+				
+			},
+			
+			
 		},
 	};
 </script>
