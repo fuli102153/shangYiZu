@@ -43,7 +43,7 @@
 			</van-popup>
 			<van-dropdown-menu>
 				<van-dropdown-item title="区域">
-					<van-tree-select height="55vw" :items="items" :main-active-index="mainActiveIndex" :active-id="activeId" selected-icon="success"
+					<van-tree-select height="55vw" max="10" :items="AreaStreets" :main-active-index="mainActiveIndex" :active-id="paras.streetId" selected-icon="success"
 					 @click-nav="onClickNav" @click-item="onClickItem" />
 				</van-dropdown-item>
 				<van-dropdown-item title="月租金"  :options="monthRentList" @change="changeMonthRent">
@@ -51,8 +51,7 @@
 				</van-dropdown-item>
 				<van-dropdown-item title="物业" value="" :options="propertyList" @change="changePropertyType"></van-dropdown-item>
 				<van-dropdown-item title="更多">
-					<van-tree-select height="55vw" :items="items" :main-active-index="mainActiveIndex" :active-id="activeId" selected-icon="success"
-					 @click-nav="onClickNav" @click-item="onClickItem" />
+					
 				</van-dropdown-item>
 			</van-dropdown-menu>
 		</van-sticky>
@@ -79,59 +78,8 @@
 				activeCity: '',
 				value: '',
 				mainActiveIndex: 0,
-				activeId: null,
-				items: [{
-						text: '附近',
-						children: [{
-								id: 1,
-								text: '不限',
-								children: [{
-									id: 1,
-									text: '不限',
-									children: []
-								}]
-							},
-							{
-								id: 2,
-								text: '500m',
-								children: []
-							},
-							{
-								id: 3,
-								text: '1000m',
-								children: []
-							},
-							{
-								id: 4,
-								text: '2000m',
-								children: []
-							},
-							{
-								id: 5,
-								text: '3000m',
-								children: []
-							},
-							{
-								id: 6,
-								text: '4000m',
-								children: []
-							},
-							{
-								id: 7,
-								text: '5000m',
-								children: []
-							},
-						],
-					},
-					{
-						text: '街道',
-						children: []
-					},
-					{
-						text: '地铁',
-						children: []
-					},
-				],
+				
+				AreaStreets: [],
 				shopList:[],
 				propertyList:[],//物业
 				monthRentList:[],
@@ -216,6 +164,7 @@
 			changeMonthRent(e){
 				this.paras.monthRentStart = Number(e.detail.split("-")[0]);
 				this.paras.monthRentEnd = Number(e.detail.split("-")[1]);
+				console.log(e.detail)
 				this.ajaxGetShopList();
 			
 			},
@@ -228,12 +177,17 @@
 			onClickLeft() {
 				uni.navigateBack()
 			},
-			onClickNav({detail = {}}) {
-				this.mainActiveIndex = detail.index || 0
+			//左侧导航点击时，触发的事件
+			onClickNav(e) {
+			
+				this.mainActiveIndex = e.detail.index || 0;
+				this.paras.regionId = this.AreaStreets[this.mainActiveIndex].id;
 			},
-			onClickItem({detail = {}}) {
-				const activeId = this.activeId === detail.id ? null : detail.id;
-				this.activeId = activeId
+			//右侧选择项被点击时，会触发的事件
+			onClickItem(e) {
+				
+				this.paras.streetId = this.paras.streetId === e.detail.id ? null : e.detail.id;
+				this.ajaxGetShopList();
 			},
 			// 进入商铺详情页
 			goShopdetails() {
@@ -296,7 +250,7 @@
 				
 				getCity(paras).then(res => {
 					const data = res.data;
-					that.cityList = data;
+					
 					console.log(data);
 					if(data.code=="200"){
 						that.cityList = data.data;
@@ -327,7 +281,23 @@
 					console.log(data);
 					
 					if(data.code=="200"){
-						that.AreaStreets = data.data;
+						that.AreaStreets = [];
+						data.data.forEach((item)=>{
+							let area = {};
+							area.id = item.areaCode;
+							area.text = item.areaName;
+							area.children = [];
+							item.streetVoList.forEach((street)=>{
+								let streetItem = {};
+								streetItem.id = street.streetCode;
+								streetItem.text = street.streetName;
+								streetItem.children = [];
+								area.children.push(streetItem)
+							})
+							that.AreaStreets.push(area);
+						})
+						that.$forceUpdate();
+						console.log(that.AreaStreets)
 					
 					}else{
 						

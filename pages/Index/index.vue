@@ -27,7 +27,7 @@
 					</template>
 					<template #label>
 						<van-icon name="location" class="location-icon" color="#1676fe" size="30rpx" />
-						<span>深圳</span>
+						<span>{{locationCity.cityName}}</span>
 					</template>
 				</van-cell>
 				<van-cell v-for="(item, index) in cityList" :key="index" center :label="item.cityName" :title="index === 0 ? '已开通城市' : ''"
@@ -189,6 +189,7 @@
 						router: '../ShoppingMall/index?projectType=7'
 					},
 				],
+				locationCity:{},
 				bannerList:[],
 				weekRecommendList:[],
 				guessYouLikeList:[],
@@ -211,6 +212,8 @@
 			this.ajaxGetHeadline();
 			//城市列表
 			this.ajaxGetCityList();
+			//处理当前城市
+			this.setCity();
 			
 		},
 		onShow(){
@@ -229,6 +232,19 @@
 			// 选中城市
 			selectCity(index) {
 				this.activeCity = index;
+				uni.setStorage({
+					key: "__localtionCity__",
+					data: this.cityList[index],
+					success: (res) => {
+					},
+					fail: () => {
+						uni.showModal({
+							title: '用户信息获取失败!',
+							showCancel:false
+						})
+					}
+				})
+				
 			},
 			toPath(url) {
 				uni.navigateTo({
@@ -268,6 +284,29 @@
 			// 轮播图
 			change(e) {
 				this.current = e.detail.current;
+			},
+			
+			//处理城市
+			setCity(){
+				//先定位导上次定位的记录，如果上次没有定位记录，就取当前的城市定位信息
+				//
+				//that.cityList  当前城市列表
+				var that  = this;
+				uni.getStorage({
+					key: "__localtionCity__",
+					success: (res) => {
+						this.locationCity  = res.data;
+						
+					},
+					fail: () => {
+						that.cityList.forEach((item)=>{
+							if(item.cityName == that.address.city){
+								that.locationCity  = item;
+							}
+						})
+						
+					}
+				})
 			},
 			
 			

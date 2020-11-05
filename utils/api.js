@@ -83,10 +83,28 @@ export function getAccessToken(){
 	//设置用户的坐标信息
 	uni.getLocation({
 	    type: 'wgs84',
+		geocode:true,
 	    success: function (res) {
 			Vue.prototype.location = res;
 			console.log(res)
-			
+			let latitude,longitude;
+			latitude = res.latitude.toString();
+			longitude = res.longitude.toString();
+			uni.request({
+				header:{
+					"Content-Type": "application/text"
+				},
+				url:'http://api.map.baidu.com/reverse_geocoding/v3/?ak=BI4QgGkWu6h0cNsMHrccZ9SGToeTaPig&output=json&location='+latitude+','+longitude,
+				success(re) {
+					console.log("中文位置");
+					console.log(re);
+					if(re.statusCode===200){
+						Vue.prototype.address = re.data.result.addressComponent;
+					}else{
+						console.log("获取信息失败，请重试！")
+					}
+				}
+			})
 	    }
 	});
 	
@@ -147,6 +165,18 @@ export function userInfo(data){ return post(data,'api/user/info')}
 
 //3、设置个人角色
 export function setRole(data){ return get(data,'api/user/setRole')}
+
+//3.1、设置个人角色
+export function getAgentUserInfo(data){ return get(data,'api/user/getAgentUserInfo')}
+
+//3.2、查询公司合伙人信息
+export function getCompanyUserInfo(data){ return get(data,'api/user/getCompanyUserInfo')}
+
+//3.3、设置经纪合伙人信息
+export function setAgentUserInfo(data){ return get(data,'api/user/setAgentUserInfo')}
+
+//3.4、设置公司合伙人信息
+export function setCompanyUserInfo(data){ return get(data,'api/user/setCompanyUserInfo')}
 
 //4、城市列表
 export function getCity(data){ return get(data,'api/region/city')}
