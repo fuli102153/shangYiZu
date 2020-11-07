@@ -176,7 +176,7 @@
 		</view>
 		<!-- 店铺市调 -->
 		<view class="store-market-survey">
-			<view class="btn">
+			<view class="btn" @click="goStoreMaket">
 				<text>店铺市调</text>
 				<van-icon name="play-circle" color="#1676FE" size="38rpx" />
 			</view>
@@ -335,6 +335,12 @@
 				
 				uni.navigateTo({
 					url: "../Shops/appointment?shopNo="+shopNo
+				})
+			},
+			
+			goStoreMaket() {
+				uni.navigateTo({
+					url: "./storeMarket"
 				})
 			},
 			
