@@ -25,11 +25,11 @@
 		<view class="historical">
 			<view class="title">
 				<text>历史记录</text>
-				<view class="del">
+				<view class="del" @click="deleteHistory()">
 					<van-icon name="delete" color="#888"/>清空
 				</view>
 			</view>
-			<van-cell :title="item" icon="clock-o" v-for="(item, index) in historList" :key="index"/>
+			<van-cell :title="item" icon="clock-o" v-for="(item, index) in historList" :key="index" @click="historySearch(item)"/>
 		</view>
 	</view>
 </template>
@@ -74,6 +74,18 @@ export default {
 			
 			uni.navigateTo({
 				url: `./searchList?keyword=${e.detail}`
+			})
+		},
+		deleteHistory() {
+			uni.setStorage({
+				key: "__searchHistory__",
+				data: [],
+			})
+			this.historList = []
+		},
+		historySearch(value) {
+			uni.navigateTo({
+				url: `./searchList?keyword=${value}`
 			})
 		},
 		searchKeyWord(value) {
