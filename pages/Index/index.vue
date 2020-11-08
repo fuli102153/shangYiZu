@@ -95,7 +95,7 @@
 					<view class="coop-more" @click="goCoop">更多 ></view>
 				</view>
 				<view class="coop-list">
-					<view class="coop-item" v-for="(item,index) in cooperativeList" :key="index">
+					<view class="coop-item" v-for="(item,index) in cooperativeList.slice(0,4)" :key="index">
 						<image class="image" :src="item.logo" /> 
 						<text>{{item.enterpriseName}}</text>
 					</view>
@@ -708,17 +708,18 @@
 					}
 				}
 				.coop-list {
-					display: flex;
-					justify-content: space-evenly;
+					width: 100%;
 					.coop-item {
-						display: flex;
-						flex-direction: column;
-						align-items: center;
+						display: inline-block;
+						text-align:center;
+						width: 25%;
 						.image {
 							width: 126rpx;
 							height: 126rpx;
 							border-radius: 50%;
 							background: #DAE9FF;
+							display: block;
+							margin: 0 auto;
 						}
 						text {
 							font-size: 30rpx;
