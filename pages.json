@@ -146,6 +146,7 @@
 					"van-tabs": "/wxcomponents/vant/dist/tabs/index",
 					"van-icon": "/wxcomponents/vant/dist/icon/index",
 					"van-empty": "/wxcomponents/vant/dist/empty/index",
+					"van-button": "/wxcomponents/vant/dist/button/index",
 					"van-toast": "/wxcomponents/vant/dist/toast/index"
 				}
 			}

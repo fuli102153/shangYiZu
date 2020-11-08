@@ -2,7 +2,7 @@
 	<view class="v-search">
 		<form action="/">
 			<van-search
-				v-model="value"
+				:value="value"
 				shape="round"
 				background="#1676FE"
 				placeholder="输入意向位置/业态"
@@ -40,13 +40,40 @@ export default {
 		return {
 			value: '',
 			tagList: ['商场', '餐饮', '服装', '办公', '停车场', '地铁周边', '学校周边'],
-			historList: ['超市转让', '宾馆', '茶饮水吧']
+			historList: []
 		}
 	},
+	onLoad() {
+		uni.getStorage({
+			key: '__searchHistory__',
+			success: (res) => {
+				this.historList = res.data
+			}
+		})
+	},
 	methods: {
-		onSearch() {
+		onSearch(e) {
+			let that = this
+			let history = []
+			uni.getStorage({
+				key: '__searchHistory__',
+				success(res) {
+					history = res.data
+					
+					history.push(e.detail)
+					
+					let newHistory = Array.from(new Set(history))
+					
+					that.historList = newHistory
+					uni.setStorage({
+						key: "__searchHistory__",
+						data: newHistory,
+					})
+				}
+			})
+			
 			uni.navigateTo({
-				url: `./searchList?keyword=${this.value}`
+				url: `./searchList?keyword=${e.detail}`
 			})
 		},
 		searchKeyWord(value) {
