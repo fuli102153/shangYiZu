@@ -58,7 +58,12 @@
 			</view>
 			<view class="toutiao-link">
 				<!-- <span>商易租正式上线！现招募合伙人加入！</span> -->
-				<van-notice-bar class="scrollable" scrollable :text="noticeMessage" :speed="35" background="#fff" color="#2E2E2E" />
+				<!-- <van-notice-bar class="scrollable" scrollable :text="noticeMessage" :speed="35" background="#fff" color="#2E2E2E" /> -->
+				<swiper class="swiper-container" :autoplay="true" :vertical="true" :circular="true" :interval="2000">
+				  <swiper-item v-for="(item, index) in noticeMessage" :key="index">
+				    <view class='swiper-item'>{{`${item}${item}${item}${item}${item}${item}`}}</view>
+				  </swiper-item>
+				</swiper>
 				<van-icon name="play" color="#002464" size="26rpx" />
 			</view>
 		</view>
@@ -195,7 +200,10 @@
 				guessYouLikeList:[],
 				cooperativeList:[],
 				headlineList:[],
-				noticeMessage:"你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好",
+				noticeMessage: [
+					'你好你好你好你好',
+					'不好不好不好不好'
+				],
 				
 			};
 		},
@@ -600,11 +608,24 @@
 				box-sizing: border-box;
 				padding-right: 16rpx;
 				overflow: hidden;
-				.scrollable {
+				 
+				.swiper-container {
+					margin-left: 10rpx;
+					width: 500rpx;
+					height: 100%;
+				}
+				 
+				.swiper-item {
+					position: absolute;
+					top: 50%;
+					transform: translateY(-50%);
 					width: 100%;
-					font-size: 26rpx;
+					font-size: 28rpx;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					letter-spacing: 2rpx;
 					color: #2E2E2E;
-					margin-right: 26rpx;
 				}
 			}
 		}

@@ -68,6 +68,12 @@
 			}
 		},
 		{
+			"path": "pages/Shops/storeMarket",
+			"style": {
+				"navigationBarTitleText": "店铺市调报告"
+			}
+		},
+		{
 			"path": "pages/Shops/appointment",
 			"style": {
 				"navigationBarTitleText": "预约看铺",

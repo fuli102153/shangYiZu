@@ -41,7 +41,7 @@
 					</van-cell>
 				</van-cell-group>
 			</van-popup>
-			<van-dropdown-menu>
+			<!-- <van-dropdown-menu>
 				<van-dropdown-item title="区域">
 					<van-tree-select height="55vw" max="10" :items="AreaStreets" :main-active-index="mainActiveIndex" :active-id="paras.streetId" selected-icon="success"
 					 @click-nav="onClickNav" @click-item="onClickItem" />
@@ -53,7 +53,8 @@
 				<van-dropdown-item title="更多">
 					
 				</van-dropdown-item>
-			</van-dropdown-menu>
+			</van-dropdown-menu> -->
+			<SelectHeader @onChange="onChange"></SelectHeader>
 		</van-sticky>
 		<view class="store-list">
 			<van-empty v-if="shopList.length==0" description="暂无数据" />
@@ -64,12 +65,14 @@
 
 <script>
 	import StoreCard from '../../components/Card/Store'
+	import SelectHeader from '../../components/SelectHeader/index.vue'
 	import Dialog from '../../wxcomponents/vant/dist/dialog/dialog';
 	import {getShopList,getAreaStreets,getCity} from "../../utils/api.js"
 	
 	export default {
 		components: {
-			StoreCard
+			StoreCard,
+			SelectHeader
 		},
 		data() {
 			return {
@@ -194,6 +197,12 @@
 				uni.navigateTo({
 					url: './shopDetails',
 				})
+			},
+			
+			onChange(params) {
+				console.log(1111111111111)
+				this.paras = params;
+				this.ajaxGetShopList()
 			},
 			
 			//商铺列表

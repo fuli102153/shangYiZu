@@ -18,7 +18,7 @@
 				热门搜索
 			</view>
 			<view class="hot-tag">
-				<view color="#B2B2B2" class="tag-item" v-for="(item, index) in tagList" :key="index">{{ item }}</view>
+				<view color="#B2B2B2" class="tag-item" v-for="(item, index) in tagList" :key="index" @click="searchKeyWord(item)">{{ item }}</view>
 			</view>
 		</view>
 		<!-- 历史记录 -->
@@ -45,9 +45,13 @@ export default {
 	},
 	methods: {
 		onSearch() {
-			console.log(11111)
 			uni.navigateTo({
-				url: './searchList'
+				url: `./searchList?keyword=${this.value}`
+			})
+		},
+		searchKeyWord(value) {
+			uni.navigateTo({
+				url: `./searchList?keyword=${value}`
 			})
 		},
 		onClickLeft() {
