@@ -47,7 +47,7 @@
 					{
 						name: '电子合同',
 						src: '../../static/images/E-contract.png',
-						router: ''
+						router: './contract'
 					},
 					{
 						name: '我的收藏',

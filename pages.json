@@ -138,6 +138,19 @@
 			}
 		},
 		{
+			"path": "pages/My/contract",
+			"style": {
+				"navigationBarTitleText": "电子合同",
+				"usingComponents":{
+					"van-tab": "/wxcomponents/vant/dist/tab/index",
+					"van-tabs": "/wxcomponents/vant/dist/tabs/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-empty": "/wxcomponents/vant/dist/empty/index",
+					"van-toast": "/wxcomponents/vant/dist/toast/index"
+				}
+			}
+		},
+		{
 			"path": "pages/My/about",
 			"style": {
 				"navigationBarTitleText": "关于我们",
