@@ -5,7 +5,7 @@
 				<van-tree-select height="55vw" max="10" :items="AreaStreets" :main-active-index="mainActiveIndex" :active-id="paras.streetId" selected-icon="success"
 				 @click-nav="onClickNav" @click-item="onClickItem" />
 			</van-dropdown-item>
-			<van-dropdown-item title="月租金"  :options="monthRentList" @change="changeMonthRent">
+			<van-dropdown-item title="月租金" :options="monthRentList" @change="changeMonthRent">
 				
 			</van-dropdown-item>
 			<van-dropdown-item title="物业" value="" :options="propertyList" @change="changePropertyType"></van-dropdown-item>
@@ -204,14 +204,14 @@
 				this.paras.streetId = this.paras.streetId === e.detail.id ? null : e.detail.id;
 			},
 			
-			changeMonthRent(e){
-				console.log(e)
+			changeMonthRent(value){
+				console.log(value)
 				// this.paras.monthRentStart = Number(e.detail.split("-")[0]);
 				// this.paras.monthRentEnd = Number(e.detail.split("-")[1]);
 				// this.toSourceData();
 			},
 			
-			changePropertyType(e){
+			changePropertyType(value){
 				this.paras.propertyType = e.detail;
 				this.toSourceData();
 			},
