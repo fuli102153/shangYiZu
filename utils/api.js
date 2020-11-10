@@ -221,7 +221,7 @@ export function getShopDetail(data){ return get(data,'api/shop/shopDetail')}
 export function getSubscribeAdd(data){ return post(data,'api/subscribe/subscribeAdd')}
 
 //19、开店发布
-export function getBrandAdd(data){ return get(data,'api/brand/add')}
+export function getBrandAdd(data){ return post(data,'api/brand/add')}
 
 //20、品牌列表
 export function getBrandList(data){ return post(data,'api/brand/list')}

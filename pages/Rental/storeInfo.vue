@@ -1,13 +1,6 @@
 <template>
 	<view class="v-storeInfo">
 		<van-field
-		  :value="property.shopName"
-		  clearable
-		  label="商铺名称"
-		  placeholder="给您的店铺取个亮眼的名称吧"
-			@input="changShopName"
-		/>
-		<van-field
 		  :value="property.transferFee"
 		  clearable
 		  label="转让费"
@@ -102,7 +95,6 @@
 		data() {
 			return {
 				property: {
-					shopName: '',
 					transferFee: '',
 					payMode: '',
 					rentIncrease: '',
