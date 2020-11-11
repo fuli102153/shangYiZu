@@ -242,6 +242,17 @@
 			}
 		},
 		{
+			"path": "pages/Headlines/details",
+			"style": {
+				"navigationBarTitleText": "商易租头条",
+				"usingComponents":{
+					"van-icon": "/wxcomponents/vant/dist/icon/index", 
+					"van-divider": "/wxcomponents/vant/dist/divider/index",
+					"van-toast": "/wxcomponents/vant/dist/toast/index"
+				}
+			}
+		},
+		{
 			"path": "pages/ShopPartner/index",
 			"style": {
 				"navigationBarTitleText": "商铺合伙人",

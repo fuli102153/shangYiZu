@@ -31,7 +31,10 @@
 			this.ajaxGetHeadline();
 		},
 		methods: {
-			goHeadlinesDetails() {
+			goHeadlinesDetails(item) {
+				uni.navigateTo({
+					url: './details?item=' + JSON.stringify(item)
+				})
 				console.log('进入详情页')
 			},
 			//头条信息
