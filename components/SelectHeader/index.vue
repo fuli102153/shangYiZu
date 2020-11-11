@@ -5,7 +5,7 @@
 				<van-tree-select height="55vw" max="10" :items="AreaStreets" :main-active-index="mainActiveIndex" :active-id="paras.streetId" selected-icon="success"
 				 @click-nav="onClickNav" @click-item="onClickItem" />
 			</van-dropdown-item>
-			<van-dropdown-item title="月租金" :options="monthRentList" @change="changeMonthRent">
+			<van-dropdown-item title="月租金" value="month" :options="monthRentList" @change="changeMonthRent">
 				
 			</van-dropdown-item>
 			<van-dropdown-item title="物业" value="" :options="propertyList" @change="changePropertyType"></van-dropdown-item>
@@ -95,6 +95,7 @@
 				selectLeaseList: [],
 				otherTagList: [],
 				selectOtherList: [],
+				month:"",
 				
 				paras:{
 					shopName:"",
@@ -193,27 +194,33 @@
 			},
 			//右侧选择项被点击时，会触发的事件
 			onClickItem(e) {
+				//console.log(e)
 				this.paras.streetId = this.paras.streetId === e.detail.id ? null : e.detail.id;
 			},
 			
-			onClickSort() {
+			onClickSort(e) {
 				this.mainActiveIndex = e.detail.index || 0;
 				this.paras.regionId = this.AreaStreets[this.mainActiveIndex].id;
 			},
-			onClickItemSort() {
+			onClickItemSort(e) {
 				this.paras.streetId = this.paras.streetId === e.detail.id ? null : e.detail.id;
 			},
 			
-			changeMonthRent(value){
-				console.log(value)
-				// this.paras.monthRentStart = Number(e.detail.split("-")[0]);
-				// this.paras.monthRentEnd = Number(e.detail.split("-")[1]);
-				// this.toSourceData();
+			changeMonthRent(){
+				//console.log(value
+				//console.log(this.month)
+				
+				//this.$emit('onChangeMit', "value")
+				this.paras.monthRentStart = Number(e.detail.split("-")[0]);
+				this.paras.monthRentEnd = Number(e.detail.split("-")[1]);
+				this.toSourceData();
 			},
 			
 			changePropertyType(value){
-				this.paras.propertyType = e.detail;
-				this.toSourceData();
+				this.$emit('onChangeMit', "222")
+				//console.log(value)
+				//this.paras.propertyType = value.detail;
+				//this.toSourceData();
 			},
 			
 			changeDict(){

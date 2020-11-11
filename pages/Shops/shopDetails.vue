@@ -319,6 +319,12 @@
 							that.info.push({"content":"商铺编号："+that.shop.shopNo})
 						})
 						
+						that.Dict.property_type.forEach((item)=>{
+							if(that.shop.propertyType == item.itemValue){
+								that.shop.propertyType = item.itemText;
+							}
+						})
+						
 						
 					}else{
 						Toast.fail(data.message);
