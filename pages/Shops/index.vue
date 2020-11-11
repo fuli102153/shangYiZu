@@ -9,10 +9,10 @@
 				</view>
 				<view class="search">
 					<van-search
-					  :value="value"
+						v-model="value" 
 					  shape="round"
 					  background="#1676fe"
-					  placeholder="搜索店铺或区域"
+					  placeholder="搜索店铺或区域" @search="onSearch"
 					/>
 				</view>
 				<van-icon name="phone" color="#fff" class="phone" @click="makePhoneCall(Configs.service_phone)"/>
@@ -110,12 +110,13 @@
 			<van-empty v-if="shopList.length==0" description="暂无数据" />
 			<StoreCard v-for="(item,index) in shopList" :sourceData="item" :key="index" @click.native="goShopdetails(item)" />
 		</view>
+		<van-toast id="van-toast" />
 	</view>
 </template>
 
 <script>
 	import StoreCard from '../../components/Card/Store'
-	
+	import Toast from '../../wxcomponents/vant/dist/toast/toast';
 	import Dialog from '../../wxcomponents/vant/dist/dialog/dialog';
 	import {getShopList,getAreaStreets,getCity} from "../../utils/api.js"
 	
@@ -215,7 +216,9 @@
 		methods: {
 			selectTag(index) {
 				this.tagIndex = index;
-				this.paras.floorNum = this.tagList[index].itemValue
+				this.paras.floorNum = this.tagList[index].itemValue;
+				this.paras.floorNum = this.paras.floorNum.replace(/&lt;/g,"<");
+				this.paras.floorNum = this.paras.floorNum.replace(/&gt;/g,">");
 				console.log(this.paras.floorNum)
 				
 			},
@@ -235,9 +238,13 @@
 			searchList(){
 				if(Number(this.measureAreaStart)>0){
 					this.paras.measureAreaStart = Number(this.measureAreaStart);
+				}else{
+					this.paras.measureAreaStart = "";
 				}
 				if(Number(this.measureAreaEnd)>0){
 					this.paras.measureAreaEnd = Number(this.measureAreaEnd);
+				}else{
+					this.paras.measureAreaEnd = "";
 				}
 				
 				
@@ -282,11 +289,11 @@
 
 			// 选中城市
 			selectCity(index) {
-				console.log(1111)
 				this.activeCity = index;
 			},
 			onSearch() {
-				console.log('搜索')
+				this.paras.shopName = this.value;
+				this.ajaxGetShopList();
 			},
 			makePhoneCall: function (tel) {
 				uni.makePhoneCall({
@@ -342,16 +349,20 @@
 			ajaxGetShopList(){
 				//ajax个人信息查询
 				var that = this;
+				that.shopList = [];
 				const paras = {
+					appUid:this.userDetail.id,
 					cityCode:"440300",
 					shopName:this.paras.shopName,
 					label:this.paras.label,
 					distance:this.paras.distance,
-					regionId:this.paras.regionId,
-					streetId:this.paras.streetId,
+					regionCode:this.paras.regionId,
+					streetCode:this.paras.streetId,
 					metroLine:this.paras.metroLine,
-					monthRentStart:this.paras.monthRentStart,
-					monthRentEnd:this.paras.monthRentEnd,
+					//monthRentStart:this.paras.monthRentStart,
+					//monthRentEnd:this.paras.monthRentEnd,
+					//monthRentStart:1000,
+					//monthRentEnd:2000,
 					sort:this.paras.sort,
 					floorNum:this.paras.floorNum,
 					indentity:this.paras.indentity,
@@ -359,51 +370,35 @@
 					propertyType:this.paras.propertyType,
 					measureAreaStart:this.paras.measureAreaStart,
 					measureAreaEnd:this.paras.measureAreaEnd,
-					longitude:this.location.longitude,
-					latitude:this.location.latitude,
+					//longitude:this.location.longitude,
+					//latitude:this.location.latitude,
 					pageNo:1,
 					pageSize:10,
 				};
 				
-				const paras1 = {
-					  "appUid": "WX6134adf6a41fd6a4",
-					  "cityCode": "440300",
-					  "distance": 50000,
-					  "engineeringConditions": "上下水|独立卫生间",
-					  "floorNum": "=2",
-					  "indentity": "1",
-					  "latitude": 22.5460536,
-					  "longitude": 114.0259737,
-					  "measureAreaEnd": 50,
-					  "measureAreaStart": 10,
-					  "metroLine": "1",
-					  "monthRentEnd": 3000,
-					  "monthRentStart": 1000,
-					  "pageNo": 1,
-					  "pageSize": 10,
-					  "propertyType": 1,
-					  "regionCode": "440305",
-					  "shopName": "小程序物业",
-					  "sort": "measure_area_desc",
-					  "streetCode": "440305002"
-				}
-				paras.accessToken = that.accessToken;
 				
+				paras.accessToken = that.accessToken;
+				const toast = Toast.loading({
+				  message: '加载中...',
+				  forbidClick: true,
+				  loadingType: 'spinner',
+				});
 				getShopList(paras).then(res => {
 					const data = res.data;
 					console.log(data);
 					
 					if(data.code=="200"){
+						toast.clear();
 						that.shopList = data.data;
 					
 					}else{
-						
+						Toast.fail(data.message);
 						
 					}
 					
 				})
 				.catch(error => {
-				
+					Toast.fail(error.message);
 				});
 			},
 			
