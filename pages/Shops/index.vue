@@ -482,6 +482,7 @@
 
 <style lang="scss" scoped>
 	.v-shops {
+		min-height: 100vh;
 		
 		.header {
 			padding: 0rpx 24rpx;

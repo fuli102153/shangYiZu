@@ -748,7 +748,7 @@ export default {
         shop: Object.assign(
 				{ ...this.form }, 
 				{
-          appUid: "WX6134adf6a41fd6a4",
+          appUid: this.userDetail.id,
           cityId: this.cityId,
           regionId: this.regionId,
           streetId: this.streetId,

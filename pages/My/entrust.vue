@@ -170,10 +170,11 @@
 
 <style lang="scss" scoped>
 	.v-entrust {
+		min-height: 100vh;
+		background-color: #EFF2F4;
 		
 		.tab-content {
 			padding: 70rpx 25rpx;
-			background-color: #EFF2F4;
 			
 			.card {
 				.header {
