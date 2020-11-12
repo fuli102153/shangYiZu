@@ -2,24 +2,24 @@
 	<view class="v-feedback">
 		<view class="store-info">
 			<view class="store-id">
-				您委托成功的商铺编号为：xxxxxxxx
+				商铺编号为：{{ feedbackData.shop.shopNo }}
 			</view>
 			<view class="browse">
-				点击浏览次数：100次
+				点击浏览次数：{{ feedbackData.shop.hits }}次
 			</view>
 			<view class="watch">
-				预约看铺成功人次：3次
+				预约看铺成功人次：{{ feedbackData.shop.subscribeNum }}次
 			</view>
 		</view>
 		<view class="store-header">看铺反馈</view>
 		<view class="feedback-list">
-			<view class="feedback-item" v-for="(item, index) in 5">
+			<view class="feedback-item" v-for="(item, index) in feedbackData.kpRecord" :key="index">
 				<view class="title">
-					看铺接待业务员：张三
+					看铺接待业务员：{{ item.username }}
 				</view>
 				<view class="content">
 					<van-icon name="chat-o" color="#1576FE"/>
-					<text>看铺反馈：地理位置不符合条件</text>
+					<text>看铺反馈：{{ item.remark }}</text>
 				</view>
 			</view>
 		</view>
@@ -37,7 +37,7 @@
 		},
 		data() {
 			return {
-				subscribeList: []
+				feedbackData: null
 			}
 		},
 		onLoad(paras) {
@@ -70,11 +70,8 @@
 					console.log(data);
 					
 					if(data.code=="200"){
+						that.feedbackData = data.data
 						toast.clear();
-						
-						
-						
-					
 					}else{
 						Toast.fail(data.message);
 						
@@ -91,6 +88,7 @@
 
 <style lang="scss" scoped>
 	.v-feedback {
+		min-height: 100vh;
 		padding: 28rpx 25rpx;
 		background-color: #EFF2F4;
 		

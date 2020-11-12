@@ -49,9 +49,9 @@
 			</swiper>
 		</uni-swiper-dot>
 		<!-- 头条 -->
-		<view class="toutiao" @click="goHeadlines">
+		<view class="toutiao" >
 			<view class="toutiao-icon">
-				<view class="toutiao-text">
+				<view class="toutiao-text" @click="goHeadlines">
 					<p>商易租</p>
 					<span>头条</span>
 				</view>
@@ -59,9 +59,9 @@
 			<view class="toutiao-link">
 				<!-- <span>商易租正式上线！现招募合伙人加入！</span> -->
 				<!-- <van-notice-bar class="scrollable" scrollable :text="noticeMessage" :speed="35" background="#fff" color="#2E2E2E" /> -->
-				<swiper class="swiper-container" :autoplay="true" :vertical="true" :circular="true" :interval="2000">
-				  <swiper-item v-for="(item, index) in noticeMessage" :key="index">
-				    <view class='swiper-item'>{{`${item}${item}${item}${item}${item}${item}`}}</view>
+				<swiper class="swiper-container" :autoplay="true" :vertical="true" :circular="true" :interval="3000">
+				  <swiper-item v-for="(item, index) in headlineList" :key="index">
+				    <view class='swiper-item' @click="goHeadDetails(item)">{{ item.title }}</view>
 				  </swiper-item>
 				</swiper>
 				<van-icon name="play" color="#002464" size="26rpx" />
@@ -269,6 +269,11 @@
 			goHeadlines() {
 				uni.navigateTo({
 					url: "../Headlines/index"
+				})
+			},
+			goHeadDetails(item) {
+				uni.navigateTo({
+					url: '../Headlines/details?item=' + JSON.stringify(item)
 				})
 			},
 			// 进入搜索页

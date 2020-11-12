@@ -5,28 +5,50 @@
 				<view class="tab-content">
 					<van-empty v-if="shopList.length==0" description="暂无数据" />
 					<!--fail-->
-					<view class="card success" v-for="(item,index) in shopList" :key="index">
-						<view class="header">
-							<view class="title">
-								委托成功
+					<view v-for="(item,index) in shopList" :key="index">
+						<view class="card success" v-if="item.status === 2">
+							<view class="header">
+								<view class="title">
+									委托成功
+								</view>
+								<view class="time">
+									{{item.createTime}}
+								</view>
 							</view>
-							<view class="time">
-								{{item.createTime}}
+							<view class="content">
+								<p>
+									您提交的商铺招租委托已成功发布<br />
+									工作人员正在努力为您寻找合适的品牌入驻<br />
+									您的商铺编号为：{{item.shopNo}}<br />
+								</p>
+								<view class="btn" @click="goShopFeedBack(item.shopNo)">
+									点击查看您的商铺
+									<van-icon name="arrow" color="#1676FE" />
+								</view>
 							</view>
 						</view>
-						<view class="content">
-							<p>
-								您提交的商铺招租委托已成功发布<br />
-								工作人员正在努力为您寻找合适的品牌入驻<br />
-								您的商铺编号为：{{item.brandNo}}<br />
-							</p>
-							<view class="btn" @click="goShopFeedBack(item.id)">
-								点击查看您的商铺
-								<van-icon name="arrow" color="#1676FE" />
+						<view class="card fail" v-if="item.status === 0">
+							<view class="header">
+								<view class="title">
+									委托失败
+								</view>
+								<view class="time">
+									{{item.createTime}}
+								</view>
+							</view>
+							
+							<view class="content">
+								<p>
+									您提交的商铺招租委托审核失败，未能发布<br />
+									审核意见：{{item.opinion}}<br />
+								</p>
+								<view class="btn" @click="goRental(item.shopNo)">
+									继续发布招租
+									<van-icon name="arrow" color="#1676FE" />
+								</view>
 							</view>
 						</view>
 					</view>
-					
 				</view>
 			</van-tab>
 		  <van-tab title="开店委托">
@@ -90,11 +112,17 @@
 				
 			},
 			
-			goShopFeedBack(brandNo) {
+			goShopFeedBack(shopNo) {
 				uni.navigateTo({
-					url: './feedback?brandNo='+brandNo
+					url: './feedback?shopNo='+shopNo
 				})
 				
+			},
+			
+			goRental() {
+				uni.navigateTo({
+					url: '../Rental/index'
+				})
 			},
 			
 			//招租委托查询
@@ -118,7 +146,7 @@
 					
 					if(data.code=="200"){
 						toast.clear();
-						that.shopList = data.data.records;
+						that.shopList = data.data;
 					}else{
 						Toast.fail(data.message);
 						
