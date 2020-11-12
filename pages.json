@@ -386,7 +386,27 @@
 					"van-sidebar": "/wxcomponents/vant/dist/sidebar/index",
 					"van-sidebar-item": "/wxcomponents/vant/dist/sidebar-item/index",
 					"van-empty": "/wxcomponents/vant/dist/empty/index",
-					"van-loading": "/wxcomponents/vant/dist/loading/index"
+					"van-loading": "/wxcomponents/vant/dist/loading/index",
+					"van-toast": "/wxcomponents/vant/dist/toast/index"
+				}
+			}
+		},
+		{
+			"path": "pages/ShoppingMall/project",
+			"style": {
+				"navigationBarTitleText": "项目物业",
+				"usingComponents":{
+					"van-search": "/wxcomponents/vant/dist/search/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index",
+					"van-tree-select": "/wxcomponents/vant/dist/tree-select/index",
+					"van-dropdown-menu": "/wxcomponents/vant/dist/dropdown-menu/index",
+					"van-dropdown-item": "/wxcomponents/vant/dist/dropdown-item/index",
+					"van-sticky": "/wxcomponents/vant/dist/sticky/index",
+					"van-sidebar": "/wxcomponents/vant/dist/sidebar/index",
+					"van-sidebar-item": "/wxcomponents/vant/dist/sidebar-item/index",
+					"van-empty": "/wxcomponents/vant/dist/empty/index",
+					"van-loading": "/wxcomponents/vant/dist/loading/index",
+					"van-toast": "/wxcomponents/vant/dist/toast/index"
 				}
 			}
 		},

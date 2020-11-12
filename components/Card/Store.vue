@@ -12,8 +12,8 @@
         </view>
         <view class="store-payment">
           <view class="store-tag">
-            <view class="tag">物业类型：{{source.propertyName || ""}}</view>
-            <view class="tag">业态：{{source.businessType || ""}}</view>
+            <view class="tag" v-if="source.propertyName">物业类型：{{source.propertyName || ""}}</view>
+            <view class="tag" v-if="source.businessName">业态：{{source.businessName || ""}}</view>
           </view>
           <view class="store-price">
             <span>{{source.monthRent || ""}}</span>
@@ -49,13 +49,13 @@ export default {
 				}
 			})
 			//console.log(that.Dict.business_type)
-			/*
+			
 			that.Dict.business_type.forEach((item)=>{
 				if(that.sourceData.businessType == item.itemValue){
-					that.sourceData.propertyName = item.itemText;
+					that.sourceData.businessName = item.itemText;
 				}
 			})
-			*/
+			
 			that.source = that.sourceData;
 			
 	    })
@@ -124,6 +124,7 @@ export default {
           padding: 0rpx 12rpx;
           border-radius: 3rpx;
           margin-top: 11rpx;
+		  display: inline-block;
         }
       }
 

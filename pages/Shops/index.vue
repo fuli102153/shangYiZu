@@ -336,16 +336,17 @@
 				var that = this;
 				that.shopList = [];
 				const paras = {
-					appUid: this.userDetail.id,
-					cityCode: "440300",
-					shopName: this.paras.shopName,
-					label: this.paras.label,
-					distance: this.paras.distance,
-					regionCode: this.paras.regionId,
-					streetCode: this.paras.streetId,
-					metroLine: this.paras.metroLine,
-					//monthRentStart:this.paras.monthRentStart,
-					//monthRentEnd:this.paras.monthRentEnd,
+					
+					cityCode:"440300",
+					shopName:this.paras.shopName,
+					label:this.paras.label,
+					distance:this.paras.distance,
+					//regionCode:this.paras.regionId,
+					streetCode:this.paras.streetId,
+					//streetCode:"440305002",
+					metroLine:this.paras.metroLine,
+					monthRentStart:this.paras.monthRentStart,
+					monthRentEnd:this.paras.monthRentEnd,
 					//monthRentStart:1000,
 					//monthRentEnd:2000,
 					sort: this.paras.sort,
