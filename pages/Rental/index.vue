@@ -485,7 +485,7 @@ export default {
       } else if (type === "business_type") {
         this.businessShowEngineering = true;
         this.businessTypeList = this.Dict.business_type.map(
-          (item) => item.itemValue
+          (item) => item.itemText
         );
       }
       this.popupType = type;

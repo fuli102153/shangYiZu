@@ -280,7 +280,7 @@
 			//项目信息和旗下的物业列表
 			toProject(id){
 				uni.navigateTo({
-					url: "../ShoppingMall/index?projectId="+id
+					url: "../ShoppingMall/project?projectId="+id
 				})
 			},
 			// 进入合作企业
