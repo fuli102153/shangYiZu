@@ -102,11 +102,11 @@ export default {
     padding-left: 30rpx;
 
     .store-title {
-      font-size: 32rpx;
+      font-size: 30rpx;
     }
 
     .store-size {
-      font-size: 23rpx;
+      font-size: 21rpx;
 	  span{
 	  		  margin-right:10rpx
 	  }
@@ -120,11 +120,12 @@ export default {
         .tag {
           border: 1rpx solid #1576fe;
           color: #1576fe;
-          font-size: 20rpx;
-          padding: 0rpx 12rpx;
+          font-size: 18rpx;
+          padding: 0rpx 11rpx;
           border-radius: 3rpx;
           margin-top: 11rpx;
-		  display: inline-block;
+					display: flex;
+					align-items: center;
         }
       }
 
@@ -135,11 +136,11 @@ export default {
         align-items: flex-end;
 
         span {
-          font-size: 42rpx;
+          font-size: 38rpx;
         }
 
         .company {
-          font-size: 30rpx;
+          font-size: 28rpx;
         }
       }
     }

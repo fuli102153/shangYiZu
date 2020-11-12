@@ -217,9 +217,9 @@
 			</view>
 		</view>
 		<!-- 猜你喜欢 -->
-		<view class="store">
-			<view class="store-header">猜你喜欢</view>
-			<view class="store-list">
+		<view class="store" >
+			<view class="store-header" v-if="false">猜你喜欢</view>
+			<view class="store-list" v-if="false">
 				<StoreCard v-for="item in 3" :sourceData="item" :key="item" />
 			</view>
 		</view>

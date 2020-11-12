@@ -9,7 +9,7 @@
 			</view>
 		</view>
 		<van-divider />
-		<rich-text :nodes="strings"></rich-text>
+		<rich-text class="content" :nodes="strings"></rich-text>
 	</view>
 </template>
 
@@ -43,10 +43,24 @@
 		.header {
 			.title {
 				font-size: 36rpx;
+				text-align: center;
+				line-height: 60rpx;
+				font-weight: 600;
 			}
 			.time {
 				font-size: 24rpx;
+				color: #969799;
+				text-align: center;
+				line-height: 40rpx;
 			}
 		}
+		
+		.content{
+			line-height: 50rpx;
+			color: #666666;
+			text-align: left;
+		}
 	}
+	
+
 </style>

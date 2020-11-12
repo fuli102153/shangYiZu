@@ -93,7 +93,6 @@
 						</view>
 					</view>
 				</van-dropdown-item>
-				</van-dropdown-item>
 			</van-dropdown-menu>
 			<!--<SelectHeader @onChangeMit="onChangeMit"></SelectHeader>-->
 		</van-sticky>

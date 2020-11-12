@@ -5,7 +5,7 @@
 				<view class="content">
 					<text>{{item.title}}</text>
 					<view class="time">
-						{{item.updateTime}}
+						{{item.createTime || ""}}
 					</view>
 				</view>
 				<van-icon name="play-circle" size="37rpx" color="#fff"/>
@@ -77,6 +77,7 @@
 			background-image: linear-gradient(to bottom right, #37BFFF, #1796FF);
 			background-size: 100%;
 			margin-bottom: 44rpx;
+			border-radius: 20rpx;
 			padding: 0 24rpx;
 			display: flex;
 			align-items: center;

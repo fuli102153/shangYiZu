@@ -83,7 +83,7 @@
 			</view>
 		</view>
 		<view class="view-list">
-			<van-sidebar :active-key="activeKey" @change="onChange">
+			<van-sidebar :active-key="activeKey" @change="onChange" style="width: 120rpx;">
 			  <van-sidebar-item :title="item.text" v-for="(item,index) in businessList" :key="index" />
 			</van-sidebar>
 			<view class="store-list" >
@@ -97,7 +97,7 @@
 </template>
 
 <script>
-	import StoreCard from '../../components/Card/Store'
+	import StoreCard from '../../components/Card/StoreSamll'
 	import Toast from '../../wxcomponents/vant/dist/toast/toast';
 	import Dialog from '../../wxcomponents/vant/dist/dialog/dialog';
 	import {getProjectList,getAreaStreets,getCity} from "../../utils/api.js"
@@ -185,6 +185,25 @@
 			}
 			*/
 			this.paras.projectType = paras.projectType
+			const title = ''
+			if (paras.projectType == 1) {
+				title = '购物中心'
+			} else if (paras.projectType == 2) {
+				title = '社区底商'
+			} else if (paras.projectType == 3) {
+				title = '整租物业'
+			} else if (paras.projectType == 4) {
+				title = '商业街区'
+			} else if (paras.projectType == 5) {
+				title = '综合配套'
+			} else if (paras.projectType == 6) {
+				title = '专业市场'
+			} else if (paras.projectType == 7) {
+				title = '娱乐教育'
+			}
+			uni.setNavigationBarTitle({
+				title: title
+			})
 			this.ajaxGetShopList();
 			//城市列表
 			this.ajaxGetCityList();
@@ -550,6 +569,10 @@
 		.view-list {
 			display: flex;
 			flex: 1;
+			
+			/deep/ .van-sidebar-item  {
+				width: 120rpx;
+			}
 			
 			.store-list {
 				flex: 1;
