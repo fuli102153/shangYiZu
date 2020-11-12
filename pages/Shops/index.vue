@@ -351,13 +351,14 @@
 				var that = this;
 				that.shopList = [];
 				const paras = {
-					appUid:this.userDetail.id,
+					
 					cityCode:"440300",
 					shopName:this.paras.shopName,
 					label:this.paras.label,
 					distance:this.paras.distance,
 					regionCode:this.paras.regionId,
-					streetCode:this.paras.streetId,
+					//streetCode:this.paras.streetId,
+					streetCode:"440305002",
 					metroLine:this.paras.metroLine,
 					//monthRentStart:this.paras.monthRentStart,
 					//monthRentEnd:this.paras.monthRentEnd,
