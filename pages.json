@@ -101,7 +101,8 @@
 					"van-popup": "/wxcomponents/vant/dist/popup/index",
 					"van-cell": "/wxcomponents/vant/dist/cell/index",
 					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
-					"van-sticky": "/wxcomponents/vant/dist/sticky/index"
+					"van-sticky": "/wxcomponents/vant/dist/sticky/index",
+					"van-empty": "/wxcomponents/vant/dist/empty/index"
 				}
 			}
 		},

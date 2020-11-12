@@ -60,6 +60,7 @@
 			</van-dropdown-menu>
 		</van-sticky>
 		<view class="store-list">
+			<van-empty v-if="brandList.length==0" description="暂无数据" />
 			<BrandCard v-for="(item,index) in brandList" :sourceData="item" :key="index" />
 		</view>
 	</view>

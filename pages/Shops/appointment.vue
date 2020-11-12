@@ -10,7 +10,7 @@
 		  :value="value"
 			label="联系电话"
 			input-align="right"
-		  placeholder="请输入用户名"
+		  placeholder="请输入联系电话"
 		/>
 		<van-cell required title="选择开始时间" :value="startDate" @click="onDisplay" />
 		<van-cell required title="选择结束时间" :value="endDate" @click="onEndDisplay" />
