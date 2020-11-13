@@ -27,6 +27,27 @@
 								</view>
 							</view>
 						</view>
+						<view class="card fail" v-else>
+							<view class="header">
+								<view class="title">
+									委托中
+								</view>
+								<view class="time">
+									{{item.createTime}}
+								</view>
+							</view>
+							
+							<view class="content">
+								<p>
+									您提交的商铺招租委托审核失败，未能发布<br />
+									审核意见：{{item.opinion}}<br />
+								</p>
+								<view class="btn" @click="goRental(item.shopNo)">
+									继续发布招租
+									<van-icon name="arrow" color="#1676FE" />
+								</view>
+							</view>
+						</view>
 						<view class="card fail" v-if="item.status === 0">
 							<view class="header">
 								<view class="title">
@@ -147,6 +168,7 @@
 					if(data.code=="200"){
 						toast.clear();
 						that.shopList = data.data;
+						console.log(that.shopList);
 					}else{
 						Toast.fail(data.message);
 						
@@ -154,7 +176,7 @@
 					
 				})
 				.catch(error => {
-					Toast.fail(error.message);
+					Toast.fail(this.global.error);
 				
 				});
 			},
@@ -188,7 +210,7 @@
 					
 				})
 				.catch(error => {
-					Toast.fail(error.message);
+					Toast.fail(this.global.error);
 				});
 			},
 			

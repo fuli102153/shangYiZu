@@ -77,8 +77,8 @@
           @input="changePosition"
         />
         <van-field
-          :value="form.detailedLocation"
-          :error-message="errMsg.detailedLocation"
+          :value="form.detailLocation"
+          :error-message="errMsg.detailLocation"
           label="详细位置"
           placeholder="请输入您商铺详细地址，详至门牌"
           required
@@ -283,6 +283,7 @@
     >
       <StoreInfo @subimtStoreInfo="subimtStoreInfo" />
     </van-popup>
+	<van-toast id="van-toast" />
   </view>
 </template>
 
@@ -290,6 +291,7 @@
 import area from "../../utils/areaT.js";
 import { getShopAdd } from "../../utils/api.js";
 import StoreInfo from "./storeInfo";
+import Toast from '../../wxcomponents/vant/dist/toast/toast';
 
 export default {
   components: {
@@ -299,32 +301,32 @@ export default {
     return {
       form: {
         // 联系人
-        contactUsername: "",
+        contactUsername: "王总",
         // 联系电话
-        contactMobile: "",
-				shopName: '',
+        contactMobile: "13012345678",
+		shopName: '肯德基',
         // 身份
-        indentity: "",
+        indentity: "业主",
         // 物业现况
-        propertyStatus: "",
+        propertyStatus: "毛坯",
         // 物业类型
-        propertyType: "",
+        propertyType: "购物中心",
         // 位置
-        position: "",
+        position: "深圳市南山区粤海街道",
         // 详细位置
-        detailedLocation: "",
+        detailLocation: "软基产业基地",
         // 工程条件
-        engineeringConditions: "",
+        engineeringConditions: "上下水,排油烟",
         // 期望招商类别
         businessType: "",
         // 月租金
-        monthRent: "",
+        monthRent: "50000",
         // 面积
-        measureArea: "",
+        measureArea: "200",
         // 免租期
-        freeTenancy: "",
+        freeTenancy: "0",
         // 物业环境
-        propertyEnvironment: "",
+        propertyEnvironment: "良好",
         // 店铺信息
         storeInfo: "",
       },
@@ -344,7 +346,7 @@ export default {
         // 位置
         position: "",
         // 详细位置
-        detailedLocation: "",
+        detailLocation: "",
         // 工程条件
         engineeringConditions: "",
         // 期望招商类别
@@ -679,7 +681,7 @@ export default {
         // 位置
         position: "",
         // 详细位置
-        detailedLocation: "",
+        detailLocation: "",
         // 工程条件
         engineeringConditions: "",
         // 期望招商类别
@@ -800,13 +802,27 @@ export default {
       // 	}
       // }
 
-      params.accessToken = this.accessToken;
-      console.log(this.accessToken);
-      getShopAdd(params).then((res) => {
-        if (res.code === 200) {
-					Toast.success('发布成功');
-				}
-      });
+		params.accessToken = this.accessToken;
+		const toast = Toast.loading({
+			message: '提交中...',
+			forbidClick: true,
+			loadingType: 'spinner',
+		});
+		getShopAdd(params).then((res) => {
+			const data = res.data;
+			if (data.code == "200") {
+				Toast.success('发布成功');
+				setTimeout(()=>{
+					uni.switchTab({
+						 url: '../Index/index'
+					});
+				},2000)
+			}else{		
+				Toast.fail(data.message);	
+			}
+		}).catch(error => {
+			Toast.fail(this.global.error);
+		});
     },
   },
 };

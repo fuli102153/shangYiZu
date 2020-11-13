@@ -56,7 +56,7 @@
 					
 				})
 				.catch(error => {
-					Toast.fail(error.message);
+					Toast.fail(this.global.error);
 				
 				});
 			}

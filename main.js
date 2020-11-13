@@ -12,6 +12,9 @@ Vue.prototype.address = {};//当前地址
 Vue.prototype.HOST = "https://app.wan0wan.com/"
 Vue.prototype.Dict = {};
 Vue.prototype.Configs = {};
+Vue.prototype.global = {
+	"error":"服务器出现问题！"
+};
 
 App.mpType = 'app'
 

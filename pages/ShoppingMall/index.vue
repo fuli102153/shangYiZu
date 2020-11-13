@@ -185,7 +185,7 @@
 			}
 			*/
 			this.paras.projectType = paras.projectType
-			const title = ''
+			let title = ''
 			if (paras.projectType == 1) {
 				title = '购物中心'
 			} else if (paras.projectType == 2) {
@@ -427,7 +427,7 @@
 					
 				})
 				.catch(error => {
-					Toast.fail(error.message);
+					Toast.fail(this.global.error);
 				});
 			},
 			

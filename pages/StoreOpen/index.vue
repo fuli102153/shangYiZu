@@ -197,7 +197,7 @@
         <view class="updata-image">
           <view class="image-type">
             <van-uploader
-              :file-list="fileList[2]"
+              :file-list="fileList[1]"
               max-count="1"
               @after-read="afterRead($event, 2)"
               preview-size="126rpx"
@@ -264,36 +264,38 @@
     >
       <StoreInfo @subimtStoreInfo="subimtStoreInfo" />
     </van-popup>
+	<van-toast id="van-toast" />
   </view>
 </template>
 
 <script>
 import area from "../../utils/areaT.js";
 import { getBrandAdd } from "../../utils/api.js";
+import Toast from '../../wxcomponents/vant/dist/toast/toast';
 
 export default {
   data() {
     return {
       form: {
-        contactUsername: "",
-        contactMobile: "",
-        indentity: "",
-        businessType: "",
-        propertyStatus: "",
-        propertyType: "",
-        cityId: "",
-        regionId: "",
-        streetId: "",
+        contactUsername: "张无忌",
+        contactMobile: "13487654321",
+        indentity: "个体商家",
+        businessType: "服装",
+        propertyStatus: "毛坯",
+        propertyType: "社区底层",
+        cityId: "440300",
+        regionId: "440305",
+        streetId: "440305007",
         engineeringConditions: "",
-        monthRent: "",
-        measureArea: "",
-        brandName: "",
-        brandProfie: "",
-        targetCustomer: "",
-        customerAveragePrice: "",
-        num: "",
+        monthRent: "25000",
+        measureArea: "100",
+        brandName: "喜茶",
+        brandProfie: "喜茶是一家新网红的奶茶，深受当代年轻人的喜欢",
+        targetCustomer: "80后",
+        customerAveragePrice: "20",
+        num: "6",
         openjoin: "1",
-        joinConditions: "",
+        joinConditions: "20万的加盟费",
         brandLogo: "",
         effectPhotos: "",
       },
@@ -675,18 +677,37 @@ export default {
 
     //提交数据
     submit() {
-      
-      const params = this.form;
-			console.log(this.fileList)
+		const params = this.form;
+		console.log(this.fileList)
+		if(this.fileList[0].length){
 			params.brandLogo = this.fileList[0][0].url
-			params.effectPhotos = this.fileList[0][0].url
-      params.accessToken = this.accessToken;
-      console.log(this.accessToken);
-      getBrandAdd(params).then((res) => {
-        if (res.code === 200) {
-          Toast.success("发布成功");
-        }
-      });
+		}
+		if(this.fileList[1].length){
+			params.effectPhotos = this.fileList[1][0].url
+		}
+		
+		
+		params.accessToken = this.accessToken;
+		const toast = Toast.loading({
+			message: '提交中...',
+			forbidClick: true,
+			loadingType: 'spinner',
+		});
+		getBrandAdd(params).then((res) => {
+			const data = res.data;
+			if (data.code == "200") {
+				Toast.success('发布成功');
+				setTimeout(()=>{
+					uni.switchTab({
+						 url: '../Index/index'
+					});
+				},2000)
+			}else{		
+				Toast.fail(data.message);	
+			}
+		}).catch(error => {
+			Toast.fail(this.global.error);
+		});
     },
   },
 };
