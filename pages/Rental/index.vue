@@ -304,7 +304,7 @@ export default {
         contactUsername: "王总",
         // 联系电话
         contactMobile: "13012345678",
-		shopName: '肯德基',
+				shopName: '肯德基',
         // 身份
         indentity: "业主",
         // 物业现况
@@ -407,6 +407,7 @@ export default {
   },
   onLoad() {
     console.log(area);
+		this.onChangeAddress()
     // 获取身份下拉菜单数据
     if (
       this.Dict &&
@@ -667,11 +668,11 @@ export default {
     // 表单校验
     checkInput() {
       this.errMsg = {
-         // 联系人
+        // 联系人
         contactUsername: "",
         // 联系电话
         contactMobile: "",
-				shopName: '',
+        shopName: '',
         // 身份
         indentity: "",
         // 物业现况
@@ -699,47 +700,67 @@ export default {
       };
       if (!this.form.contactUsername) {
         this.errMsg.contactUsername = "联系人不能为空！";
+				Toast.fail('联系人不能为空！');
         console.log(1);
-        return;
-      } else if (!this.form.contactMobile) {
-        this.errMsg.contactMobile = "联系电话不能为空！";
+        return false;
+      } else if (!this.form.contactMobile) { //!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(this.form.contactMobile))
+        this.errMsg.contactMobile = "请输入正确的电话号码";
+				Toast.fail('请输入正确的电话号码！');
         console.log(2);
-        return;
+        return false;
       } else if (!this.form.indentity) {
         this.errMsg.indentity = "身份不能为空！";
+				Toast.fail('身份不能为空！');
         console.log(3);
-        return;
+        return false;
       } else if (!this.form.propertyStatus) {
         this.errMsg.propertyStatus = "物业类型不能为空！";
+				Toast.fail('物业类型不能为空！');
         console.log(4);
-        return;
+        return false;
       } else if (!this.form.propertyType) {
         this.errMsg.propertyType = "物业类型不能为空！";
+				Toast.fail('物业类型不能为空！');
         console.log(5);
-        return;
+        return false;
       } else if (!this.form.position) {
         this.errMsg.position = "位置不能为空！";
+				Toast.fail('位置不能为空！');
         console.log(6);
-        return;
+        return false;
       } else if (!this.form.detailLocation) {
         this.errMsg.detailLocation = "详细位置不能为空！";
+				Toast.fail('详细位置不能为空！');
         console.log(7);
-        return;
+        return false;
       } else if (!this.form.monthRent) {
         this.errMsg.monthRent = "月租金不能为空！";
+				Toast.fail('月租金不能为空！');
         console.log(8);
-        return;
+        return false;
       } else if (!this.form.measureArea) {
         this.errMsg.measureArea = "面积不能为空！";
+				Toast.fail('面积不能为空！');
         console.log(9);
-        return;
-      }
+        return false;
+      } else {
+				return true
+			}
     },
+		
+		onChangeAddress() {
+		  wx.chooseLocation({
+				success: (res) => {
+					console.log(res)
+				},
+				fail: (err) => {
+					console.log(err);
+				}
+		  });
+		},
 
     //提交数据
     submit() {
-      console.log("联系人", this.form.contactUsername, 111);
-      console.log("校验", this.checkInput());
       let propertyType = null;
       this.propertyTypeList.forEach((item) => {
         if (item.name === this.form.propertyType) {
@@ -758,71 +779,30 @@ export default {
         }),
         property: this.property,
       };
-			console.log(this.form)
-			this.checkInput()
-      // console.log('params', params)
-      // const params = {
-      // 	"property": {
-      // 		"bayWidth": 2,
-      // 		"depthLength": 2,
-      // 		"floorHeight": 2,
-      // 		"floorNum": 2,
-      // 		"location": "不详",
-      // 		"payMode": "押一付三",
-      // 		"powerRate": "1",
-      // 		"rentIncrease": "33",
-      // 		"transferFee": "100",
-      // 		"waterRate": "6"
-      // 	},
-      // 	"shop": {
-      // 		"appUid": "WX6134adf6a41fd6a4",
-      // 		"businessType": "1,3",
-      // 		"cityCode": "440300",
-      // 		"contactMobile": "13266969696",
-      // 		"contactUsername": "小程序添加",
-      // 		"engineeringConditions": "上下水,独立卫生间",
-      // 		"freeTenancy": 1,
-      // 		"indentity": "1",
-      // 		"latitude": 22.54605355,
-      // 		"longitude": 114.02597366,
-      // 		"measureArea": 30,
-      // 		"metroLine": 1,
-      // 		"monthRent": 2000,
-      // 		"propertyEnvironment": "1",
-      // 		"detailLocation": "地址不详",
-      // 		"propertyStatus": "1",
-      // 		"propertyType": 2,
-      // 		"provinceCode": "440000",
-      // 		"recommend": 0,
-      // 		"regionCode": "440305",
-      // 		"shopName": "小程序物业",
-      // 		"shopPhotos": "https://gl365dev.oss-cn-shenzhen.aliyuncs.com/kstore/pic/20201010/20201010173147b95746df1eca4bfeb6ab760520d4c47a.jpg",
-      // 		"status": 0,
-      // 		"streetCode": "440305002"
-      // 	}
-      // }
-
-		params.accessToken = this.accessToken;
-		const toast = Toast.loading({
-			message: '提交中...',
-			forbidClick: true,
-			loadingType: 'spinner',
-		});
-		getShopAdd(params).then((res) => {
-			const data = res.data;
-			if (data.code == "200") {
-				Toast.success('发布成功');
-				setTimeout(()=>{
-					uni.switchTab({
-						 url: '../Index/index'
-					});
-				},2000)
-			}else{		
-				Toast.fail(data.message);	
-			}
-		}).catch(error => {
-			Toast.fail(this.global.error);
-		});
+			console.log(this.checkInput())
+		if(this.checkInput()) {
+			params.accessToken = this.accessToken;
+			const toast = Toast.loading({
+				message: '提交中...',
+				forbidClick: true,
+				loadingType: 'spinner',
+			});
+			getShopAdd(params).then((res) => {
+				const data = res.data;
+				if (data.code == "200") {
+					Toast.success('发布成功');
+					setTimeout(()=>{
+						uni.switchTab({
+							 url: '../Index/index'
+						});
+					},2000)
+				}else{		
+					// Toast.fail(data.message);	
+				}
+			}).catch(error => {
+				// Toast.fail(this.global.error);
+			});
+		}
     },
   },
 };

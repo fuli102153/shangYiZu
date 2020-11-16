@@ -606,74 +606,75 @@ export default {
     // 表单校验
     checkInput() {
       this.errMsg = {
-        // 联系人
         contactUsername: "",
-        // 联系电话
         contactMobile: "",
-        shopName: "",
-        // 身份
         indentity: "",
-        // 物业现况
-        propertyStatus: "",
-        // 物业类型
-        propertyType: "",
-        // 位置
-        position: "",
-        // 详细位置
-        detailedLocation: "",
-        // 工程条件
-        engineeringConditions: "",
-        // 期望招商类别
         businessType: "",
-        // 月租金
+        propertyStatus: "",
+        propertyType: "",
+        cityId: "",
+        regionId: "",
+        streetId: "",
         monthRent: "",
-        // 面积
         measureArea: "",
-        // 免租期
-        freeTenancy: "",
-        // 物业环境
-        propertyEnvironment: "",
-        // 店铺信息
-        storeInfo: "",
+        brandName: "",
+        brandProfie: "",
+        num: "",
+        brandLogo: "",
+        effectPhotos: "",
       };
       if (!this.form.contactUsername) {
-        this.errMsg.contactUsername = "联系人不能为空！";
-        console.log(1);
-        return;
-      } else if (!this.form.contactMobile) {
-        this.errMsg.contactMobile = "联系电话不能为空！";
-        console.log(2);
-        return;
-      } else if (!this.form.indentity) {
-        this.errMsg.indentity = "身份不能为空！";
-        console.log(3);
-        return;
-      } else if (!this.form.propertyStatus) {
-        this.errMsg.propertyStatus = "物业类型不能为空！";
-        console.log(4);
-        return;
-      } else if (!this.form.propertyType) {
-        this.errMsg.propertyType = "物业类型不能为空！";
-        console.log(5);
-        return;
-      } else if (!this.form.position) {
-        this.errMsg.position = "位置不能为空！";
-        console.log(6);
-        return;
-      } else if (!this.form.detailLocation) {
-        this.errMsg.detailLocation = "详细位置不能为空！";
-        console.log(7);
-        return;
-      } else if (!this.form.monthRent) {
-        this.errMsg.monthRent = "月租金不能为空！";
-        console.log(8);
-        return;
-      } else if (!this.form.measureArea) {
-        this.errMsg.measureArea = "面积不能为空！";
-        console.log(9);
-        return;
-      }
-    },
+          this.errMsg.contactUsername = "联系人不能为空！";
+      		Toast.fail('联系人不能为空！');
+          return false;
+        } else if (!this.form.contactMobile) { //!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(this.form.contactMobile))
+          this.errMsg.contactMobile = "请输入正确的电话号码";
+      		Toast.fail('请输入正确的电话号码！');
+          return false;
+        } else if (!this.form.indentity) {
+          this.errMsg.indentity = "身份不能为空！";
+      		Toast.fail('身份不能为空！');
+          return false;
+        } else if (!this.form.businessType) {
+          this.errMsg.businessType = "经营类型不能为空！";
+      		Toast.fail('经营类型不能为空！');
+          return false;
+        } else if (!this.form.propertyStatus) {
+          this.errMsg.propertyStatus = "物业类型不能为空！";
+      		Toast.fail('物业类型不能为空！');
+          return false;
+        } else if (!this.form.propertyType) {
+          this.errMsg.propertyType = "物业类型不能为空！";
+      		Toast.fail('物业类型不能为空！');
+          return false;
+        } else if (!this.form.cityId) {
+          this.errMsg.cityId = "位置不能为空！";
+      		Toast.fail('位置不能为空！');
+          return false;
+        } else if (!this.form.monthRent) {
+          this.errMsg.monthRent = "月租金不能为空！";
+      		Toast.fail('月租金不能为空！');
+          return false;
+        } else if (!this.form.measureArea) {
+          this.errMsg.measureArea = "面积不能为空！";
+      		Toast.fail('面积不能为空！');
+          return false;
+        } else if (!this.form.brandName) {
+          this.errMsg.brandName = "品牌名称不能为空！";
+      		Toast.fail('品牌名称不能为空！');
+          return false;
+        } else if (!this.form.brandProfie) {
+          this.errMsg.brandProfie = "品牌简介不能为空！";
+      		Toast.fail('品牌简介不能为空！');
+          return false;
+        } else if (!this.form.num) {
+          this.errMsg.num = "数量不能为空！";
+      		Toast.fail('数量不能为空！');
+          return false;
+        } else {
+      		return true
+      	}
+      },
 
     //提交数据
     submit() {
@@ -686,28 +687,30 @@ export default {
 			params.effectPhotos = this.fileList[1][0].url
 		}
 		
+		if (this.checkInput()) {
+			params.accessToken = this.accessToken;
+			const toast = Toast.loading({
+				message: '提交中...',
+				forbidClick: true,
+				loadingType: 'spinner',
+			});
+			getBrandAdd(params).then((res) => {
+				const data = res.data;
+				if (data.code == "200") {
+					Toast.success('发布成功');
+					setTimeout(()=>{
+						uni.switchTab({
+							 url: '../Index/index'
+						});
+					},2000)
+				}else{		
+					Toast.fail(data.message);	
+				}
+			}).catch(error => {
+				Toast.fail(this.global.error);
+			});
+		}
 		
-		params.accessToken = this.accessToken;
-		const toast = Toast.loading({
-			message: '提交中...',
-			forbidClick: true,
-			loadingType: 'spinner',
-		});
-		getBrandAdd(params).then((res) => {
-			const data = res.data;
-			if (data.code == "200") {
-				Toast.success('发布成功');
-				setTimeout(()=>{
-					uni.switchTab({
-						 url: '../Index/index'
-					});
-				},2000)
-			}else{		
-				Toast.fail(data.message);	
-			}
-		}).catch(error => {
-			Toast.fail(this.global.error);
-		});
     },
   },
 };
