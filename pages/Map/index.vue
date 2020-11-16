@@ -1,16 +1,14 @@
 <template>
 	<view class="v-map">
 		<view class="map_container">
-			<map class="map" ref="map" id="map" :longitude="longitude" :latitude="latitude" :enable-zoom="false"  :show-location="false" @regionchange="regionchange" @markertap="selectMarker" scale="11"  :markers="markers">
-				<cover-view class="controls">
-				</cover-view>
+			<map class="map" ref="map" id="map" :longitude="longitude" :latitude="latitude" :enable-zoom="false"  :show-location="false" @regionchange="regionchange" @markertap="selectMarker" @labeltap="labeltap" :scale="scale"  :markers="markers">
 			</map>
 		</view>
 	</view>
 </template>
 
 <script>
-	
+	import {getMapForShop} from '../../utils/api.js'
 	
 	export default {
 		data() {
@@ -20,23 +18,82 @@
 						id:"0",
 						latitude: 22.53332,
 						longitude: 113.93041,
-						iconPath: '../../static/images/my.png',
-						title:"宝马",
-						label:"宝马宝马"
+						iconPath: '../../static/images/map-marker.png',
+						width: '160rpx',
+						height: '160rpx',
+						label: {
+							content: '南山区商铺\n 556套',
+							color: '#fff',
+							fontSize: 14,
+							anchorY: -55,
+							textAlign: 'center'
+						}
 					}, {
 						id:"1",
-						latitude: 22.53332,
-						longitude: 113.94041,
-						label:"奔驰奔驰"
+						latitude: 22.529302,
+						longitude: 114.062639,
+						iconPath: '../../static/images/map-marker.png',
+						width: '160rpx',
+						height: '160rpx',
+						label: {
+							content: '福田区商铺\n 556套',
+							color: '#fff',
+							fontSize: 14,
+							anchorY: -55,
+							textAlign: 'center'
+						}
+					}, {
+						id:"2",
+						latitude: 22.72575,
+						longitude: 114.25043,
+						iconPath: '../../static/images/map-marker.png',
+						width: '160rpx',
+						height: '160rpx',
+						label: {
+							content: '龙岗区商铺\n 556套',
+							color: '#fff',
+							fontSize: 14,
+							anchorY: -55,
+							textAlign: 'center'
+						}
+					}, {
+						id:"3",
+						latitude: 22.702281,
+						longitude: 114.050934,
+						iconPath: '../../static/images/map-marker.png',
+						width: '160rpx',
+						height: '160rpx',
+						label: {
+							content: '龙华区商铺\n 556套',
+							color: '#fff',
+							fontSize: 14,
+							anchorY: -55,
+							textAlign: 'center'
+						}
+					}, {
+						id:"4",
+						latitude: 22.559241,
+						longitude: 113.892832,
+						iconPath: '../../static/images/map-marker.png',
+						width: '160rpx',
+						height: '160rpx',
+						label: {
+							content: '宝安区商铺\n 556套',
+							color: '#fff',
+							fontSize: 14,
+							anchorY: -55,
+							textAlign: 'center'
+						}
 					}
 				],
 				latitude: 22.54985,
 				longitude:114.063812,
-				scale:11,
+				scale:10,
 				placeData: {},
 			}
 		},
 		onLoad: function() {
+			this.ajaxGetMapForShop()
 			//首先获取经纬度
 			 //this.getWxLocation();
 			 this.regionchange();
@@ -102,6 +159,25 @@
 			selectMarker(e){
 				console.log(e)
 			},
+			
+			labeltap(e) {
+				console.log(e)
+			},
+			
+			ajaxGetMapForShop() {
+				var that = this;
+				const params = {
+					"distance": 5000,
+					"latitude": 22.54605355,
+					"longitude": 114.02597366,
+					"pageNo": 1,
+					"pageSize": 10
+				}
+				params.accessToken = that.accessToken;
+				getMapForShop(params).then( res => {
+					console.log(res)
+				})
+			}
 		}
 	}
 </script>
@@ -115,18 +191,5 @@
 	.map {
 		height: 100%;
 		width: 100%;
-		
-		.controls {
-		  position: absolute;
-		  top: 30rpx;
-		  left: 30rpx;
-		  height: 50px;
-		  background: #4499ff;
-		  width: 100rpx;
-		  height: 100rpx;
-		  border-radius: 50rpx;
-		  box-shadow: 0 -2px 15px #dedede;
-		  font-size: 12px;
-		}
 	}
 </style>

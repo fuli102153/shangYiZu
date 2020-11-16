@@ -41,20 +41,26 @@
 				</van-cell-group>
 			</van-popup>
 			<van-dropdown-menu>
-				<van-dropdown-item title="区域">
-					<van-tree-select height="55vw" :items="items" :main-active-index="mainActiveIndex" :active-id="activeId" selected-icon="success"
-					 @click-nav="onClickNav" @click-item="onClickItem" />
+				<van-dropdown-item title="业态" :style="{display: areaShow ? 'block' : 'none'}" @close="areaShow=false" @open="areaShow=true">
+					<van-picker :columns="columns" @change="onChange" />
+					<view class="btn">
+						<van-button type="primary" block color="#BDBDBD" class="eliminate">清除</van-button>
+						<van-button type="primary" block color="#1676FE" class="determine">确定</van-button>
+					</view>
 				</van-dropdown-item>
-				<van-dropdown-item title="月租金">
+				<van-dropdown-item title="拓展区域">
 					<van-tree-select height="55vw" :items="items" :main-active-index="mainActiveIndex" :active-id="activeId" selected-icon="success"
-					 @click-nav="onClickNav" @click-item="onClickItem" />
+					 @click-nav="onClickNav" @click-item="onClickItem">
+							<van-tree-select height="55vw" :items="property" :main-active-index="mainActiveIndex" :active-id="activeId" selected-icon="success"
+							@click-nav="onClickNav" @click-item="onClickItem" />
+					 </van-tree-select>
 				</van-dropdown-item>
 				<van-dropdown-item title="物业">
-					<van-tree-select height="55vw" :items="items" :main-active-index="mainActiveIndex" :active-id="activeId" selected-icon="success"
+					<van-tree-select height="55vw" :items="property" :main-active-index="mainActiveIndex" :active-id="activeId" selected-icon="success"
 					 @click-nav="onClickNav" @click-item="onClickItem" />
 				</van-dropdown-item>
-				<van-dropdown-item title="更多">
-					<van-tree-select height="55vw" :items="items" :main-active-index="mainActiveIndex" :active-id="activeId" selected-icon="success"
+				<van-dropdown-item title="面积">
+					<van-tree-select height="55vw" :items="measure" :main-active-index="mainActiveIndex" :active-id="activeId" selected-icon="success"
 					 @click-nav="onClickNav" @click-item="onClickItem" />
 				</van-dropdown-item>
 			</van-dropdown-menu>
@@ -68,7 +74,7 @@
 
 <script>
 	import BrandCard from '../../components/Card/Brand'
-	import {getBrandList} from "../../utils/api.js"
+	import {getBrandList, getAreaStreets,} from "../../utils/api.js"
 	export default {
 		components: {
 			BrandCard
@@ -81,45 +87,8 @@
 				value: '',
 				mainActiveIndex: 0,
 				activeId: null,
-				items: [{
-						text: '附近',
-						children: [{
-								id: 1,
-								text: '不限',
-								children: []
-							},
-							{
-								id: 2,
-								text: '500m',
-								children: []
-							},
-							{
-								id: 3,
-								text: '1000m',
-								children: []
-							},
-							{
-								id: 4,
-								text: '2000m',
-								children: []
-							},
-							{
-								id: 5,
-								text: '3000m',
-								children: []
-							},
-							{
-								id: 6,
-								text: '4000m',
-								children: []
-							},
-							{
-								id: 7,
-								text: '5000m',
-								children: []
-							},
-						],
-					},
+				brandList:[],
+				items: [
 					{
 						text: '街道',
 						children: []
@@ -129,15 +98,57 @@
 						children: []
 					},
 				],
-				brandList:[],
+				property: [{
+						text: '物业类型',
+						children: [],
+					},
+				],
+				measure: [
+					{
+						text: '附近',
+						children: [],
+					}
+				],
+				columns: [
+				  {
+				    values: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
+				    className: 'column1',
+				  },
+				  {
+				    values: ['福州', '厦门', '莆田', '三明', '泉州'],
+				    className: 'column2',
+				  },
+				],
+				areaShow: false,
 			}
 		},
 		onLoad() {
 			//请求品牌列表
 			this.ajaxGetBrandList();
+			this.ajaxGetAreaStreets();
+			
+			this.measure[0].children = [];
+			this.Dict.search_month_rent.forEach((item) => {
+				this.measure[0].children.push({
+					text: item.itemText,
+					id: item.itemValue,
+				});
+			});
+			
+			this.property[0].children = [];
+			this.Dict.property_type.forEach((item) => {
+				this.property[0].children.push({
+					text: item.itemText,
+					id: item.itemValue,
+				});
+			});
 			
 		},
 		methods: {
+			onChange(e) {
+				 const { picker, value, index } = e.detail;
+				 console.log(picker, value, index)
+			},
 			// 打开关闭弹出层
 			showPopup() {
 				this.locationShow = true;
@@ -163,6 +174,43 @@
 			onClickItem({detail = {}}) {
 				const activeId = this.activeId === detail.id ? null : detail.id;
 				this.activeId = activeId
+			},
+			
+			//城市联动
+			ajaxGetAreaStreets() {
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					cityCode: "440300",
+				};
+				paras.accessToken = that.accessToken;
+			
+				getAreaStreets(paras)
+					.then((res) => {
+						const data = res.data;
+						console.log(data);
+			
+						if (data.code == "200") {
+							that.items[0].children = [];
+							data.data.forEach((item) => {
+								let area = {};
+								area.id = item.areaCode;
+								area.text = item.areaName;
+								area.children = [];
+								item.streetVoList.forEach((street) => {
+									let streetItem = {};
+									streetItem.id = street.streetCode;
+									streetItem.text = street.streetName;
+									streetItem.children = [];
+									area.children.push(streetItem);
+								});
+								that.items[0].children.push(area);
+							});
+							that.$forceUpdate();
+							console.log(that.AreaStreets);
+						} else {}
+					})
+					.catch((error) => {});
 			},
 	
 			//品牌列表
@@ -271,6 +319,21 @@
 		.store-list {
 			padding: 30rpx 25rpx;
 			background-color: #F5F8FA;
+		}
+		.btn {
+			display: flex;
+			
+			/deep/ .van-button {
+				border-radius: 0;
+			}
+			
+			.eliminate {
+				flex: 1;
+			}
+			.determine {
+				flex: 1;
+				border-radius: 0;
+			}
 		}
 	}
 </style>

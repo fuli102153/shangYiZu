@@ -52,8 +52,7 @@
 		<view class="toutiao" >
 			<view class="toutiao-icon">
 				<view class="toutiao-text" @click="goHeadlines">
-					<p>商易租</p>
-					<span>头条</span>
+					<i class="headline-logo"></i>
 				</view>
 			</view>
 			<view class="toutiao-link">
@@ -587,14 +586,16 @@
 				z-index: 1;
 				.toutiao-text {
 					width: 115rpx;
-					text-align: center;
-					p {
-						font-size: 24rpx;
-						color: #ffffff;
-					}
-					span {
-						font-size: 32rpx;
-						color: #F9980E;
+					padding-top: 6rpx;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					
+					.headline-logo {
+						background-image: url(../../static/images/headLine.png);
+						background-size: 100%;
+						width: 64rpx;
+						height: 64rpx;
 					}
 				}
 			}

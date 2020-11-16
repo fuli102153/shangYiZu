@@ -197,7 +197,7 @@ export function getCooperativeList(data){ return get(data,'api/cooperativeEnterp
 export function getGuessYouLike(data){ return post(data,'api/shop/guessYouLike')}
 
 //10、地图找铺
-export function getMapForShop(data){ return get(data,'api/shop/mapForShop')}
+export function getMapForShop(data){ return post(data,'api/shop/mapForShop')}
 
 //11、常量查询
 export function getAllDictItems(data){ return get(data,'api/dict/auth/getAllDictItems')}
