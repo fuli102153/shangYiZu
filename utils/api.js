@@ -188,34 +188,34 @@ export function getBannerList(data){ return get(data,'api/banner/getList')}
 export function getHeadline(data){ return get(data,'api/headline/getList')}
 
 //7、本周重点推荐
-export function getWeekRecommendList(data){ return get(data,'api/project/weekRecommend')}
+export function getWeekRecommendList(data){ return get(data,'project/weekRecommend')}
 
 //8、合作企业
 export function getCooperativeList(data){ return get(data,'api/cooperativeEnterprise/getList')}
 
 //9、猜你喜欢
-export function getGuessYouLike(data){ return post(data,'api/shop/guessYouLike')}
+export function getGuessYouLike(data){ return post(data,'shop/guessYouLike')}
 
 //10、地图找铺
-export function getMapForShop(data){ return post(data,'api/shop/mapForShop')}
+export function getMapForShop(data){ return post(data,'shop/mapForShop')}
 
 //11、常量查询
 export function getAllDictItems(data){ return get(data,'api/dict/auth/getAllDictItems')}
 
 //12、项目列表
-export function getProjectList(data){ return post(data,'api/project/projectList')}
+export function getProjectList(data){ return post(data,'project/projectList')}
 
 //13、项目信息及旗下的物业列表
-export function getProjectAndShopList(data){ return post(data,'api/project/projectAndShopList')}
+export function getProjectAndShopList(data){ return post(data,'project/projectAndShopList')}
 
 //15、招租发布
-export function getShopAdd(data){ return post(data,'api/shop/shopAdd')}
+export function getShopAdd(data){ return post(data,'shop/shopAdd')}
 
 //16、商铺列表
-export function getShopList(data){ return post(data,'api/shop/shopList')}
+export function getShopList(data){ return post(data,'shop/shopList')}
 
 //17、商铺详情
-export function getShopDetail(data){ return get(data,'api/shop/shopDetail')}
+export function getShopDetail(data){ return get(data,'shop/shopDetail')}
 
 //18、看铺预约
 export function getSubscribeAdd(data){ return post(data,'api/subscribe/subscribeAdd')}
@@ -224,16 +224,16 @@ export function getSubscribeAdd(data){ return post(data,'api/subscribe/subscribe
 export function getBrandAdd(data){ return post(data,'api/brand/add')}
 
 //20、品牌列表
-export function getBrandList(data){ return post(data,'api/brand/list')}
+export function getBrandList(data){ return post(data,'open/brand/list')}
 
 //21、品牌详情
-export function getBrandDetail(data){ return get(data,'api/brand/detail')}
+export function getBrandDetail(data){ return get(data,'open/brand/detail')}
 
 //22、招租委托查询
-export function getMyShopList(data){ return post(data,'api/shop/myShopList')}
+export function getMyShopList(data){ return post(data,'shop/myShopList')}
 
 //23、商铺反馈
-export function getLookShopFeedback(data){ return post(data,'api/shop/lookShopFeedback')}
+export function getLookShopFeedback(data){ return post(data,'shop/lookShopFeedback')}
 
 //23、开店委托查询
 export function getEntrustmentList(data){ return get(data,'api/brand/entrustment/list')}
@@ -275,7 +275,7 @@ export function getFeedBackAdd1(data){ return get(data,'api/feedBack/feedBackAdd
 export function getFeedBackAdd2(data){ return get(data,'api/feedBack/feedBackAdd')}
 
 //36、点击量，预约量
-export function getAddNumber(data){ return get(data,'api/shop/addNumber')}
+export function getAddNumber(data){ return get(data,'shop/addNumber')}
 
 //37、上传
 export function upload(data){ return post(data,'api/upload')}

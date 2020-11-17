@@ -1,5 +1,5 @@
 <template>
-  <view class="vc-appointment-card" @click="toDetail(sourceData.shopNo)">
+  <view class="vc-appointment-card" @click="toDetail(source.shopNo)">
 		<!-- 状态不同颜色 安排业务员：wait 看铺： success 已看：seen  出租：lease -->
 		<view class="header" :class="type">
 			<view class="state">
@@ -11,21 +11,27 @@
 		</view>
 		<view class="content">
 			<view class="store-img">
-			     <image :src="sourceData.shopPhotos? sourceData.shopPhotos.split(',')[0] : '../../static/logo.png'"></image> 
+			     <image :src="source.shopPhotos? source.shopPhotos.split(',')[0] : '../../static/logo.png'"></image> 
 			</view>
 			<view class="store-info">
-			  <view class="store-title">{{sourceData.shopName || ""}}</view>
+			  <view class="store-title">{{source.shopName || ""}}</view>
 			  <view class="store-size">
-			    <span>面积：{{sourceData.measureArea || ""}}m²</span>
-			    <span>楼层：{{sourceData.floorNum || ""}}层</span>
+			    <span>面积：{{source.measureArea || ""}}m²</span>
+			    <span>楼层：{{source.floorNum || ""}}层</span>
 			  </view>
 			  <view class="store-payment">
 			    <view class="store-tag">
-			      <view class="tag">物业类型：{{sourceData.propertyType || ""}}</view>
-			      <view class="tag">业态：{{sourceData.businessType || ""}}</view>
+				  <view class="store-tag">
+					<view>
+						<view class="tag" v-if="source.propertyName">物业类型：{{source.propertyName || ""}}</view>
+					</view>
+				    <view>
+				    	<view class="tag" v-if="source.businessName">业态：{{source.businessName || ""}}</view>
+				    </view>
+				  </view>
 			    </view>
 			    <view class="store-price">
-			      <span>{{sourceData.monthRent || ""}}</span>
+			      <span>{{source.monthRent || ""}}</span>
 			      <span class="company">元/月</span>
 			    </view>
 			  </view>
@@ -47,7 +53,8 @@ export default {
 	data() {
 	 	return {
 			type: '',
-			typeText: ''
+			typeText: '',
+			source:{}
 	 	}
 	},
 	created() {
@@ -72,7 +79,21 @@ export default {
 	mounted(){
 	    var that = this;
 	    this.$nextTick(function(){
+			that.source = {};
+			that.Dict.property_type.forEach((item)=>{
+				if(that.sourceData.propertyType == item.itemValue){
+					that.sourceData.propertyName = item.itemText;
+				}
+			})
+			//console.log(that.Dict.business_type)
 			
+			that.Dict.business_type.forEach((item)=>{
+				if(that.sourceData.businessType == item.itemValue){
+					that.sourceData.businessName = item.itemText;
+				}
+			})
+			
+			that.source = that.sourceData;
 	    })
 	  },
 	methods: {

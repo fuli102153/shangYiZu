@@ -12,8 +12,14 @@
         </view>
         <view class="store-payment">
           <view class="store-tag">
-            <view class="tag" v-if="source.propertyName">物业类型：{{source.propertyName || ""}}</view>
-            <view class="tag" v-if="source.businessName">业态：{{source.businessName || ""}}</view>
+            <view class="store-tag">
+				<view>
+					<view class="tag" v-if="source.propertyName">物业类型：{{source.propertyName || ""}}</view>
+				</view>
+				<view>
+					<view class="tag" v-if="source.businessName">业态：{{source.businessName || ""}}</view>
+				</view>
+            </view>
           </view>
           <view class="store-price">
             <span>{{source.monthRent || ""}}</span>

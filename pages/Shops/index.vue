@@ -99,6 +99,12 @@
 		<view class="store-list">
 			<van-empty v-if="shopList.length==0" description="暂无数据" />
 			<StoreCard v-for="(item,index) in shopList" :sourceData="item" :key="index" @click.native="goShopdetails(item)" />
+			<view class="loading" v-if="loadMoreText != '没有更多'">
+				<van-loading  size="24px">{{loadMoreText}}</van-loading>
+			</view>
+			<view class="loading" v-else>
+				{{loadMoreText}}
+			</view>
 		</view>
 		<van-toast id="van-toast" />
 	</view>
@@ -157,7 +163,8 @@
 				otherTagList: [],
 				otherTagIndex: -1,
 				selectOtherList: [],
-
+				reload: false,
+				loadMoreText: "更多",
 				paras: {
 					shopName: "",
 					label: "",
@@ -204,18 +211,39 @@
 			//把字典格式进行转换
 			this.changeDict();
 		},
+		onReachBottom() {
+			console.log("onReachBottom");
+			this.loadMoreText = '更多';
+			this.ajaxGetShopList();
+		},
+		onPullDownRefresh() {
+			console.log("onPullDownRefresh");
+			this.reload = true;
+			this.ajaxGetShopList();
+		},
 		methods: {
 			selectTag(index) {
-				this.tagIndex = index;
-				this.paras.floorNum = this.tagList[index].itemValue;
-				this.paras.floorNum = this.paras.floorNum.replace(/&lt;/g, "<");
-				this.paras.floorNum = this.paras.floorNum.replace(/&gt;/g, ">");
-				console.log(this.paras.floorNum);
+				if(this.tagIndex == index){
+					this.tagIndex = -1;
+					this.paras.floorNum = "";
+				}else{
+					this.tagIndex = index;
+					this.paras.floorNum = this.tagList[index].itemValue;
+					this.paras.floorNum = this.paras.floorNum.replace(/&lt;/g, "<");
+					this.paras.floorNum = this.paras.floorNum.replace(/&gt;/g, ">");
+				}
+				
+				
 			},
 			selectLeaseTag(index) {
-				this.leaseTagIndex = index;
-				this.paras.indentity = this.leaseTagList[index].itemValue;
-				console.log(this.paras.indentity);
+				if(this.leaseTagIndex == index){
+					this.leaseTagIndex = -1;
+					this.paras.indentity = "";
+				}else{
+					this.leaseTagIndex = index;
+					this.paras.indentity = this.leaseTagList[index].itemValue;
+				}
+				
 			},
 			selecOthertTag(index) {
 				this.otherTagIndex = index;
@@ -251,14 +279,20 @@
 
 			//转换格式
 			changeDict() {
-				this.propertyList = [];
+				this.propertyList = [{
+						text: "不限",
+						value: "",
+					}];
 				this.Dict.property_type.forEach((item) => {
 					this.propertyList.push({
 						text: item.itemText,
 						value: item.itemValue,
 					});
 				});
-				this.monthRentList = [];
+				this.monthRentList = [{
+						text: "不限",
+						value: "",
+					}];
 				this.Dict.search_month_rent.forEach((item) => {
 					this.monthRentList.push({
 						text: item.itemText,
@@ -278,8 +312,30 @@
 			selectCity(index) {
 				this.activeCity = index;
 			},
-			onSearch() {
-				this.paras.shopName = this.value;
+			onSearch(e) {
+				console.log(e.detail)
+				let that = this;
+				let history = []
+				uni.getStorage({
+					key: '__searchHistory__',
+					success(res) {
+						history = res.data
+						history.push(e.detail)
+						let newHistory = Array.from(new Set(history))
+						console.log(newHistory)
+						uni.setStorage({
+							key: "__searchHistory__",
+							data: newHistory,
+						})
+					},
+					fail: () => {
+						uni.setStorage({
+							key: "__searchHistory__",
+							data: [e.detail],
+						})
+					}
+				})
+				this.paras.shopName = e.detail;
 				this.ajaxGetShopList();
 			},
 			makePhoneCall: function(tel) {
@@ -293,17 +349,31 @@
 
 			changeMonthRent(e) {
 				console.log(e);
-
-				this.paras.monthRentStart = Number(e.detail.split("-")[0]);
-				this.paras.monthRentEnd = Number(e.detail.split("-")[1]);
-				console.log(this.paras.monthRentStart);
-				console.log(this.paras.monthRentEnd);
-				this.ajaxGetShopList();
+				if(e.detail){
+					let start = Number(e.detail.split("-")[0]) || "";
+					let end = Number(e.detail.split("-")[1]) || "";
+					
+					if(this.paras.monthRentStart != start || this.paras.monthRentEnd != end){
+						this.paras.monthRentStart = start;
+						this.paras.monthRentEnd = end;
+						this.ajaxGetShopList();
+					}
+				}else{
+					this.paras.monthRentStart = "";
+					this.paras.monthRentEnd = "";
+					this.ajaxGetShopList();
+				}
+				
+				
 			},
 
 			changePropertyType(e) {
-				this.paras.propertyType = Number(e.detail);
-				this.ajaxGetShopList();
+				let t = Number(e.detail) || "";
+				if(this.paras.propertyType != t){
+					this.paras.propertyType = t;
+					this.ajaxGetShopList();
+				}
+				
 			},
 
 			onClickLeft() {
@@ -317,9 +387,11 @@
 			//右侧选择项被点击时，会触发的事件
 			onClickItem(e) {
 				//console.log(e)
-				this.paras.streetId =
-					this.paras.streetId === e.detail.id ? null : e.detail.id;
-				this.ajaxGetShopList();
+				let t =	(this.paras.streetId === e.detail.id) ? null : e.detail.id;
+				if(this.paras.streetId != t){
+					this.paras.streetId = t;
+					this.ajaxGetShopList();
+				}
 			},
 
 			// 进入商铺详情页
@@ -333,21 +405,35 @@
 			ajaxGetShopList() {
 				//ajax个人信息查询
 				var that = this;
-				that.shopList = [];
+				//that.shopList = [];
+				
+				if (this.shopList.length>0) {
+					//说明已有数据，目前处于上拉加载
+					this.loadMoreText = '加载中';
+					this.paras.pageNo = Math.floor(this.shopList.length/this.paras.pageSize)+1;
+					this.paras.pageSize = 10;
+					//判断是否要需要请求
+					if(parseInt(this.shopList.length%this.paras.pageSize) !== 0){ 
+						this.loadMoreText = '没有更多';
+						return;
+					}
+					
+				}else{
+					this.paras.pageNo = 1;
+					this.paras.pageSize = 10;
+				}
+				
 				const paras = {
 					
 					cityCode:"440300",
 					shopName:this.paras.shopName,
 					label:this.paras.label,
 					distance:this.paras.distance,
-					//regionCode:this.paras.regionId,
+					regionCode:this.paras.regionId,
 					streetCode:this.paras.streetId,
-					//streetCode:"440305002",
 					metroLine:this.paras.metroLine,
 					monthRentStart:this.paras.monthRentStart,
 					monthRentEnd:this.paras.monthRentEnd,
-					//monthRentStart:1000,
-					//monthRentEnd:2000,
 					sort: this.paras.sort,
 					floorNum: this.paras.floorNum,
 					indentity: this.paras.indentity,
@@ -357,8 +443,8 @@
 					measureAreaEnd: this.paras.measureAreaEnd,
 					//longitude:this.location.longitude,
 					//latitude:this.location.latitude,
-					pageNo: 1,
-					pageSize: 10,
+					pageNo: this.paras.pageNo ,
+					pageSize: this.paras.pageSize,
 				};
 
 				paras.accessToken = that.accessToken;
@@ -374,7 +460,12 @@
 
 						if (data.code == "200") {
 							toast.clear();
-							that.shopList = data.data;
+							
+							let list = that.setTime(data.data);
+							that.shopList = that.reload ? list : that.shopList.concat(list);
+							that.reload = false;
+							
+							
 						} else {
 							Toast.fail(data.message);
 						}
@@ -382,6 +473,14 @@
 					.catch((error) => {
 						Toast.fail(this.global.error);
 					});
+			},
+			
+			setTime: function(items) {
+				var newItems = [];
+				items.forEach(e => {
+					newItems.push(e);
+				});
+				return newItems;
 			},
 
 			ajaxGetCityList() {
@@ -513,6 +612,12 @@
 
 		.store-list {
 			padding: 0 16rpx;
+			.loading{
+				text-align: center;
+				padding: 20rpx;
+				font-size: 28rpx;
+				color: #969799;
+			}
 		}
 	}
 

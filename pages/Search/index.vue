@@ -48,6 +48,12 @@ export default {
 			key: '__searchHistory__',
 			success: (res) => {
 				this.historList = res.data
+			},
+			fail: () => {
+				uni.setStorage({
+					key: "__searchHistory__",
+					data: [],
+				})
 			}
 		})
 	},

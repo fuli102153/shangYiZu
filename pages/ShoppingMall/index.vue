@@ -354,6 +354,7 @@
 			onClickNav(e) {
 			
 				this.mainActiveIndex = e.detail.index || 0;
+				console.log(this.AreaStreets[this.mainActiveIndex])
 				this.paras.regionId = this.AreaStreets[this.mainActiveIndex].id;
 			},
 			//右侧选择项被点击时，会触发的事件
@@ -384,7 +385,7 @@
 					shopName:this.paras.shopName,
 					label:this.paras.label,
 					distance:this.paras.distance,
-					//regionCode:this.paras.regionId,
+					regionCode:this.paras.regionId,
 					streetCode:this.paras.streetId,
 					//streetCode:"440305002",
 					metroLine:this.paras.metroLine,
