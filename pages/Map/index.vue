@@ -164,18 +164,29 @@
 				console.log(e)
 			},
 			
+			
 			ajaxGetMapForShop() {
-				var that = this;
-				const params = {
-					"distance": 5000,
-					"latitude": 22.54605355,
-					"longitude": 114.02597366,
-					"pageNo": 1,
-					"pageSize": 10
-				}
-				params.accessToken = that.accessToken;
-				getMapForShop(params).then( res => {
-					console.log(res)
+				const that = this;
+				
+				uni.getStorage({
+					key: '__localtionCity__',
+					success(res){
+						const cityCode = res.data.cityCode
+						const longitude = res.data.lng
+						const latitude = res.data.lat
+						const params = {
+							longitude: parseFloat(longitude),
+							latitude: parseFloat(latitude),
+							distance: 5000,
+							cityCode,
+							pageNo: 1,
+							pageSize: 10,
+						}
+						params.accessToken = that.accessToken;
+						getMapForShop(params).then( res => {
+							console.log(res)
+						})
+					}
 				})
 			}
 		}

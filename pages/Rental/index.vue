@@ -858,10 +858,10 @@ export default {
 						});
 					},2000)
 				}else{		
-					// Toast.fail(data.message);	
+					Toast.fail(data.message);	
 				}
 			}).catch(error => {
-				// Toast.fail(this.global.error);
+				Toast.fail(this.global.error);
 			});
 		}
     },

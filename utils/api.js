@@ -182,16 +182,16 @@ export function setCompanyUserInfo(data){ return get(data,'api/user/setCompanyUs
 export function getCity(data){ return get(data,'api/region/city')}
 
 //5、banner广告图
-export function getBannerList(data){ return get(data,'api/banner/getList')}
+export function getBannerList(data){ return get(data,'open/banner/getList')}
 
 //6、头条信息
-export function getHeadline(data){ return get(data,'api/headline/getList')}
+export function getHeadline(data){ return get(data,'open/headline/getList')}
 
 //7、本周重点推荐
 export function getWeekRecommendList(data){ return get(data,'project/weekRecommend')}
 
 //8、合作企业
-export function getCooperativeList(data){ return get(data,'api/cooperativeEnterprise/getList')}
+export function getCooperativeList(data){ return get(data,'open/cooperativeEnterprise/getList')}
 
 //9、猜你喜欢
 export function getGuessYouLike(data){ return post(data,'shop/guessYouLike')}
@@ -209,7 +209,7 @@ export function getProjectList(data){ return post(data,'project/projectList')}
 export function getProjectAndShopList(data){ return post(data,'project/projectAndShopList')}
 
 //15、招租发布
-export function getShopAdd(data){ return post(data,'shop/shopAdd')}
+export function getShopAdd(data){ return post(data,'shop/api/shopAdd')}
 
 //16、商铺列表
 export function getShopList(data){ return post(data,'shop/shopList')}
