@@ -64,7 +64,7 @@
           arrow-direction="down"
           @input="changePropertyType"
         />
-        <van-field
+        <van-field  v-if="0"
           :value="form.position"
           :error-message="errMsg.position"
           label="位置"
@@ -79,12 +79,14 @@
         <van-field
           :value="form.detailLocation"
           :error-message="errMsg.detailLocation"
+		  required
           label="详细位置"
-          placeholder="请输入您商铺详细地址，详至门牌"
-          required
-          @input="changeDetailedLocation"
+          placeholder="请输入您商铺详细地址"
+          disabled
+          @click.native="changeDetailedLocation()"
+          is-link
         />
-        <van-field
+		<van-field
           :value="form.engineeringConditions"
           :error-message="errMsg.engineeringConditions"
           label="工程条件"
@@ -213,7 +215,7 @@
     />
     <van-action-sheet :show="positionShow">
       <van-area
-        :area-list="areaList"
+        :area-list="AreaStreets"
         :value="positionValue"
         @cancel="hideCityPosition"
         @confirm="getCityPosition"
@@ -288,8 +290,8 @@
 </template>
 
 <script>
-import area from "../../utils/areaT.js";
-import { getShopAdd } from "../../utils/api.js";
+
+import { getShopAdd,getAreaStreets } from "../../utils/api.js";
 import StoreInfo from "./storeInfo";
 import Toast from '../../wxcomponents/vant/dist/toast/toast';
 
@@ -312,9 +314,9 @@ export default {
         // 物业类型
         propertyType: "购物中心",
         // 位置
-        position: "深圳市南山区粤海街道",
+        //position: "深圳市南山区粤海街道",
         // 详细位置
-        detailLocation: "软基产业基地",
+        detailLocation: "",
         // 工程条件
         engineeringConditions: "上下水,排油烟",
         // 期望招商类别
@@ -344,7 +346,7 @@ export default {
         // 物业类型
         propertyType: "",
         // 位置
-        position: "",
+        //position: "",
         // 详细位置
         detailLocation: "",
         // 工程条件
@@ -376,7 +378,7 @@ export default {
       positionShow: false,
       positionValue: "",
       // 城市列表
-      areaList: area,
+      AreaStreets: [],
       actions: [],
       // 点击的表单
       clickInput: "",
@@ -406,9 +408,11 @@ export default {
     activeItme: "";
   },
   onLoad() {
-    console.log(area);
-		this.onChangeAddress()
+    //console.log(area);
+	//	this.onChangeAddress()
     // 获取身份下拉菜单数据
+	//请求城市联动
+	this.ajaxGetAreaStreets();
     if (
       this.Dict &&
       this.Dict.shop_identify &&
@@ -503,6 +507,11 @@ export default {
       this.property = property;
       console.log("this.property", this.property);
       this.isStoreInfo = false;
+	  if(this.property){
+		  this.form.storeInfo = "已填写"
+	  }else{
+		  this.form.storeInfo = ""
+	  }
     },
     closeStoreInfo() {
       this.isStoreInfo = false;
@@ -550,6 +559,30 @@ export default {
         event.detail
       );
     },
+	
+	//城市联动
+	ajaxGetAreaStreets() {
+		//ajax个人信息查询
+		var that = this;
+		const paras = {
+			cityCode: "440300",
+		};
+		paras.accessToken = that.accessToken;
+	
+		getAreaStreets(paras)
+			.then((res) => {
+				const data = res.data;
+				console.log(data);
+	
+				if (data.code == "200") {
+					
+					that.AreaStreets = data.data;
+					
+					
+				} else {}
+			})
+			.catch((error) => {});
+	},
 
     // 获取城市定位
     getCityPosition(event) {
@@ -558,15 +591,14 @@ export default {
       event.detail.values.forEach((item) => {
         position += item.name;
       });
-      this.form.position = position;
-      this.positionValue =
-        event.detail.values[event.detail.values.length - 1].code;
-      // 城市code
-      this.cityId = event.detail.values[0].code;
-      // 区域code
-      this.regionId = event.detail.values[1].code;
-      // 街道code
-      this.streetId = event.detail.values[2].code;
+      //this.form.position = position;
+      this.positionValue = position;
+
+	  this.form.provinceCode = "440000";
+	  this.form.cityCode = event.detail.values[0].code;
+	  this.form.regionCode = event.detail.values[1].code;
+	  this.form.streetCode = event.detail.values[2].code;
+	  
       this.positionShow = false;
     },
     // 隐藏位置弹窗
@@ -637,9 +669,33 @@ export default {
       this.form.position = e.detail.trim();
     },
     //详细信息
-    changeDetailedLocation(e) {
-      this.form.detailLocation = e.detail.trim();
+    changeDetailedLocation() {
+      
+	  uni.chooseLocation({
+	  	success: (res) => {
+			console.log(res)
+	  		//this.hasLocation = true,
+	  		//this.location = formatLocation(res.longitude, res.latitude),
+			this.form.provinceCode = "440000";
+			this.form.cityCode = "440300";
+			this.AreaStreets.forEach((item)=>{
+				if(res.address.includes(item.areaName)){
+					this.form.regionCode = item.areaCode;
+				}
+			})
+			
+			this.form.streetCode = "";
+			
+	  		this.form.detailLocation = res.name;
+			this.form.longitude = res.longitude;
+			this.form.latitude = res.latitude;
+			
+	  		console.log(res)
+	  	}
+	  })
     },
+	
+
     //工程条件
     changeEngineeringConditions(e) {
       this.form.engineeringConditions = e.detail.trim();
@@ -679,8 +735,7 @@ export default {
         propertyStatus: "",
         // 物业类型
         propertyType: "",
-        // 位置
-        position: "",
+        
         // 详细位置
         detailLocation: "",
         // 工程条件
@@ -723,12 +778,7 @@ export default {
 				Toast.fail('物业类型不能为空！');
         console.log(5);
         return false;
-      } else if (!this.form.position) {
-        this.errMsg.position = "位置不能为空！";
-				Toast.fail('位置不能为空！');
-        console.log(6);
-        return false;
-      } else if (!this.form.detailLocation) {
+      }  else if (!this.form.detailLocation) {
         this.errMsg.detailLocation = "详细位置不能为空！";
 				Toast.fail('详细位置不能为空！');
         console.log(7);
@@ -767,6 +817,17 @@ export default {
           propertyType = item.value;
         }
       });
+	  
+	  
+	  let url = [];
+	  this.fileList.forEach((item)=>{
+		  
+		  if(item[0] && item[0].url){
+			  url.push(item[0].url);
+		  }
+	  })
+	  this.form.shopPhotos = url.join(",");
+	  
       const params = {
         shop: Object.assign(
 				{ ...this.form }, 

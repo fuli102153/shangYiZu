@@ -176,7 +176,7 @@
 		</view>
 		<!-- 店铺市调 -->
 		<view class="store-market-survey">
-			<view class="btn" @click="goStoreMaket">
+			<view class="btn" @click="goStoreMaket(shop.marketReport)">
 				<text>店铺市调</text>
 				<van-icon name="play-circle" color="#1676FE" size="38rpx" />
 			</view>
@@ -344,9 +344,9 @@
 				})
 			},
 			
-			goStoreMaket() {
+			goStoreMaket(marketReport) {
 				uni.navigateTo({
-					url: "./storeMarket"
+					url: "./storeMarket?marketReport="+marketReport
 				})
 			},
 			

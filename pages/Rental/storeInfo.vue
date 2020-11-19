@@ -42,7 +42,7 @@
 			<text slot="button">元/度</text>
 		</van-field>
 		<van-field
-		  :value="property.floorNu"
+		  :value="property.floorNum"
 		  clearable
 		  label="楼层"
 		  placeholder="您店铺的位置楼层"
@@ -100,7 +100,7 @@
 					rentIncrease: '',
 					waterRate: '',
 					powerRate: '',
-					floorNu: '',
+					floorNum: '',
 					floorHeight: '',
 					bayWidth: '',
 					depthLength: '',
@@ -132,7 +132,7 @@
 				this.property.powerRate = e.detail.trim();
 			},
 			changFloorNu(e) {
-				this.property.floorNu = e.detail.trim();
+				this.property.floorNum = Number(e.detail.trim());
 			},
 			changFloorHeight(e) {
 				this.property.floorHeight = e.detail.trim();

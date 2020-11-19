@@ -99,10 +99,10 @@
 		<view class="store-list">
 			<van-empty v-if="shopList.length==0" description="暂无数据" />
 			<StoreCard v-for="(item,index) in shopList" :sourceData="item" :key="index" @click.native="goShopdetails(item)" />
-			<view class="loading" v-if="loadMoreText != '没有更多'">
+			<view class="loading" v-if="0">
 				<van-loading  size="24px">{{loadMoreText}}</van-loading>
 			</view>
-			<view class="loading" v-else>
+			<view class="loading" v-else-if="0">
 				{{loadMoreText}}
 			</view>
 		</view>
@@ -263,7 +263,7 @@
 					this.paras.measureAreaEnd = "";
 				}
 
-				this.ajaxGetShopList();
+				this.reloadData();
 			},
 
 			onClickItemNav(e) {
@@ -336,7 +336,7 @@
 					}
 				})
 				this.paras.shopName = e.detail;
-				this.ajaxGetShopList();
+				this.reloadData();
 			},
 			makePhoneCall: function(tel) {
 				uni.makePhoneCall({
@@ -356,12 +356,12 @@
 					if(this.paras.monthRentStart != start || this.paras.monthRentEnd != end){
 						this.paras.monthRentStart = start;
 						this.paras.monthRentEnd = end;
-						this.ajaxGetShopList();
+						this.reloadData();
 					}
 				}else{
 					this.paras.monthRentStart = "";
 					this.paras.monthRentEnd = "";
-					this.ajaxGetShopList();
+					this.reloadData();
 				}
 				
 				
@@ -371,7 +371,7 @@
 				let t = Number(e.detail) || "";
 				if(this.paras.propertyType != t){
 					this.paras.propertyType = t;
-					this.ajaxGetShopList();
+					this.reloadData();
 				}
 				
 			},
@@ -390,7 +390,7 @@
 				let t =	(this.paras.streetId === e.detail.id) ? null : e.detail.id;
 				if(this.paras.streetId != t){
 					this.paras.streetId = t;
-					this.ajaxGetShopList();
+					this.reloadData();
 				}
 			},
 
@@ -399,6 +399,11 @@
 				uni.navigateTo({
 					url: "./shopDetails",
 				});
+			},
+			
+			reloadData(){
+				this.shopList = [];
+				this.ajaxGetShopList();
 			},
 
 			//商铺列表
