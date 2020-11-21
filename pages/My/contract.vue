@@ -63,29 +63,17 @@
 		methods: {
 			onChange(e) {
 				console.log(e.detail.name)
-				this.active = e.detail.name
+				this.active = e.detail.name;
 				this.ajaxGetContractList();
 			},
-			goBrandDetails(brandNo) {
-				uni.navigateTo({
-					url: '../Brand/BrandDetails?brandNo='+brandNo
-				})
-				
-			},
 			
-			goShopFeedBack(brandNo) {
-				uni.navigateTo({
-					url: './feedback?brandNo='+brandNo
-				})
-				
-			},
 			
 			//合同列表查询
 			ajaxGetContractList(){
 				//ajax个人信息查询
 				var that = this;
 				const paras = {
-					status: this.active
+					status: this.active || 0
 				};
 				paras.accessToken = that.accessToken;
 				const toast = Toast.loading({
@@ -99,7 +87,7 @@
 					
 					if(data.code=="200"){
 						toast.clear();
-						that.shopList = data.data.records;
+						that.shopList = data.data;
 					}else{
 						Toast.fail(data.message);
 						

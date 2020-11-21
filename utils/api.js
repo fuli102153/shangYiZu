@@ -218,7 +218,7 @@ export function getShopList(data){ return post(data,'shop/shopList')}
 export function getShopDetail(data){ return get(data,'shop/shopDetail')}
 
 //18、看铺预约
-export function getSubscribeAdd(data){ return post(data,'api/subscribe/subscribeAdd')}
+export function getSubscribeAdd(data){ return post(data,'open/subscribe/subscribeAdd')}
 
 //19、开店发布
 export function getBrandAdd(data){ return post(data,'api/brand/add')}
@@ -230,7 +230,7 @@ export function getBrandList(data){ return post(data,'open/brand/list')}
 export function getBrandDetail(data){ return get(data,'open/brand/detail')}
 
 //22、招租委托查询
-export function getMyShopList(data){ return post(data,'shop/myShopList')}
+export function getMyShopList(data){ return post(data,'shop/api/myShopList')}
 
 //23、商铺反馈
 export function getLookShopFeedback(data){ return post(data,'shop/lookShopFeedback')}
@@ -245,25 +245,25 @@ export function getContractList(data){ return get(data,'api/contract/list')}
 export function getContractDetail(data){ return get(data,'api/contract/detail')}
 
 //26、合同签署
-export function getContractSign(data){ return get(data,'api/contract/sign')}
+export function getContractSign(data){ return get(data,'contract/sign')}
 
 //27、收藏
-export function getCollectAdd(data){ return post(data,'api/collect/collectAdd')}
+export function getCollectAdd(data){ return post(data,'open/collect/collectAdd')}
 
 //28、我的收藏列表
-export function getCollectList(data){ return post(data,'api/collect/getMyCollect')}
+export function getCollectList(data){ return post(data,'open/collect/getMyCollect')}
 
 //29、我的预约记录
-export function getMySubscribe(data){ return post(data,'api/subscribe/getMySubscribe')}
+export function getMySubscribe(data){ return post(data,'open/subscribe/getMySubscribe')}
 
 //30、分享
-export function getShareAdd(data){ return post(data,'api/share/shareAdd')}
+export function getShareAdd(data){ return post(data,'open/share/shareAdd')}
 
 //31、我的分享记录
-export function getMyShare(data){ return post(data,'api/share/getMyShare')}
+export function getMyShare(data){ return post(data,'open/share/getMyShare')}
 
 //32、常见问题解答
-export function getMyShare11(data){ return get(data,'api/share/getMyShare')}
+export function getMyShare11(data){ return get(data,'open/share/getMyShare')}
 
 //33、帮助及反馈
 export function getFeedBackAdd(data){ return post(data,'api/feedBack/feedBackAdd')}

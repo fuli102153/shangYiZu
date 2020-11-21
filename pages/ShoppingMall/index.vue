@@ -3,70 +3,66 @@
 	<view class="v-shopping-mall">
 		<van-sticky>
 		
-			<van-dropdown-menu>
-				<van-dropdown-item title="区域" :style="{display: areaShow ? 'block' : 'none'}"  @close="areaShow=false" 
-				@open="areaShow=true">
-					<van-tree-select height="55vw" max="10" :items="AreaStreets" :main-active-index="mainActiveIndex" :active-id="paras.streetId" selected-icon="success"
-					 @click-nav="onClickNav" @click-item="onClickItem" />
-				</van-dropdown-item>
-				<van-dropdown-item title="月租金" :style="{display: monthShow ? 'block' : 'none'}"  @close="monthShow=false" 
-				@open="monthShow=true" :options="monthRentList" @change="changeMonthRent"></van-dropdown-item>
-				<van-dropdown-item title="物业"  :style="{display: propertyShow ? 'block' : 'none'}" @close="propertyShow=false" 
-				@open="propertyShow=true" :options="propertyList" @change="changePropertyType"></van-dropdown-item>
-				<van-dropdown-item title="更多"  :style="{display: moreShow ? 'block' : 'none'}"  @close="moreShow=false;searchList()" 
-				@open="moreShow=true">
-					<van-tree-select
-						  :items="sortList"
-						  :main-active-index="sortActiveIndex"
-						  :active-id="sortActiveId"
-							height="412rpx"
-						  @click-nav="onClickItemNav"
-						  @click-item="onClickItemSort"
-						/>
-						<view class="month-rent">
-							<view class="label">
-								面积
-							</view>
-							<view class="content">
-								<view class="start">
-									<input type="text" v-model="measureAreaStart" value="" />
-									<text>m²</text>
-								</view>
-								<text>—</text>
-								<view class="start end">
-									<input type="text" v-model="measureAreaEnd" value="" />
-									<text>m²</text>
-								</view>
-							</view>
-						</view>
-						<view class="floor hot">
-							<view class="title">
-								楼层
-							</view>
-							<view class="hot-tag">
-								<view color="#B2B2B2" class="tag-item" :class="tagIndex == index ? 'active' : ''" v-for="(item, index) in tagList" :key="index" @click="selectTag(index)">{{ item.itemText }}</view>
-							</view>
-						</view>
-						<view class="lease hot">
-							<view class="title">
-								租赁性质
-							</view>
-							<view class="hot-tag">
-								<view color="#B2B2B2" class="tag-item" :class="leaseTagIndex == index ? 'active' : ''" v-for="(item, index) in leaseTagList" :key="index" @click="selectLeaseTag(index)">{{ item.itemText }}</view>
-							</view>
-						</view>
-						<view class="other hot" v-if="0">
-							<view class="title">
-								其他
-							</view>
-							<view class="hot-tag">
-								<view color="#B2B2B2" class="tag-item" :class="otherTagIndex == index ? 'active' : ''" v-for="(item, index) in otherTagList" :key="index" @click="selecOthertTag(index)">{{ item }}</view>
-							</view>
-						</view>
-					</van-dropdown-item>
-				</van-dropdown-item>
-			</van-dropdown-menu> 
 			
+			<van-dropdown-menu>
+				<van-dropdown-item title="区域" :style="{display: areaShow ? 'block' : 'none'}" @close="areaShow=false" @open="areaShow=true">
+					<van-tree-select height="55vw" max="10" :items="AreaStreets" :main-active-index="mainActiveIndex" :active-id="paras.streetId"
+					 selected-icon="success" @click-nav="onClickNav" @click-item="onClickItem" />
+				</van-dropdown-item>
+				<van-dropdown-item title="月租金" :style="{display: monthShow ? 'block' : 'none'}" @close="monthShow=false" @open="monthShow=true"
+				 :options="monthRentList" @change="changeMonthRent"></van-dropdown-item>
+				<van-dropdown-item title="物业" :style="{display: propertyShow ? 'block' : 'none'}" @close="propertyShow=false" @open="propertyShow=true"
+				 :options="propertyList" @change="changePropertyType"></van-dropdown-item>
+				<van-dropdown-item title="更多" :style="{display: moreShow ? 'block' : 'none'}" @close="moreShow=false;searchList()"
+				 @open="moreShow=true">
+					<van-tree-select :items="sortList" :main-active-index="sortActiveIndex" :active-id="sortActiveId" height="412rpx"
+					 @click-nav="onClickItemNav" @click-item="onClickItemSort" />
+					<view class="month-rent">
+						<view class="label">
+							面积
+						</view>
+						<view class="content">
+							<view class="start">
+								<input type="text" v-model="measureAreaStart" value="" />
+								<text>m²</text>
+							</view>
+							<text>—</text>
+							<view class="start end">
+								<input type="text" v-model="measureAreaEnd" value="" />
+								<text>m²</text>
+							</view>
+						</view>
+					</view>
+					<view class="floor hot">
+						<view class="title">
+							楼层
+						</view>
+						<view class="hot-tag">
+							<view color="#B2B2B2" class="tag-item" :class="tagIndex == index ? 'active' : ''" v-for="(item, index) in tagList"
+							 :key="index" @click="selectTag(index)">{{ item.itemText }}</view>
+						</view>
+					</view>
+					<view class="lease hot">
+						<view class="title">
+							租赁性质
+						</view>
+						<view class="hot-tag">
+							<view color="#B2B2B2" class="tag-item" :class="leaseTagIndex == index ? 'active' : ''" v-for="(item, index) in leaseTagList"
+							 :key="index" @click="selectLeaseTag(index)">{{ item.itemText }}</view>
+						</view>
+					</view>
+					<view class="other hot" v-if="0">
+						<view class="title">
+							其他
+						</view>
+						<view class="hot-tag">
+							<view color="#B2B2B2" class="tag-item" :class="otherTagIndex == index ? 'active' : ''" v-for="(item, index) in otherTagList"
+							 :key="index" @click="selecOthertTag(index)">{{ item }}</view>
+						</view>
+					</view>
+				</van-dropdown-item>
+			</van-dropdown-menu>
+			<!--<SelectHeader @onChangeMit="onChangeMit"></SelectHeader>-->
 		</van-sticky>
 		<view class="image-list" v-if="projectList.length>0">
 			<view class="recommend-content">
@@ -115,41 +111,40 @@
 					value: '',
 					mainActiveIndex: 0,
 					
-					
-					AreaStreets: [],
-					shopList:[],
-					projectList:[],
-					propertyList:[],//物业
-					monthRentList:[],
 					businessList:[],//业态
-					moneyList:[
-						{text: "0-2000元", value: 0}
-					],
-					propertyShow:false,
-					monthShow:false,
-					moreShow:false,
-					areaShow:false,
-					measureAreaEnd:"",
-					measureAreaStart:"",
-					sortList: [
-						{
-							text: '排序',
-							id: null,
-							children: [],
-						}
-					],
+					AreaStreets: [],
+					shopList: [],
+					propertyList: [], //物业
+					monthRentList: [],
+					moneyList: [{
+						text: "0-2000元",
+						value: 0
+					}],
+					propertyShow: false,
+					monthShow: false,
+					moreShow: false,
+					areaShow: false,
+					measureAreaEnd: "",
+					measureAreaStart: "",
+					sortList: [{
+						text: "排序",
+						id: null,
+						children: [],
+					}, ],
 					sortActiveIndex: 0,
-					sortActiveId:null,
+					sortActiveId: null,
 					
 					tagList: [],
-					tagIndex:-1,
+					tagIndex: -1,
 					selectList: [],
 					leaseTagList: [],
-					leaseTagIndex:-1,
+					leaseTagIndex: -1,
 					selectLeaseList: [],
 					otherTagList: [],
-					otherTagIndex:-1,
+					otherTagIndex: -1,
 					selectOtherList: [],
+					reload: false,
+					loadMoreText: "更多",
 					
 					paras:{
 						projectType:"",
@@ -227,78 +222,104 @@
 			console.log(this.Dict.business_type)
 			this.changeDict();
 		},
+		onReachBottom() {
+			console.log("onReachBottom");
+			this.loadMoreText = '更多';
+			this.ajaxGetShopList();
+		},
+		onPullDownRefresh() {
+			console.log("onPullDownRefresh");
+			this.reload = true;
+			this.ajaxGetShopList();
+		},
 		methods: {
 			
 			onChange(event) {
 				this.activeKey = event.detail;
-				this.paras.businessType = this.businessList[Number(event.detail)-1].value;
+				console.log(event);
+				console.log(this.businessList);
+				this.paras.businessType = this.businessList[Number(event.detail)].value;
 				
-				this.ajaxGetShopList();
+				this.reloadData();
 			},
 			
 			selectTag(index) {
-				this.tagIndex = index;
-				this.paras.floorNum = this.tagList[index].itemValue;
-				this.paras.floorNum = this.paras.floorNum.replace(/&lt;/g,"<");
-				this.paras.floorNum = this.paras.floorNum.replace(/&gt;/g,">");
-				console.log(this.paras.floorNum)
+				if(this.tagIndex == index){
+					this.tagIndex = -1;
+					this.paras.floorNum = "";
+				}else{
+					this.tagIndex = index;
+					this.paras.floorNum = this.tagList[index].itemValue;
+					this.paras.floorNum = this.paras.floorNum.replace(/&lt;/g, "<");
+					this.paras.floorNum = this.paras.floorNum.replace(/&gt;/g, ">");
+				}
+				
 				
 			},
 			selectLeaseTag(index) {
-				this.leaseTagIndex = index;
-				this.paras.indentity = this.leaseTagList[index].itemValue
-				console.log(this.paras.indentity)
-				
+				if(this.leaseTagIndex == index){
+					this.leaseTagIndex = -1;
+					this.paras.indentity = "";
+				}else{
+					this.leaseTagIndex = index;
+					this.paras.indentity = this.leaseTagList[index].itemValue;
+				}
 				
 			},
 			selecOthertTag(index) {
 				this.otherTagIndex = index;
-				this.paras.other = this.otherTagList[index].itemValue
-				console.log(this.paras.other)
+				this.paras.other = this.otherTagList[index].itemValue;
+				console.log(this.paras.other);
 			},
 			
-			searchList(){
-				if(Number(this.measureAreaStart)>0){
+			searchList() {
+				if (Number(this.measureAreaStart) > 0) {
 					this.paras.measureAreaStart = Number(this.measureAreaStart);
-				}else{
+				} else {
 					this.paras.measureAreaStart = "";
 				}
-				if(Number(this.measureAreaEnd)>0){
+				if (Number(this.measureAreaEnd) > 0) {
 					this.paras.measureAreaEnd = Number(this.measureAreaEnd);
-				}else{
+				} else {
 					this.paras.measureAreaEnd = "";
 				}
-				
-				
-				this.ajaxGetShopList();
+			
+				this.reloadData();
 			},
 			
-			onClickItemNav(e){
-			
+			onClickItemNav(e) {
 				this.sortActiveIndex = e.detail.index || 0;
 			},
 			onClickItemSort(e) {
-				
-				const sortActiveId = this.sortActiveId === e.detail.id ? null : e.detail.id;
+				const sortActiveId =
+					this.sortActiveId === e.detail.id ? null : e.detail.id;
 				this.sortActiveId = sortActiveId;
 				this.paras.sort = sortActiveId;
-				console.log(this.paras.sort)
+				console.log(this.paras.sort);
 			},
 			
 			//转换格式
 			changeDict(){
-				this.propertyList = [];
-				this.Dict.property_type.forEach((item)=>{
+				this.propertyList = [{
+						text: "不限",
+						value: "",
+					}];
+				this.Dict.property_type.forEach((item) => {
 					this.propertyList.push({
-						text: item.itemText, value: item.itemValue
-					})
-				})
-				this.monthRentList = [];
-				this.Dict.search_month_rent.forEach((item)=>{
+						text: item.itemText,
+						value: item.itemValue,
+					});
+				});
+				this.monthRentList = [{
+						text: "不限",
+						value: "",
+					}];
+				this.Dict.search_month_rent.forEach((item) => {
 					this.monthRentList.push({
-						text: item.itemText, value: item.itemValue
-					})
-				})
+						text: item.itemText,
+						value: item.itemValue,
+					});
+				});
 				
 				this.businessList = [{text:"不限",value:""}];
 				this.Dict.business_type.forEach((item)=>{
@@ -330,39 +351,58 @@
 				})
 			},
 			
-			changeMonthRent(e){
+			changeMonthRent(e) {
 				console.log(e);
+				if(e.detail){
+					let start = Number(e.detail.split("-")[0]) || "";
+					let end = Number(e.detail.split("-")[1]) || "";
+					
+					if(this.paras.monthRentStart != start || this.paras.monthRentEnd != end){
+						this.paras.monthRentStart = start;
+						this.paras.monthRentEnd = end;
+						this.reloadData();
+					}
+				}else{
+					this.paras.monthRentStart = "";
+					this.paras.monthRentEnd = "";
+					this.reloadData();
+				}
 				
-				this.paras.monthRentStart = Number(e.detail.split("-")[0]);
-				this.paras.monthRentEnd = Number(e.detail.split("-")[1]);
-				console.log(this.paras.monthRentStart)
-				console.log(this.paras.monthRentEnd)
-				this.ajaxGetShopList();
+				
 			},
 			
-			changePropertyType(e){
-			
-				this.paras.propertyType = Number(e.detail);
-				this.ajaxGetShopList();
+			changePropertyType(e) {
+				let t = Number(e.detail) || "";
+				if(this.paras.propertyType != t){
+					this.paras.propertyType = t;
+					this.reloadData();
+				}
+				
 			},
-			
 			
 			onClickLeft() {
-				uni.navigateBack()
+				uni.navigateBack();
 			},
 			//左侧导航点击时，触发的事件
 			onClickNav(e) {
-			
 				this.mainActiveIndex = e.detail.index || 0;
-				console.log(this.AreaStreets[this.mainActiveIndex])
-				this.paras.regionId = this.AreaStreets[this.mainActiveIndex].id;
+				let t = this.AreaStreets[this.mainActiveIndex].id;
+				if(this.paras.regionId != t){
+					this.paras.regionId = t;
+					this.paras.streetId = "";
+					this.reloadData();
+				}
 			},
 			//右侧选择项被点击时，会触发的事件
 			onClickItem(e) {
 				//console.log(e)
-				this.paras.streetId = this.paras.streetId === e.detail.id ? null : e.detail.id;
-				this.ajaxGetShopList();
+				let t =	(this.paras.streetId === e.detail.id) ? null : e.detail.id;
+				if(this.paras.streetId != t){
+					this.paras.streetId = t;
+					this.reloadData();
+				}
 			},
+			
 			
 			// 进入商铺详情页
 			goShopdetails() {
@@ -371,12 +411,32 @@
 				})
 			},
 			
+			reloadData(){
+				this.shopList = [];
+				this.ajaxGetShopList();
+			},
+			
+			
 			//ajax请求数据 
 			ajaxGetShopList(){
 				//ajax个人信息查询
 				var that = this;
 				that.projectList = [];
-				that.shopList = [];
+				if (this.shopList.length>0) {
+					//说明已有数据，目前处于上拉加载
+					this.loadMoreText = '加载中';
+					this.paras.pageNo = Math.floor(this.shopList.length/this.paras.pageSize)+1;
+					this.paras.pageSize = 10;
+					//判断是否要需要请求
+					if(parseInt(this.shopList.length%this.paras.pageSize) !== 0){ 
+						this.loadMoreText = '没有更多';
+						return;
+					}
+					
+				}else{
+					this.paras.pageNo = 1;
+					this.paras.pageSize = 10;
+				}
 				
 				const paras = {
 					projectType:this.paras.projectType,
@@ -391,8 +451,6 @@
 					metroLine:this.paras.metroLine,
 					monthRentStart:this.paras.monthRentStart,
 					monthRentEnd:this.paras.monthRentEnd,
-					//monthRentStart:1000,
-					//monthRentEnd:2000,
 					sort:this.paras.sort,
 					floorNum:this.paras.floorNum,
 					indentity:this.paras.indentity,
@@ -414,13 +472,15 @@
 				getProjectList(paras).then(res => {
 					const data = res.data;
 					console.log(data);
-					that.loading = false;
+					
 					if(data.code=="200"){
 						toast.clear();
 						that.projectList = data.projectList;
-						that.shopList = data.shopList;
+						let list = that.setTime(data.shopList);
+						that.shopList = that.reload ? list : that.shopList.concat(list);
+						that.reload = false;
 						that.$forceUpdate();
-						console.log(that.projectList.length)
+						
 					}else{
 						Toast.fail(data.message);
 						
@@ -433,7 +493,13 @@
 			},
 			
 			
-			
+			setTime: function(items) {
+				var newItems = [];
+				items.forEach(e => {
+					newItems.push(e);
+				});
+				return newItems;
+			},
 			
 			ajaxGetCityList(){
 				var that = this;
@@ -474,7 +540,11 @@
 					console.log(data);
 					
 					if(data.code=="200"){
-						that.AreaStreets = [];
+						that.AreaStreets = [{
+							id:"",
+							text:"不限",
+							children:[]
+						}];
 						data.data.forEach((item)=>{
 							let area = {};
 							area.id = item.areaCode;

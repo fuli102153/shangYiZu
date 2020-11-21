@@ -16,7 +16,7 @@
 			
 			//如果有项目ID
 			if(paras.marketReport){
-				this.strings = paras.marketReport;
+				this.strings = paras.marketReport || "暂无市场调研报告";
 			}
 		},
 		

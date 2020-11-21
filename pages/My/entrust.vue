@@ -5,11 +5,12 @@
 				<view class="tab-content">
 					<van-empty v-if="shopList.length==0" description="暂无数据" />
 					<!--fail-->
+					<!--状态 0：拒绝;1-待审核;2-已发布（空置）;3-洽谈中;4-已成交未结佣;5-已成交已结佣;6-竞方出租;7-下线-->
 					<view v-for="(item,index) in shopList" :key="index">
 						<view class="card success" v-if="item.status === 2">
 							<view class="header">
 								<view class="title">
-									委托成功
+									委托成功 {{item.status}}
 								</view>
 								<view class="time">
 									{{item.createTime}}
@@ -30,7 +31,7 @@
 						<view class="card fail" v-else>
 							<view class="header">
 								<view class="title">
-									委托中
+									委托中  {{item.status}}
 								</view>
 								<view class="time">
 									{{item.createTime}}

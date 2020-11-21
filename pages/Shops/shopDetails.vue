@@ -355,7 +355,7 @@
 				
 				var that = this;
 				const paras = {
-					shopName:shopNo,
+					shopNo:shopNo,
 					appUid:this.userDetail.id,
 					type:1,
 					

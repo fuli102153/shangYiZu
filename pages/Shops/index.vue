@@ -36,6 +36,7 @@
 					</van-cell>
 				</van-cell-group>
 			</van-popup>
+			
 			<van-dropdown-menu>
 				<van-dropdown-item title="区域" :style="{display: areaShow ? 'block' : 'none'}" @close="areaShow=false" @open="areaShow=true">
 					<van-tree-select height="55vw" max="10" :items="AreaStreets" :main-active-index="mainActiveIndex" :active-id="paras.streetId"
@@ -382,7 +383,13 @@
 			//左侧导航点击时，触发的事件
 			onClickNav(e) {
 				this.mainActiveIndex = e.detail.index || 0;
-				this.paras.regionId = this.AreaStreets[this.mainActiveIndex].id;
+				let t = this.AreaStreets[this.mainActiveIndex].id;
+				
+				if(this.paras.regionId != t){
+					this.paras.regionId = t;
+					this.paras.streetId = "";
+					this.reloadData();
+				}
 			},
 			//右侧选择项被点击时，会触发的事件
 			onClickItem(e) {
@@ -520,7 +527,11 @@
 						console.log(data);
 
 						if (data.code == "200") {
-							that.AreaStreets = [];
+							that.AreaStreets = [{
+								id:"",
+								text:"不限",
+								children:[]
+							}];
 							data.data.forEach((item) => {
 								let area = {};
 								area.id = item.areaCode;

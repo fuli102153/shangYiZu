@@ -1,12 +1,12 @@
 <template>
 	<view class="v-appointment">
-		<van-field
+		<van-field required v-if="0"
 		  :value="value"
 			label="联系人"
 			input-align="right"
 		  placeholder="请输入用户名"
 		/>
-		<van-field
+		<van-field required v-if="0"
 		  :value="value"
 			label="联系电话"
 			input-align="right"

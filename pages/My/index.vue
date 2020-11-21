@@ -35,7 +35,7 @@
 </template>
 
 <script>
-	import {getContractList} from "../../utils/api.js"
+	
 	export default {
 		data() {
 			return {
@@ -78,7 +78,7 @@
 					
 				}else if(item.name == "电子合同"){
 					//我的合同查询
-					this.ajaxGetContractList();
+				
 				}else if(item.name == "我的收藏"){
 					
 				}else if(item.name == "我的预约"){
@@ -124,33 +124,6 @@
 			},
 			
 			
-			
-			//我的合同查询
-			ajaxGetContractList(){
-				//ajax个人信息查询
-				var that = this;
-				const paras = {
-					
-				};
-				paras.accessToken = that.accessToken;
-				
-				getContractList(paras).then(res => {
-					const data = res.data;
-					console.log(data);
-					
-					if(data.code=="200"){
-						
-					
-					}else{
-						
-						
-					}
-					
-				})
-				.catch(error => {
-				
-				});
-			},
 			
 			
 			

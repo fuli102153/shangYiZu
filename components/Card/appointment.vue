@@ -1,12 +1,15 @@
 <template>
   <view class="vc-appointment-card" @click="toDetail(source.shopNo)">
-		<!-- 状态不同颜色 安排业务员：wait 看铺： success 已看：seen  出租：lease -->
+		<!-- 
+		状态 0：预约中;1-预约成功；2-已看铺；3-已出租；4-预约失败  
+		状态不同颜色 安排业务员：wait 看铺： success 已看：seen  出租：lease 
+		-->
 		<view class="header" :class="type">
 			<view class="state">
 				当前状态：
 			</view>
 			<view class="state-content">
-				{{ typeText }}
+				{{ source.status }}
 			</view>
 		</view>
 		<view class="content">
@@ -58,7 +61,7 @@ export default {
 	 	}
 	},
 	created() {
-		
+		//状态 0：预约中;1-预约成功；2-已看铺；3-已出租；4-预约失败  
 		if (this.sourceData.status === '1') {
 			this.type = 'wait';
 			this.typeText = '正在为您安排业务员';
