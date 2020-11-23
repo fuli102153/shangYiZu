@@ -46,6 +46,7 @@
 				 :options="monthRentList" @change="changeMonthRent"></van-dropdown-item>
 				<van-dropdown-item title="物业" :style="{display: propertyShow ? 'block' : 'none'}" @close="propertyShow=false" @open="propertyShow=true"
 				 :options="propertyList" @change="changePropertyType"></van-dropdown-item>
+				 
 				<van-dropdown-item title="更多" :style="{display: moreShow ? 'block' : 'none'}" @close="moreShow=false;searchList()"
 				 @open="moreShow=true">
 					<van-tree-select :items="sortList" :main-active-index="sortActiveIndex" :active-id="sortActiveId" height="412rpx"

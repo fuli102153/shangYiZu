@@ -1,16 +1,18 @@
 <template>
 	<view class="v-appointment">
-		<van-field required v-if="0"
-		  :value="value"
+		<van-field required 
+		  :value="userName"
 			label="联系人"
 			input-align="right"
 		  placeholder="请输入用户名"
+		  @input="changeUsername"
 		/>
-		<van-field required v-if="0"
-		  :value="value"
+		<van-field required 
+		  :value="mobile"
 			label="联系电话"
 			input-align="right"
 		  placeholder="请输入联系电话"
+		  @input="changeMobile"
 		/>
 		<van-cell required title="选择开始时间" :value="startDate" @click="onDisplay" />
 		<van-cell required title="选择结束时间" :value="endDate" @click="onEndDisplay" />
@@ -52,8 +54,8 @@
 	export default {
 		data() {
 			return {
-				username: '',
-				userphone: '',
+				userName: '',
+				mobile: '',
 				startDate: '',
 				startShow: false,
 				endDate: '',
@@ -97,9 +99,26 @@
 				this.endDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:00`;
 			},
 			
+			//联系人
+			changeUsername(e) {
+			  this.userName = e.detail.trim();
+			},
+			//联系电话
+			changeMobile(e) {
+			  this.mobile = e.detail.trim();
+			},
+			
 			addSubscribe(shopNo){
 				
 				var that = this;
+				if(!that.userName){
+					Toast.fail("选择输入联系人姓名");
+					return;
+				}
+				if(!that.mobile){
+					Toast.fail("选择联系人手机号");
+					return;
+				}
 				if(!that.startDate){
 					Toast.fail("选择开始时间");
 					return;
@@ -109,6 +128,8 @@
 					return;
 				}
 				const paras = {
+					userName:that.userName,
+					mobile:that.mobile,
 					shopNo:that.shopNo,
 					appUid:that.userDetail.id,
 					type:1,

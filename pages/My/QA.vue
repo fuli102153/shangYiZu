@@ -37,7 +37,7 @@
 		padding: 40rpx 25rpx;
 		
 		.qa-card {
-			display: flex;
+			
 			margin-bottom: 48rpx;
 			
 			.header {
@@ -46,11 +46,13 @@
 				border-radius: 50%;
 				background-color: #F5F8FA;
 				overflow: hidden;
+				display: inline-block;
+				position: absolute;
 			}
 			
 			.content {
 				padding-top: 16rpx;
-				margin-left: 23rpx;
+				margin-left: 100rpx;
 				.content-q {
 					background: #F5F8FA;
 					border: 1rpx solid #F0F2F4;
