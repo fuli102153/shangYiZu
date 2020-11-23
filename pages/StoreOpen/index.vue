@@ -678,38 +678,39 @@ export default {
 
     //提交数据
     submit() {
-		const params = this.form;
-		console.log(this.fileList)
-		if(this.fileList[0].length){
-			params.brandLogo = this.fileList[0][0].url
-		}
-		if(this.fileList[1].length){
-			params.effectPhotos = this.fileList[1][0].url
-		}
+			const params = this.form;
+			console.log(this.fileList)
+			if(this.fileList[0].length){
+				params.brandLogo = this.fileList[0][0].url
+			}
+			if(this.fileList[1].length){
+				params.effectPhotos = this.fileList[1][0].url
+			}
 		
-		if (this.checkInput()) {
-			params.accessToken = this.accessToken;
-			const toast = Toast.loading({
-				message: '提交中...',
-				forbidClick: true,
-				loadingType: 'spinner',
-			});
-			getBrandAdd(params).then((res) => {
-				const data = res.data;
-				if (data.code == "200") {
-					Toast.success('发布成功');
-					setTimeout(()=>{
-						uni.switchTab({
-							 url: '../Index/index'
-						});
-					},2000)
-				}else{		
-					Toast.fail(data.message);	
-				}
-			}).catch(error => {
-				Toast.fail(this.global.error);
-			});
-		}
+			if (this.checkInput()) {
+				params.accessToken = this.accessToken;
+				const toast = Toast.loading({
+					message: '提交中...',
+					forbidClick: true,
+					loadingType: 'spinner',
+				});
+				console.log(params)
+				getBrandAdd(params).then((res) => {
+					const data = res.data;
+					if (data.code == "200") {
+						Toast.success('发布成功');
+						setTimeout(()=>{
+							uni.switchTab({
+								url: '../Index/index'
+							});
+						},2000)
+					}else{		
+						Toast.fail(data.message);	
+					}
+				}).catch(error => {
+					Toast.fail(this.global.error);
+				});
+			}
 		
     },
   },
