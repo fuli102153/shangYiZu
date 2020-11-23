@@ -7,20 +7,42 @@
 					<!--fail-->
 					<!--状态 0：拒绝;1-待审核;2-已发布（空置）;3-洽谈中;4-已成交未结佣;5-已成交已结佣;6-竞方出租;7-下线-->
 					<view v-for="(item,index) in shopList" :key="index">
-						<view class="card success" v-if="item.status === 2">
+						<view class="card success" :class="'cardStatus_'+statusList[item.status].value" >
 							<view class="header">
 								<view class="title">
-									委托成功 {{item.status}}
+									{{statusList[item.status].name}}
 								</view>
 								<view class="time">
 									{{item.createTime}}
 								</view>
 							</view>
 							<view class="content">
-								<p>
+								<p v-if="item.status === 0">
+									您提交的商铺招租委托审核失败，未能发布<br />
+									审核意见：{{item.opinion || "无"}}<br />
+								</p>
+								<p v-else-if="item.status === 1">
+									您提交的商铺招租委托待审核中，请耐心等待
+								</p>
+								<p v-else-if="item.status === 2">
 									您提交的商铺招租委托已成功发布<br />
 									工作人员正在努力为您寻找合适的品牌入驻<br />
 									您的商铺编号为：{{item.shopNo}}<br />
+								</p>
+								<p v-else-if="item.status === 3">
+									您提交的商铺招租委托洽谈中，请耐心等待
+								</p>
+								<p v-else-if="item.status === 4">
+									您提交的商铺招租委托{{statusList[item.status].name}}，请耐心等待
+								</p>
+								<p v-else-if="item.status === 5">
+									您提交的商铺招租委托{{statusList[item.status].name}}，请耐心等待
+								</p>
+								<p v-else-if="item.status === 6">
+									您提交的商铺招租委托{{statusList[item.status].name}}，请耐心等待
+								</p>
+								<p v-else-if="item.status === 7">
+									您提交的商铺招租委托{{statusList[item.status].name}}，请更换别的商铺
 								</p>
 								<view class="btn" @click="goShopFeedBack(item.shopNo)">
 									点击查看您的商铺
@@ -28,76 +50,60 @@
 								</view>
 							</view>
 						</view>
-						<view class="card fail" v-else>
-							<view class="header">
-								<view class="title">
-									委托中  {{item.status}}
-								</view>
-								<view class="time">
-									{{item.createTime}}
-								</view>
-							</view>
-							
-							<view class="content">
-								<p>
-									您提交的商铺招租委托审核失败，未能发布<br />
-									审核意见：{{item.opinion}}<br />
-								</p>
-								<view class="btn" @click="goRental(item.shopNo)">
-									继续发布招租
-									<van-icon name="arrow" color="#1676FE" />
-								</view>
-							</view>
-						</view>
-						<view class="card fail" v-if="item.status === 0">
-							<view class="header">
-								<view class="title">
-									委托失败
-								</view>
-								<view class="time">
-									{{item.createTime}}
-								</view>
-							</view>
-							
-							<view class="content">
-								<p>
-									您提交的商铺招租委托审核失败，未能发布<br />
-									审核意见：{{item.opinion}}<br />
-								</p>
-								<view class="btn" @click="goRental(item.shopNo)">
-									继续发布招租
-									<van-icon name="arrow" color="#1676FE" />
-								</view>
-							</view>
-						</view>
+						
+						
+						
 					</view>
 				</view>
 			</van-tab>
 		  <van-tab title="开店委托">
 			  <view class="tab-content">
 				  <van-empty v-if="entrustmentList.length==0" description="暂无数据" />
-			  		<view class="card success" v-for="(item,index) in entrustmentList" :key="index">
-			  			<view class="header">
-			  				<view class="title">
-			  					委托成功
-			  				</view>
-			  				<view class="time">
-			  					{{item.createTime}}
-			  				</view>
-			  			</view>
-			  			<view class="content">
-			  				<p>
-			  					您提交的商铺招租委托已成功发布<br />
-			  					工作人员正在努力为您寻找合适的品牌入驻<br />
-			  					您的商铺编号为：{{item.brandNo}}<br />
-			  				</p>
-			  				<view class="btn" @click="goBrandDetails(item.id)">
-			  					点击查看您的商铺
-			  					<van-icon name="arrow" color="#1676FE"/>
-			  				</view>
-			  			</view>
+					  <view v-for="(item,index) in entrustmentList" :key="index">
+						<view class="card success" :class="'cardStatus_'+statusList[item.status].value"  >
+							<view class="header">
+								<view class="title">
+									{{statusList[item.status].name}}
+								</view>
+								<view class="time">
+									{{item.createTime}}
+								</view>
+							</view>
+							<view class="content">
+								<p v-if="item.status === 0">
+									您提交的商铺招租委托审核失败，未能发布<br />
+									审核意见：{{item.opinion || "无"}}<br />
+								</p>
+								<p v-else-if="item.status === 1">
+									您提交的开店找铺委托待审核中，请耐心等待
+								</p>
+								<p v-else-if="item.status === 2">
+									您提交的开店找铺委托已成功发布<br />
+									工作人员正在努力为您寻找合适的品牌入驻<br />
+									您的品牌编号为：{{item.brandNo}}<br />
+								</p>
+								<p v-else-if="item.status === 3">
+									您提交的开店找铺委托洽谈中，请耐心等待
+								</p>
+								<p v-else-if="item.status === 4">
+									您提交的开店找铺委托{{statusList[item.status].name}}，请耐心等待
+								</p>
+								<p v-else-if="item.status === 5">
+									您提交的开店找铺委托{{statusList[item.status].name}}，请耐心等待
+								</p>
+								<p v-else-if="item.status === 6">
+									您提交的开店找铺委托{{statusList[item.status].name}}，请耐心等待
+								</p>
+								<p v-else-if="item.status === 7">
+									您提交的开店找铺委托{{statusList[item.status].name}}，请更换别的商铺
+								</p>
+								<view class="btn" @click="goBrandDetails(item.id)">
+									点击查看您的品牌
+									<van-icon name="arrow" color="#1676FE"/>
+								</view>
+							</view>
+						</view>
 			  		</view>
-			  		
 			  	</view>
 			  
 		  </van-tab>
@@ -115,6 +121,41 @@
 				active: 0,
 				entrustmentList:[],
 				shopList:[],
+				// 0：拒绝;1-待审核;2-已发布（空置）;3-洽谈中;4-已成交未结佣;5-已成交已结佣;6-竞方出租;7-下线-
+				statusList:[
+					{
+						value:0,
+						name:"拒绝"
+					},
+					{
+						value:1,
+						name:"待审核"
+					},
+					{
+						value:2,
+						name:"已发布"
+					},
+					{
+						value:3,
+						name:"洽谈中"
+					},
+					{
+						value:4,
+						name:"已成交未结佣"
+					},
+					{
+						value:5,
+						name:"已成交已结佣"
+					},
+					{
+						value:6,
+						name:"竞方出租"
+					},
+					{
+						value:7,
+						name:"下线"
+					},
+				]
 			}
 		},
 		onLoad(paras) {
@@ -275,9 +316,39 @@
 					}
 				}
 			}
-			.fail {
+			.cardStatus_0 {
 				.header {
 					background-image: linear-gradient(to bottom right, #FFB955, #F9980D);
+				}
+			}
+			.cardStatus_1 {
+				.header {
+					background-image: linear-gradient(to bottom right, #40c000, #40c020);
+				}
+			}
+			.cardStatus_3 {
+				.header {
+					background-image: linear-gradient(to bottom right, #ff2040, #ff2060);
+				}
+			}
+			.cardStatus_4 {
+				.header {
+					background-image: linear-gradient(to bottom right, #0020ff, #0040ff);
+				}
+			}
+			.cardStatus_5 {
+				.header {
+					background-image: linear-gradient(to bottom right, #00c0a0, #00c080);
+				}
+			}
+			.cardStatus_6 {
+				.header {
+					background-image: linear-gradient(to bottom right, #FF6699, #FF3366);
+				}
+			}
+			.cardStatus_7 {
+				.header {
+					background-image: linear-gradient(to bottom right, #999999, #777);
 				}
 			}
 			}

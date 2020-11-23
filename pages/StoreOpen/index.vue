@@ -123,8 +123,8 @@
           @input="changeBrandName"
         />
         <van-field
-          :value="form.brandProfie"
-          :error-message="errMsg.brandProfie"
+          :value="form.brandProfile"
+          :error-message="errMsg.brandProfile"
           required
           clearable
           label="开店品牌简介"
@@ -199,7 +199,7 @@
             <van-uploader
               :file-list="fileList[1]"
               max-count="1"
-              @after-read="afterRead($event, 2)"
+              @after-read="afterRead($event, 1)"
               preview-size="126rpx"
             />
             <view class="image-text">您计划开店效果图</view>
@@ -282,15 +282,16 @@ export default {
         indentity: "个体商家",
         businessType: "服装",
         propertyStatus: "毛坯",
-        propertyType: "社区底层",
-        cityId: "440300",
-        regionId: "440305",
-        streetId: "440305007",
+        propertyType: "社区底商",
+		province: "440300",
+        city: "440300",
+        region: "440305",
+        street: "440305007",
         engineeringConditions: "",
         monthRent: "25000",
         measureArea: "100",
         brandName: "喜茶",
-        brandProfie: "喜茶是一家新网红的奶茶，深受当代年轻人的喜欢",
+        brandProfile: "喜茶是一家新网红的奶茶，深受当代年轻人的喜欢",
         targetCustomer: "80后",
         customerAveragePrice: "20",
         num: "6",
@@ -306,14 +307,14 @@ export default {
         businessType: "",
         propertyStatus: "",
         propertyType: "",
-        cityId: "",
-        regionId: "",
-        streetId: "",
+        city: "",
+        region: "",
+        street: "",
         engineeringConditions: "",
         monthRent: "",
         measureArea: "",
         brandName: "",
-        brandProfie: "",
+        brandProfile: "",
         targetCustomer: "",
         customerAveragePrice: "",
         num: "",
@@ -324,11 +325,11 @@ export default {
       },
 
       // 城市
-      cityId: null,
+      city: null,
       // 区域code
-      regionId: null,
+      region: null,
       // 街道code
-      streetId: null,
+      street: null,
 
       checked: true,
 
@@ -505,11 +506,12 @@ export default {
       this.positionValue =
         event.detail.values[event.detail.values.length - 1].code;
       // 城市code
-      this.cityId = event.detail.values[0].code;
+	  this.form.province = "广东省";
+      this.form.city = event.detail.values[0].name;
       // 区域code
-      this.regionId = event.detail.values[1].code;
+      this.form.region = event.detail.values[1].name;
       // 街道code
-      this.streetId = event.detail.values[2].code;
+      this.form.street = event.detail.values[2].name;
       this.positionShow = false;
     },
     // 隐藏位置弹窗
@@ -588,7 +590,7 @@ export default {
       this.form.brandName = e.detail.trim();
     },
     changeBrandProfie(e) {
-      this.form.brandProfie = e.detail.trim();
+      this.form.brandProfile = e.detail.trim();
     },
 		changeTargetCustomer(e) {
       this.form.targetCustomer = e.detail.trim();
@@ -612,13 +614,13 @@ export default {
         businessType: "",
         propertyStatus: "",
         propertyType: "",
-        cityId: "",
-        regionId: "",
-        streetId: "",
+        city: "",
+        region: "",
+        street: "",
         monthRent: "",
         measureArea: "",
         brandName: "",
-        brandProfie: "",
+        brandProfile: "",
         num: "",
         brandLogo: "",
         effectPhotos: "",
@@ -647,8 +649,8 @@ export default {
           this.errMsg.propertyType = "物业类型不能为空！";
       		Toast.fail('物业类型不能为空！');
           return false;
-        } else if (!this.form.cityId) {
-          this.errMsg.cityId = "位置不能为空！";
+        } else if (!this.form.city) {
+          this.errMsg.city = "位置不能为空！";
       		Toast.fail('位置不能为空！');
           return false;
         } else if (!this.form.monthRent) {
@@ -663,8 +665,8 @@ export default {
           this.errMsg.brandName = "品牌名称不能为空！";
       		Toast.fail('品牌名称不能为空！');
           return false;
-        } else if (!this.form.brandProfie) {
-          this.errMsg.brandProfie = "品牌简介不能为空！";
+        } else if (!this.form.brandProfile) {
+          this.errMsg.brandProfile = "品牌简介不能为空！";
       		Toast.fail('品牌简介不能为空！');
           return false;
         } else if (!this.form.num) {

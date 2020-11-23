@@ -175,12 +175,11 @@
 						const longitude = res.data.lng
 						const latitude = res.data.lat
 						const params = {
-							longitude: parseFloat(longitude),
-							latitude: parseFloat(latitude),
-							distance: 5000,
-							cityCode,
-							pageNo: 1,
-							pageSize: 10,
+							//longitude: parseFloat(longitude),
+							//latitude: parseFloat(latitude),
+							//distance: 5000,
+							cityCode:cityCode,
+							
 						}
 						params.accessToken = that.accessToken;
 						getMapForShop(params).then( res => {
