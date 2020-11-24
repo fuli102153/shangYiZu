@@ -71,5 +71,6 @@
 	.v-myAppointment {
 		background-color: #F5F8FA;
 		padding: 30rpx 25rpx;
+		min-height: 100vh;
 	}
 </style>
