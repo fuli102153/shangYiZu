@@ -270,7 +270,7 @@ export function getCollectAdd(data){ return post(data,'api/collect/collectAdd')}
 export function getCollectList(data){ return post(data,'api/collect/getMyCollect')}
 
 //29、我的预约记录
-export function getMySubscribe(data){ return post(data,'open/subscribe/getMySubscribe')}
+export function getMySubscribe(data){ return post(data,'api/subscribe/getMySubscribe')}
 
 //30、分享
 export function getShareAdd(data){ return post(data,'api/share/shareAdd')}
