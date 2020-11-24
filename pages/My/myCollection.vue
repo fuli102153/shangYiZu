@@ -4,8 +4,8 @@
 			以下商铺已加入我的收藏
 		</view>
 		<view class="store-list">
-			<van-empty v-if="collectionList.length==0" description="暂无数据" />
-			<CollCard  v-for="item in collectionList" :sourceData="item" :key="item"></CollCard>
+			<van-empty v-if="shopList.length==0" description="暂无数据" />
+			<StoreCard  v-for="(item,index) in shopList" :sourceData="item" :key="index" ></StoreCard>
 		</view>
 		<van-toast id="van-toast" />
 	</view>
@@ -13,34 +13,63 @@
 </template>
 
 <script>
-	import CollCard from '../../components/Card/collection.vue'
+	import StoreCard from "../../components/Card/Store";
 	import {getCollectList} from "../../utils/api.js"
 	import Toast from '../../wxcomponents/vant/dist/toast/toast';
 	export default {
 		components: {
-			CollCard
+			StoreCard
 		},
 		data() {
 			return {
-				collectionList: [],
+				shopList: [],
+				
+				reload: false,
+				loadMoreText: "更多",
+				paras: {},
 			}
 		},
 		onLoad(paras) {
 			console.log(paras)
 			//如果有项目ID
-			this.getList();
+			this.ajaxGetShopList();
+		},
+		onReachBottom() {
+			console.log("onReachBottom");
+			this.loadMoreText = '更多';
+			this.ajaxGetShopList();
+		},
+		onPullDownRefresh() {
+			console.log("onPullDownRefresh");
+			this.reload = true;
+			this.ajaxGetShopList();
 		},
 		methods: {
 			
 			
-			getList(){
+			ajaxGetShopList(){
 				
 				var that = this;
+				if (this.shopList.length>0) {
+					//说明已有数据，目前处于上拉加载
+					this.loadMoreText = '加载中';
+					this.paras.pageNo = Math.floor(this.shopList.length/this.paras.pageSize)+1;
+					this.paras.pageSize = 10;
+					//判断是否要需要请求
+					if(parseInt(this.shopList.length%this.paras.pageSize) !== 0){ 
+						this.loadMoreText = '没有更多';
+						return;
+					}
+					
+				}else{
+					this.paras.pageNo = 1;
+					this.paras.pageSize = 10;
+				}
 				
 				const paras = {
 					appUid:this.userDetail.id,
-					pageNo:1,
-					pageSize:10,
+					pageNo: this.paras.pageNo ,
+					pageSize: this.paras.pageSize,
 					
 				};
 				paras.accessToken = that.accessToken;
@@ -55,7 +84,9 @@
 					
 					if(data.code=="200"){
 						toast.clear();
-						that.collectionList = data.data;
+						let list = that.setTime(data.data);
+						that.shopList = that.reload ? list : that.shopList.concat(list);
+						that.reload = false;
 						
 					
 					}else{
@@ -68,6 +99,15 @@
 					Toast.fail(this.global.error);
 				});
 			},
+			
+			setTime: function(items) {
+				var newItems = [];
+				items.forEach(e => {
+					newItems.push(e);
+				});
+				return newItems;
+			},
+			
 		}
 	}
 </script>

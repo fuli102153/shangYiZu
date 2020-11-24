@@ -140,7 +140,7 @@
 					});
 					login(paras).then(res => {
 						const data = res.data;
-						
+						getAccessToken();
 						
 						if(data.code=="200"){
 							toast.clear();
@@ -194,7 +194,7 @@
 								key: "__userDetail__",
 								data: data.data,
 								success: (res) => {
-									getAccessToken();
+									
 									uni.switchTab({
 										 url: '../Index/index'
 									});
