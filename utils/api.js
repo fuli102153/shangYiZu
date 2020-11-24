@@ -80,6 +80,22 @@ export function getAccessToken(){
 		}
 	})
 	
+	
+	//设置当前城市
+	uni.getStorage({
+		key: "__localtionCity__",
+		success: (res) => {
+			Vue.prototype.LocaltionCity = res.data;
+		},
+		fail: () => {
+			Vue.prototype.LocaltionCity = {
+				cityCode: "440300",
+				cityId: 202,
+				cityName: "深圳市"
+			};
+		}
+	})
+	
 	//设置用户的坐标信息
 	uni.getLocation({
 	    type: 'wgs84',

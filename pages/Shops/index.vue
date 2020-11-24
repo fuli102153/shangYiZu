@@ -4,7 +4,7 @@
 			<view class="header">
 				<view class="location" @click="showPopup">
 					<van-icon name="location" class="location-icon" color="#fff" size="30rpx" />
-					<text>深圳</text>
+					<text>{{localtionCity.cityName}}</text>
 					<van-icon name="play" class="arrow" color="#fff" size="17rpx" />
 				</view>
 				<view class="search">
@@ -15,19 +15,8 @@
 			</view>
 			<!-- 地址弹出层 -->
 			<van-popup :show="locationShow" @close="onClose" position="top" round>
-				<van-cell-group>
-					<van-cell title="选择城市" value="" size="large" />
-				</van-cell-group>
+				
 				<van-cell-group class="city">
-					<van-cell center title="当前定位">
-						<template #default>
-							<van-button round plain hairline type="info" size="mini">手动定位</van-button>
-						</template>
-						<template #label>
-							<van-icon name="location" class="location-icon" color="#1676fe" size="30rpx" />
-							<span>深圳</span>
-						</template>
-					</van-cell>
 					<van-cell v-for="(item, index) in cityList" :key="index" center :label="item.cityName" :title="index === 0 ? '已开通城市' : ''"
 					 :class="activeCity === index ? 'active' : ''" @click="selectCity(index, item)">
 						<template #right-icon>
@@ -100,7 +89,7 @@
 		</van-sticky>
 		<view class="store-list">
 			<van-empty v-if="shopList.length==0" description="暂无数据" />
-			<StoreCard v-for="(item,index) in shopList" :sourceData="item" :key="index" @click.native="goShopdetails(item)" />
+			<StoreCard v-for="(item,index) in shopList" :sourceData="item" :key="index"  />
 			<view class="loading" v-if="0">
 				<van-loading  size="24px">{{loadMoreText}}</van-loading>
 			</view>
@@ -133,6 +122,8 @@
 				activeCity: "",
 				value: "",
 				mainActiveIndex: 0,
+				
+				localtionCity:{},
 
 				AreaStreets: [],
 				shopList: [],
@@ -195,6 +186,9 @@
 			this.ajaxGetCityList();
 			//请求城市联动
 			this.ajaxGetAreaStreets();
+			
+			this.localtionCity = this.LocaltionCity;
+			this.$forceUpdate();
 
 			this.sortList[0].children = this.Dict.search_more_sort.map((item) => {
 				return {
@@ -267,6 +261,32 @@
 
 				this.reloadData();
 			},
+			
+			// 选中城市
+			selectCity(index) {
+				var that = this;
+				this.activeCity = index;
+				uni.setStorage({
+					key: "__localtionCity__",
+					data: this.cityList[index],
+					success: (res) => {
+						
+						that.localtionCity  = this.cityList[index];
+						console.log(this.cityList[index])
+						this.$forceUpdate();
+						this.onClose();
+					},
+					fail: () => {
+						uni.showModal({
+							title: '用户信息获取失败!',
+							showCancel:false
+						})
+					}
+				})
+				
+			},
+			
+			
 
 			onClickItemNav(e) {
 				this.sortActiveIndex = e.detail.index || 0;
@@ -310,10 +330,7 @@
 				this.locationShow = false;
 			},
 
-			// 选中城市
-			selectCity(index) {
-				this.activeCity = index;
-			},
+			
 			onSearch(e) {
 				console.log(e.detail)
 				let that = this;
@@ -402,12 +419,7 @@
 				}
 			},
 
-			// 进入商铺详情页
-			goShopdetails() {
-				uni.navigateTo({
-					url: "./shopDetails",
-				});
-			},
+			
 			
 			reloadData(){
 				this.shopList = [];
@@ -508,6 +520,7 @@
 						console.log(data);
 						if (data.code == "200") {
 							that.cityList = data.data;
+							
 						} else {}
 					})
 					.catch((error) => {});

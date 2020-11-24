@@ -3,7 +3,7 @@
 		<view class="header">
 			<view class="location" @click="showPopup">
 				<van-icon name="location" class="location-icon" color="#fff" size="30rpx" />
-				<text>深圳</text>
+				<text>{{localtionCity.cityName}}</text>
 				<van-icon name="play" class="arrow" color="#fff" size="17rpx" />
 			</view>
 			<view class="search" @click="goSearch">
@@ -17,19 +17,9 @@
 		</view>
 		<!-- 地址弹出层 -->
 		<van-popup :show="locationShow" @close="onClose" position="top" round>
-			<van-cell-group>
-				<van-cell title="选择城市" value="" size="large" />
-			</van-cell-group>
+			
 			<van-cell-group class="city">
-				<van-cell center title="当前定位">
-					<template #default>
-						<van-button round plain type="info" size="mini">手动定位</van-button>
-					</template>
-					<template #label>
-						<van-icon name="location" class="location-icon" color="#1676fe" size="30rpx" />
-						<span>{{locationCity.cityName}}</span>
-					</template>
-				</van-cell>
+				
 				<van-cell v-for="(item, index) in cityList" :key="index" center :label="item.cityName" :title="index === 0 ? '已开通城市' : ''"
 				 :class="activeCity === index ? 'active' : ''" @click="selectCity(index, item)">
 					<template #right-icon>
@@ -193,7 +183,7 @@
 						router: '../ShoppingMall/index?projectType=7'
 					},
 				],
-				locationCity:{},
+				localtionCity:{},
 				bannerList:[],
 				weekRecommendList:[],
 				guessYouLikeList:[],
@@ -219,9 +209,9 @@
 			this.ajaxGetHeadline();
 			//城市列表
 			this.ajaxGetCityList();
-			//处理当前城市
-			this.setCity();
-			
+
+			this.localtionCity = this.LocaltionCity;
+			this.$forceUpdate();
 		},
 		onShow(){
 			console.log(this.Dict)
@@ -238,11 +228,17 @@
 			},
 			// 选中城市
 			selectCity(index) {
+				var that = this;
 				this.activeCity = index;
 				uni.setStorage({
 					key: "__localtionCity__",
 					data: this.cityList[index],
 					success: (res) => {
+						that.localtionCity  = this.cityList[index];
+						this.$forceUpdate();
+						this.onClose();
+						//需要重新加载页面  才能刷新全局
+						
 					},
 					fail: () => {
 						uni.showModal({
@@ -298,28 +294,10 @@
 				this.current = e.detail.current;
 			},
 			
-			//处理城市
-			setCity(){
-				//先定位导上次定位的记录，如果上次没有定位记录，就取当前的城市定位信息
-				//
-				//that.cityList  当前城市列表
-				var that  = this;
-				uni.getStorage({
-					key: "__localtionCity__",
-					success: (res) => {
-						this.locationCity  = res.data;
-						
-					},
-					fail: () => {
-						that.cityList.forEach((item)=>{
-							if(item.cityName == that.address.city){
-								that.locationCity  = item;
-							}
-						})
-						
-					}
-				})
-			},
+			
+			
+			
+			
 			
 			
 			//请求BANNER图片
@@ -353,7 +331,7 @@
 				//ajax个人信息查询
 				var that = this;
 				const paras = {
-					cityCode:"440300"
+					cityCode:this.LocaltionCity.cityCode
 				};
 				paras.accessToken = that.accessToken;
 				
@@ -381,7 +359,7 @@
 				//ajax个人信息查询
 				var that = this;
 				const paras = {
-					cityCode:"440300",
+					cityCode:this.LocaltionCity.cityCode,
 					pageNo:1,
 					pageSize:10,
 				};
@@ -473,7 +451,7 @@
 					console.log(data);
 					if(data.code=="200"){
 						that.cityList = data.data;
-					
+						
 					}else{
 						
 						
