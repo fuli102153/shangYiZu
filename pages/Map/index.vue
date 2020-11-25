@@ -22,9 +22,11 @@
 						iconPath: '../../static/images/map-marker.png',
 						width: '160rpx',
 						height: '160rpx',
+						zIndex: 1,
 						label: {
 							content: '南山区商铺\n 556套',
 							color: '#fff',
+							bgColor: '#1676FE',
 							fontSize: 14,
 							anchorY: -55,
 							textAlign: 'center'
@@ -36,9 +38,11 @@
 						iconPath: '../../static/images/map-marker.png',
 						width: '160rpx',
 						height: '160rpx',
+						zIndex: 2,
 						label: {
 							content: '福田区商铺\n 556套',
 							color: '#fff',
+							bgColor: '#1676FE',
 							fontSize: 14,
 							anchorY: -55,
 							textAlign: 'center'
@@ -50,9 +54,11 @@
 						iconPath: '../../static/images/map-marker.png',
 						width: '160rpx',
 						height: '160rpx',
+						zIndex: 3,
 						label: {
 							content: '龙岗区商铺\n 556套',
 							color: '#fff',
+							bgColor: '#1676FE',
 							fontSize: 14,
 							anchorY: -55,
 							textAlign: 'center'
@@ -64,9 +70,11 @@
 						iconPath: '../../static/images/map-marker.png',
 						width: '160rpx',
 						height: '160rpx',
+						zIndex: 4,
 						label: {
 							content: '龙华区商铺\n 556套',
 							color: '#fff',
+							bgColor: '#1676FE',
 							fontSize: 14,
 							anchorY: -55,
 							textAlign: 'center'
@@ -78,9 +86,11 @@
 						iconPath: '../../static/images/map-marker.png',
 						width: '160rpx',
 						height: '160rpx',
+						zIndex: 5,
 						label: {
 							content: '宝安区商铺\n 556套',
 							color: '#fff',
+							bgColor: '#1676FE',
 							fontSize: 14,
 							anchorY: -55,
 							textAlign: 'center'

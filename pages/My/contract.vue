@@ -1,6 +1,6 @@
 <template>
 	<view class="v-contract">
-		<van-tabs :active="active" @change="onChange">
+		<van-tabs :active="active" @change="onChange" color="#1676FE">
 			<van-tab title="待签署" :name="0">
 			  <view class="tab-content">
 			  	<van-empty v-if="shopList.length==0" description="暂无数据" />
@@ -20,7 +20,7 @@
 						</view>
 						<view class="foot">
 							<view class="id">
-								{{ item.contractId }}
+								ID: {{ item.contractId }}
 							</view>
 							<view class="time">
 								{{ item.createTime }}
@@ -35,16 +35,27 @@
 					<van-empty v-if="shopList.length==0" description="暂无数据" />
 					<!--fail-->
 					<view class="card success" v-for="(item,index) in shopList" :key="index">
-						<view class="title">
-							<text>{{ item.docTitle}}</text>
-							<view class="id">
-								{{ item.contractId }}
+						<view class="header">
+							<view class="title">
+								<text>{{ item.docTitle}}</text>
+								<!-- <view class="id">
+									{{ item.contractId }}
+								</view> -->
+							</view>
+							<view class="status">
+								<van-button v-if="item.status === 0" type="info" size="small">立即签署</van-button>
+								<text v-else>已签署</text>
 							</view>
 						</view>
-						<view class="status">
-							<van-button v-if="item.status === 0" type="info" size="small">立即签署</van-button>
-							<text v-else>已签署</text>
+						<view class="foot">
+							<view class="id">
+								ID: {{ item.contractId }}
+							</view>
+							<view class="time">
+								{{ item.createTime }}
+							</view>
 						</view>
+						
 					</view>
 					
 				</view>
@@ -125,6 +136,7 @@
 			
 			.card {
 				height: 194rpx;
+				box-sizing: border-box;
 				background-color: #fff;
 				box-shadow: 0px 2rpx 3rpx 0px rgba(223, 223, 223, 0.26);
 				border-radius: 10rpx;
@@ -176,6 +188,9 @@
 					background-image: linear-gradient(to bottom right, #FFB955, #F9980D);
 				}
 			}
+			}
+			.active-tab {
+				
 			}
 		}
 </style>
