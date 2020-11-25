@@ -69,12 +69,14 @@
 			<van-empty v-if="brandList.length==0" description="暂无数据" />
 			<BrandCard v-for="(item,index) in brandList" :sourceData="item" :key="index" />
 		</view>
+		<van-toast id="van-toast" />
 	</view>
 </template>
 
 <script>
 	import BrandCard from '../../components/Card/Brand'
 	import {getBrandList, getAreaStreets,} from "../../utils/api.js"
+	import Toast from "../../wxcomponents/vant/dist/toast/toast";
 	export default {
 		components: {
 			BrandCard
@@ -120,6 +122,9 @@
 				  },
 				],
 				areaShow: false,
+				pageNo:1,
+				pageSize:10,
+				reload: false
 			}
 		},
 		onLoad() {
@@ -145,6 +150,16 @@
 			
 		},
 		methods: {
+			onReachBottom() {
+				console.log("onReachBottom");
+				this.loadMoreText = '更多';
+				this.ajaxGetBrandList();
+			},
+			onPullDownRefresh() {
+				console.log("onPullDownRefresh");
+				this.reload = true;
+				this.ajaxGetBrandList();
+			},
 			onChange(e) {
 				 const { picker, value, index } = e.detail;
 				 console.log(picker, value, index)
@@ -207,39 +222,69 @@
 								that.items[0].children.push(area);
 							});
 							that.$forceUpdate();
-							console.log(that.AreaStreets);
 						} else {}
 					})
 					.catch((error) => {});
 			},
 	
+			reloadData(){
+				this.shopList = [];
+				this.ajaxGetBrandList();
+			},
+			
+			setTime: function(items) {
+				var newItems = [];
+				items.forEach(e => {
+					newItems.push(e);
+				});
+				return newItems;
+			},
 			//品牌列表
 			ajaxGetBrandList(){
 				//ajax个人信息查询
 				var that = this;
+				
+				if (this.brandList.length>0) {
+					//说明已有数据，目前处于上拉加载
+					this.loadMoreText = '加载中';
+					this.pageNo = Math.floor(this.brandList.length/this.pageSize)+1;
+					this.pageSize = 10;
+					//判断是否要需要请求
+					if(parseInt(this.brandList.length%this.pageSize) !== 0){ 
+						this.loadMoreText = '没有更多';
+						return;
+					}
+				}else{
+					this.pageNo = 1;
+					this.pageSize = 10;
+				}
+				
 				const paras = {
 					cityCode:this.$Localtion.city.cityCode,
-					pageNo:1,
-					pageSize:10,
+					pageNo: this.pageNo,
+					pageSize: this.pageSize,
 				};
 				paras.accessToken = that.accessToken;
-				
+				const toast = Toast.loading({
+					message: "加载中...",
+					forbidClick: true,
+					loadingType: "spinner",
+				});
 				getBrandList(paras).then(res => {
 					const data = res.data;
 					console.log(data.data.records);
-					
-					if(data.code=="200"){
-						that.brandList = data.data.records;
-						
-					
+					if(data.code == "200"){
+						console.log(list)
+						// toast.clear();
+						let list = data.data.records;
+						that.brandList = that.reload ? list : that.brandList.concat(list);
+						that.reload = false;
+						console.log('that.brandList', that.brandList, list, 111111111)
 					}else{
-						
-						
+						Toast.fail(data.message);
 					}
-					
-				})
-				.catch(error => {
-				
+				}).catch(error => {
+					Toast.fail(this.global.error);
 				});
 			},
 		}

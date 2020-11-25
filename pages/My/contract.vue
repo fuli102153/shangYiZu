@@ -6,16 +6,27 @@
 			  	<van-empty v-if="shopList.length==0" description="暂无数据" />
 			  	<!--fail-->
 			  	<view class="card success" v-for="(item,index) in shopList" :key="index">
-			  		<view class="title">
-			  			<text>{{ item.docTitle}}</text>
-			  			<view class="id">
-			  				{{ item.contractId }}
-			  			</view>
-			  		</view>
-			  		<view class="status">
-			  			<van-button v-if="item.status === 0" type="info" size="small">立即签署</van-button>
-			  			<text v-else>已签署</text>
-			  		</view>
+						<view class="header">
+							<view class="title">
+								<text>{{ item.docTitle}}</text>
+								<!-- <view class="id">
+									{{ item.contractId }}
+								</view> -->
+							</view>
+							<view class="status">
+								<van-button v-if="item.status === 0" type="info" size="small">立即签署</van-button>
+								<text v-else>已签署</text>
+							</view>
+						</view>
+						<view class="foot">
+							<view class="id">
+								{{ item.contractId }}
+							</view>
+							<view class="time">
+								{{ item.createTime }}
+							</view>
+						</view>
+			  		
 			  	</view>
 			  </view>
 			</van-tab>
@@ -118,31 +129,46 @@
 				box-shadow: 0px 2rpx 3rpx 0px rgba(223, 223, 223, 0.26);
 				border-radius: 10rpx;
 				margin-bottom: 29rpx;
-				padding: 20rpx;
+				padding: 29rpx 37rpx;
 				display: flex;
+				flex-direction: column;
 				justify-content: space-between;
 				
-				.title {
-					text {
-						font-size: 36rpx;
-						color: #2D2D2D;
+				.header {
+					width: 100%;
+					display: flex;
+					justify-content: space-between;
+					.title {
+						text {
+							font-size: 30rpx;
+							color: #2D2D2D;
+						}
 					}
 					
-					.id {
-						font-size: 20rpx;
-						color: #2D2D2D;
+					.status {
+						text {
+							color: #1676FE;
+							font-size: 24rpx;
+						}
 					}
 				}
 				
-				.status {
-					height: 100%;
+				.foot {
+					width: 100%;
 					display: flex;
-					align-items: center;
-					text {
-						color: #1676FE;
+					justify-content: space-between;
+					
+					.id {						
+						font-size: 18rpx;
+						color: #3A3A3A;
+					}
+					.time {
+						color: #3A3A3A;
 						font-size: 24rpx;
 					}
 				}
+				
+				
 				
 			}
 			.fail {
