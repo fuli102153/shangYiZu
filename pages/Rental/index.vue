@@ -113,6 +113,7 @@
           label="月租金"
           placeholder="请输入您期望的月租金"
           @input="changeMonthRent"
+		  type="number"
           use-button-slot
         >
           <text slot="button">元</text>
@@ -123,6 +124,7 @@
           required
           clearable
           label="面积"
+		  type="number"
           placeholder="请输入您商铺的面积"
           @input="changeMeasureArea"
           use-button-slot
@@ -303,10 +305,10 @@ export default {
     return {
       form: {
         // 联系人
-        contactUsername: "王总",
+        contactUsername: "谢先生",
         // 联系电话
-        contactMobile: "13012345678",
-				shopName: '肯德基',
+        contactMobile: "15915376026",
+		shopName: '',
         // 身份
         indentity: "业主",
         // 物业现况
@@ -322,7 +324,7 @@ export default {
         // 期望招商类别
         businessType: "",
         // 月租金
-        monthRent: "50000",
+        monthRent: "666",
         // 面积
         measureArea: "200",
         // 免租期
@@ -565,7 +567,7 @@ export default {
 		//ajax个人信息查询
 		var that = this;
 		const paras = {
-			cityCode: "440300",
+			cityCode: this.$Localtion.city.cityCode,
 		};
 		paras.accessToken = that.accessToken;
 	
@@ -677,7 +679,7 @@ export default {
 	  		//this.hasLocation = true,
 	  		//this.location = formatLocation(res.longitude, res.latitude),
 			this.form.provinceCode = "440000";
-			this.form.cityCode = "440300";
+			this.form.cityCode = this.$Localtion.city.cityCode;
 			this.AreaStreets.forEach((item)=>{
 				if(res.address.includes(item.areaName)){
 					this.form.regionCode = item.areaCode;

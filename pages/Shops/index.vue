@@ -187,7 +187,7 @@
 			//请求城市联动
 			this.ajaxGetAreaStreets();
 			
-			this.localtionCity = this.LocaltionCity;
+			this.localtionCity = this.$Localtion.city;
 			this.$forceUpdate();
 
 			this.sortList[0].children = this.Dict.search_more_sort.map((item) => {
@@ -271,10 +271,14 @@
 					data: this.cityList[index],
 					success: (res) => {
 						
-						that.localtionCity  = this.cityList[index];
-						console.log(this.cityList[index])
+						this.$Localtion.city  = this.cityList[index];
+						this.localtionCity  = this.cityList[index];
+
 						this.$forceUpdate();
 						this.onClose();
+						
+						//请求品牌列表
+						this.reloadData();
 					},
 					fail: () => {
 						uni.showModal({
@@ -450,7 +454,7 @@
 				
 				const paras = {
 					
-					cityCode:"440300",
+					cityCode:this.$Localtion.city.cityCode,
 					shopName:this.paras.shopName,
 					label:this.paras.label,
 					distance:this.paras.distance,
@@ -531,7 +535,7 @@
 				//ajax个人信息查询
 				var that = this;
 				const paras = {
-					cityCode: "440300",
+					cityCode: this.$Localtion.city.cityCode,
 				};
 				paras.accessToken = that.accessToken;
 

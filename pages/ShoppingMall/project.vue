@@ -419,7 +419,7 @@
 				//ajax个人信息查询
 				var that = this;
 				const paras = {
-					cityCode:"440300",
+					cityCode:this.$Localtion.city.cityCode,
 				};
 				paras.accessToken = that.accessToken;
 				

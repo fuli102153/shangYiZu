@@ -4,12 +4,13 @@
 			<map class="map" ref="map" id="map" :longitude="longitude" :latitude="latitude" :enable-zoom="false"  :show-location="false" @regionchange="regionchange" @markertap="selectMarker" @labeltap="labeltap" :scale="scale"  :markers="markers">
 			</map>
 		</view>
+		<van-toast id="van-toast" />
 	</view>
 </template>
 
 <script>
-	import {getMapForShop} from '../../utils/api.js'
-	
+	import {getMapForShopCount} from '../../utils/api.js'
+	import Toast from "../../wxcomponents/vant/dist/toast/toast";
 	export default {
 		data() {
 			return {
@@ -93,7 +94,7 @@
 			}
 		},
 		onLoad: function() {
-			this.ajaxGetMapForShop()
+			this.ajaxGetMapForShopCountByCity()
 			//首先获取经纬度
 			 //this.getWxLocation();
 			 this.regionchange();
@@ -175,19 +176,107 @@
 						const longitude = res.data.lng
 						const latitude = res.data.lat
 						const params = {
-							//longitude: parseFloat(longitude),
-							//latitude: parseFloat(latitude),
-							//distance: 5000,
-							cityCode:cityCode,
+							longitude: parseFloat(longitude),
+							latitude: parseFloat(latitude),
+							distance: 5000,
+							//cityCode:cityCode,
+						
 							
 						}
+						
+						const toast = Toast.loading({
+							message: "加载中...",
+							forbidClick: true,
+							loadingType: "spinner",
+						});
 						params.accessToken = that.accessToken;
-						getMapForShop(params).then( res => {
-							console.log(res)
+						getMapForShopCount(params).then( res => {
+							const data = res.data;
+							console.log("getMapForShopCount"+data);
+							if (data.code == "200") {
+								toast.clear();
+								data.data.forEach((item)=>{
+									console.log(item)
+									//if(item)
+								})
+								
+								
+								
+							} else {
+								Toast.fail(data.message);
+							}
 						})
 					}
 				})
+			},
+			
+			
+			ajaxGetMapForShopCountByCity() {
+				const that = this;
+				const params = {}
+				params.cityCode = this.$Localtion.city.cityCode;
+				
+				
+				
+				const toast = Toast.loading({
+					message: "加载中...",
+					forbidClick: true,
+					loadingType: "spinner",
+				});
+				params.accessToken = that.accessToken;
+				getMapForShopCount(params).then( res => {
+					const data = res.data;
+					console.log("getMapForShopCount"+data);
+					if (data.code == "200") {
+						toast.clear();
+						data.data.forEach((item)=>{
+							console.log(item)
+							//if(item)
+							that.ajaxGetMapForShopCountByRegion(item.name)
+						})
+						
+						
+						
+					} else {
+						Toast.fail(data.message);
+					}
+				})
+			},
+			
+			
+			ajaxGetMapForShopCountByRegion(regionCode) {
+				const that = this;
+				const params = {}
+				params.regionCode = regionCode;
+				
+				
+				
+				const toast = Toast.loading({
+					message: "加载中...",
+					forbidClick: true,
+					loadingType: "spinner",
+				});
+				params.accessToken = that.accessToken;
+				getMapForShopCount(params).then( res => {
+					const data = res.data;
+					console.log("getMapForShopCount"+data);
+					if (data.code == "200") {
+						toast.clear();
+						data.data.forEach((item)=>{
+							console.log(item)
+							//if(item)
+							//that.ajaxGetMapForShopCount(item.name)
+						})
+						
+						
+						
+					} else {
+						Toast.fail(data.message);
+					}
+				})
 			}
+			
+			
 		}
 	}
 </script>

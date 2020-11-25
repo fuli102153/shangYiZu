@@ -441,7 +441,7 @@
 				const paras = {
 					projectType:this.paras.projectType,
 					businessType:this.paras.businessType,
-					cityCode:"440300",
+					cityCode:this.$Localtion.city.cityCode,
 					shopName:this.paras.shopName,
 					label:this.paras.label,
 					distance:this.paras.distance,
@@ -531,7 +531,7 @@
 				//ajax个人信息查询
 				var that = this;
 				const paras = {
-					cityCode:"440300",
+					cityCode:this.$Localtion.city.cityCode,
 				};
 				paras.accessToken = that.accessToken;
 				

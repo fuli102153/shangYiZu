@@ -523,7 +523,11 @@
 		{
 			"path": "pages/Map/index",
 			"style": {
-				"navigationBarTitleText": "地图"
+				"navigationBarTitleText": "地图",
+				"usingComponents":{
+					
+					"van-toast": "/wxcomponents/vant/dist/toast/index"
+				}
 			}
 		}
 	],

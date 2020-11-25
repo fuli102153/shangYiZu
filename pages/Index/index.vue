@@ -199,10 +199,7 @@
 		onLoad() {
 			//请求BANNER
 			this.ajaxGetBanner();
-			//本周重点推荐
-			this.ajaxGetWeekRecommendList();
-			//猜你喜欢
-			this.ajaxGetGuessYouLike();
+			this.reload();
 			//合作企业
 			this.ajaxGetCooperativeList();
 			//头条信息
@@ -210,16 +207,22 @@
 			//城市列表
 			this.ajaxGetCityList();
 
-			this.localtionCity = this.LocaltionCity;
+			this.localtionCity = this.$Localtion.city;
 			this.$forceUpdate();
 		},
 		onShow(){
-			console.log(this.Dict)
+			//console.log(this.$LocaltionCity)
 			
 			
 		},
 		methods: {
-      // 打开关闭弹出层
+			reload(){
+				//本周重点推荐
+				this.ajaxGetWeekRecommendList();
+				//猜你喜欢
+				this.ajaxGetGuessYouLike();
+			},
+			// 打开关闭弹出层
 			showPopup() {
 				this.locationShow = true;
 			},
@@ -234,11 +237,12 @@
 					key: "__localtionCity__",
 					data: this.cityList[index],
 					success: (res) => {
-						that.localtionCity  = this.cityList[index];
+						this.$Localtion.city  = this.cityList[index];
+						this.localtionCity  = this.cityList[index];
 						this.$forceUpdate();
 						this.onClose();
 						//需要重新加载页面  才能刷新全局
-						
+						this.reload();
 					},
 					fail: () => {
 						uni.showModal({
@@ -331,7 +335,7 @@
 				//ajax个人信息查询
 				var that = this;
 				const paras = {
-					cityCode:this.LocaltionCity.cityCode
+					cityCode:this.$Localtion.city.cityCode
 				};
 				paras.accessToken = that.accessToken;
 				
@@ -359,7 +363,7 @@
 				//ajax个人信息查询
 				var that = this;
 				const paras = {
-					cityCode:this.LocaltionCity.cityCode,
+					cityCode:this.$Localtion.city.cityCode,
 					pageNo:1,
 					pageSize:10,
 				};

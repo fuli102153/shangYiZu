@@ -85,10 +85,10 @@ export function getAccessToken(){
 	uni.getStorage({
 		key: "__localtionCity__",
 		success: (res) => {
-			Vue.prototype.LocaltionCity = res.data;
+			Vue.prototype.$Localtion.city = res.data;
 		},
 		fail: () => {
-			Vue.prototype.LocaltionCity = {
+			Vue.prototype.$Localtion.city = {
 				cityCode: "440300",
 				cityId: 202,
 				cityName: "深圳市"
@@ -214,6 +214,9 @@ export function getGuessYouLike(data){ return post(data,'shop/guessYouLike')}
 
 //10、地图找铺
 export function getMapForShop(data){ return post(data,'shop/mapForShop')}
+
+//10.1、地图找铺
+export function getMapForShopCount(data){ return post(data,'shop/mapForShopCount')}
 
 //11、常量查询
 export function getAllDictItems(data){ return get(data,'api/dict/auth/getAllDictItems')}
