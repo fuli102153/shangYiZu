@@ -141,7 +141,8 @@
 					"van-icon": "/wxcomponents/vant/dist/icon/index",
 					"van-empty": "/wxcomponents/vant/dist/empty/index",
 					"van-toast": "/wxcomponents/vant/dist/toast/index"
-				}
+				},
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -394,7 +395,8 @@
 					"van-empty": "/wxcomponents/vant/dist/empty/index",
 					"van-loading": "/wxcomponents/vant/dist/loading/index",
 					"van-toast": "/wxcomponents/vant/dist/toast/index"
-				}
+				},
+				"enablePullDownRefresh": true
 			}
 		},
 		{

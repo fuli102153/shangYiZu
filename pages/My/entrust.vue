@@ -1,6 +1,6 @@
 <template>
 	<view class="v-entrust">
-		<van-tabs :active="active" bind:change="onChange">
+		<van-tabs :active="active" bind:change="onChange" color="#1676FE">
 		  <van-tab title="招商委托">
 				<view class="tab-content">
 					<van-empty v-if="shopList.length==0" description="暂无数据" />
@@ -165,6 +165,24 @@
 			this.ajaxGetEntrustmentList();
 		},
 		methods: {
+			onReachBottom() {
+				console.log("onReachBottom");
+				this.loadMoreText = '更多';
+				if (this.active === 0) {
+					this.ajaxGetMyShopList();
+				} else {
+					this.ajaxGetEntrustmentList();
+				}
+			},
+			onPullDownRefresh() {
+				console.log("onPullDownRefresh");
+				this.reload = true;
+				if (this.active === 0) {
+					this.ajaxGetMyShopList();
+				} else {
+					this.ajaxGetEntrustmentList();
+				}
+			},
 			onChange() {
 				
 			},
@@ -192,10 +210,25 @@
 			ajaxGetMyShopList(){
 				//ajax个人信息查询
 				var that = this;
+				if (this.shopList.length>0) {
+					//说明已有数据，目前处于上拉加载
+					this.loadMoreText = '加载中';
+					this.pageNo = Math.floor(this.shopList.length/this.pageSize)+1;
+					this.pageSize = 10;
+					//判断是否要需要请求
+					if(parseInt(this.shopList.length%this.pageSize) !== 0){ 
+						this.loadMoreText = '没有更多';
+						return;
+					}
+					
+				}else{
+					this.pageNo = 1;
+					this.pageSize = 10;
+				}
 				const paras = {
 					appUid:this.userDetail.id,
-					pageNo:1,
-					pageSize:10,
+					pageNo: this.pageNo,
+					pageSize: this.pageSize,
 				};
 				paras.accessToken = that.accessToken;
 				const toast = Toast.loading({
@@ -209,7 +242,10 @@
 					
 					if(data.code=="200"){
 						toast.clear();
-						that.shopList = data.data;
+						// that.shopList = data.data;
+						let list = data.data;
+						that.shopList = that.reload ? list : that.shopList.concat(list);
+						that.reload = false;
 						console.log(that.shopList);
 					}else{
 						Toast.fail(data.message);
@@ -227,9 +263,24 @@
 			ajaxGetEntrustmentList(){
 				//ajax个人信息查询
 				var that = this;
+				if (this.shopList.length>0) {
+					//说明已有数据，目前处于上拉加载
+					this.loadMoreText = '加载中';
+					this.pageNoEntrustment = Math.floor(this.shopList.length/this.pageSizeEntrustment)+1;
+					this.pageSizeEntrustment = 10;
+					//判断是否要需要请求
+					if(parseInt(this.shopList.length%this.pageSizeEntrustment) !== 0){ 
+						this.loadMoreText = '没有更多';
+						return;
+					}
+					
+				}else{
+					this.pageNoEntrustment = 1;
+					this.pageSizeEntrustment = 10;
+				}
 				const paras = {
-					pageNo:1,
-					pageSize:10,
+					pageNo: this.pageNoEntrustment,
+					pageSize: this.pageSizeEntrustment,
 				};
 				paras.accessToken = that.accessToken;
 				const toast = Toast.loading({
@@ -243,7 +294,10 @@
 					
 					if(data.code=="200"){
 						toast.clear();
-						that.entrustmentList = data.data.records;
+						let list = data.data.records;
+						that.entrustmentList = that.reload ? list : that.entrustmentList.concat(list);
+						that.reload = false;
+						// that.entrustmentList = data.data.records;
 						
 					}else{
 						Toast.fail(data.message);

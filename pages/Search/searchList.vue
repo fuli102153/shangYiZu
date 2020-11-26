@@ -76,6 +76,16 @@
 			this.changeDict();
 		},
 		methods: {
+			onReachBottom() {
+				console.log("onReachBottom");
+				this.loadMoreText = '更多';
+				this.ajaxGetShopList();
+			},
+			onPullDownRefresh() {
+				console.log("onPullDownRefresh");
+				this.reload = true;
+				this.ajaxGetShopList();
+			},
 			//转换格式
 			changeDict(){
 				this.propertyList = [];
@@ -138,6 +148,23 @@
 			ajaxGetShopList(){
 				//ajax个人信息查询
 				var that = this;
+				
+				if (this.shopList.length>0) {
+					//说明已有数据，目前处于上拉加载
+					this.loadMoreText = '加载中';
+					this.pageNo = Math.floor(this.shopList.length/this.pageSize)+1;
+					this.pageSize = 10;
+					//判断是否要需要请求
+					if(parseInt(this.shopList.length%this.pageSize) !== 0){ 
+						this.loadMoreText = '没有更多';
+						return;
+					}
+					
+				}else{
+					this.paras.pageNo = 1;
+					this.paras.pageSize = 10;
+				}
+				
 				const paras = {
 					cityCode:this.$Localtion.city.cityCode,
 					shopName:this.paras.shopName,
@@ -167,7 +194,10 @@
 					console.log(data);
 					
 					if(data.code=="200"){
-						that.shopList = data.data;
+						// that.shopList = data.data;
+						let list = data.data;
+						that.shopList = that.reload ? list : that.shopList.concat(list);
+						that.reload = false;
 					
 					}else{
 						

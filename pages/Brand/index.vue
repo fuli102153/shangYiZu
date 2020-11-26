@@ -261,7 +261,7 @@
 				
 				const paras = {
 					cityCode:this.$Localtion.city.cityCode,
-					pageNo: this.pageNo,
+					pageNum: this.pageNo,
 					pageSize: this.pageSize,
 				};
 				paras.accessToken = that.accessToken;
