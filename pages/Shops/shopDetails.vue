@@ -306,7 +306,9 @@
 					console.log(data);
 					
 					if(data.code=="200"){
-						toast.clear();
+						setTimeout(() => {
+							Toast.clear();
+						}, 300)
 						that.shop = data.data.shop;
 						that.property = data.data.property;
 						

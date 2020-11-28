@@ -204,7 +204,9 @@
 							const data = res.data;
 							console.log("getMapForShopCount"+data);
 							if (data.code == "200") {
-								toast.clear();
+								setTimeout(() => {
+									Toast.clear();
+								}, 300)
 								data.data.forEach((item)=>{
 									console.log(item)
 									//if(item)
@@ -238,7 +240,9 @@
 					const data = res.data;
 					console.log("getMapForShopCount"+data);
 					if (data.code == "200") {
-						toast.clear();
+						setTimeout(() => {
+							Toast.clear();
+						}, 300)
 						data.data.forEach((item)=>{
 							console.log(item)
 							//if(item)
@@ -271,7 +275,9 @@
 					const data = res.data;
 					console.log("getMapForShopCount"+data);
 					if (data.code == "200") {
-						toast.clear();
+						setTimeout(() => {
+							Toast.clear();
+						}, 300)
 						data.data.forEach((item)=>{
 							console.log(item)
 							//if(item)

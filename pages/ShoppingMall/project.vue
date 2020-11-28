@@ -370,7 +370,9 @@
 					console.log(data);
 					that.loading = false;
 					if(data.code=="200"){
-						toast.clear();
+						setTimeout(() => {
+							Toast.clear();
+						}, 300)
 						that.projectList = [data.project];
 						that.shopList = data.shopList;
 						that.$forceUpdate();

@@ -163,6 +163,9 @@
 					console.log(data);
 					if(data.code=="200"){
 						Toast.success(data.message);
+						uni.navigateTo({
+							url: './index'
+						})
 						//that.cityList = data.data;
 					
 					}else{

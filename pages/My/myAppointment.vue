@@ -48,7 +48,9 @@
 					console.log(data);
 					
 					if(data.code=="200"){
-						toast.clear();
+						setTimeout(() => {
+							Toast.clear();
+						}, 300)
 						that.subscribeList = data.data;
 						console.log(that.subscribeList)
 						

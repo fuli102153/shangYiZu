@@ -112,14 +112,15 @@ export default {
 	
 	.hot {
 		background-color: #fff;
-		padding: 47rpx 26rpx 40rpx;
+		padding: 47rpx 0 40rpx 26rpx;
 		
 		.hot-tag {
 			display: flex;
 			flex-wrap: wrap;
-			justify-content: space-between;
+			
 			.tag-item {
 				margin-top: 20rpx;
+				margin-right: 20rpx;
 				border: 1rpx solid #B2B2B2;
 				color: #B2B2B2;
 				font-size: 30rpx;

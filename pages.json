@@ -156,7 +156,8 @@
 					"van-empty": "/wxcomponents/vant/dist/empty/index",
 					"van-button": "/wxcomponents/vant/dist/button/index",
 					"van-toast": "/wxcomponents/vant/dist/toast/index"
-				}
+				},
+				"enablePullDownRefresh": true
 			}
 		},
 		{

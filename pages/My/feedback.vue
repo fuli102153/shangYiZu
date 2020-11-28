@@ -71,7 +71,9 @@
 					
 					if(data.code=="200"){
 						that.feedbackData = data.data
-						toast.clear();
+						setTimeout(() => {
+							Toast.clear();
+						}, 300)
 					}else{
 						Toast.fail(data.message);
 						

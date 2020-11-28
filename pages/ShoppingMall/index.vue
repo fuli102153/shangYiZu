@@ -474,7 +474,9 @@
 					console.log(data);
 					
 					if(data.code=="200"){
-						toast.clear();
+						setTimeout(() => {
+							Toast.clear();
+						}, 300)
 						that.projectList = data.projectList;
 						let list = that.setTime(data.shopList);
 						that.shopList = that.reload ? list : that.shopList.concat(list);

@@ -1,6 +1,6 @@
 <template>
 	<view class="v-contract">
-		<van-tabs :active="active" @change="onChange" color="#1676FE">
+		<van-tabs :active="active" @change="onChange" color="#1676FE" :sticky="true">
 			<van-tab title="待签署" :name="0">
 			  <view class="tab-content">
 			  	<van-empty v-if="shopList.length==0" description="暂无数据" />
@@ -26,7 +26,6 @@
 								{{ item.createTime }}
 							</view>
 						</view>
-			  		
 			  	</view>
 			  </view>
 			</van-tab>
@@ -55,19 +54,16 @@
 								{{ item.createTime }}
 							</view>
 						</view>
-						
 					</view>
-					
 				</view>
 			</van-tab>
-		  
 		</van-tabs>
 		<van-toast id="van-toast" />
 	</view>
 </template>
 
 <script>
-	import {getContractList} from "../../utils/api.js"
+	import { getContractList } from "../../utils/api.js"
 	import Toast from '../../wxcomponents/vant/dist/toast/toast';
 	export default {
 		data() {
@@ -102,13 +98,16 @@
 				  message: '加载中...',
 				  forbidClick: true,
 				  loadingType: 'spinner',
+					selector: '#van-toast',
 				});
 				getContractList(paras).then(res => {
 					const data = res.data;
 					console.log(res);
 					
 					if(data.code=="200"){
-						toast.clear();
+						setTimeout(() => {
+							Toast.clear();
+						}, 300)
 						that.shopList = data.data;
 					}else{
 						Toast.fail(data.message);
@@ -130,6 +129,10 @@
 	.v-contract {
 		background-color: #F5F8FA;
 		min-height: 100vh;
+		
+		/deep/ .van-sticky {
+			z-index: 9;
+		}
 		
 		.tab-content {
 			padding: 48rpx 35rpx;

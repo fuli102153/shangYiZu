@@ -16,7 +16,7 @@
 			</view>
 		</view>
 		<!-- 地址弹出层 -->
-		<van-popup :show="locationShow" @close="onClose" position="top" round>
+		<van-popup :show="locationShow" @close="onClose" position="top" round custom-style="max-height: 60%;">
 			
 			<van-cell-group class="city">
 				
@@ -499,7 +499,7 @@
 				border-radius: 12rpx;
 				position: relative;
 				padding: 12rpx 60rpx;
-				margin-left: 28rpx;
+				margin-left: 20rpx;
 				.search-icon {
 					position: absolute;
 					width: 28rpx;

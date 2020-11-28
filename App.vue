@@ -21,4 +21,7 @@
 	/deep/ .van-field__control[type=search]::-webkit-search-cancel-button{
 	  -webkit-appearance: none;  //此处去掉默认的小×
 	}
+	/deep/ .van-popup--top {
+		border-radius: 0 0 10rpx 10rpx !important;
+	}
 </style>

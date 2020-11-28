@@ -1,6 +1,6 @@
 <template>
 	<view class="v-entrust">
-		<van-tabs :active="active" bind:change="onChange" color="#1676FE">
+		<van-tabs :active="active" bind:change="onChange" color="#1676FE" :sticky="true">
 		  <van-tab title="招商委托">
 				<view class="tab-content">
 					<van-empty v-if="shopList.length==0" description="暂无数据" />
@@ -241,7 +241,9 @@
 					console.log(data);
 					
 					if(data.code=="200"){
-						toast.clear();
+						setTimeout(() => {
+							Toast.clear();
+						}, 300)
 						// that.shopList = data.data;
 						let list = data.data;
 						that.shopList = that.reload ? list : that.shopList.concat(list);
@@ -293,7 +295,9 @@
 					console.log(data);
 					
 					if(data.code=="200"){
-						toast.clear();
+						setTimeout(() => {
+							Toast.clear();
+						}, 300)
 						let list = data.data.records;
 						that.entrustmentList = that.reload ? list : that.entrustmentList.concat(list);
 						that.reload = false;
@@ -318,6 +322,10 @@
 	.v-entrust {
 		min-height: 100vh;
 		background-color: #EFF2F4;
+		
+		/deep/ .van-sticky {
+			z-index: 9;
+		}
 		
 		.tab-content {
 			padding: 70rpx 25rpx;

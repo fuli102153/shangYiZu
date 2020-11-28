@@ -14,7 +14,7 @@
 				<van-dialog id="van-dialog" />
 			</view>
 			<!-- 地址弹出层 -->
-			<van-popup :show="locationShow" @close="onClose" position="top" round>
+			<van-popup :show="locationShow" @close="onClose" position="top" round custom-style="max-height: 60%;">
 				
 				<van-cell-group class="city">
 					<van-cell v-for="(item, index) in cityList" :key="index" center :label="item.cityName" :title="index === 0 ? '已开通城市' : ''"
@@ -488,7 +488,9 @@
 						console.log(data);
 
 						if (data.code == "200") {
-							toast.clear();
+							setTimeout(() => {
+								Toast.clear();
+							}, 300)
 							
 							let list = that.setTime(data.data);
 							that.shopList = that.reload ? list : that.shopList.concat(list);

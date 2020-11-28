@@ -18,7 +18,7 @@
 				<van-icon name="phone" color="#fff" class="phone" />
 			</view>
 			<!-- 地址弹出层 -->
-			<van-popup :show="locationShow" @close="onClose" position="top" round>
+			<van-popup :show="locationShow" @close="onClose" position="top" round custom-style="max-height: 60%;">
 				<van-cell-group>
 					<van-cell title="选择城市" value="" size="large" />
 				</van-cell-group>

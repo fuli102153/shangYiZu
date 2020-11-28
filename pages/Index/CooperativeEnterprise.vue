@@ -1,9 +1,11 @@
 <template>
 	<view class="v-cooperative-enterprise">
-		<view class="coop" v-for="(item, index) in enterpriseList" :key="index">
-			<image class="logo" :src="item.logo" />
-			<view class="name">
-				{{item.enterpriseName}}
+		<view class="content">
+			<view class="coop" v-for="(item, index) in enterpriseList" :key="index">
+				<image class="logo" :src="item.logo" />
+				<view class="name">
+					{{item.enterpriseName}}
+				</view>
 			</view>
 		</view>
 		<van-toast id="van-toast" />
@@ -47,7 +49,9 @@
 					console.log(data);
 					
 					if(data.code=="200"){
-						toast.clear();
+						setTimeout(() => {
+							Toast.clear();
+						}, 300)
 						that.enterpriseList = data.data;
 						
 					
@@ -67,11 +71,14 @@
 
 <style lang="scss" scoped>
 	.v-cooperative-enterprise {
+		min-height: 100vh;
 		background-color: #F5F8FA;
-		padding: 45rpx 46rpx;
-		display: flex;
-		justify-content: space-between;
-		flex-wrap: wrap;
+		
+		.content {
+			padding: 45rpx 46rpx;
+			display: flex;
+			flex-wrap: wrap;
+		}
 		.coop {
 			width: 316rpx;
 			height: 316rpx;
@@ -81,7 +88,8 @@
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			margin-bottom: 28rpx;
+			margin-bottom: 27rpx;
+			margin-right: 27rpx;
 			
 			.logo {
 				width: 150rpx;
@@ -95,6 +103,9 @@
 				color: #2d2d2d;
 				margin-top: 15rpx
 			}
+		}
+		.coop:nth-child(2n) {
+			margin-right: 0rpx;
 		}
 	}
 </style>
