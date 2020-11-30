@@ -14,89 +14,7 @@
 	export default {
 		data() {
 			return {
-				markers: [
-					{
-						id:"0",
-						latitude: 22.53332,
-						longitude: 113.93041,
-						iconPath: '../../static/images/map-marker.png',
-						width: '160rpx',
-						height: '160rpx',
-						zIndex: 1,
-						label: {
-							content: '南山区商铺\n 556套',
-							color: '#fff',
-							bgColor: '#1676FE',
-							fontSize: 14,
-							anchorY: -55,
-							textAlign: 'center'
-						}
-					}, {
-						id:"1",
-						latitude: 22.529302,
-						longitude: 114.062639,
-						iconPath: '../../static/images/map-marker.png',
-						width: '160rpx',
-						height: '160rpx',
-						zIndex: 2,
-						label: {
-							content: '福田区商铺\n 556套',
-							color: '#fff',
-							bgColor: '#1676FE',
-							fontSize: 14,
-							anchorY: -55,
-							textAlign: 'center'
-						}
-					}, {
-						id:"2",
-						latitude: 22.72575,
-						longitude: 114.25043,
-						iconPath: '../../static/images/map-marker.png',
-						width: '160rpx',
-						height: '160rpx',
-						zIndex: 3,
-						label: {
-							content: '龙岗区商铺\n 556套',
-							color: '#fff',
-							bgColor: '#1676FE',
-							fontSize: 14,
-							anchorY: -55,
-							textAlign: 'center'
-						}
-					}, {
-						id:"3",
-						latitude: 22.702281,
-						longitude: 114.050934,
-						iconPath: '../../static/images/map-marker.png',
-						width: '160rpx',
-						height: '160rpx',
-						zIndex: 4,
-						label: {
-							content: '龙华区商铺\n 556套',
-							color: '#fff',
-							bgColor: '#1676FE',
-							fontSize: 14,
-							anchorY: -55,
-							textAlign: 'center'
-						}
-					}, {
-						id:"4",
-						latitude: 22.559241,
-						longitude: 113.892832,
-						iconPath: '../../static/images/map-marker.png',
-						width: '160rpx',
-						height: '160rpx',
-						zIndex: 5,
-						label: {
-							content: '宝安区商铺\n 556套',
-							color: '#fff',
-							bgColor: '#1676FE',
-							fontSize: 14,
-							anchorY: -55,
-							textAlign: 'center'
-						}
-					}
-				],
+				markers: [],
 				latitude: 22.54985,
 				longitude:114.063812,
 				scale:10,
@@ -158,7 +76,7 @@
 			                      max: res.northeast.longitude.toString()
 			                  }])
 			             }
-						 console.log(obj)
+						 // console.log(obj)
 			             //this.getMarks(obj);//捕获到对角线经纬度后，调用方法传参给后端
 			         },
 			         fail: (data, code) => {
@@ -168,11 +86,31 @@
 			},
 			
 			selectMarker(e){
-				console.log(e)
+				if (this.scale === 10) {
+					this.markers && this.markers.forEach(item => {
+						if (item.id === e.detail.markerId) {
+							this.latitude = item.latitude;
+							this.longitude = item.longitude;
+						}
+					})
+					this.scale = 13
+					this.markers = []
+					this.ajaxGetMapForShopCountByRegion(e.detail.markerId)
+				}
 			},
 			
 			labeltap(e) {
-				console.log(e)
+				if (this.scale === 10) {
+					this.markers && this.markers.forEach(item => {
+						if (item.id === e.detail.markerId) {
+							this.latitude = item.latitude;
+							this.longitude = item.longitude;
+						}
+					})
+					this.scale = 13
+					this.markers = []
+					this.ajaxGetMapForShopCountByRegion(e.detail.markerId)
+				}
 			},
 			
 			
@@ -236,6 +174,8 @@
 					loadingType: "spinner",
 				});
 				params.accessToken = that.accessToken;
+				
+				
 				getMapForShopCount(params).then( res => {
 					const data = res.data;
 					console.log("getMapForShopCount"+data);
@@ -243,14 +183,26 @@
 						setTimeout(() => {
 							Toast.clear();
 						}, 300)
-						data.data.forEach((item)=>{
-							console.log(item)
-							//if(item)
-							that.ajaxGetMapForShopCountByRegion(item.name)
+						let mark = data.data.map((item, index)=>{
+							return {
+									id: Number(item.name),
+									latitude: item.latitude,
+									longitude: item.longitude,
+									iconPath: '../../static/images/map-marker.png',
+									width: '160rpx',
+									height: '160rpx',
+									zIndex: 5,
+									label: {
+										content: `${item.nickName}\n ${item.value}套`,
+										color: '#fff',
+										bgColor: '#1676FE',
+										fontSize: 14,
+										anchorY: -55,
+										textAlign: 'center'
+									}
+							}
 						})
-						
-						
-						
+						that.markers = mark
 					} else {
 						Toast.fail(data.message);
 					}
@@ -271,6 +223,7 @@
 					loadingType: "spinner",
 				});
 				params.accessToken = that.accessToken;
+				that.markers = []
 				getMapForShopCount(params).then( res => {
 					const data = res.data;
 					console.log("getMapForShopCount"+data);
@@ -278,14 +231,27 @@
 						setTimeout(() => {
 							Toast.clear();
 						}, 300)
-						data.data.forEach((item)=>{
-							console.log(item)
-							//if(item)
-							//that.ajaxGetMapForShopCount(item.name)
+						data.data.forEach((item, index)=>{
+							that.markers.push({
+									id: Number(item.name),
+									latitude: item.latitude,
+									longitude: item.longitude,
+									iconPath: ' ',
+									width: '0',
+									height: '0',
+									zIndex: 5,
+									label: {
+										content: `${item.nickName}${item.value}套`,
+										color: '#fff',
+										bgColor: '#1676FE',
+										fontSize: 14,
+										anchorY: -55,
+										textAlign: 'center'
+									}
+							})
 						})
-						
-						
-						
+						this.$forceUpdate()
+						console.log(111111111111111111,this.markers)
 					} else {
 						Toast.fail(data.message);
 					}
