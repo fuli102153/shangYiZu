@@ -16,7 +16,8 @@
 		},
 		data() {
 			return {
-				subscribeList: []
+				subscribeList: [],
+				paras: {},
 			}
 		},
 		onLoad(paras) {
@@ -26,15 +27,41 @@
 		},
 		methods: {
 			
+			onReachBottom() {
+				console.log("onReachBottom");
+				this.loadMoreText = '更多';
+				this.getList();
+			},
+			onPullDownRefresh() {
+				console.log("onPullDownRefresh");
+				this.reload = true;
+				this.getList();
+			},
+			
 			
 			getList(){
 				
 				var that = this;
+				if (this.subscribeList.length>0) {
+					//说明已有数据，目前处于上拉加载
+					this.loadMoreText = '加载中';
+					this.paras.pageNo = Math.floor(this.subscribeList.length/this.paras.pageSize)+1;
+					this.paras.pageSize = 10;
+					//判断是否要需要请求
+					if(parseInt(this.subscribeList.length%this.paras.pageSize) !== 0){ 
+						this.loadMoreText = '没有更多';
+						return;
+					}
+					
+				}else{
+					this.paras.pageNo = 1;
+					this.paras.pageSize = 10;
+				}
 				
 				const paras = {
-					appUid:this.userDetail.id,
-					pageNo:1,
-					pageSize:10,
+					// appUid:this.userDetail.id,
+					pageNo: this.paras.pageNo ,
+					pageSize: this.paras.pageSize,
 					
 				};
 				paras.accessToken = that.accessToken;
@@ -51,7 +78,10 @@
 						setTimeout(() => {
 							Toast.clear();
 						}, 300)
-						that.subscribeList = data.data;
+						
+						let list = that.setTime(data.data);
+						that.subscribeList = that.reload ? list : that.subscribeList.concat(list);
+						that.reload = false;
 						console.log(that.subscribeList)
 						
 					

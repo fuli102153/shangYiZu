@@ -62,6 +62,7 @@
 		},
 		onLoad(params) {
 			console.log(params)
+			this.value = params.keyword
 			this.paras.shopName = params.keyword
 			//请求品牌列表
 			this.ajaxGetShopList();

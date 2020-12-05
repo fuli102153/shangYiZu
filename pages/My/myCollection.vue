@@ -86,7 +86,7 @@
 						setTimeout(() => {
 							Toast.clear();
 						}, 300)
-						let list = that.setTime(data.data);
+						let list = data.data;
 						that.shopList = that.reload ? list : that.shopList.concat(list);
 						that.reload = false;
 						

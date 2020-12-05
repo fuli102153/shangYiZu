@@ -23,25 +23,49 @@
 		data() {
 			return {
 				shareList:[],
+				paras: {},
 			}
 		},
-		onLoad(paras) {
-			console.log(paras)
+		onLoad() {
 			//如果有项目ID
 			this.ajaxGetMyShare();
 	
 		},
 		methods: {
-			
+			onReachBottom() {
+				console.log("onReachBottom");
+				this.loadMoreText = '更多';
+				this.ajaxGetMyShare();
+			},
+			onPullDownRefresh() {
+				console.log("onPullDownRefresh");
+				this.reload = true;
+				this.ajaxGetMyShare();
+			},
 			
 			//招租委托查询
 			ajaxGetMyShare(){
 				//ajax个人信息查询
 				var that = this;
+				if (this.shareList.length>0) {
+					//说明已有数据，目前处于上拉加载
+					this.loadMoreText = '加载中';
+					this.paras.pageNo = Math.floor(this.shareList.length/this.paras.pageSize)+1;
+					this.paras.pageSize = 10;
+					//判断是否要需要请求
+					if(parseInt(this.shareList.length%this.paras.pageSize) !== 0){ 
+						this.loadMoreText = '没有更多';
+						return;
+					}
+					
+				}else{
+					this.paras.pageNo = 1;
+					this.paras.pageSize = 10;
+				}
 				const paras = {
 					appUid:this.userDetail.id,
-					pageNo:1,
-					pageSize:10,
+					pageNo: this.paras.pageNo ,
+					pageSize: this.paras.pageSize,
 				};
 				paras.accessToken = that.accessToken;
 				const toast = Toast.loading({
@@ -51,13 +75,14 @@
 				});
 				getMyShare(paras).then(res => {
 					const data = res.data;
-					console.log(data);
 					
-					if(data.code=="200"){
+					if(data.code == 200){
 						setTimeout(() => {
 							Toast.clear();
 						}, 300)
-						that.shareList = data.data;
+						let list = data.data;
+						that.shareList = that.reload ? list : that.shareList.concat(list);
+						that.reload = false;
 					}else{
 						Toast.fail(data.message);
 						

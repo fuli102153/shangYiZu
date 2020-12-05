@@ -760,7 +760,7 @@ export default {
 				Toast.fail('联系人不能为空！');
         console.log(1);
         return false;
-      } else if (!this.form.contactMobile) { //!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(this.form.contactMobile))
+      } else if (!/^[1][3,4,5,7,8,9][0-9]{9}$/.test(this.form.contactMobile)) {
         this.errMsg.contactMobile = "请输入正确的电话号码";
 				Toast.fail('请输入正确的电话号码！');
         console.log(2);

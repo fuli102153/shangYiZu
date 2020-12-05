@@ -59,28 +59,30 @@ export default {
 	},
 	methods: {
 		onSearch(e) {
-			let that = this
-			let history = []
-			uni.getStorage({
-				key: '__searchHistory__',
-				success(res) {
-					history = res.data
-					
-					history.push(e.detail)
-					
-					let newHistory = Array.from(new Set(history))
-					
-					that.historList = newHistory
-					uni.setStorage({
-						key: "__searchHistory__",
-						data: newHistory,
-					})
-				}
-			})
-			
-			uni.navigateTo({
-				url: `./searchList?keyword=${e.detail}`
-			})
+			if (e.detail) {
+				let that = this
+				let history = []
+				uni.getStorage({
+					key: '__searchHistory__',
+					success(res) {
+						history = res.data
+						
+						history.unshift(e.detail)
+						
+						let newHistory = Array.from(new Set(history))
+						
+						that.historList = newHistory
+						uni.setStorage({
+							key: "__searchHistory__",
+							data: newHistory,
+						})
+					}
+				})
+				
+				uni.navigateTo({
+					url: `./searchList?keyword=${e.detail}`
+				})
+			}
 		},
 		deleteHistory() {
 			uni.setStorage({
@@ -95,6 +97,21 @@ export default {
 			})
 		},
 		searchKeyWord(value) {
+			let that = this
+			let history = []
+			uni.getStorage({
+				key: '__searchHistory__',
+				success(res) {
+					history = res.data
+					history.unshift(value)
+					let newHistory = Array.from(new Set(history))
+					that.historList = newHistory
+					uni.setStorage({
+						key: "__searchHistory__",
+						data: newHistory,
+					})
+				}
+			})
 			uni.navigateTo({
 				url: `./searchList?keyword=${value}`
 			})
