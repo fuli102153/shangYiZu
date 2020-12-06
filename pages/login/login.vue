@@ -82,18 +82,32 @@
 							  success: function(res) {
 								
 								that.userInfo = res;
+								console.log(that.userInfo)
+								
+								
+								//判断用户有没有用手机号
+								uni.getStorage({
+									key: "__userDetail__",
+									success: (res) => {
+									
+										var mobile = res.data.mobile
+										if(mobile){
+											that._requestLogin();
+										}else{
+											that.showDialog = true;
+										}
+									},
+									fail: () => {
+										that.showDialog = true;
+									}
+								})
+								
 								
 								uni.setStorage({
 									key: "__userInfo__",
 									data: res,
 									success: (res) => {
 										//如果获取用户信息的电话号码失败，那么提示用户去绑定手机号
-										
-										//that.showDialog = true;
-										that._requestLogin();
-									
-										
-										
 									},
 									fail: () => {
 										uni.showModal({

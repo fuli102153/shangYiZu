@@ -9,7 +9,7 @@
 					{{ userInfo.nickName || '' }}
 				</view>
 				<view class="user-id">
-					手机号:188****8888
+					手机号:{{mobile}}
 				</view>
 			</view>
 			<view v-if="0" class="user-edit">
@@ -61,6 +61,7 @@
 					},
 				],
 				userInfo: {},
+				mobile:"",
 			}
 		},
 		onLoad() {
@@ -70,6 +71,13 @@
 					console.log('我的', res)
 					this.userInfo = res.data.userInfo
 				},
+			})
+			
+			uni.getStorage({
+				key: "__userDetail__",
+				success: (res) => {
+					this.mobile = res.data.mobile
+				}
 			})
 		},
 		methods:{

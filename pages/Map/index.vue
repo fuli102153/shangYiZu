@@ -1,7 +1,7 @@
 <template>
 	<view class="v-map">
 		<view class="map_container">
-			<map class="map" ref="map" id="map" :longitude="longitude" :latitude="latitude" :enable-zoom="false"  :show-location="false" @regionchange="regionchange" @markertap="selectMarker" @labeltap="labeltap" :scale="scale"  :markers="markers">
+			<map class="map" controls=[]  include-points="markers" ref="map" id="map" :longitude="longitude" :latitude="latitude" :enable-zoom="false"  :show-location="false" @regionchange="regionchange"  @labeltap="labeltap" :scale="scale"  :markers="markers">
 			</map>
 		</view>
 		<van-toast id="van-toast" />
@@ -9,7 +9,7 @@
 </template>
 
 <script>
-	import {getMapForShopCount} from '../../utils/api.js'
+	import {getMapForShopCount,getMapForShop} from '../../utils/api.js'
 	import Toast from "../../wxcomponents/vant/dist/toast/toast";
 	export default {
 		data() {
@@ -19,6 +19,7 @@
 				longitude:114.063812,
 				scale:10,
 				placeData: {},
+				hasMarkers:false,
 			}
 		},
 		onLoad: function() {
@@ -86,20 +87,14 @@
 			},
 			
 			selectMarker(e){
-				if (this.scale === 10) {
-					this.markers && this.markers.forEach(item => {
-						if (item.id === e.detail.markerId) {
-							this.latitude = item.latitude;
-							this.longitude = item.longitude;
-						}
-					})
-					this.scale = 13
-					this.markers = []
-					this.ajaxGetMapForShopCountByRegion(e.detail.markerId)
-				}
+				
 			},
 			
 			labeltap(e) {
+				console.log("labeltap")
+				this.hasMarkers = false;
+				
+				
 				if (this.scale === 10) {
 					this.markers && this.markers.forEach(item => {
 						if (item.id === e.detail.markerId) {
@@ -108,8 +103,16 @@
 						}
 					})
 					this.scale = 13
-					this.markers = []
 					this.ajaxGetMapForShopCountByRegion(e.detail.markerId)
+				}else if(this.scale >= 13){
+					this.markers && this.markers.forEach(item => {
+						if (item.id === e.detail.markerId) {
+							this.latitude = item.latitude;
+							this.longitude = item.longitude;
+						}
+					})
+					this.scale = 14
+					this.ajaxGetMapForShop()
 				}
 			},
 			
@@ -117,45 +120,51 @@
 			ajaxGetMapForShop() {
 				const that = this;
 				
-				uni.getStorage({
-					key: '__localtionCity__',
-					success(res){
-						const cityCode = res.data.cityCode
-						const longitude = res.data.lng
-						const latitude = res.data.lat
-						const params = {
-							longitude: parseFloat(longitude),
-							latitude: parseFloat(latitude),
-							distance: 5000,
-							//cityCode:cityCode,
-						
-							
+				const params = {
+					longitude: this.longitude,
+					latitude: this.latitude,
+					distance: 5000,
+					cityCode:this.$Localtion.city.cityCode,
+				
+					
+				}
+				
+			
+				params.accessToken = that.accessToken;
+				that.markers = []
+				getMapForShop(params).then( res => {
+					const data = res.data;
+					
+					if (data.code == "200") {
+					
+						that.hasMarkers = true;
+						var _list = data.data;
+						var shopList = [];
+						for(var item in _list){
+							console.log(item)
+							shopList = shopList.concat(_list[item])
 						}
-						
-						const toast = Toast.loading({
-							message: "加载中...",
-							forbidClick: true,
-							loadingType: "spinner",
-						});
-						params.accessToken = that.accessToken;
-						getMapForShopCount(params).then( res => {
-							const data = res.data;
-							console.log("getMapForShopCount"+data);
-							if (data.code == "200") {
-								setTimeout(() => {
-									Toast.clear();
-								}, 300)
-								data.data.forEach((item)=>{
-									console.log(item)
-									//if(item)
-								})
-								
-								
-								
-							} else {
-								Toast.fail(data.message);
-							}
+						shopList.forEach((item, index)=>{
+							that.markers.push({
+									id: item.shopNo,
+									latitude: item.latitude,
+									longitude: item.longitude,
+									//iconPath: '../../static/images/mark1.png',
+									//width: '30rpx',
+									//height: '41rpx',
+									zIndex: 5,
+									label: {
+										
+									}
+									
+							})
 						})
+						this.$forceUpdate()
+						
+						
+						
+					} else {
+						Toast.fail(data.message);
 					}
 				})
 			},
@@ -168,11 +177,7 @@
 				
 				
 				
-				const toast = Toast.loading({
-					message: "加载中...",
-					forbidClick: true,
-					loadingType: "spinner",
-				});
+			
 				params.accessToken = that.accessToken;
 				
 				
@@ -180,9 +185,7 @@
 					const data = res.data;
 					console.log("getMapForShopCount"+data);
 					if (data.code == "200") {
-						setTimeout(() => {
-							Toast.clear();
-						}, 300)
+					
 						let mark = data.data.map((item, index)=>{
 							return {
 									id: Number(item.name),
@@ -195,13 +198,13 @@
 									label: {
 										content: `${item.nickName}\n ${item.value}套`,
 										color: '#fff',
-										bgColor: '#1676FE',
 										fontSize: 14,
 										anchorY: -55,
 										textAlign: 'center'
 									}
 							}
 						})
+						that.hasMarkers = true;
 						that.markers = mark
 					} else {
 						Toast.fail(data.message);
@@ -216,21 +219,14 @@
 				params.regionCode = regionCode;
 				
 				
-				
-				const toast = Toast.loading({
-					message: "加载中...",
-					forbidClick: true,
-					loadingType: "spinner",
-				});
 				params.accessToken = that.accessToken;
 				that.markers = []
 				getMapForShopCount(params).then( res => {
 					const data = res.data;
 					console.log("getMapForShopCount"+data);
 					if (data.code == "200") {
-						setTimeout(() => {
-							Toast.clear();
-						}, 300)
+					
+						that.hasMarkers = true;
 						data.data.forEach((item, index)=>{
 							that.markers.push({
 									id: Number(item.name),
@@ -244,14 +240,15 @@
 										content: `${item.nickName}${item.value}套`,
 										color: '#fff',
 										bgColor: '#1676FE',
-										fontSize: 14,
+										fontSize: 12,
+										padding:5,
 										anchorY: -55,
 										textAlign: 'center'
 									}
 							})
 						})
 						this.$forceUpdate()
-						console.log(111111111111111111,this.markers)
+					
 					} else {
 						Toast.fail(data.message);
 					}
