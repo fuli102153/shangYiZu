@@ -187,7 +187,8 @@
 					"van-icon": "/wxcomponents/vant/dist/icon/index",
 					"van-empty": "/wxcomponents/vant/dist/empty/index",
 					"van-toast": "/wxcomponents/vant/dist/toast/index"
-				}
+				},
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -198,7 +199,8 @@
 					"van-icon": "/wxcomponents/vant/dist/icon/index",
 					"van-empty": "/wxcomponents/vant/dist/empty/index",
 					"van-toast": "/wxcomponents/vant/dist/toast/index"
-				}
+				},
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -209,7 +211,8 @@
 					"van-icon": "/wxcomponents/vant/dist/icon/index",
 					"van-empty": "/wxcomponents/vant/dist/empty/index",
 					"van-toast": "/wxcomponents/vant/dist/toast/index"
-				}
+				},
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -567,9 +570,9 @@
 		]
 	},
 	"globalStyle": {
-		"navigationBarTextStyle": "white",
+		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#1676fe",
+		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#FFFFFF"
 	}
 }

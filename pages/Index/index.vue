@@ -2,18 +2,18 @@
 	<view class="v-index">
 		<view class="header">
 			<view class="location" @click="showPopup">
-				<van-icon name="location" class="location-icon" color="#fff" size="30rpx" />
+				<van-icon name="location" class="location-icon" color="#2B2B2B" size="30rpx" />
 				<text>{{localtionCity.cityName}}</text>
-				<van-icon name="play" class="arrow" color="#fff" size="17rpx" />
+				<van-icon name="play" class="arrow" color="#2B2B2B" size="17rpx" />
 			</view>
 			<view class="search" @click="goSearch">
 				<i class="search-icon" />
 				<text class="search-text">搜索城市或店铺</text>
 			</view>
-			<view class="shop-partner" @click="goShopPartner">
+			<!-- <view class="shop-partner" @click="goShopPartner">
 				<text>商铺合伙人</text>
 				<van-icon name="play-circle" size="26rpx" color="#ffffff" />
-			</view>
+			</view> -->
 		</view>
 		<!-- 地址弹出层 -->
 		<van-popup :show="locationShow" @close="onClose" position="top" round custom-style="max-height: 60%;">
@@ -39,15 +39,13 @@
 			</swiper>
 		</uni-swiper-dot>
 		<!-- 头条 -->
-		<view class="toutiao" >
+		<!-- <view class="toutiao" >
 			<view class="toutiao-icon">
 				<view class="toutiao-text" @click="goHeadlines">
 					<i class="headline-logo"></i>
 				</view>
 			</view>
 			<view class="toutiao-link">
-				<!-- <span>商易租正式上线！现招募合伙人加入！</span> -->
-				<!-- <van-notice-bar class="scrollable" scrollable :text="noticeMessage" :speed="35" background="#fff" color="#2E2E2E" /> -->
 				<swiper class="swiper-container" :autoplay="true" :vertical="true" :circular="true" :interval="3000">
 				  <swiper-item v-for="(item, index) in headlineList" :key="index">
 				    <view class='swiper-item' @click="goHeadDetails(item)">{{ item.title }}</view>
@@ -55,7 +53,7 @@
 				</swiper>
 				<van-icon name="play" color="#002464" size="26rpx" />
 			</view>
-		</view>
+		</view> -->
 		<!-- 导航 -->
 		<view class="nav">
 			<view class="nav-item" v-for="(item, index) in navList" :key="index" @click="toPath(item.router)">
@@ -63,9 +61,18 @@
 				<text>{{ item.name }}</text>
 			</view>
 		</view>
+		<!-- 出租和找店 -->
+		<view class="rent">
+			<view class="rel-rent">
+				
+			</view>
+			<view class="looking-shop">
+				
+			</view>
+		</view>
 		<!-- 推荐 -->
 		<view class="recommend">
-			<view class="recommend-title">本周重点推荐</view>
+			<view class="recommend-title">精选项目</view>
 			<view class="recommend-content">
 				<view class="recommend-list">
 					<van-empty v-if="weekRecommendList.length==0" description="暂无数据" />
@@ -476,14 +483,16 @@
 <style lang="scss" scoped>
 	.v-index {
 		width: 100%;
-		background-color: #F5F8FA;
+		background-color: #fff;
+		
 		.header {
 			padding: 25rpx 24rpx;
-			background: #1676fe;
+			background: #ffffff;
 			display: flex;
 			.location {
-				font-size: 32rpx;
-				color: #ffffff;
+				width: 160rpx;
+				font-size: 24rpx;
+				color: #2B2B2B;
 				display: flex;
 				align-items: center;
 				.location-icon {
@@ -495,25 +504,24 @@
 				}
 			}
 			.search {
-				background: #fff;
+				background: #E5E5E5;
 				border-radius: 12rpx;
-				position: relative;
-				padding: 12rpx 60rpx;
-				margin-left: 20rpx;
+				width: 464rpx;
+				height: 40rpx;
+				display: flex;
+				align-items: center;
 				.search-icon {
-					position: absolute;
-					width: 28rpx;
-					height: 28rpx;
-					left: 18rpx;
-					top: 50%;
-					margin-top: -14rpx;
+					margin-left: 15rpx;
+					width: 26rpx;
+					height: 23rpx;
 					background-image: url("../../static/images/search.png");
 					background-size: 100%;
 				}
 				.search-text {
+					margin-left: 16rpx;
 					color: #888888;
-					font-size: 28rpx;
-					line-height: 28rpx;
+					font-size: 20rpx;
+					line-height: 30rpx;
 				}
 			}
 			.shop-partner {
@@ -555,6 +563,7 @@
 		.swiper-box{
 			height: 300rpx;
 		}
+		
 		.toutiao {
 			padding: 26rpx;
 			background-color: #1676FE;
@@ -617,9 +626,10 @@
 				}
 			}
 		}
+		
 		.nav {
 			padding: 10rpx 20rpx 46rpx 20rpx;
-			background-color: #F5F8FA;
+			background-color: #fff;
 			display: flex;
 			flex-wrap: wrap;
 			.nav-item {
@@ -638,20 +648,33 @@
 				}
 			}
 		}
+		
+		.rent {
+			padding: 0 36rpx;
+			display: flex;
+			justify-content: space-between;
+			
+			.rel-rent {
+				width: 328rpx;
+				height: 250rpx;
+				background: url(../../static/images/rel-rent-bg.png) no-repeat;
+				background-size: 100%;
+			}
+			.looking-shop {
+				width: 328rpx;
+				height: 250rpx;
+				background: url(../../static/images/look-shop-bg.png) no-repeat;
+				background-size: 100%;
+			}
+		}
 		.recommend {
 			background-color: #ffffff;
 			padding: 36rpx 0;
 			.recommend-title {
-				width: 258rpx;
-				height: 55rpx;
-				background-image: url('../../static/images/title-bg.png');
-				background-position: center right;
-				background-size: 100%;
-				font-size: 36rpx;
-				color: #fff;
-				line-height: 55rpx;
-				padding-left: 15rpx;
-				margin: 0 0 20rpx 26rpx;
+				font-size: 32rpx;
+				color: #6A6969;
+				margin-bottom: 15rpx;
+				padding-left: 35rpx;
 			}
 			
 			.recommend-content {
@@ -665,14 +688,14 @@
 				.recommend-list {
 					white-space: nowrap;
 					font-size: 0;
-					padding: 0 26rpx;
+					padding: 0 35rpx;
 					
 					.recommend-item {
-						width: 280rpx;
-						height: 240rpx;
-						border-radius: 20rpx;
+						width: 200rpx;
+						height: 300rpx;
+						border-radius: 8rpx;
 						background-color: #eee;
-						margin-right: 50rpx;
+						margin-right: 20rpx;
 						display: inline-block;
 						vertical-align: middle;
 						box-sizing: border-box;
@@ -685,7 +708,7 @@
 							line-height: 30rpx;
 							color: #fff;
 							height: 60rpx;
-							background: rgba(0, 0, 0, 0.6);
+							background: rgba(0, 0, 0, 0.3);
 							display: flex;
 							justify-content: center;
 							align-items: center;
