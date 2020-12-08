@@ -105,7 +105,15 @@
 		</view>
 		<!-- 猜你喜欢 -->
 		<view class="store">
-			<view class="store-header">猜你喜欢</view>
+			<view class="store-header">
+				<view class="title">
+					精选商铺
+				</view>
+				<view class="more">
+					<span>更多</span>
+					<van-icon name="arrow" color="#808080" size="20rpx" />
+				</view>
+			</view>
 			<view class="store-list">
 				<StoreCard v-for="item in guessYouLikeList" :sourceData="item" :key="item" />
 			</view>
@@ -763,17 +771,28 @@
 			}
 		}
 		.store {
-			padding: 0 26rpx;
+			padding: 0 35rpx;
 			.store-header {
-				width: 182rpx;
-				height: 55rpx;
-				background-image: url('../../static/images/title-bg-s.png');
-				background-position: center right;
-				background-size: 100%;
-				font-size: 36rpx;
-				color: #fff;
-				padding-left: 15rpx;
-				line-height: 55rpx;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				.title {
+					font-size: 32rpx;
+					color: #6A6969;
+					line-height: 42rpx;
+					margin-bottom: 15rpx;
+				}
+				.more {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					
+					span {
+						font-size: 20rpx;
+						color: #808080;
+						line-height: 36px;
+					}
+				}
 			}
 		}
 	}
