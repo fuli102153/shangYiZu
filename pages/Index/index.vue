@@ -186,7 +186,7 @@
 			<view class="title">
 				新闻中心
 			</view>
-			<van-tabs :active="newActive" bind:change="onChange" color="#1476FD" line-width="50rpx">
+			<van-tabs :active="newActive" @change="onChange" color="#1476FD" line-width="50rpx">
 				<van-tab title="行业动态">
 					<view class="new-card" v-for="item in 5" :key="item">
 						<view class="new-img">

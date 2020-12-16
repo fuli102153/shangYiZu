@@ -1,6 +1,6 @@
 <template>
 	<view class="v-shop-details">
-		<uni-swiper-dot :info="info" :current="current" field="content" :mode="mode">
+		<!-- <uni-swiper-dot :info="info" :current="current" field="content" :mode="mode">
 			<swiper class="swiper-box" >
 				<swiper-item v-for="(item ,index) in shop.shopPhotos? shop.shopPhotos.split(',') : []" :key="index">
 					<view class="swiper-item">
@@ -8,163 +8,159 @@
 					</view>
 				</swiper-item>
 			</swiper>
-		</uni-swiper-dot>
-		<view class="">
-			
+		</uni-swiper-dot> -->
+		<view class="banner">
+			<view class="banner-img">
+				<view class="img-item" v-for="(item ,index) in shop.shopPhotos? shop.shopPhotos.split(',') : []" :key="index">
+					<image :src="item" mode="" style="width: 100%; height: 430rpx;" v-if="index === tabActive"></image>
+				</view>
+			</view>
+			<view class="banner-tab">
+				<view 
+					class="tab-item" 
+					:class="index === tabActive ? 'active' : ''" 
+					v-for="(item, index) in tabList" 
+					:key="index" 
+					@click="selectTab(item, index)">
+					{{ item.name }}
+				</view>
+			</view>
 		</view>
 		<view class="shop-name">
-			<view class="title">
-				{{shop.shopName}}
+			<view class="header">
+				<view class="title">
+					<text>{{shop.shopName || ''}}</text>
+					<view class="btn">
+						平台直租
+					</view>
+				</view>
+				<view class="shop-id">
+					编号：{{ shop.shopNo || '' }}
+				</view>
+				<view class="shop-rent">
+					￥{{ shop.monthRent || ''}}
+					<text>元/月</text>
+				</view>
 			</view>
 			<view class="title-tag" v-if="shop.label">
 				<view color="#B2B2B2" class="tag-item" v-for="(item, index) in shop.label ? shop.label.split(',') : []" :key="index">{{ item }}</view>
 			</view>
 		</view>
+		<view class="shop-position">
+			<view class="content">
+				<view class="icon" />
+				<view class="label">
+					<view class="title">
+						鹏润达商业广场
+					</view>
+					<text>深圳市南山区后海滨路鹏润达商业广场</text>
+				</view>
+				<view class="look">
+					<van-icon name="location" color="#BFBFBF"/>
+					<text>查看</text>
+				</view>
+			</view>
+			<view class="time">
+				更新时间：2020.12.1
+			</view>
+		</view>
 		<view class="shop-info">
-			<view class="shop-price" v-if="shop.monthRent">
-				<text class="label">租金：</text>
-				<text class="num">{{shop.monthRent}}</text>
-				<text class="unit">元/月</text>
-				<text class="unit-num" v-if="shop.measureArea">{{Math.floor(shop.monthRent/shop.measureArea)}}元/m²/月</text>
-			</view>
-			<view class="shop-price" v-if="shop.measureArea">
-				<text class="label">面积：</text>
-				<text class="num">{{shop.measureArea}}</text>
-				<text class="unit">m²</text>
-			</view>
-			<view class="shop-price" v-if="property.transferFee">
-				<text class="label">转让费：</text>
-				<text class="num">{{property.transferFee}}</text>
-				<text class="unit">元</text>
-			</view>
-			<view class="shop-price" v-if="property.manageFee">
-				<text class="label">管理费：</text>
-				<text class="num">{{property.manageFee}}</text>
-				<text class="unit">元/月</text>
-			</view>
+			<van-tabs class="tab" :active="active" @change="onChange" color="#1476FD" title-active-color="#1476FD" line-width="50rpx">
+			  <van-tab title="商铺概况">
+				  <view class="info">
+				  	<view class="item">
+				  		<view class="label">
+				  			计租面积
+				  		</view>
+						<view class="value">
+							257m²
+						</view>
+				  	</view>
+					<view class="item">
+						<view class="label">
+							租金单价
+						</view>
+						<view class="value">
+							118元/月/m²
+						</view>
+					</view>
+					<view class="item">
+						<view class="label">
+							所在楼层
+						</view>
+						<view class="value">
+							1层
+						</view>
+					</view>
+					<view class="cell" @click="transactionShow = !transactionShow">
+						<view class="label">
+							交易信息
+						</view>
+						<van-icon name="play" :class="transactionShow ? 'down' : 'up'"/>
+					</view>
+					<view class="transaction-info" v-show="transactionShow">
+						<view class="item">
+							<view class="label">
+								计租面积
+							</view>
+							<view class="value">
+								257m²
+							</view>
+						</view>
+						<view class="item">
+							<view class="label">
+								租金单价
+							</view>
+							<view class="value">
+								118元/月/m²
+							</view>
+						</view>
+						<view class="item">
+							<view class="label">
+								所在楼层
+							</view>
+							<view class="value">
+								1层
+							</view>
+						</view>
+					</view>
+					<view class="cell" @click="engineeringShow = !engineeringShow">
+						<view class="label">
+							工程参数
+						</view>
+						<van-icon name="play" :class="engineeringShow ? 'down' : 'up'"/>
+					</view>
+					<view class="engineering-info" v-show="engineeringShow">
+						<view class="item">
+							<view class="label">
+								计租面积
+							</view>
+							<view class="value">
+								257m²
+							</view>
+						</view>
+						<view class="item">
+							<view class="label">
+								租金单价
+							</view>
+							<view class="value">
+								118元/月/m²
+							</view>
+						</view>
+						<view class="item">
+							<view class="label">
+								所在楼层
+							</view>
+							<view class="value">
+								1层
+							</view>
+						</view>
+					</view>
+				  </view>
+			  </van-tab>
+			  <van-tab title="市调报告">内容 2</van-tab>
+			</van-tabs>
 		</view>
-		<!-- 支付方式 -->
-		<view class="recommend">
-			<view class="recommend-content">
-				<view class="recommend-list">
-					<view class="recommend-item" v-if="property.payMode">
-						<view class="top">
-							支付方式
-						</view>
-						<view class="bottom">
-							{{property.payMode}}
-						</view>
-					</view>
-					<view class="recommend-item"  v-if="property.rentIncrease">
-						<view class="top">
-							租金递增
-						</view>
-						<view class="bottom">
-							{{property.rentIncrease}} 元
-						</view>
-					</view>
-					<view class="recommend-item"  v-if="property.powerRate">
-						<view class="top">
-							电费
-						</view>
-						<view class="bottom">
-							{{property.powerRate}} 元
-						</view>
-					</view>
-					<view class="recommend-item"  v-if="property.waterRate">
-						<view class="top">
-							水费
-						</view>
-						<view class="bottom">
-							{{property.waterRate}} 元
-						</view>
-					</view>
-				</view>
-			</view>
-		</view>
-		<view class="title">
-			物业信息
-		</view>
-		<!-- 物业类型 -->
-		<view class="recommend">
-			<view class="recommend-content">
-				<view class="recommend-list">
-					<view class="recommend-item" v-if="shop.propertyType">
-						<view class="top">
-							物业类型
-						</view>
-						<view class="bottom">
-							{{shop.propertyType}}
-						</view>
-					</view>
-					<view class="recommend-item" v-if="property.floorNum">
-						<view class="top">
-							楼层
-						</view>
-						<view class="bottom">
-							{{property.floorNum}} 层
-						</view>
-					</view>
-					<view class="recommend-item" v-if="property.floorHeight">
-						<view class="top">
-							层高
-						</view>
-						<view class="bottom">
-							{{property.floorHeight}} m
-						</view>
-					</view>
-					<view class="recommend-item" v-if="property.bayWidth">
-						<view class="top">
-							开间
-						</view>
-						<view class="bottom">
-							{{property.bayWidth}} m
-						</view>
-					</view>
-					<view class="recommend-item" v-if="property.depthLength">
-						<view class="top">
-							进深
-						</view>
-						<view class="bottom">
-							{{property.depthLength}} m
-						</view>
-					</view>
-					<view class="recommend-item" v-if="shop.propertyStatus">
-						<view class="top">
-							装修
-						</view>
-						<view class="bottom">
-							{{shop.propertyStatus}}
-						</view>
-					</view>
-					<view class="recommend-item" v-if="shop.location">
-						<view class="top">
-							位置
-						</view>
-						<view class="bottom">
-							{{shop.location}}
-						</view>
-					</view>
-					<view class="recommend-item" v-if="shop.businessType">
-						<view class="top">
-							目前状态
-						</view>
-						<view class="bottom">
-							{{shop.businessType}}
-						</view>
-					</view>
-					<view class="recommend-item" v-if="shop.createTime">
-						<view class="top">
-							更新时间
-						</view>
-						<view class="bottom">
-							{{shop.createTime}}
-						</view>
-					</view>
-				</view>
-			</view>
-		</view>
-		<!-- 配套设施 -->
 		<view class="shop-name facilities">
 			<view class="title">
 				配套设施
@@ -173,10 +169,7 @@
 				<view color="#B2B2B2" class="tag-item" v-for="(item, index) in shop.engineeringConditions?shop.engineeringConditions.split(','):[]" :key="index">{{ item }}</view>
 			</view>
 		</view>
-		<!-- 店铺活动介绍图 -->
-		<view class="ad">
-			<image src="../../static/images/swiper.png" mode="" style="width: 100%; height: 100%;"></image>
-		</view>
+		
 		<!-- 店铺市调 -->
 		<view class="store-market-survey">
 			<view class="btn" @click="goStoreMaket(shop.marketReport)">
@@ -184,16 +177,7 @@
 				<van-icon name="play-circle" color="#1676FE" size="38rpx" />
 			</view>
 		</view>
-		<!-- 位置 -->
-		<view class="place">
-			<view class="title">
-				位置
-			</view>
-			<map class="map" ref="map" id="map" :longitude="longitude" :latitude="latitude">
-				<cover-view class="controls">
-				</cover-view>
-			</map>
-		</view>
+		
 		<!-- 认证信息 -->
 		<view class="attestation">
 			<view class="title">
@@ -261,6 +245,17 @@
 		},
 		data() {
 			return {
+				tabList: [
+					{ name: '正面', code: 0 },
+					{ name: '内部', code: 1 },
+					{ name: '周边环境', code: 2 },
+				],
+				// 图片切换
+				tabActive: 0,
+				// tab切换
+				active: 0,
+				transactionShow: true,
+				engineeringShow: true,
 				// 轮播图
 				info: [],
 				current: 0,
@@ -291,6 +286,13 @@
 			}
 		},
 		methods:{
+			selectTab(item, index) {
+				this.tabActive = index
+				console.log('tabActive', this.tabActive, index)
+			},
+			onChange(e) {
+				console.log(e.detail)
+			},
 			//ajax查询商铺信息查询
 			getDetail(shopNo){
 				
@@ -422,20 +424,78 @@
 
 <style lang="scss" scoped>
 	.v-shop-details {
-		background-color: #F5F8FA;
-		
 		.swiper-box {
 			height: 430rpx;
+		}
+		
+		.banner {
+			position: relative;
+			height: 430rpx;
+			.banner-img {
+				height: 430rpx;
+			}
+			
+			.banner-tab {
+				position: absolute;
+				bottom: 40rpx;
+				left: 36rpx;
+				display: flex;
+				.tab-item {
+					font-size: 22rpx;
+					line-height: 36rpx;
+					padding: 5rpx 29rpx;
+					color: #FFFFFF;
+					margin-right: 34rpx;
+				}
+				.active {
+					background: #FFFFFF;
+					color: #302f2c;
+					border-radius: 20rpx;
+				}
+			}
 		}
 		
 		.shop-name {
 			background-color: #fff;
 			padding: 47rpx 26rpx 40rpx;
+			position: relative;
+			top: -25rpx;
+			border-radius: 25rpx 25rpx 0 0;
 			
-			.title {
-				color: #2d2d2d;
-				font-size: 36rpx;
-				font-weight: 500;
+			.header {
+				.title {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					
+					text {
+						color: #302F2C;
+						font-size: 40rpx;
+					}
+					.btn {
+						color: #FCFBF9;
+						font-size: 24rpx;
+						line-height: 36rpx;
+						padding: 3rpx 9rpx;
+						background-color: #1476FD;
+						border-radius: 10rpx;
+					}
+				}
+				
+				.shop-id {
+					font-size: 20rpx;
+					color: #9B9B9B;
+					margin-top: 10rpx;
+				}
+				
+				.shop-rent {
+					font-size: 46rpx;
+					color: #FE2A4D;
+					
+					text {
+						font-size: 30rpx;
+					}
+				}
 			}
 		
 			.title-tag {
@@ -444,94 +504,127 @@
 				
 				.tag-item {
 					margin-top: 20rpx;
-					margin-right: 12rpx;
-					border: 1rpx solid #1676FE;
-					color: #1676FE;
+					margin-right: 20rpx;
+					color: #1476FD;
 					font-size: 24rpx;
-					line-height: 30rpx;
-					padding: 10rpx 22rpx;
-					border-radius: 8rpx;
+					background-color: #F0F0F0;
+					padding: 4rpx 22rpx;
+					border-radius: 5rpx;
 				}
+			}
+		}
+		
+		.shop-position {
+			padding: 0 36rpx;
+			.content {
+				border: 1px solid #C9C8C8;
+				border-radius: 10rpx;
+				box-shadow: 0px 9px 9px rgba(3, 3, 3, 0.06);
+				padding: 20rpx 40rpx 36rpx 40rpx;
+				box-sizing: border-box;
+				display: flex;
+				
+				.icon {
+					width: 78rpx;
+					height: 78rpx;
+					background-image: url(../../static/images/floor.png);
+					background-size: 100%;
+				}
+				
+				.label {
+					flex: 1;
+					display: flex;
+					flex-direction: column;
+					justify-content: space-between;
+					
+					.title {
+						color: #252525;
+						font-size: 28rpx;
+						line-height: 36rpx;
+					}
+					text {
+						font-size: 24rpx;
+						line-height: 36rpx;
+						color: #6A6A6A;
+					}
+				}
+				
+				.look {
+					display: flex;
+					flex-direction: column;
+					justify-content: flex-end;
+					align-items: center;
+					
+					text {
+						font-size: 20rpx;
+						color: #BFBFBF;
+					}
+				}
+			}
+			
+			.time {
+				margin-top: 15rpx;
+				text-align: right;
+				font-size: 20rpx;
+				color: #A1A1A2;
 			}
 		}
 		
 		.shop-info {
-			background-color: #fff;
-			margin-top: 12rpx;
-			padding: 35rpx 47rpx;
-			
-			.shop-price {
-				.label {
-					color: #2D2D2D;
-					font-size: 28rpx;
-				}
-				.num {
-					color: #F9980D;
-					font-size: 44rpx;
-				}
-				.unit {
-					color: #F9980D;
-					font-size: 24rpx;
-					margin-left: 12rpx;
-				}
-				.unit-num {
-					color: #2D2D2D;
-					font-size: 24rpx;
-					margin-left: 26rpx;
-				}
-			}
-		}
-		
-		.recommend {
-			margin-top: 20rpx;
-			
-			.recommend-content {
-				width: 100%;
-				overflow-x: auto;
-				
-				&::-webkit-scrollbar{
-					display: none;
-				}
-				
-				.recommend-list {
-					white-space: nowrap;
-					font-size: 0;
-					margin-left: 20rpx;
-					box-shadow: 0px 5rpx 5rpx 0px rgba(223, 223, 223, 0.26);
+			padding: 0 36rpx;
+			/deep/ .tab{
+				.van-tab {
+					flex: none;
+					margin-right: 36rpx;
 					
-					.recommend-item {
-						display: inline-block;
-						background-color: #fff;
-						padding: 41rpx 52rpx 41rpx 0;
-						
-						&:first-child {
-							border-radius: 10rpx 0 0 10rpx;
-							padding-left: 36rpx;
-						}
-						
-						&:last-child {
-							border-radius: 0 10rpx 10rpx 0;
-						}
-						
-						.top {
-							color: #b2b2b2;
-							font-size: 24rpx;
-						}
-						.bottom {
-							color: #2D2D2D;
-							font-size: 28rpx;
-							margin-top: 20rpx;
-						}
+					.van-ellipsis {
+						font-size: 36rpx;
+					}
+					
+					.van-tab__pane {
+						border-top: 1px solid #EFF0EF;
 					}
 				}
 			}
-		}
-		
-		> .title {
-			font-size: 36rpx;
-			font-weight: 500;
-			color: #2D2D2D;
-			padding: 38rpx 0 28rpx 48rpx;
+			
+			.info {
+				padding: 30rpx 20rpx;
+				
+				.item {
+					display: flex;
+					margin-bottom: 8rpx;
+					font-size: 30rpx;	
+					
+					.label {
+						width: 150rpx;
+						color: #6A6A6A;
+					}
+					
+					.value {
+						color: #252525;
+					}
+				}
+				
+				.cell {
+					display: flex;
+					align-items: center;
+					margin: 30rpx 0;
+					color: #1476FD;
+					
+					.label {
+						width: 150rpx;
+						font-size: 32rpx;
+					}
+					
+					.down {
+						transform: rotate(90deg);
+					}
+					
+					.up {
+						transform: rotate(-90deg);
+					}
+				}
+			}
 		}
 		
 		.facilities {
