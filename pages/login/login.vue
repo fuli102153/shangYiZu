@@ -89,16 +89,18 @@
 								uni.getStorage({
 									key: "__userDetail__",
 									success: (res) => {
-									
+										that._requestLogin();
+										/*
 										var mobile = res.data.mobile
 										if(mobile){
 											that._requestLogin();
 										}else{
 											that.showDialog = true;
-										}
+										}*/
 									},
 									fail: () => {
-										that.showDialog = true;
+										that._requestLogin();
+										//that.showDialog = true;
 									}
 								})
 								
@@ -154,19 +156,27 @@
 					});
 					login(paras).then(res => {
 						const data = res.data;
-						getAccessToken();
+						
 						
 						if(data.code=="200"){
-							setTimeout(() => {
-								Toast.clear();
-							}, 300)
+							
 							that.accessToken = data.data.accessToken;
 						
 							uni.setStorage({
 								key: "__accessToken__",
 								data: data.data.accessToken,
 								success: (res) => {
-									that.getUserInfoByLogin();
+									getAccessToken();
+									setTimeout(() => {
+										Toast.clear();
+										that.getUserInfoByLogin();
+									}, 0)
+									
+									
+									
+									
+								
+									
 								},
 								fail: () => {
 									Toast.fail("用户信息获取失败!");

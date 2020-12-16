@@ -1,7 +1,7 @@
 <template>
 	<view class="v-map">
 		<view class="map_container">
-			<map class="map" controls=[]  include-points="markers" ref="map" id="map" :longitude="longitude" :latitude="latitude" :enable-zoom="false"  :show-location="false" @regionchange="regionchange"  @labeltap="labeltap" :scale="scale"  :markers="markers">
+			<map class="map"  include-points="markers" ref="map" id="map" :longitude="longitude" :latitude="latitude"   @regionchange="regionchange"  @labeltap="labeltap" :scale="scale"  :markers="markers">
 			</map>
 		</view>
 		<van-toast id="van-toast" />
@@ -64,7 +64,17 @@
 			
 			
 			regionchange() {
+				
 			    let map = uni.createMapContext('map');
+				map.getScale({
+					success: (res) => {
+						
+						this.scale = res.scale;
+						
+					}
+				})
+				
+				//视野的宽度
 			    map.getRegion({
 			         success: res => {
 			             let obj = {
@@ -79,12 +89,54 @@
 			             }
 						 // console.log(obj)
 			             //this.getMarks(obj);//捕获到对角线经纬度后，调用方法传参给后端
+						
 			         },
 			         fail: (data, code) => {
 			               console.log('fail' + JSON.stringify(data));
 			         }
 			    })
+				
+				
+				map.getCenterLocation({
+					success: (res) => {
+						console.log(res)
+						//显示区
+						/*
+						console.log(this.scale)
+						var that = this;
+						function a(){
+						
+							that.latitude = res.latitude;
+							that.longitude = res.longitude;
+							if(that.scale<=13){
+								that.ajaxGetMapForShopCountByCity()
+							//显示详细的商品	
+							}else if(that.scale>13){
+								that.ajaxGetMapForShop();
+							}
+							
+						}
+						this.throttle(a(),1000)
+						*/
+					}
+				})
 			},
+			
+			throttle(func, wait) {
+			    let previous = 0;
+			    return function() {
+			      let now = Date.now();
+			      let context = this;
+			      let args = arguments;
+				  console.log(now+":"+previous)
+			      if (now - previous > wait) {
+					  
+			        func.apply(context, args);
+			        previous = now;
+			      }
+			    }
+			},
+		
 			
 			selectMarker(e){
 				
@@ -116,7 +168,7 @@
 				}
 			},
 			
-			
+			//显示商品的数据
 			ajaxGetMapForShop() {
 				const that = this;
 				
@@ -174,13 +226,7 @@
 				const that = this;
 				const params = {}
 				params.cityCode = this.$Localtion.city.cityCode;
-				
-				
-				
-			
 				params.accessToken = that.accessToken;
-				
-				
 				getMapForShopCount(params).then( res => {
 					const data = res.data;
 					console.log("getMapForShopCount"+data);

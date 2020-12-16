@@ -24,6 +24,7 @@ export function getAccessToken(){
 	uni.getStorage({
 		key: "__accessToken__",
 		success: (res) => {
+			console.log("success__accessToken__")
 			Vue.prototype.accessToken = res.data;
 			
 			//请求常量
@@ -62,7 +63,7 @@ export function getAccessToken(){
 			
 		},
 		fail: () => {
-			
+			console.log("fail__accessToken__")
 		}
 	})
 	
@@ -198,6 +199,9 @@ export function setCompanyUserInfo(data){ return get(data,'api/user/setCompanyUs
 export function getCity(data){ return get(data,'api/region/city')}
 
 //5、banner广告图
+export function getShopSumMeasureArea(data){ return get(data,'shop/shopSumMeasureArea')}
+
+//5.1、新增商铺总面积
 export function getBannerList(data){ return get(data,'open/banner/getList')}
 
 //6、头条信息
