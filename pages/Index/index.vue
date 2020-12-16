@@ -70,7 +70,7 @@
 						服务物业面积：
 					</view>
 					<view class="value">
-						1,940,080m²
+						{{shopSumMeasureArea}}m²
 					</view>
 				</view>
 				<view class="btn" @click="toPath('../Rental/index')" />
@@ -217,7 +217,7 @@
 <script>
 	import StoreCard from '../../components/Card/Store'
 	import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
-	import {getBannerList,getWeekRecommendList,getGuessYouLike,getCooperativeList,getHeadline,getCity} from "../../utils/api.js"
+	import {getBannerList,getWeekRecommendList,getGuessYouLike,getCooperativeList,getHeadline,getCity,getShopSumMeasureArea} from "../../utils/api.js"
 	export default {
 		components: {
 			StoreCard,
@@ -305,6 +305,8 @@
 				headlineList:[],
 				// 新闻中心
 				newActive: 0,
+				//商铺总面积
+				shopSumMeasureArea:0,
 			};
 		},
 		onLoad() {
@@ -317,6 +319,8 @@
 			this.ajaxGetHeadline();
 			//城市列表
 			this.ajaxGetCityList();
+			//新增商铺总面积
+			this.ajaxGetShopSumMeasureArea();
 
 			this.localtionCity = this.$Localtion.city;
 			this.$forceUpdate();
@@ -536,7 +540,6 @@
 				paras.accessToken = that.accessToken;
 				getCity(paras).then(res => {
 					const data = res.data;
-					that.cityList = data;
 					console.log(data);
 					if(data.code=="200"){
 						that.cityList = data.data;
@@ -548,6 +551,40 @@
 				
 				});
 			},
+			
+			ajaxGetShopSumMeasureArea(){
+				var that = this;
+				const paras = {
+				};
+				paras.accessToken = that.accessToken;
+				getShopSumMeasureArea(paras).then(res => {
+					const data = res.data;
+					
+					console.log(data);
+					if(data.code=="200"){
+						that.shopSumMeasureArea = that._toThousands(data.data);
+					}else{
+						
+					}
+				})
+				.catch(error => {
+				
+				});
+			},
+			
+			
+			_toThousands(num) {
+				var result = [ ], counter = 0;
+				num = (num || 0).toString().split('');
+				for (var i = num.length - 1; i >= 0; i--) {
+				counter++;
+				result.unshift(num[i]);
+				if (!(counter % 3) && i != 0) { result.unshift(','); }
+				}
+				return result.join('');
+			}
+			
+			
 		},
 	};
 </script>

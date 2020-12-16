@@ -14,13 +14,13 @@
 			<view class="store-payment">
 				<view class="store-tag">
 					<view>
-						<view class="tag" v-if="source.businessType">区域街道：{{source.businessType || ""}}</view>
+						<view class="tag" v-if="source.streetName || source.areaName">区域街道：{{source.areaName || ""}} {{source.streetName || ""}}</view>
 					</view>
 					<view>
 						<view class="tag" v-if="source.measureArea">商铺面积：{{`${source.measureArea}m²` || ""}}</view>
 					</view>
 					<view class="hot-list">
-						<i class="hot" v-for="item in 5" :key="item"></i>
+						<i class="hot" v-for="item in source.hits" :key="item"></i>
 					</view>
 				</view>
 			</view>
@@ -56,7 +56,8 @@
 						that.sourceData.businessName = item.itemText;
 					}
 				})
-
+				//临时处理的   到时要根据算法来
+				that.sourceData.hits = 2+(that.sourceData.hits % 3);
 				that.source = that.sourceData;
 
 			})

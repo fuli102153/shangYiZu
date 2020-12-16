@@ -198,6 +198,9 @@ export function setCompanyUserInfo(data){ return get(data,'api/user/setCompanyUs
 export function getCity(data){ return get(data,'api/region/city')}
 
 //5、banner广告图
+export function getShopSumMeasureArea(data){ return get(data,'shop/shopSumMeasureArea')}
+
+//5.1、新增商铺总面积
 export function getBannerList(data){ return get(data,'open/banner/getList')}
 
 //6、头条信息

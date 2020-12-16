@@ -89,13 +89,14 @@
 								uni.getStorage({
 									key: "__userDetail__",
 									success: (res) => {
-									
+										that._requestLogin();
+										/*
 										var mobile = res.data.mobile
 										if(mobile){
 											that._requestLogin();
 										}else{
 											that.showDialog = true;
-										}
+										}*/
 									},
 									fail: () => {
 										that.showDialog = true;
