@@ -24,7 +24,9 @@
 					"van-popup": "/wxcomponents/vant/dist/popup/index",
 					"van-calendar": "/wxcomponents/vant/dist/calendar/index",
 					"van-empty": "/wxcomponents/vant/dist/empty/index",
-					"van-notice-bar": "/wxcomponents/vant/dist/notice-bar/index"
+					"van-notice-bar": "/wxcomponents/vant/dist/notice-bar/index",
+					"van-tab": "/wxcomponents/vant/dist/tab/index",
+					"van-tabs": "/wxcomponents/vant/dist/tabs/index"
 				}
 			}
 		},

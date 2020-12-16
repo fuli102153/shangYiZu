@@ -14,10 +14,13 @@
 			<view class="store-payment">
 				<view class="store-tag">
 					<view>
-						<view class="tag" v-if="source.propertyName">物业类型：{{source.propertyName || ""}}</view>
+						<view class="tag" v-if="source.businessType">区域街道：{{source.businessType || ""}}</view>
 					</view>
 					<view>
-						<view class="tag" v-if="source.businessName">业态：{{source.businessName || ""}}</view>
+						<view class="tag" v-if="source.measureArea">商铺面积：{{`${source.measureArea}m²` || ""}}</view>
+					</view>
+					<view class="hot-list">
+						<i class="hot" v-for="item in 5" :key="item"></i>
 					</view>
 				</view>
 			</view>
@@ -130,6 +133,17 @@
 						color: #9B9B9A;
 						font-size: 20rpx;
 						margin-top: 10rpx;
+					}
+					.hot-list {
+						display: flex;
+						.hot {
+							margin-top: 10rpx;
+							width: 14rpx;
+							height: 18rpx;
+							margin-right: 10rpx;
+							background-image: url(../../static/images/hot.png);
+							background-size: 100%;
+						}
 					}
 				}
 			}

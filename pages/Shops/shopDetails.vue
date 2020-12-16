@@ -9,6 +9,9 @@
 				</swiper-item>
 			</swiper>
 		</uni-swiper-dot>
+		<view class="">
+			
+		</view>
 		<view class="shop-name">
 			<view class="title">
 				{{shop.shopName}}

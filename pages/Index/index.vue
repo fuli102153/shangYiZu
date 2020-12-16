@@ -17,9 +17,7 @@
 		</view>
 		<!-- 地址弹出层 -->
 		<van-popup :show="locationShow" @close="onClose" position="top" round custom-style="max-height: 60%;">
-			
 			<van-cell-group class="city">
-				
 				<van-cell v-for="(item, index) in cityList" :key="index" center :label="item.cityName" :title="index === 0 ? '已开通城市' : ''"
 				 :class="activeCity === index ? 'active' : ''" @click="selectCity(index, item)">
 					<template #right-icon>
@@ -29,11 +27,11 @@
 			</van-cell-group>
 		</van-popup>
 		<!-- 轮播图 -->
-		<uni-swiper-dot :info="info" :current="current" field="content" :mode="mode">
-			<swiper class="swiper-box" @change="change">
+		<uni-swiper-dot :info="info" :current="current" field="content" :mode="mode" :dotsStyles="dotsStyles">
+			<swiper class="swiper-box" @change="change" :interval="5000" :autoplay="true">
 				<swiper-item v-for="(item ,index) in bannerList" :key="index">
 					<view class="swiper-item">
-						<image :src="item.pics?item.pics : '../../static/images/swiper.png'" mode="" style="width: 100%; height: 300rpx;"></image>
+						<image :src="item.pics?item.pics : '../../static/images/swiper.png'" mode="" style="width: 100%; height: 400rpx;"></image>
 					</view>
 				</swiper-item>
 			</swiper>
@@ -63,11 +61,33 @@
 		</view>
 		<!-- 出租和找店 -->
 		<view class="rent">
-			<view class="rel-rent">
-				
+			<view class="rel-rent rent-item">
+				<view class="text">
+					<view class="title">
+						我要出租
+					</view>
+					<view class="label">
+						服务物业面积：
+					</view>
+					<view class="value">
+						1,940,080m²
+					</view>
+				</view>
+				<view class="btn" @click="toPath('../Rental/index')" />
 			</view>
-			<view class="looking-shop">
-				
+			<view class="looking-shop rent-item">
+				<view class="text">
+					<view class="title">
+						我要找店
+					</view>
+					<view class="label">
+						服务品牌数量：
+					</view>
+					<view class="value">
+						1,000,789 个
+					</view>
+				</view>
+				<view class="btn"  @click="toPath('../StoreOpen/index')" />
 			</view>
 		</view>
 		<!-- 推荐 -->
@@ -81,19 +101,76 @@
 							<image :src="item.projectImg"></image>
 						</view>
 						<view class="recommend-text">
-							{{item.projectName}}
+							<view class="title">
+								{{ item.projectName }}
+							</view>
+							<text>
+								南山区
+							</text>
 						</view>
 					</view>
 					
 				</view>
 			</view>
 		</view>
+		
+		<!-- 精选商铺 -->
+		<view class="store">
+			<view class="store-header">
+				<view class="title">
+					精选商铺
+				</view>
+				<view class="more">
+					
+				</view>
+			</view>
+			<view class="store-list">
+				<StoreCard v-for="item in guessYouLikeList.slice(0, 3)" :sourceData="item" :key="item" />
+			</view>
+			<view class="store-more">
+				<span>查看更多铺源</span>
+				<van-icon name="arrow" color="#9B9B9A" size="20rpx" />
+			</view>
+		</view>
+		
+		<!-- 轮播图 -->
+		<view class="mid-banner">
+			<uni-swiper-dot :info="info" :current="current" field="content" :mode="mode" :dotsStyles="dotsStyles">
+				<swiper class="swiper-box" @change="change" :interval="3000" :autoplay="true">
+					<swiper-item v-for="(item ,index) in bannerList" :key="index">
+						<view class="swiper-item">
+							<image :src="item.pics?item.pics : '../../static/images/swiper.png'" mode="" style="width: 100%; height: 300rpx;"></image>
+						</view>
+					</swiper-item>
+				</swiper>
+			</uni-swiper-dot>
+		</view>
+		
+		<!-- 精选品牌 -->
+		<view class="store">
+			<view class="store-header">
+				<view class="title">
+					精选品牌
+				</view>
+				<view class="more">
+					
+				</view>
+			</view>
+			<view class="store-list">
+				<StoreCard v-for="item in guessYouLikeList.slice(0, 3)" :sourceData="item" :key="item" />
+			</view>
+			<view class="store-more">
+				<span>查看更多品牌</span>
+				<van-icon name="arrow" color="#9B9B9A" size="20rpx" />
+			</view>
+		</view>
+		
 		<!-- 合作企业 -->
 		<view class="coop">
 			<view class="coop-content">
 				<view class="coop-header">
-					<view class="coop-title">合作企业</view>
-					<view class="coop-more" @click="goCoop">更多 ></view>
+					<view class="coop-title">合作品牌</view>
+					<!-- <view class="coop-more" @click="goCoop">更多 ></view> -->
 				</view>
 				<view class="coop-list">
 					<view class="coop-item" v-for="(item,index) in cooperativeList.slice(0,4)" :key="index">
@@ -103,20 +180,34 @@
 				</view>
 			</view>
 		</view>
-		<!-- 猜你喜欢 -->
-		<view class="store">
-			<view class="store-header">
-				<view class="title">
-					精选商铺
-				</view>
-				<view class="more">
-					<span>更多</span>
-					<van-icon name="arrow" color="#808080" size="20rpx" />
-				</view>
+		
+		<!-- 新闻中心 -->
+		<view class="new">
+			<view class="title">
+				新闻中心
 			</view>
-			<view class="store-list">
-				<StoreCard v-for="item in guessYouLikeList" :sourceData="item" :key="item" />
-			</view>
+			<van-tabs :active="newActive" bind:change="onChange" color="#1476FD" line-width="50rpx">
+				<van-tab title="行业动态">
+					<view class="new-card" v-for="item in 5" :key="item">
+						<view class="new-img">
+							<image src="" mode=""></image>
+						</view>
+						<view class="new-title">
+                            鹏润达商业广场热门招商鹏润达商业广场热门招商鹏润达商业广场热门招商
+						</view>
+					</view>
+				</van-tab>
+				<van-tab title="热门话题">
+					<view class="new-card" v-for="item in 5" :key="item">
+						<view class="new-img">
+							<image src="" mode=""></image>
+						</view>
+						<view class="new-title">
+					        鹏润达商业广场热门招商鹏润达商业广场热门招商鹏润达商业广场热门招商
+						</view>
+					</view>
+				</van-tab>
+			</van-tabs>
 		</view>
 		<!-- 获取定位城市 -->
 		<baidu-map @ready="handler" />
@@ -147,6 +238,14 @@
 				}],
 				current: 0,
 				mode: 'round',
+				dotsStyles: {
+					width: 5,
+					height: 5,
+					backgroundColor: '#7D7D7D',
+					selectedBackgroundColor: '#1FA1FF',
+					border: 'none',
+					selectedBorder: 'none'
+				},
 				navList: [{
 						name: '地图找铺',
 						src: '../../static/images/Map.png',
@@ -204,11 +303,8 @@
 				guessYouLikeList:[],
 				cooperativeList:[],
 				headlineList:[],
-				noticeMessage: [
-					'你好你好你好你好',
-					'不好不好不好不好'
-				],
-				
+				// 新闻中心
+				newActive: 0,
 			};
 		},
 		onLoad() {
@@ -312,12 +408,10 @@
 			change(e) {
 				this.current = e.detail.current;
 			},
-			
-			
-			
-			
-			
-			
+			// 新闻中心tab切换
+			onChange(e) {
+				console.log('新闻中心tab切换', e.detail)
+			},
 			
 			//请求BANNER图片
 			ajaxGetBanner(){
@@ -329,21 +423,16 @@
 				getBannerList(paras).then(res => {
 					const data = res.data;
 					console.log(data);
-					
 					if(data.code=="200"){
 						that.bannerList = data.data;
-					
 					}else{
 						
-						
 					}
-					
 				})
 				.catch(error => {
 				
 				});
 			},
-			
 			
 			//请求本周重点推荐
 			ajaxGetWeekRecommendList(){
@@ -353,25 +442,19 @@
 					cityCode:this.$Localtion.city.cityCode
 				};
 				paras.accessToken = that.accessToken;
-				
 				getWeekRecommendList(paras).then(res => {
 					const data = res.data;
 					console.log(data);
-					
 					if(data.code=="200"){
 						that.weekRecommendList = data.data;
-					
 					}else{
 						
-						
 					}
-					
 				})
 				.catch(error => {
 				
 				});
 			},
-			
 			
 			//猜你喜欢
 			ajaxGetGuessYouLike(){
@@ -383,19 +466,15 @@
 					pageSize:10,
 				};
 				paras.accessToken = that.accessToken;
-				
 				getGuessYouLike(paras).then(res => {
 					const data = res.data;
 					console.log(data);
 					
 					if(data.code=="200"){
 						that.guessYouLikeList = data.data;
-					
 					}else{
 						
-						
 					}
-					
 				})
 				.catch(error => {
 				
@@ -411,16 +490,13 @@
 					pageSize:10,
 				};
 				paras.accessToken = that.accessToken;
-				
 				getCooperativeList(paras).then(res => {
 					const data = res.data;
 					console.log(data);
 					
 					if(data.code=="200"){
 						that.cooperativeList = data.data;
-					
 					}else{
-						
 						
 					}
 					
@@ -439,19 +515,14 @@
 					pageSize:10,
 				};
 				paras.accessToken = that.accessToken;
-				
 				getHeadline(paras).then(res => {
 					const data = res.data;
 					console.log(data);
-					
 					if(data.code=="200"){
 						that.headlineList = data.data;
-					
 					}else{
 						
-						
 					}
-					
 				})
 				.catch(error => {
 				
@@ -463,27 +534,20 @@
 				const paras = {
 				};
 				paras.accessToken = that.accessToken;
-				
 				getCity(paras).then(res => {
 					const data = res.data;
 					that.cityList = data;
 					console.log(data);
 					if(data.code=="200"){
 						that.cityList = data.data;
-						
 					}else{
 						
-						
 					}
-					
 				})
 				.catch(error => {
 				
 				});
-				
 			},
-			
-			
 		},
 	};
 </script>
@@ -568,8 +632,9 @@
 				}
 			}
 		}
+		
 		.swiper-box{
-			height: 300rpx;
+			height: 400rpx;
 		}
 		
 		.toutiao {
@@ -662,26 +727,66 @@
 			display: flex;
 			justify-content: space-between;
 			
-			.rel-rent {
+			.rent-item {
 				width: 328rpx;
 				height: 250rpx;
+				background-size: 100%;
+				box-sizing: border-box;
+				padding: 33rpx 23rpx 12rpx 23rpx;
+				color: #ffffff;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				
+				.text {
+					.title {
+						font-size: 24rpx;
+						letter-spacing: 6rpx;
+					}
+					
+					.label {
+						font-size: 20rpx;
+						letter-spacing: 4rpx;
+					}
+					
+					.value {
+						font-size: 22rpx;
+						letter-spacing: 4rpx;
+					}
+				}
+				
+				.btn {
+					width: 157rpx;
+					height: 53rpx;
+				}
+			}
+			
+			.rel-rent {
 				background: url(../../static/images/rel-rent-bg.png) no-repeat;
 				background-size: 100%;
+				.btn {
+					background: url(../../static/images/publishing-shop.png) no-repeat;
+					background-size: 100%;
+				}
 			}
 			.looking-shop {
-				width: 328rpx;
-				height: 250rpx;
 				background: url(../../static/images/look-shop-bg.png) no-repeat;
 				background-size: 100%;
+				.btn {
+					background: url(../../static/images/brand-launch.png) no-repeat;
+					background-size: 100%;
+				}
 			}
 		}
+		
 		.recommend {
 			background-color: #ffffff;
 			padding: 36rpx 0;
 			.recommend-title {
 				font-size: 32rpx;
-				color: #6A6969;
-				margin-bottom: 15rpx;
+				font-weight: bold;
+				color: #302F2C;
+				margin-bottom: 25rpx;
 				padding-left: 35rpx;
 			}
 			
@@ -710,25 +815,37 @@
 						overflow: hidden;
 						position: relative;
 						
+						.recommend-image {
+							image {
+								width: 200rpx;
+								height: 300rpx;
+							}
+						}
+						
 						.recommend-text {
 							width: 100%;
-							font-size: 30rpx;
-							line-height: 30rpx;
 							color: #fff;
-							height: 60rpx;
+							height: 80rpx;
 							background: rgba(0, 0, 0, 0.3);
-							display: flex;
-							justify-content: center;
-							align-items: center;
 							position: absolute;
 							bottom: 0;
+							padding: 4rpx 19rpx;
+							
+							.title {
+								font-size: 24rpx;
+								line-height: 36rpx;
+							}
+							text {
+								font-size: 20rpx;
+								line-height: 36rpx;
+							}
 						}
 					}
 				}
 			}
 		}
 		.coop {
-			padding: 16rpx;
+			padding: 16rpx 0;
 			.coop-content {
 				background-color: #fff;
 				border-radius: 10rpx;
@@ -740,7 +857,9 @@
 					align-items: center;
 					.coop-title {
 						font-size: 32rpx;
-						color: #2D2D2D;
+						font-weight: bold;
+						color: #302F2C;
+						margin-bottom: 25rpx;
 					}
 					.coop-more {
 						font-size: 30rpx;
@@ -754,16 +873,16 @@
 						text-align:center;
 						width: 25%;
 						.image {
-							width: 126rpx;
-							height: 126rpx;
+							width: 120rpx;
+							height: 120rpx;
 							border-radius: 50%;
 							background: #DAE9FF;
 							display: block;
 							margin: 0 auto;
 						}
 						text {
-							font-size: 30rpx;
-							color: #2D2D2D;
+							font-size: 28rpx;
+							color: #6A6A6A;
 							margin-top: 14rpx;
 						}
 					}
@@ -778,20 +897,65 @@
 				align-items: center;
 				.title {
 					font-size: 32rpx;
-					color: #6A6969;
+					font-weight: bold;
+					color: #302F2C;
 					line-height: 42rpx;
-					margin-bottom: 15rpx;
+					margin-bottom: 25rpx;
 				}
-				.more {
-					display: flex;
-					justify-content: space-between;
-					align-items: center;
+			}
+			.store-more {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				
+				span {
+					font-size: 20rpx;
+					color: #9B9B9A;
+					line-height: 36px;
+					margin-right: 20rpx;
+				}
+			}
+		}
+		
+		.mid-banner {
+			padding: 0 36rpx;
+			margin-bottom: 50rpx;
+			
+			.swiper-box{
+				height: 300rpx;
+			}
+		}
+		
+		.new {
+			padding: 0 35rpx;
+			margin-top: 20rpx;
+			
+			.title {
+				font-size: 32rpx;
+				font-weight: bold;
+				color: #302F2C;
+				line-height: 42rpx;
+				margin-bottom: 25rpx;
+			}
+			
+			.new-card {
+				padding-top: 20rpx;
+				.new-img {
+					width: 678rpx;
+					height: 300rpx;
+					background: #808080;
+					border-radius: 8rpx;
 					
-					span {
-						font-size: 20rpx;
-						color: #808080;
-						line-height: 36px;
+					image {
+						width: 678rpx;
+						height: 300rpx;
 					}
+				}
+				.new-title {
+					font-size: 24rpx;
+					line-height: 36rpx;
+					color: #1A1A1A;
+					margin-top: 12rpx;
 				}
 			}
 		}
