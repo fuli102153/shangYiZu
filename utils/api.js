@@ -24,6 +24,7 @@ export function getAccessToken(){
 	uni.getStorage({
 		key: "__accessToken__",
 		success: (res) => {
+			console.log("success__accessToken__")
 			Vue.prototype.accessToken = res.data;
 			
 			//请求常量
@@ -62,7 +63,7 @@ export function getAccessToken(){
 			
 		},
 		fail: () => {
-			
+			console.log("fail__accessToken__")
 		}
 	})
 	
