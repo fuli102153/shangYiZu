@@ -1,5 +1,5 @@
 <template>
-	<view class="vc-store-card" @click="toDetail(source.shopNo)">
+	<view class="vc-store-card" :class="isShowLine?'':'bottom-line'" @click="toDetail(source.shopNo)">
 		<view class="store-img">
 			<image :src="source.shopPhotos? source.shopPhotos.split(',')[0] : '../../static/logo.png'"></image>
 		</view>
@@ -33,10 +33,12 @@
 		name: 'store',
 		props: {
 			sourceData: {},
+			lastLine:false,
 		},
 		data() {
 			return {
-				source: {}
+				source: {},
+				isShowLine:false,
 			}
 		},
 		mounted() {
@@ -49,6 +51,7 @@
 						that.sourceData.propertyName = item.itemText;
 					}
 				})
+				that.isShowLine = that.lastLine
 				//console.log(that.Dict.business_type)
 
 				that.Dict.business_type.forEach((item) => {
@@ -76,13 +79,16 @@
 </script>
 
 <style lang="scss" scoped>
+	.bottom-line{
+		border-bottom: 1rpx solid #DFDEDE;
+	}
 	.vc-store-card {
 		width: 100%;
 		box-sizing: border-box;
 		display: flex;
 		align-items: center;
-		padding: 32rpx 0 23rpx 0;
-		border-bottom: 1rpx solid #DFDEDE;
+		padding: 25rpx 0 25rpx 0;
+		
 
 		.store-img {
 			width: 330rpx;

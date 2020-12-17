@@ -309,5 +309,15 @@ export function getAllConfigs(data){ return get(data,'api/config/auth/getAllConf
 //39、城市联动
 export function getAreaStreets(data){ return get(data,'api/region/auth/getAreaStreets')}
 
+//40、获取全部业态数据
+export function getPropertyFormAllDatas(data){ return get(data,'open/propertyForm/allDatas')}
 
+//41、获取某业态所有子级集合数据
+export function getPropertyFormSubLevelData(data){ return get(data,'open/propertyForm/subLevelData')}
+
+//42、精选品牌
+export function getBrandSpecialList(data){ return get(data,'open/brand/specialList')}
+
+//42、品牌总数
+export function getBrandCount(data){ return get(data,'open/brand/count')}
 

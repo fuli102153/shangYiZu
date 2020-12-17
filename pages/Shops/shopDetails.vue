@@ -45,6 +45,7 @@
 			<view class="title-tag" v-if="shop.label">
 				<view color="#B2B2B2" class="tag-item" v-for="(item, index) in shop.label ? shop.label.split(',') : []" :key="index">{{ item }}</view>
 			</view>
+			
 		</view>
 		<view class="shop-position">
 			<view class="content">
@@ -61,7 +62,7 @@
 				</view>
 			</view>
 			<view class="time">
-				更新时间：2020.12.1
+				更新时间：{{shop.createTime}}
 			</view>
 		</view>
 		<view class="shop-info">
@@ -73,7 +74,7 @@
 				  			计租面积
 				  		</view>
 						<view class="value">
-							257m²
+							{{shop.measureArea}}m²
 						</view>
 				  	</view>
 					<view class="item">
@@ -81,7 +82,7 @@
 							租金单价
 						</view>
 						<view class="value">
-							118元/月/m²
+							{{(shop.monthRent/shop.measureArea).toFixed(2)}}元/月/m²
 						</view>
 					</view>
 					<view class="item">
@@ -89,7 +90,23 @@
 							所在楼层
 						</view>
 						<view class="value">
-							1层
+							{{property.floorNum}}层
+						</view>
+					</view>
+					<view class="item">
+						<view class="label">
+							物业类型
+						</view>
+						<view class="value">
+							{{shop.propertyType || ""}}
+						</view>
+					</view>
+					<view class="item">
+						<view class="label">
+							推荐业态
+						</view>
+						<view class="value">
+							{{shop.businessType || ""}}
 						</view>
 					</view>
 					<view class="cell" @click="transactionShow = !transactionShow">
@@ -101,26 +118,50 @@
 					<view class="transaction-info" v-show="transactionShow">
 						<view class="item">
 							<view class="label">
-								计租面积
+								支付方式
 							</view>
 							<view class="value">
-								257m²
+								{{property.payMode || ""}}
 							</view>
 						</view>
 						<view class="item">
 							<view class="label">
-								租金单价
+								租金递增
 							</view>
 							<view class="value">
-								118元/月/m²
+								{{property.rentIncrease || ""}}
 							</view>
 						</view>
 						<view class="item">
 							<view class="label">
-								所在楼层
+								免租期限
 							</view>
 							<view class="value">
-								1层
+								{{property.powerRate || ""}}个月
+							</view>
+						</view>
+						<view class="item">
+							<view class="label">
+								转让费用
+							</view>
+							<view class="value">
+								{{property.transferFee || ""}}元
+							</view>
+						</view>
+						<view class="item">
+							<view class="label">
+								水务费用
+							</view>
+							<view class="value">
+								{{property.waterRate || ""}}元/m³
+							</view>
+						</view>
+						<view class="item">
+							<view class="label">
+								电务费用
+							</view>
+							<view class="value">
+								{{property.waterRate || ""}}元/KWh
 							</view>
 						</view>
 					</view>
@@ -133,59 +174,57 @@
 					<view class="engineering-info" v-show="engineeringShow">
 						<view class="item">
 							<view class="label">
-								计租面积
+								楼层层高
 							</view>
 							<view class="value">
-								257m²
+								{{property.floorHeight || ""}}m
 							</view>
 						</view>
 						<view class="item">
 							<view class="label">
-								租金单价
+								楼层开间
 							</view>
 							<view class="value">
-								118元/月/m²
+								{{property.bayWidth || ""}}m
 							</view>
 						</view>
 						<view class="item">
 							<view class="label">
-								所在楼层
+								楼层进深
 							</view>
 							<view class="value">
-								1层
+								{{property.depthLength || ""}}m
 							</view>
 						</view>
 					</view>
 				  </view>
 			  </van-tab>
-			  <van-tab title="市调报告">内容 2</van-tab>
+			  <van-tab title="市调报告">
+				  <view class="uni-common-mt" style="padding:20rpx;font-size: 30rpx; color: #6A6A6A;">
+					<rich-text :nodes="shop.marketReport || '暂无市场调研报告'"></rich-text>
+				  </view>
+			  </van-tab>
 			</van-tabs>
 		</view>
-		<view class="shop-name facilities">
+		<view class="attestation shop-name facilities">
 			<view class="title">
-				配套设施
+				工程条件
 			</view>
 			<view class="title-tag" v-if="shop.engineeringConditions">
 				<view color="#B2B2B2" class="tag-item" v-for="(item, index) in shop.engineeringConditions?shop.engineeringConditions.split(','):[]" :key="index">{{ item }}</view>
 			</view>
 		</view>
 		
-		<!-- 店铺市调 -->
-		<view class="store-market-survey">
-			<view class="btn" @click="goStoreMaket(shop.marketReport)">
-				<text>店铺市调</text>
-				<van-icon name="play-circle" color="#1676FE" size="38rpx" />
-			</view>
-		</view>
+	
 		
 		<!-- 认证信息 -->
 		<view class="attestation">
 			<view class="title">
-				认证信息
+				商铺认证
 			</view>
 			<view class="content">
 				<view class="attestation-title">
-					店铺评估合格
+					商铺信息
 				</view>
 				<view class="attestation-explain">
 					该店铺信息经由商易租工作人员实地勘察，数据准确有效
@@ -520,7 +559,7 @@
 				border: 1px solid #C9C8C8;
 				border-radius: 10rpx;
 				box-shadow: 0px 9px 9px rgba(3, 3, 3, 0.06);
-				padding: 20rpx 40rpx 36rpx 40rpx;
+				padding: 28rpx 40rpx 28rpx 40rpx;
 				box-sizing: border-box;
 				display: flex;
 				
@@ -536,7 +575,7 @@
 					display: flex;
 					flex-direction: column;
 					justify-content: space-between;
-					
+					margin-left: 20rpx;
 					.title {
 						color: #252525;
 						font-size: 28rpx;
@@ -671,12 +710,12 @@
 		}
 		
 		.attestation {
-			padding: 42rpx 48rpx;
+			padding: 42rpx 34rpx;
 			background-color: #fff;
 			
 			.title {
-				font-size: 36rpx;
-				color: #2d2d2d;
+				font-size: 36rpx;	
+				color: #474A4C;
 				margin-bottom: 36rpx;
 			}
 			

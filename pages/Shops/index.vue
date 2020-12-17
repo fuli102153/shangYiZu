@@ -8,7 +8,7 @@
 					<van-icon name="play" class="arrow" color="#fff" size="17rpx" />
 				</view>
 				<view class="search">
-					<van-search v-model="value" shape="round" background="#1676fe" placeholder="搜索店铺或区域" @search="onSearch" />
+					<van-search v-model="value" shape="round"  placeholder="搜索店铺或区域" @search="onSearch" />
 				</view>
 				<van-icon name="phone" color="#fff" class="phone" @click="makePhoneCall(Configs.service_phone)" />
 				<van-dialog id="van-dialog" />
@@ -108,7 +108,8 @@
 	import {
 		getShopList,
 		getAreaStreets,
-		getCity
+		getCity,
+		getPropertyFormAllDatas,
 	} from "../../utils/api.js";
 
 	export default {
@@ -186,6 +187,8 @@
 			this.ajaxGetCityList();
 			//请求城市联动
 			this.ajaxGetAreaStreets();
+			//获取全部业态数据
+			this.ajaxGetPropertyFormAllDatas();
 			
 			this.localtionCity = this.$Localtion.city;
 			this.$forceUpdate();
@@ -572,6 +575,27 @@
 					})
 					.catch((error) => {});
 			},
+			
+			
+			ajaxGetPropertyFormAllDatas() {
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					
+				};
+				paras.accessToken = that.accessToken;
+
+				getPropertyFormAllDatas(paras)
+					.then((res) => {
+						const data = res.data;
+						console.log(data);
+
+						if (data.code == "200") {
+							
+						} else {}
+					})
+					.catch((error) => {});
+			},
 		},
 	};
 </script>
@@ -582,7 +606,6 @@
 
 		.header {
 			padding: 0rpx 24rpx;
-			background: #1676fe;
 			display: flex;
 
 			.location {

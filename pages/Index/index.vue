@@ -6,9 +6,8 @@
 				<text>{{localtionCity.cityName}}</text>
 				<van-icon name="play" class="arrow" color="#2B2B2B" size="17rpx" />
 			</view>
-			<view class="search" @click="goSearch">
-				<i class="search-icon" />
-				<text class="search-text">搜索城市或店铺</text>
+			<view class="search1" @click="goSearch">
+				<van-search v-model="value" shape="round"  placeholder="搜索店铺或区域" @search="onSearch" />
 			</view>
 			<!-- <view class="shop-partner" @click="goShopPartner">
 				<text>商铺合伙人</text>
@@ -70,7 +69,7 @@
 						服务物业面积：
 					</view>
 					<view class="value">
-						{{shopSumMeasureArea}}m²
+						{{shopSumMeasureArea}} m²
 					</view>
 				</view>
 				<view class="btn" @click="toPath('../Rental/index')" />
@@ -84,7 +83,7 @@
 						服务品牌数量：
 					</view>
 					<view class="value">
-						1,000,789 个
+						{{brandCount}} 个
 					</view>
 				</view>
 				<view class="btn"  @click="toPath('../StoreOpen/index')" />
@@ -125,7 +124,7 @@
 				</view>
 			</view>
 			<view class="store-list">
-				<StoreCard v-for="item in guessYouLikeList.slice(0, 3)" :sourceData="item" :key="item" />
+				<StoreCard v-for="(item,index) in guessYouLikeList.slice(0, 3)" :sourceData="item" :lastLine="index==2" :key="item" />
 			</view>
 			<view class="store-more">
 				<span>查看更多铺源</span>
@@ -157,7 +156,7 @@
 				</view>
 			</view>
 			<view class="store-list">
-				<StoreCard v-for="item in guessYouLikeList.slice(0, 3)" :sourceData="item" :key="item" />
+				<StoreCard v-for="(item,index) in guessYouLikeList.slice(0, 3)" :sourceData="item" :lastLine="index==2" :key="item" />
 			</view>
 			<view class="store-more">
 				<span>查看更多品牌</span>
@@ -186,7 +185,7 @@
 			<view class="title">
 				新闻中心
 			</view>
-			<van-tabs :active="newActive" @change="onChange" color="#1476FD" line-width="50rpx">
+			<van-tabs class="tab" :active="newActive" @change="onChange" color="#1476FD" line-width="50rpx">
 				<van-tab title="行业动态">
 					<view class="new-card" v-for="item in 5" :key="item">
 						<view class="new-img">
@@ -217,7 +216,7 @@
 <script>
 	import StoreCard from '../../components/Card/Store'
 	import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
-	import {getBannerList,getWeekRecommendList,getGuessYouLike,getCooperativeList,getHeadline,getCity,getShopSumMeasureArea} from "../../utils/api.js"
+	import {getBannerList,getWeekRecommendList,getGuessYouLike,getCooperativeList,getHeadline,getCity,getShopSumMeasureArea,getBrandCount,getBrandSpecialList} from "../../utils/api.js"
 	export default {
 		components: {
 			StoreCard,
@@ -307,6 +306,7 @@
 				newActive: 0,
 				//商铺总面积
 				shopSumMeasureArea:0,
+				brandCount:0,
 			};
 		},
 		onLoad() {
@@ -321,6 +321,11 @@
 			this.ajaxGetCityList();
 			//新增商铺总面积
 			this.ajaxGetShopSumMeasureArea();
+			//品牌总数
+			this.ajaxGetBrandCount();
+			//精选品牌
+			this.ajaxGetBrandSpecialList();
+			
 
 			this.localtionCity = this.$Localtion.city;
 			this.$forceUpdate();
@@ -572,6 +577,46 @@
 				});
 			},
 			
+			ajaxGetBrandCount(){
+				var that = this;
+				const paras = {
+				};
+				paras.accessToken = that.accessToken;
+				getBrandCount(paras).then(res => {
+					const data = res.data;
+					
+					console.log(data);
+					if(data.code=="200"){
+						that.brandCount = that._toThousands(data.data);
+					}else{
+						
+					}
+				})
+				.catch(error => {
+				
+				});
+			},
+			
+			
+			ajaxGetBrandSpecialList(){
+				var that = this;
+				const paras = {
+				};
+				paras.accessToken = that.accessToken;
+				getBrandSpecialList(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					if(data.code=="200"){
+						//that.brandCount = that._toThousands(data.data);
+					}else{
+						
+					}
+				})
+				.catch(error => {
+				
+				});
+			},
+			
 			
 			_toThousands(num) {
 				var result = [ ], counter = 0;
@@ -595,7 +640,7 @@
 		background-color: #fff;
 		
 		.header {
-			padding: 25rpx 24rpx;
+			padding: 0rpx 24rpx;
 			background: #ffffff;
 			display: flex;
 			.location {
@@ -612,11 +657,14 @@
 					margin-left: 8rpx;
 				}
 			}
-			.search {
+			.search1 {
+				flex: 1;
+			}
+			.search {				
 				background: #E5E5E5;
-				border-radius: 12rpx;
+				border-radius: 20rpx;
 				width: 464rpx;
-				height: 40rpx;
+				height: 60rpx;
 				display: flex;
 				align-items: center;
 				.search-icon {
@@ -821,7 +869,7 @@
 			padding: 36rpx 0;
 			.recommend-title {
 				font-size: 32rpx;
-				font-weight: bold;
+			
 				color: #302F2C;
 				margin-bottom: 25rpx;
 				padding-left: 35rpx;
@@ -894,7 +942,7 @@
 					align-items: center;
 					.coop-title {
 						font-size: 32rpx;
-						font-weight: bold;
+					
 						color: #302F2C;
 						margin-bottom: 25rpx;
 					}
@@ -934,7 +982,7 @@
 				align-items: center;
 				.title {
 					font-size: 32rpx;
-					font-weight: bold;
+					
 					color: #302F2C;
 					line-height: 42rpx;
 					margin-bottom: 25rpx;
@@ -944,7 +992,7 @@
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				
+				height: 70rpx;
 				span {
 					font-size: 20rpx;
 					color: #9B9B9A;
@@ -956,7 +1004,7 @@
 		
 		.mid-banner {
 			padding: 0 36rpx;
-			margin-bottom: 50rpx;
+			margin: 50rpx 0;
 			
 			.swiper-box{
 				height: 300rpx;
@@ -967,9 +1015,23 @@
 			padding: 0 35rpx;
 			margin-top: 20rpx;
 			
+			/deep/ .tab{
+				.van-tab {
+					flex: none;
+					margin-right: 36rpx;
+					
+					.van-ellipsis {
+						font-size: 24rpx;
+					}
+					
+					.van-tab__pane {
+						border-top: 1px solid #EFF0EF;
+					}
+				}
+			}
+			
 			.title {
 				font-size: 32rpx;
-				font-weight: bold;
 				color: #302F2C;
 				line-height: 42rpx;
 				margin-bottom: 25rpx;

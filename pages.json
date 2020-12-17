@@ -16,6 +16,7 @@
 			"style": {
 				"navigationBarTitleText": "",
 				"usingComponents":{
+					"van-search": "/wxcomponents/vant/dist/search/index",
 					"van-button": "/wxcomponents/vant/dist/button/index",
 					"van-cell": "/wxcomponents/vant/dist/cell/index",
 					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
