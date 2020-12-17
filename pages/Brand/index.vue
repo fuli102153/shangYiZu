@@ -3,19 +3,18 @@
 		<van-sticky>
 			<view class="header">
 				<view class="location" @click="showPopup">
-					<van-icon name="location" class="location-icon" color="#fff" size="30rpx" />
+					<van-icon name="location" class="location-icon" color="#2B2B2B" size="30rpx" />
 					<text>深圳</text>
-					<van-icon name="play" class="arrow" color="#fff" size="17rpx" />
+					<van-icon name="play" class="arrow" color="#2B2B2B" size="17rpx" />
 				</view>
 				<view class="search">
 					<van-search
 					  :value="value"
 					  shape="round"
-					  background="#1676fe"
 					  placeholder="搜索店铺或区域"
 					/>
 				</view>
-				<van-icon name="phone" color="#fff" class="phone" />
+				<van-icon name="phone" color="#2B2B2B" class="phone" />
 			</view>
 			<!-- 地址弹出层 -->
 			<van-popup :show="locationShow" @close="onClose" position="top" round custom-style="max-height: 60%;">
@@ -296,12 +295,13 @@
 		
 		.header {
 			padding: 0rpx 24rpx;
-			background: #1676fe;
+			background: #ffffff;
 			display: flex;
 		
 			.location {
-				font-size: 32rpx;
-				color: #ffffff;
+				width: 160rpx;
+				font-size: 24rpx;
+				color: #2B2B2B;
 				display: flex;
 				align-items: center;
 		

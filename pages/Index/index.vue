@@ -6,8 +6,8 @@
 				<text>{{localtionCity.cityName}}</text>
 				<van-icon name="play" class="arrow" color="#2B2B2B" size="17rpx" />
 			</view>
-			<view class="search1" @click="goSearch">
-				<van-search v-model="value" shape="round"  placeholder="搜索店铺或区域" @search="onSearch" />
+			<view class="search" @click="goSearch">
+				<van-search v-model="value" shape="round"  placeholder="点击搜索目的地/关键词" @search="onSearch" />
 			</view>
 			<!-- <view class="shop-partner" @click="goShopPartner">
 				<text>商铺合伙人</text>
@@ -657,30 +657,10 @@
 					margin-left: 8rpx;
 				}
 			}
-			.search1 {
+			.search {
 				flex: 1;
 			}
-			.search {				
-				background: #E5E5E5;
-				border-radius: 20rpx;
-				width: 464rpx;
-				height: 60rpx;
-				display: flex;
-				align-items: center;
-				.search-icon {
-					margin-left: 15rpx;
-					width: 26rpx;
-					height: 23rpx;
-					background-image: url("../../static/images/search.png");
-					background-size: 100%;
-				}
-				.search-text {
-					margin-left: 16rpx;
-					color: #888888;
-					font-size: 20rpx;
-					line-height: 30rpx;
-				}
-			}
+			
 			.shop-partner {
 				flex: 1;
 				color: #fff;

@@ -3,14 +3,14 @@
 		<van-sticky>
 			<view class="header">
 				<view class="location" @click="showPopup">
-					<van-icon name="location" class="location-icon" color="#fff" size="30rpx" />
+					<van-icon name="location" class="location-icon" color="#2B2B2B" size="30rpx" />
 					<text>{{localtionCity.cityName}}</text>
-					<van-icon name="play" class="arrow" color="#fff" size="17rpx" />
+					<van-icon name="play" class="arrow" color="#2B2B2B" size="17rpx" />
 				</view>
 				<view class="search">
 					<van-search v-model="value" shape="round"  placeholder="搜索店铺或区域" @search="onSearch" />
 				</view>
-				<van-icon name="phone" color="#fff" class="phone" @click="makePhoneCall(Configs.service_phone)" />
+				<van-icon name="phone" color="#2B2B2B" class="phone" @click="makePhoneCall(Configs.service_phone)" />
 				<van-dialog id="van-dialog" />
 			</view>
 			<!-- 地址弹出层 -->
@@ -607,10 +607,11 @@
 		.header {
 			padding: 0rpx 24rpx;
 			display: flex;
-
+			background-color: #ffffff;
 			.location {
-				font-size: 32rpx;
-				color: #ffffff;
+				width: 160rpx;
+				font-size: 24rpx;
+				color: #2B2B2B;
 				display: flex;
 				align-items: center;
 
