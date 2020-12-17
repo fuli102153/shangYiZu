@@ -1,30 +1,31 @@
 <template>
-  <view class="vc-brand-card" @click="goBrandDetails(sourceData.id)">
-      <view class="store-img">
-           <image :src="sourceData.brandLogo ? sourceData.brandLogo.split(',')[0] : '../../static/logo.png'"></image> 
-      </view>
-      <view class="store-info">
-        <!-- <view class="store-title">{{sourceData.shopName || ""}}</view> -->
-				<view class="store-title">
-					<view class="text">
-						{{sourceData.brandName}}
-					</view>
-					
-				</view>
-		<view class="store-size num">
-		  <span>品牌编号：{{sourceData.brandNo}}</span>
+  <view class="vc-brand-card" :class="isShowLine?'':'bottom-line'" @click="toDetail(source.shopNo)">
+		<view class="store-img">
+			<image :src="sourceData.brandLogo ? sourceData.brandLogo.split(',')[0] : '../../static/logo.png'"></image> 
 		</view>
-        <view class="store-size">
-          <span>需求面积：{{sourceData.measureArea}}m²</span>
-        </view>
-        <view class="store-payment">
-          <view class="store-tag">
-            <view class="tag">物业类型：{{sourceData.propertyType}}</view>
-            <view class="tag">拓展区域：{{sourceData.region}}</view>
-          </view>
-        </view>
-      </view>
-  </view>
+		<view class="store-info">
+			<view class="store-top">
+				<view class="store-title">{{sourceData.brandName || ""}}</view>
+				<view class="store-price">
+					<span>休闲小吃</span>
+					<span class="company">（三级业态）</span>
+				</view>
+			</view>
+			<view class="store-payment">
+				<view class="store-tag">
+					<view>
+						<view class="tag" v-if="source.streetName || source.areaName">需求面积：1200m²{{source.areaName || ""}} {{source.streetName || ""}}</view>
+					</view>
+					<view>
+						<view class="tag" v-if="source.measureArea">拓店数量：10家{{`${source.measureArea}m²` || ""}}</view>
+					</view>
+					<view class="hot-list">
+						<i class="hot" v-for="item in source.hits" :key="item"></i>
+					</view>
+				</view>
+			</view>
+		</view>
+	</view>
 </template>
 
 <script>
@@ -56,65 +57,81 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.vc-brand-card {
-  width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  padding: 34rpx 30rpx;
-	background-color: #fff;
-	border-radius: 30rpx;
-	margin-bottom: 30rpx;
+.bottom-line{
+		border-bottom: 1rpx solid #DFDEDE;
+	}
+	.vc-brand-card {
+		width: 100%;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		padding: 25rpx 0 25rpx 0;
+		
 
-  .store-img {
-    width: 232rpx;
-    height: 172rpx;
-    border-radius: 15rpx;
-    background: #999;
-	
-		image{
-			width: 100%;
-			height: 100%;
+		.store-img {
+			width: 330rpx;
+			height: 200rpx;
 			border-radius: 15rpx;
+
+			image {
+				width: 330rpx;
+				height: 200rpx;
+				border-radius: 15rpx;
+			}
 		}
-  }
 
-  .store-info {
-    flex: 1;
-    box-sizing: border-box;
-    color: #2D2D2D;
-    padding-left: 44rpx;
-
-    .store-title {
+		.store-info {
+			flex: 1;
+			height: 200rpx;
+			box-sizing: border-box;
+			color: #2D2D2D;
+			padding-left: 25rpx;
 			display: flex;
+			flex-direction: column;
 			justify-content: space-between;
-			.text {
-				font-size: 32rpx;
+
+			.store-title {
+				font-size: 28rpx;
+				color: #2D2D2D;
+				margin-bottom: 12rpx;
 			}
 			
-    }
+			.store-price {
+				color: #DD9D39;
+				vertical-align: bottom;
+			
+				span {
+					font-size: 28rpx;
+				}
+			
+				.company {
+					font-size: 20rpx;
+				}
+			}
 
-    .store-size {
-      font-size: 23rpx;
-    }
-	
-	.num {
-		font-size: 20rpx;
-		color: #BDBDBD;
+			.store-payment {
+				display: flex;
+				justify-content: space-between;
+
+				.store-tag {
+					.tag {
+						color: #9B9B9A;
+						font-size: 20rpx;
+						margin-top: 10rpx;
+					}
+					.hot-list {
+						display: flex;
+						.hot {
+							margin-top: 10rpx;
+							width: 14rpx;
+							height: 18rpx;
+							margin-right: 10rpx;
+							background-image: url(../../static/images/hot.png);
+							background-size: 100%;
+						}
+					}
+				}
+			}
+		}
 	}
-
-    .store-payment {
-      display: flex;
-      justify-content: space-between;
-      
-      .store-tag {
-        .tag {
-          color: #1576fe;
-          font-size: 24rpx;
-          margin-top: 11rpx;
-        }
-      }
-    }
-  }
-}
 </style>

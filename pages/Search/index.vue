@@ -4,7 +4,6 @@
 			<van-search
 				:value="value"
 				shape="round"
-				background="#1676FE"
 				placeholder="输入意向位置/业态"
 				@search="onSearch">
 				<template #left>

@@ -200,19 +200,29 @@
 				  </view>
 			  </van-tab>
 			  <van-tab title="市调报告">
-				  <view class="uni-common-mt" style="padding:20rpx;font-size: 30rpx; color: #6A6A6A;">
-					<rich-text :nodes="shop.marketReport || '暂无市场调研报告'"></rich-text>
-				  </view>
+				  	<view class="info">
+				  		<view class="uni-common-mt" style="font-size: 30rpx; color: #6A6A6A;">
+							<rich-text :nodes="shop.marketReport || '暂无市场调研报告'"></rich-text>
+				  		</view>
+				  	</view>
 			  </van-tab>
 			</van-tabs>
 		</view>
-		<view class="attestation shop-name facilities">
+		<view class="facilities">
 			<view class="title">
-				工程条件
+				配套设施
 			</view>
-			<view class="title-tag" v-if="shop.engineeringConditions">
+			<view class="content">
+				<view class="facilities-item" v-for="(item, index) in facilitiesList" :key="index">
+					<view class="facilities-icon">
+						<image :src="item.src" mode=""></image>
+					</view>
+					<text>{{ item.name }}</text>
+				</view>
+			</view>
+			<!-- <view class="title-tag" v-if="shop.engineeringConditions">
 				<view color="#B2B2B2" class="tag-item" v-for="(item, index) in shop.engineeringConditions?shop.engineeringConditions.split(','):[]" :key="index">{{ item }}</view>
-			</view>
+			</view> -->
 		</view>
 		
 	
@@ -238,14 +248,25 @@
 					</view>
 				</view>
 				<view class="attestation-user">
-					认证人员：张三
+					实勘顾问：张三
 				</view>
 			</view>
 		</view>
+
+		<view class="warnning">
+			<view class="title">
+				交易须知
+			</view>
+			<view class="content">
+				<text>1、稿件内容必须属于正面信息，负面、涉政、敏感内容等内容一律有权不予发布。</text>
+				<text>2、稿件发布之后不可修改、取消或删除，请在发布前确认发布稿件的内容(请引起足够重视)。</text>
+				<text>3、新闻的发布时间为约1-2个工作日，平均约0.5个工作日，周末一般不进行投放，请悉知。</text>
+			</view>
+		</view>
 		<!-- 猜你喜欢 -->
-		<view class="store" >
-			<view class="store-header" v-if="false">猜你喜欢</view>
-			<view class="store-list" v-if="false">
+		<view class="store" v-if="false">
+			<view class="store-header">猜你喜欢</view>
+			<view class="store-list">
 				<StoreCard v-for="item in 3" :sourceData="item" :key="item" />
 			</view>
 		</view>
@@ -301,10 +322,17 @@
 				mode: 'nav',
 				
 				tagList: ['临近地铁', '临近学校', '居民密集区', '无进场费'],
-				facilitiesList: ['上下水', '排油烟', '独立卫生间', '中央空调'],
+				// facilitiesList: ['上下水', '排油烟', '独立卫生间', '中央空调'],
 				
 				latitude: "",
 				longitude: "",
+
+				facilitiesList: [
+					{name: '外摆', src: '../../static/images/external-pendulum.png'},
+					{name: '空调', src: '../../static/images/air-conditioner.png'},
+					{name: '停车场', src: '../../static/images/parking-lot.png'},
+					{name: '网络', src: '../../static/images/network.png'},
+				],
 				
 				attestationList: [
 					{name: '实地测量', src: '../../static/images/measure.png'},
@@ -610,24 +638,25 @@
 		}
 		
 		.shop-info {
-			padding: 0 36rpx;
+			padding: 48rpx 0;
 			/deep/ .tab{
+				.van-tabs__wrap {
+					padding: 0 18rpx;
+				}
 				.van-tab {
 					flex: none;
-					margin-right: 36rpx;
 					
 					.van-ellipsis {
 						font-size: 36rpx;
-					}
-					
-					.van-tab__pane {
-						border-top: 1px solid #EFF0EF;
+						padding: 0 13rpx;
 					}
 				}
 			}
 			
 			.info {
-				padding: 30rpx 20rpx;
+				margin: 0 36rpx;
+				padding: 30rpx 20rpx 30rpx 20rpx;
+				border-top: 1px solid #EFF0EF;
 				
 				.item {
 					display: flex;
@@ -667,7 +696,41 @@
 		}
 		
 		.facilities {
-			margin-top: 20rpx;
+			padding: 0 36rpx 42rpx;
+			.title {
+				font-size: 36rpx;	
+				color: #474A4C;
+				margin-bottom: 36rpx;
+			}
+
+			.content {
+				background: #F4F4F4;
+				border-radius: 10rpx;
+				padding: 35rpx 0 27rpx;
+				display: flex;
+				justify-content: space-evenly;
+
+				.facilities-item {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					
+					.facilities-icon {
+						width: 60rpx;
+						height: 60rpx;
+						
+						image {
+							width: 100%;
+							height: 100%;
+						}
+					}
+					text {
+						color: #252525;
+						font-size: 30rpx;
+						margin-top: 11rpx;
+					}
+				}
+			}
 		}
 		
 		.ad {
@@ -693,24 +756,8 @@
 			}
 		}
 		
-		.place {
-			padding: 42rpx 48rpx;
-			background-color: #fff;
-			
-			.title {
-				font-size: 36rpx;
-				color: #2d2d2d;
-				margin-bottom: 36rpx;
-			}
-			
-			.map {
-				width: 100%;
-				height: 425rpx;
-			}
-		}
-		
 		.attestation {
-			padding: 42rpx 34rpx;
+			padding: 42rpx 36rpx;
 			background-color: #fff;
 			
 			.title {
@@ -720,8 +767,8 @@
 			}
 			
 			.content {
-				background: #408FFF;
-				border-radius: 5rpx;
+				background: #1476FD;
+				border-radius: 10rpx;
 				display: flex;
 				flex-direction: column;
 				align-items: center;
@@ -729,22 +776,19 @@
 				
 				.attestation-title {
 					color: #fff;
-					font-size: 30rpx;
-					padding-top: 30rpx;
+					font-size: 32rpx;
+					padding-top: 19rpx;
 				}
 				
 				.attestation-explain {
 					margin-top: 16rpx;
-					background-color: #1676FE;
 					color: #fff;
 					font-size: 21rpx;
-					padding: 6rpx 18rpx;
-					border-radius: 18rpx;
 				}
 				
 				.attestation-info {
-					margin-top: 30rpx;
-					margin-bottom: 80rpx;
+					margin-top: 32rpx;
+					margin-bottom: 32rpx;
 					width: 100%;
 					display: flex;
 					justify-content: space-evenly;
@@ -755,8 +799,8 @@
 						align-items: center;
 						
 						.info-icon {
-							width: 57rpx;
-							height: 57rpx;
+							width: 92rpx;
+							height: 92rpx;
 							
 							image {
 								width: 100%;
@@ -765,37 +809,57 @@
 						}
 						text {
 							color: #fff;
-							font-size: 21rpx;
-							margin-top: 21rpx;
+							font-size: 28rpx;
+							margin-top: 13rpx;
 						}
 					}
 				}
 			
 				.attestation-user {
-					padding: 7rpx 26rpx;
+					box-sizing: border-box;
+					width: 100%;
+    				text-align: right;
+					padding: 0 30rpx;
+					margin-bottom: 17rpx;
 					color: #fff;
-					font-size: 21rpx;
-					border-radius: 0 18rpx 18rpx 0;
-					background-color: #1676FE;
-					position: absolute;
-					bottom: 15rpx;
-					left: -6rpx;
+					font-size: 20rpx;
+				}
+			}
+		}
+
+		.warnning {
+			padding: 0 36rpx 120rpx;
+
+			.title {
+				font-size: 36rpx;	
+				color: #474A4C;
+				margin-bottom: 36rpx;
+			}
+
+			.content {
+				height: 320rpx;
+				box-sizing: border-box;
+				background: #E6E9F0;
+				border-radius: 10rpx;
+				padding: 40rpx 30rpx;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+
+				text {
+					font-size: 22rpx;
+					line-height: 30rpx;
+					color: #7F8589;
 				}
 			}
 		}
 		
 		.store {
-			padding: 42rpx 26rpx 120rpx;
+			padding: 42rpx 36rpx;
 			.store-header {
-				width: 182rpx;
-				height: 55rpx;
-				background-image: url('../../static/images/title-bg-s.png');
-				background-position: center right;
-				background-size: 100%;
-				font-size: 36rpx;
-				color: #fff;
-				padding-left: 15rpx;
-				line-height: 55rpx;
+				font-size: 36rpx;	
+				color: #474A4C;
+				margin-bottom: 36rpx;
 			}
 		}
 		
