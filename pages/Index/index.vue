@@ -187,22 +187,26 @@
 			</view>
 			<van-tabs class="tab" :active="newActive" @change="onChange" color="#1476FD" line-width="50rpx">
 				<van-tab title="行业动态">
-					<view class="new-card" v-for="item in 5" :key="item">
-						<view class="new-img">
-							<image src="" mode=""></image>
-						</view>
-						<view class="new-title">
-                            鹏润达商业广场热门招商鹏润达商业广场热门招商鹏润达商业广场热门招商
+					<view class="content">
+						<view class="new-card" v-for="item in 5" :key="item">
+							<view class="new-img">
+								<image src="" mode=""></image>
+							</view>
+							<view class="new-title">
+                    	        鹏润达商业广场热门招商鹏润达商业广场热门招商鹏润达商业广场热门招商
+							</view>
 						</view>
 					</view>
 				</van-tab>
 				<van-tab title="热门话题">
-					<view class="new-card" v-for="item in 5" :key="item">
-						<view class="new-img">
-							<image src="" mode=""></image>
-						</view>
-						<view class="new-title">
-					        鹏润达商业广场热门招商鹏润达商业广场热门招商鹏润达商业广场热门招商
+					<view class="content">
+						<view class="new-card" v-for="item in 5" :key="item">
+							<view class="new-img">
+								<image src="" mode=""></image>
+							</view>
+							<view class="new-title">
+                    	        鹏润达商业广场热门招商鹏润达商业广场热门招商鹏润达商业广场热门招商
+							</view>
 						</view>
 					</view>
 				</van-tab>
@@ -992,16 +996,18 @@
 		}
 		
 		.new {
-			padding: 0 35rpx;
 			margin-top: 20rpx;
 			
 			/deep/ .tab{
+				.van-tabs__wrap {
+					padding: 0 6rpx;
+				}
 				.van-tab {
 					flex: none;
-					margin-right: 36rpx;
 					
 					.van-ellipsis {
 						font-size: 24rpx;
+						padding: 0 18rpx;
 					}
 					
 					.van-tab__pane {
@@ -1011,10 +1017,15 @@
 			}
 			
 			.title {
+				padding: 0 35rpx;
 				font-size: 32rpx;
 				color: #302F2C;
 				line-height: 42rpx;
 				margin-bottom: 25rpx;
+			}
+
+			.content {
+				padding: 0 35rpx;
 			}
 			
 			.new-card {

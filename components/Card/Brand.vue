@@ -1,5 +1,5 @@
 <template>
-  <view class="vc-brand-card" :class="isShowLine?'':'bottom-line'" @click="toDetail(source.shopNo)">
+  <view class="vc-brand-card" :class="isShowLine?'':'bottom-line'" @click="toDetail(sourceData.shopNo)">
 		<view class="store-img">
 			<image :src="sourceData.brandLogo ? sourceData.brandLogo.split(',')[0] : '../../static/logo.png'"></image> 
 		</view>
@@ -14,13 +14,13 @@
 			<view class="store-payment">
 				<view class="store-tag">
 					<view>
-						<view class="tag" v-if="source.streetName || source.areaName">需求面积：1200m²{{source.areaName || ""}} {{source.streetName || ""}}</view>
+						<view class="tag" v-if="sourceData.measureArea">需求面积：{{sourceData.measureArea || ""}}m²</view>
 					</view>
 					<view>
-						<view class="tag" v-if="source.measureArea">拓店数量：10家{{`${source.measureArea}m²` || ""}}</view>
+						<view class="tag">拓店数量：10家</view>
 					</view>
 					<view class="hot-list">
-						<i class="hot" v-for="item in source.hits" :key="item"></i>
+						<i class="hot" v-for="item in sourceData.hits" :key="item"></i>
 					</view>
 				</view>
 			</view>
