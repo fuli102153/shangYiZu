@@ -156,7 +156,7 @@
 				</view>
 			</view>
 			<view class="store-list">
-				<StoreCard v-for="(item,index) in guessYouLikeList.slice(0, 3)" :sourceData="item" :lastLine="index==2" :key="item" />
+				<BrandCard v-for="(item,index) in brandList.slice(0, 3)" :sourceData="item" :lastLine="index==2" :key="item" />
 			</view>
 			<view class="store-more">
 				<span>查看更多品牌</span>
@@ -188,26 +188,28 @@
 			<van-tabs class="tab" :active="newActive" @change="onChange" color="#1476FD" line-width="50rpx">
 				<van-tab title="行业动态">
 					<view class="content">
-						<view class="new-card" v-for="item in 5" :key="item">
+						<view class="new-card" v-for="(item,index) in headlineList.slice(0,3)" :key="index" @click="goHeadDetails(item)">
 							<view class="new-img">
-								<image src="" mode=""></image>
+								<image src="item.pic" mode=""></image>
 							</view>
 							<view class="new-title">
-                    	        鹏润达商业广场热门招商鹏润达商业广场热门招商鹏润达商业广场热门招商
+                    	        {{item.title}}
 							</view>
 						</view>
+						<van-empty v-if="headlineList.length==0" description="暂无行业动态" />
 					</view>
 				</van-tab>
 				<van-tab title="热门话题">
 					<view class="content">
-						<view class="new-card" v-for="item in 5" :key="item">
+						<view class="new-card" v-for="(item,index) in headlineList.slice(0,3)" :key="index" @click="goHeadDetails(item)">
 							<view class="new-img">
-								<image src="" mode=""></image>
+								<image src="item.pic" mode=""></image>
 							</view>
 							<view class="new-title">
-                    	        鹏润达商业广场热门招商鹏润达商业广场热门招商鹏润达商业广场热门招商
+						        {{item.title}}
 							</view>
 						</view>
+						<van-empty v-if="headlineList.length==0" description="暂无热门话题" />
 					</view>
 				</van-tab>
 			</van-tabs>
@@ -219,11 +221,13 @@
 
 <script>
 	import StoreCard from '../../components/Card/Store'
+	import BrandCard from '../../components/Card/Brand.vue'
 	import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
 	import {getBannerList,getWeekRecommendList,getGuessYouLike,getCooperativeList,getHeadline,getCity,getShopSumMeasureArea,getBrandCount,getBrandSpecialList} from "../../utils/api.js"
 	export default {
 		components: {
 			StoreCard,
+			BrandCard,
 			uniSwiperDot,
 		},
 		data() {
@@ -304,6 +308,7 @@
 				bannerList:[],
 				weekRecommendList:[],
 				guessYouLikeList:[],
+				brandList:[],
 				cooperativeList:[],
 				headlineList:[],
 				// 新闻中心
@@ -423,7 +428,7 @@
 			},
 			// 新闻中心tab切换
 			onChange(e) {
-				console.log('新闻中心tab切换', e.detail)
+				this.ajaxGetHeadline(e.detail.name)
 			},
 			
 			//请求BANNER图片
@@ -520,12 +525,13 @@
 			},
 			
 			//头条信息
-			ajaxGetHeadline(){
+			ajaxGetHeadline(type){
 				//ajax个人信息查询
 				var that = this;
 				const paras = {
 					pageNo:1,
 					pageSize:10,
+					type:type||0
 				};
 				paras.accessToken = that.accessToken;
 				getHeadline(paras).then(res => {
@@ -611,7 +617,7 @@
 					const data = res.data;
 					console.log(data);
 					if(data.code=="200"){
-						//that.brandCount = that._toThousands(data.data);
+						that.brandList = data.data.records;
 					}else{
 						
 					}

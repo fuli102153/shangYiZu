@@ -1,26 +1,25 @@
 <template>
-  <view class="vc-brand-card" :class="isShowLine?'':'bottom-line'" @click="toDetail(sourceData.shopNo)">
+  <view class="vc-brand-card" :class="isShowLine?'':'bottom-line'" @click="toDetail(source.shopNo)">
 		<view class="store-img">
-			<image :src="sourceData.brandLogo ? sourceData.brandLogo.split(',')[0] : '../../static/logo.png'"></image> 
+			<image :src="source.brandLogo ? source.brandLogo.split(',')[0] : '../../static/logo.png'"></image> 
 		</view>
 		<view class="store-info">
 			<view class="store-top">
-				<view class="store-title">{{sourceData.brandName || ""}}</view>
+				<view class="store-title">{{source.brandName || ""}}</view>
 				<view class="store-price">
-					<span>休闲小吃</span>
-					<span class="company">（三级业态）</span>
+					<span>{{source.propertyFormStr}}</span>
 				</view>
 			</view>
 			<view class="store-payment">
 				<view class="store-tag">
 					<view>
-						<view class="tag" v-if="sourceData.measureArea">需求面积：{{sourceData.measureArea || ""}}m²</view>
+						<view class="tag" v-if="source.measureArea">需求面积：{{source.measureArea || ""}}m²</view>
 					</view>
 					<view>
-						<view class="tag">拓店数量：10家</view>
+						<view class="tag">拓店数量：{{source.viewNum}}家</view>
 					</view>
 					<view class="hot-list">
-						<i class="hot" v-for="item in sourceData.hits" :key="item"></i>
+						<i class="hot" v-for="item in source.hits" :key="item"></i>
 					</view>
 				</view>
 			</view>
@@ -34,15 +33,22 @@ export default {
 	name: 'store',
 	props:{
 		sourceData:{},
+		lastLine:false,
 	},
 	data() {
 	 	return {
+			source: {},
+			isShowLine:false,
 	 	}
 	},
 	mounted(){
 	    var that = this;
 	    this.$nextTick(function(){
-	     
+			that.isShowLine = that.lastLine
+			//临时处理的   到时要根据算法来
+			that.sourceData.hits = 1+(that.sourceData.hot % 4);
+			that.source = that.sourceData;
+			
 	    })
 	  },
 	methods: {
@@ -99,7 +105,10 @@ export default {
 			.store-price {
 				color: #DD9D39;
 				vertical-align: bottom;
-			
+				overflow:hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				width:350rpx;
 				span {
 					font-size: 28rpx;
 				}

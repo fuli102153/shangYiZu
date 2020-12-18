@@ -28,15 +28,19 @@
 			
 			<van-dropdown-menu>
 				<van-dropdown-item title="区域" :style="{display: areaShow ? 'block' : 'none'}" @close="areaShow=false" @open="areaShow=true">
-					<van-tree-select height="55vw" max="10" :items="AreaStreets" :main-active-index="mainActiveIndex" :active-id="paras.streetId"
+					<van-tree-select height="100vw" max="10" :items="AreaStreets" :main-active-index="mainActiveIndex" :active-id="paras.streetId"
 					 selected-icon="success" @click-nav="onClickNav" @click-item="onClickItem" />
 				</van-dropdown-item>
-				<van-dropdown-item title="月租金" :style="{display: monthShow ? 'block' : 'none'}" @close="monthShow=false" @open="monthShow=true"
+				<van-dropdown-item title="类型" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
+					<van-tree-select height="100vw" max="10" :items="typeList" :main-active-index="typeActiveIndex" :active-id="paras.shopCategoryIds"
+					 selected-icon="success" @click-nav="onClickType" @click-item="onClickTypeItem" />
+				</van-dropdown-item>
+				<van-dropdown-item title="租金" :style="{display: monthShow ? 'block' : 'none'}" @close="monthShow=false" @open="monthShow=true"
 				 :options="monthRentList" @change="changeMonthRent"></van-dropdown-item>
-				<van-dropdown-item title="物业" :style="{display: propertyShow ? 'block' : 'none'}" @close="propertyShow=false" @open="propertyShow=true"
-				 :options="propertyList" @change="changePropertyType"></van-dropdown-item>
-				 
-				<van-dropdown-item title="更多" :style="{display: moreShow ? 'block' : 'none'}" @close="moreShow=false;searchList()"
+				<van-dropdown-item title="面积" :style="{display: propertyShow ? 'block' : 'none'}" @close="propertyShow=false" @open="propertyShow=true"
+				 :options="searchAreaList" @change="changeAreaRent"></van-dropdown-item>
+				 <!--
+				<van-dropdown-item  title="更多" :style="{display: moreShow ? 'block' : 'none'}" @close="moreShow=false;searchList()"
 				 @open="moreShow=true">
 					<van-tree-select :items="sortList" :main-active-index="sortActiveIndex" :active-id="sortActiveId" height="412rpx"
 					 @click-nav="onClickItemNav" @click-item="onClickItemSort" />
@@ -84,6 +88,7 @@
 						</view>
 					</view>
 				</van-dropdown-item>
+				-->
 			</van-dropdown-menu>
 			<!--<SelectHeader @onChangeMit="onChangeMit"></SelectHeader>-->
 		</van-sticky>
@@ -102,6 +107,12 @@
 </template>
 
 <script>
+	/*
+	品牌页的筛选条件 区域 类型 业态 面积 
+	商铺页的筛选条件 区域 类型 租金 面积
+	购物中心内页的筛选条件 业态 楼层 租金 面积
+	品牌内页的筛选条件 区域 品类 面积
+	*/
 	import StoreCard from "../../components/Card/Store";
 	import Toast from "../../wxcomponents/vant/dist/toast/toast";
 	import Dialog from "../../wxcomponents/vant/dist/dialog/dialog";
@@ -109,7 +120,7 @@
 		getShopList,
 		getAreaStreets,
 		getCity,
-		getPropertyFormAllDatas,
+		getPropertyFormAllData,
 	} from "../../utils/api.js";
 
 	export default {
@@ -123,12 +134,14 @@
 				activeCity: "",
 				value: "",
 				mainActiveIndex: 0,
+				typeActiveIndex: 0,
 				
 				localtionCity:{},
 
 				AreaStreets: [],
+				typeList:[],
 				shopList: [],
-				propertyList: [], //物业
+				searchAreaList: [], //面积
 				monthRentList: [],
 				moneyList: [{
 					text: "0-2000元",
@@ -138,6 +151,7 @@
 				monthShow: false,
 				moreShow: false,
 				areaShow: false,
+				typeShow: false,
 				measureAreaEnd: "",
 				measureAreaStart: "",
 				sortList: [{
@@ -165,6 +179,7 @@
 					distance: "",
 					regionId: "",
 					streetId: "",
+					shopCategoryIds:[],
 					metroLine: "",
 					monthRentStart: "",
 					monthRentEnd: "",
@@ -188,7 +203,7 @@
 			//请求城市联动
 			this.ajaxGetAreaStreets();
 			//获取全部业态数据
-			this.ajaxGetPropertyFormAllDatas();
+			this.ajaxGetPropertyFormAllData();
 			
 			this.localtionCity = this.$Localtion.city;
 			this.$forceUpdate();
@@ -308,12 +323,12 @@
 
 			//转换格式
 			changeDict() {
-				this.propertyList = [{
+				this.searchAreaList = [{
 						text: "不限",
 						value: "",
 					}];
-				this.Dict.property_type.forEach((item) => {
-					this.propertyList.push({
+				this.Dict.search_area.forEach((item) => {
+					this.searchAreaList.push({
 						text: item.itemText,
 						value: item.itemValue,
 					});
@@ -376,7 +391,7 @@
 			changeMonthRent(e) {
 				console.log(e);
 				if(e.detail){
-					let start = Number(e.detail.split("-")[0]) || "";
+					let start = Number(e.detail.split("-")[0]) || 0;
 					let end = Number(e.detail.split("-")[1]) || "";
 					
 					if(this.paras.monthRentStart != start || this.paras.monthRentEnd != end){
@@ -387,6 +402,26 @@
 				}else{
 					this.paras.monthRentStart = "";
 					this.paras.monthRentEnd = "";
+					this.reloadData();
+				}
+				
+				
+			},
+			
+			changeAreaRent(e) {
+				console.log(e);
+				if(e.detail){
+					let start = Number(e.detail.split("-")[0]) || 0;
+					let end = Number(e.detail.split("-")[1]) || "";
+					
+					if(this.paras.measureAreaStart != start || this.paras.measureAreaEnd != end){
+						this.paras.measureAreaStart = start;
+						this.paras.measureAreaEnd = end;
+						this.reloadData();
+					}
+				}else{
+					this.paras.measureAreaStart = "";
+					this.paras.measureAreaEnd = "";
 					this.reloadData();
 				}
 				
@@ -425,6 +460,27 @@
 					this.reloadData();
 				}
 			},
+			
+			
+			//左侧导航点击时，触发的事件
+			onClickType(e) {
+				this.typeActiveIndex = e.detail.index || 0;
+				let t = this.typeList[this.typeActiveIndex].id;
+				
+				
+			},
+			//右侧选择项被点击时，会触发的事件
+			onClickTypeItem(e) {
+				//console.log(e)
+			
+				const index = this.paras.shopCategoryIds.indexOf(e.detail.id);
+				if (index > -1) {
+				  this.paras.shopCategoryIds.splice(index, 1);
+				} else {
+				  this.paras.shopCategoryIds.push(e.detail.id);
+				}
+				this.reloadData();	
+			},
 
 			
 			
@@ -458,6 +514,7 @@
 				const paras = {
 					
 					cityCode:this.$Localtion.city.cityCode,
+					shopCategoryIds:this.paras.shopCategoryIds.join(","),
 					shopName:this.paras.shopName,
 					label:this.paras.label,
 					distance:this.paras.distance,
@@ -577,7 +634,7 @@
 			},
 			
 			
-			ajaxGetPropertyFormAllDatas() {
+			ajaxGetPropertyFormAllData() {
 				//ajax个人信息查询
 				var that = this;
 				const paras = {
@@ -585,13 +642,40 @@
 				};
 				paras.accessToken = that.accessToken;
 
-				getPropertyFormAllDatas(paras)
+				getPropertyFormAllData(paras)
 					.then((res) => {
 						const data = res.data;
 						console.log(data);
 
 						if (data.code == "200") {
-							
+							that.typeList = [];
+							data.data.forEach((item) => {
+								
+								
+								item.children && item.children.forEach((street) => {
+									if(street.name!="全部"){
+										let area = {};
+										area.id = street.id;
+										area.text = street.name;
+										area.children = [];
+										
+										street.children && street.children.forEach((three) => {
+											let streetItem = {};
+											streetItem.id = three.id;
+											streetItem.text = three.name;
+											area.children.push(streetItem);
+										})		
+										that.typeList.push(area);
+									}
+									
+								});
+								
+								
+								
+								
+							});
+							that.$forceUpdate();
+							console.log(that.typeList)
 						} else {}
 					})
 					.catch((error) => {});

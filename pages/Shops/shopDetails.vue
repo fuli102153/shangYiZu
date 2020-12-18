@@ -30,7 +30,7 @@
 			<view class="header">
 				<view class="title">
 					<text>{{shop.shopName || ''}}</text>
-					<view class="btn">
+					<view class="btn" v-if="0">
 						平台直租
 					</view>
 				</view>
