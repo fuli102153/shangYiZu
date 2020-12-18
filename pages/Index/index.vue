@@ -255,53 +255,53 @@
 				},
 				navList: [{
 						name: '地图找铺',
-						src: '../../static/images/Map.png',
+						src: '../../static/images/icon_1.png',
 						router: '../Map/index'
 					},
 					{
-						name: '招租发布',
-						src: '../../static/images/Hire.png',
-						router: '../Rental/index'
-					},
-					{
-						name: '开店发布',
-						src: '../../static/images/OpenShop.png',
-						router: '../StoreOpen/index'
-					},
-					{
-						name: '购物中心',
-						src: '../../static/images/Shopping.png',
+						name: '餐饮美食',
+						src: '../../static/images/icon_2.png',
 						router: '../ShoppingMall/index?projectType=1'
 					},
 					{
-						name: '社区底商',
-						src: '../../static/images/Community.png',
+						name: '娱乐酒店',
+						src: '../../static/images/icon_3.png',
 						router: '../ShoppingMall/index?projectType=2'
 					},
 					{
-						name: '整租物业',
-						src: '../../static/images/WholeRent.png',
+						name: '生活服务',
+						src: '../../static/images/icon_4.png',
 						router: '../ShoppingMall/index?projectType=3'
 					},
 					{
-						name: '商业街区',
-						src: '../../static/images/CommercialStreet.png',
+						name: '服饰鞋包',
+						src: '../../static/images/icon_5.png',
 						router: '../ShoppingMall/index?projectType=4'
 					},
 					{
-						name: '综合配套',
-						src: '../../static/images/ComprehensiveMatching.png',
+						name: '精品零售',
+						src: '../../static/images/icon_6.png',
 						router: '../ShoppingMall/index?projectType=5'
 					},
 					{
-						name: '专业市场',
-						src: '../../static/images/ProfessionalMarket.png',
+						name: '教育培训',
+						src: '../../static/images/icon_7.png',
 						router: '../ShoppingMall/index?projectType=6'
 					},
 					{
-						name: '娱乐教育',
-						src: '../../static/images/EntertainmentEducation.png',
+						name: '医疗美容',
+						src: '../../static/images/icon_8.png',
 						router: '../ShoppingMall/index?projectType=7'
+					},
+					{
+						name: '商超配套',
+						src: '../../static/images/icon_9.png',
+						router: '../ShoppingMall/index?projectType=8'
+					},
+					{
+						name: '专业市场',
+						src: '../../static/images/icon_10.png',
+						router: '../ShoppingMall/index?projectType=9'
 					},
 				],
 				localtionCity:{},
@@ -712,68 +712,7 @@
 			height: 400rpx;
 		}
 		
-		.toutiao {
-			padding: 26rpx;
-			background-color: #1676FE;
-			position: relative;
-			.toutiao-icon {
-				width: 126rpx;
-				height: 74rpx;
-				background-image: url('../../static/images/toutiao.png');
-				background-size: 100%;
-				position: relative;
-				z-index: 1;
-				.toutiao-text {
-					width: 115rpx;
-					padding-top: 6rpx;
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					
-					.headline-logo {
-						background-image: url(../../static/images/headLine.png);
-						background-size: 100%;
-						width: 64rpx;
-						height: 64rpx;
-					}
-				}
-			}
-			.toutiao-link {
-				width: 650rpx;
-				height: 64rpx;
-				background-color: #ffffff;
-				position: absolute;
-				top: 50%;
-				left: 72rpx;
-				transform: translateY(-50%);
-				display: flex;
-				align-items: center;
-				justify-content: flex-end;
-				border-radius: 32rpx;
-				box-sizing: border-box;
-				padding-right: 16rpx;
-				overflow: hidden;
-				 
-				.swiper-container {
-					margin-left: 10rpx;
-					width: 500rpx;
-					height: 100%;
-				}
-				 
-				.swiper-item {
-					position: absolute;
-					top: 50%;
-					transform: translateY(-50%);
-					width: 100%;
-					font-size: 28rpx;
-					overflow: hidden;
-					text-overflow: ellipsis;
-					white-space: nowrap;
-					letter-spacing: 2rpx;
-					color: #2E2E2E;
-				}
-			}
-		}
+		
 		
 		.nav {
 			padding: 10rpx 20rpx 46rpx 20rpx;
