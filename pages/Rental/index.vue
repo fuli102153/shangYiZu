@@ -873,8 +873,10 @@ export default {
 
 <style lang="scss" scoped>
 .v-agent {
+  padding: 40rpx 36rpx;
+  background: #F5F5F5;
+  
   .from {
-    padding: 0 20rpx;
 
     /deep/ .van-field__label--disabled {
       color: #646566;

@@ -286,7 +286,7 @@
 						<text>分享</text>
 					</view>
 				</view>
-				<view class="button" @click="toSubscribe(shop.shopNo)">预约看铺</view>
+				<view class="button" @click="toSubscribe(shop.shopNo, shop.streetCode)">预约看铺</view>
 			</view>
 		</view>
 		<van-toast id="van-toast" />
@@ -411,10 +411,9 @@
 				});
 			},
 			
-			toSubscribe(shopNo){
-				
+			toSubscribe(shopNo, streetCode){
 				uni.navigateTo({
-					url: "../Shops/appointment?shopNo="+shopNo
+					url: `../Shops/appointment?shopNo=${shopNo}&streetCode=${streetCode}`
 				})
 			},
 			

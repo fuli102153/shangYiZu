@@ -61,6 +61,7 @@
 				endDate: '',
 				endShow: false,
 				shopNo:"",
+				streetCode: '',
 				minHour: 10,
 				maxHour: 20,
 				minDate: new Date().getTime(),
@@ -73,6 +74,9 @@
 			//如果有项目ID
 			if(paras.shopNo){
 				this.shopNo = paras.shopNo;
+			}
+			if(paras.streetCode) {
+				this.streetCode = paras.streetCode
 			}
 		},
 		methods: {
@@ -131,6 +135,7 @@
 					userName:that.userName,
 					mobile:that.mobile,
 					shopNo:that.shopNo,
+					streetCode: that.streetCode,
 					appUid:that.userDetail.id,
 					type:1,
 					subscribeTimeStart:that.startDate,
