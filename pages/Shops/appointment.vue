@@ -1,18 +1,25 @@
 <template>
 	<view class="v-appointment">
 		<van-field required 
-		  :value="userName"
+			:value="userName"
 			label="联系人"
 			input-align="right"
-		  placeholder="请输入用户名"
-		  @input="changeUsername"
+			placeholder="请输入用户名"
+			@input="changeUsername"
 		/>
 		<van-field required 
-		  :value="mobile"
+			:value="mobile"
 			label="联系电话"
 			input-align="right"
-		  placeholder="请输入联系电话"
-		  @input="changeMobile"
+			placeholder="请输入联系电话"
+			@input="changeMobile"
+		/>
+		<van-field required
+			:value="recommender"
+			label="推荐人"
+			input-align="right"
+			placeholder="请输入推荐人"
+			@input="changeRecommender"
 		/>
 		<van-cell required title="选择开始时间" :value="startDate" @click="onDisplay" />
 		<van-cell required title="选择结束时间" :value="endDate" @click="onEndDisplay" />
@@ -56,6 +63,7 @@
 			return {
 				userName: '',
 				mobile: '',
+				recommender: '',
 				startDate: '',
 				startShow: false,
 				endDate: '',
@@ -111,24 +119,31 @@
 			changeMobile(e) {
 			  this.mobile = e.detail.trim();
 			},
+			changeRecommender(e) {
+				this.recommender = e.detail.trim();
+			},
 			
 			addSubscribe(shopNo){
 				
 				var that = this;
 				if(!that.userName){
-					Toast.fail("选择输入联系人姓名");
+					Toast.fail("请输入联系人姓名");
 					return;
 				}
 				if(!that.mobile){
-					Toast.fail("选择联系人手机号");
+					Toast.fail("请输入联系人手机号");
+					return;
+				}
+				if(!that.recommender){
+					Toast.fail("请输入推荐人");
 					return;
 				}
 				if(!that.startDate){
-					Toast.fail("选择开始时间");
+					Toast.fail("请选择开始时间");
 					return;
 				}
 				if(!that.endDate){
-					Toast.fail("选择结束时间");
+					Toast.fail("请选择结束时间");
 					return;
 				}
 				const paras = {
