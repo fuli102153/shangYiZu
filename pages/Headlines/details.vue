@@ -1,5 +1,5 @@
 <template>
-	<view class="uni-common-mt" style="background:#FFF; padding:20rpx;">
+	<view class="uni-common-mt" style="background:#FFF; padding:40rpx;">
 		<view class="header">
 			<view class="title">
 				{{ title }}
@@ -9,6 +9,11 @@
 			</view>
 		</view>
 		<van-divider />
+		
+		<view class="new-img" v-if="pic">
+			<image :src="pic" mode=""></image>
+		</view>
+		
 		<rich-text class="content" :nodes="strings"></rich-text>
 	</view>
 </template>
@@ -18,20 +23,24 @@
 	    data() {
 	        return {
 	            strings: '',
-							title: '',
-							time: '',
+				title: '',
+				pic:'',
+				time: '',
 	        }
 	    },
 			onLoad(params) {
-				console.log('params', JSON.parse(params.item))
-				const item = JSON.parse(params.item)
-				this.title = item.title
-				this.time = item.createTime
-				this.strings = `<div style="text-align:center;">
-													<div>
-														${item.content}
-													</div>
-												</div>`
+				console.log('params')
+				//console.log(JSON.parse(params.item))
+				//const item = JSON.parse(params.item)
+				this.title = params.title
+				this.time = params.createTime;
+				this.pic = params.pic?params.pic : '../../static/images/swiper.png';
+				this.strings = `<div style="text-align:left;">
+						
+						<div>
+							${params.content}
+						</div>
+					</div>`
 			}
 	}
 </script>
@@ -54,11 +63,23 @@
 				line-height: 40rpx;
 			}
 		}
-		
+		.new-img {
+			width: 678rpx;
+			height: 300rpx;
+			border-radius: 8rpx;
+			
+			image {
+				width: 678rpx;
+				height: 300rpx;
+				border-radius: 8rpx;
+			}
+		}
 		.content{
-			line-height: 50rpx;
+			line-height: 25px;
 			color: #666666;
 			text-align: left;
+			padding:10px
+			
 		}
 	}
 	

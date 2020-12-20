@@ -188,9 +188,9 @@
 			<van-tabs class="tab" :active="newActive" @change="onChange" color="#1476FD" line-width="50rpx">
 				<van-tab title="行业动态">
 					<view class="content">
-						<view class="new-card" v-for="(item,index) in headlineList.slice(0,3)" :key="index" @click="goHeadDetails(item)">
-							<view class="new-img">
-								<image src="item.pic" mode=""></image>
+						<view class="new-card" v-for="(item,index) in headlineList" :key="index" @click="goHeadDetails(item)">
+							<view class="new-img" >
+								<image :src="item.pic?item.pic : '../../static/images/swiper.png'" mode=""></image>
 							</view>
 							<view class="new-title">
                     	        {{item.title}}
@@ -201,9 +201,9 @@
 				</van-tab>
 				<van-tab title="热门话题">
 					<view class="content">
-						<view class="new-card" v-for="(item,index) in headlineList.slice(0,3)" :key="index" @click="goHeadDetails(item)">
+						<view class="new-card" v-for="(item,index) in headlineList" :key="index" @click="goHeadDetails(item)">
 							<view class="new-img">
-								<image src="item.pic" mode=""></image>
+								<image :src="item.pic?item.pic : '../../static/images/swiper.png'" mode=""></image>
 							</view>
 							<view class="new-title">
 						        {{item.title}}
@@ -400,8 +400,9 @@
 				})
 			},
 			goHeadDetails(item) {
+				var pic = item.pic?item.pic:'';
 				uni.navigateTo({
-					url: '../Headlines/details?item=' + JSON.stringify(item)
+					url: '../Headlines/details?title=' + item.title + "&content="+item.content+"&createTime="+item.createTime+"&pic="+pic
 				})
 			},
 			// 进入搜索页
@@ -978,12 +979,12 @@
 				.new-img {
 					width: 678rpx;
 					height: 300rpx;
-					background: #808080;
 					border-radius: 8rpx;
 					
 					image {
 						width: 678rpx;
 						height: 300rpx;
+						border-radius: 8rpx;
 					}
 				}
 				.new-title {

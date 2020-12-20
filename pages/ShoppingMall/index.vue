@@ -49,7 +49,7 @@
 </template>
 
 <script>
-	import StoreCard from '../../components/Card/StoreSamll'
+	import StoreCard from '../../components/Card/Store'
 	import Toast from '../../wxcomponents/vant/dist/toast/toast';
 	import Dialog from '../../wxcomponents/vant/dist/dialog/dialog';
 	import {getProjectList,getAreaStreets,getCity,getPropertyFormSubLevelData} from "../../utils/api.js"
