@@ -155,7 +155,7 @@
 					type:1,
 					subscribeTimeStart:that.startDate,
 					subscribeTimeEnd:that.endDate,
-					
+					recommender: that.recommender
 				};
 				paras.accessToken = that.accessToken;
 				Toast.loading({

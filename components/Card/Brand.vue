@@ -1,5 +1,5 @@
 <template>
-  <view class="vc-brand-card" :class="isShowLine?'':'bottom-line'" @click="toDetail(source.shopNo)">
+  <view class="vc-brand-card" :class="isShowLine?'':'bottom-line'" @click="goBrandDetails(source.brandNo)">
 		<view class="store-img">
 			<image :src="source.brandLogo ? source.brandLogo.split(',')[0] : '../../static/logo.png'"></image> 
 		</view>
@@ -53,8 +53,9 @@ export default {
 	  },
 	methods: {
 		goBrandDetails(brandNo) {
+			console.log(brandNo)
 			uni.navigateTo({
-				url: './BrandDetails?brandNo='+brandNo
+				url: '../../pages/Brand/BrandDetails?brandNo='+brandNo
 			})
 		},
 	 	

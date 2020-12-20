@@ -2,215 +2,253 @@
   <view class="v-agent">
     <view class="from">
       <van-cell-group>
-        <van-field
-          :value="form.contactUsername"
-          :error-message="errMsg.contactUsername"
-          required
-          clearable
-          label="联系人"
-          placeholder="请输入您的姓名"
-          @input="changeContactUsername"
-        />
-        <van-field
-          :value="form.contactMobile"
-          :error-message="errMsg.contactMobile"
-          label="联系电话"
-          type="digit"
-          placeholder="请输入您的手机号"
-          required
-          @input="changeContactMobile"
-        />
-        <van-field
-          :value="form.indentity"
-          :error-message="errMsg.indentity"
-          label="身份"
-          placeholder="请输入您的身份"
-          required
-          disabled
-          @click.native="showActionSheet('indentity')"
-          is-link
-          arrow-direction="down"
-          @input="changeIndentity"
-        />
-        <van-field
-          :value="form.businessType"
-          :error-message="errMsg.businessType"
-          label="经营类型"
-          placeholder="请选择您商铺物业现况"
-          required
-          disabled
-          @click.native="showActionSheet('businessType')"
-          is-link
-          arrow-direction="down"
-          @input="changeBusinessType"
-        />
-        <van-field
-          :value="form.propertyStatus"
-          :error-message="errMsg.propertyStatus"
-          label="物业现况"
-          placeholder="请选择您商铺物业现况"
-          required
-          disabled
-          @click.native="showActionSheet('propertyStatus')"
-          is-link
-          arrow-direction="down"
-          @input="changePropertyStatus"
-        />
-        <van-field
-          :value="form.propertyType"
-          :error-message="errMsg.propertyType"
-          label="物业类型"
-          placeholder="请选择您商铺物业类型"
-          required
-          disabled
-          @click.native="showActionSheet('propertyType')"
-          is-link
-          arrow-direction="down"
-          @input="changePropertyType"
-        />
-        <van-field
-          :value="form.position"
-          :error-message="errMsg.position"
-          label="位置"
-          placeholder="请选择您商铺所在位置"
-          required
-          disabled
-          @click.native="showPosition('position')"
-          is-link
-          arrow-direction="down"
-          @input="changePosition"
-        />
-        <van-field
-          :value="form.engineeringConditions"
-          :error-message="errMsg.engineeringConditions"
-          label="工程条件"
-          placeholder="请选择您商铺具备的工程条件"
-          disabled
-          @click.native="showEngineeringPopup('engineering_conditions')"
-          is-link
-        />
-        <van-field
-          :value="form.monthRent"
-          :error-message="errMsg.monthRent"
-          required
-          clearable
-          label="月租金"
-          placeholder="请输入您期望的月租金"
-          @input="changeMonthRent"
-          use-button-slot
-        >
-          <text slot="button">元</text>
-        </van-field>
-        <van-field
-          :value="form.measureArea"
-          :error-message="errMsg.measureArea"
-          required
-          clearable
-          label="面积"
-          placeholder="请输入您商铺的面积"
-          @input="changeMeasureArea"
-          use-button-slot
-        >
-          <text slot="button">m²</text>
-        </van-field>
-        <van-field
-          :value="form.brandName"
-          :error-message="errMsg.brandName"
-          required
-          clearable
-          label="品牌名称"
-          placeholder="请输入您的品牌名称"
-          @input="changeBrandName"
-        />
-        <van-field
-          :value="form.brandProfile"
-          :error-message="errMsg.brandProfile"
-          required
-          clearable
-          label="开店品牌简介"
-          placeholder="请简单介绍一下您的品牌是什么样的店铺"
-          @input="changeBrandProfie"
-        />
-        <van-field
-          :value="form.targetCustomer"
-          :error-message="errMsg.targetCustomer"
-          clearable
-          label="目标客群"
-          placeholder="请输入您开店针对的客户群体"
-          @input="changeTargetCustomer"
-        />
-        <van-field
-          :value="form.customerAveragePrice"
-          :error-message="errMsg.customerAveragePrice"
-          clearable
-          label="客单价"
-          placeholder="请输入您开店的人均消费单价"
-          @input="changeCustomerAveragePrice"
-        />
-        <van-field
-          :value="form.num"
-          :error-message="errMsg.num"
-          required
-          clearable
-          label="数量"
-          placeholder="请输入您计划开店的数量"
-          @input="changeNum"
-        />
-        <view class="is-investment">
-          <text>您品牌是否开放招商加盟</text>
-          <van-radio-group
-            :value="form.openjoin"
-            class="store-radio"
-            @change="isJoinIn"
+        <view class="card">
+          <view class="title"> 联系信息 </view>
+          <van-field
+            :value="form.contactUsername"
+            :error-message="errMsg.contactUsername"
+            required
+            clearable
+            label="联系人"
+            placeholder="请输入您的姓名"
+            @input="changeContactUsername"
+          />
+          <van-field
+            :value="form.contactMobile"
+            :error-message="errMsg.contactMobile"
+            label="联系电话"
+            type="digit"
+            placeholder="请输入您的手机号"
+            required
+            @input="changeContactMobile"
+          />
+          <van-field
+            :value="form.indentity"
+            :error-message="errMsg.indentity"
+            label="身份"
+            placeholder="请输入您的身份"
+            required
+            disabled
+            @click.native="showActionSheet('indentity')"
+            is-link
+            arrow-direction="down"
+            @input="changeIndentity"
+          />
+          <van-field
+            :value="form.businessType"
+            :error-message="errMsg.businessType"
+            label="经营类型"
+            placeholder="请选择您商铺物业现况"
+            required
+            disabled
+            @click.native="showActionSheet('businessType')"
+            is-link
+            arrow-direction="down"
+            @input="changeBusinessType"
+          />
+          <van-field
+            :value="form.propertyStatus"
+            :error-message="errMsg.propertyStatus"
+            label="物业现况"
+            placeholder="请选择您商铺物业现况"
+            required
+            disabled
+            @click.native="showActionSheet('propertyStatus')"
+            is-link
+            arrow-direction="down"
+            @input="changePropertyStatus"
+          />
+          <van-field
+            :value="form.propertyType"
+            :error-message="errMsg.propertyType"
+            label="物业类型"
+            placeholder="请选择您商铺物业类型"
+            required
+            disabled
+            @click.native="showActionSheet('propertyType')"
+            is-link
+            arrow-direction="down"
+            @input="changePropertyType"
+          />
+
+          <van-field
+            :value="form.measureArea"
+            :error-message="errMsg.measureArea"
+            required
+            clearable
+            label="面积"
+            placeholder="请输入您商铺的面积"
+            @input="changeMeasureArea"
+            use-button-slot
           >
-            <van-radio name="1" label-disabled>是</van-radio>
-            <van-radio name="0" label-disabled>否</van-radio>
-          </van-radio-group>
+            <text slot="button">m²</text>
+          </van-field>
         </view>
-        <van-field
-          :value="form.joinConditions"
-          :error-message="errMsg.joinConditions"
-          clearable
-          label="加盟条件"
-          placeholder="请输入您的品牌加盟条件"
-          @input="changeJoinConditions"
-        />
+        <view class="card">
+          <view class="title">
+            <text>交易信息</text>
+            <van-icon
+              name="play"
+              color="#1476FD"
+              :style="showTransactionInfo ? 'transform: rotate(90deg)' : ''"
+              @click="showTransactionInfo = !showTransactionInfo"
+            />
+          </view>
+          <view class="content" v-if="showTransactionInfo">
+            <van-field
+              :value="form.monthRent"
+              :error-message="errMsg.monthRent"
+              required
+              clearable
+              label="月租金"
+              placeholder="请输入您期望的月租金"
+              @input="changeMonthRent"
+              use-button-slot
+            >
+              <text slot="button">元</text>
+            </van-field>
+            <van-field
+              :value="form.targetCustomer"
+              :error-message="errMsg.targetCustomer"
+              clearable
+              label="目标客群"
+              placeholder="请输入您开店针对的客户群体"
+              @input="changeTargetCustomer"
+            />
+            <van-field
+              :value="form.customerAveragePrice"
+              :error-message="errMsg.customerAveragePrice"
+              clearable
+              label="客单价"
+              placeholder="请输入您开店的人均消费单价"
+              @input="changeCustomerAveragePrice"
+            />
+            <van-field
+              :value="form.brandName"
+              :error-message="errMsg.brandName"
+              required
+              clearable
+              label="品牌名称"
+              placeholder="请输入您的品牌名称"
+              @input="changeBrandName"
+            />
+            <van-field
+              :value="form.brandProfile"
+              :error-message="errMsg.brandProfile"
+              required
+              clearable
+              label="开店品牌简介"
+              placeholder="请简单介绍一下您的品牌是什么样的店铺"
+              @input="changeBrandProfie"
+            />
+
+            <van-field
+              :value="form.num"
+              :error-message="errMsg.num"
+              required
+              clearable
+              label="数量"
+              placeholder="请输入您计划开店的数量"
+              @input="changeNum"
+            />
+            <view class="is-investment">
+              <text>您品牌是否开放招商加盟</text>
+              <van-radio-group
+                :value="form.openjoin"
+                class="store-radio"
+                @change="isJoinIn"
+              >
+                <van-radio name="1" label-disabled>是</van-radio>
+                <van-radio name="0" label-disabled>否</van-radio>
+              </van-radio-group>
+            </view>
+            <van-field
+              :value="form.joinConditions"
+              :error-message="errMsg.joinConditions"
+              clearable
+              label="加盟条件"
+              placeholder="请输入您的品牌加盟条件"
+              @input="changeJoinConditions"
+            />
+          </view>
+        </view>
+        <view class="card">
+          <view class="title">
+            <text>工程参数</text>
+            <van-icon
+              name="play"
+              color="#1476FD"
+              :style="
+                showEngineeringParameters ? 'transform: rotate(90deg)' : ''
+              "
+              @click="showEngineeringParameters = !showEngineeringParameters"
+            />
+          </view>
+          <view class="content" v-if="showEngineeringParameters">
+            <van-field
+              :value="form.position"
+              :error-message="errMsg.position"
+              label="位置"
+              placeholder="请选择您商铺所在位置"
+              required
+              disabled
+              @click.native="showPosition('position')"
+              is-link
+              arrow-direction="down"
+              @input="changePosition"
+            />
+            <van-field
+              :value="form.engineeringConditions"
+              :error-message="errMsg.engineeringConditions"
+              label="工程条件"
+              placeholder="请选择您商铺具备的工程条件"
+              disabled
+              @click.native="showEngineeringPopup('engineering_conditions')"
+              is-link
+            />
+          </view>
+        </view>
+        <view class="card">
+          <view class="title"> 品牌图片 </view>
+          <view class="content">
+            <view class="submit-btn">
+              <view class="updata">
+                <text>商铺照片</text>
+                <view class="updata-image">
+                  <view class="image-type">
+                    <van-uploader
+                      :file-list="fileList[0]"
+                      max-count="1"
+                      @after-read="afterRead($event, 0)"
+                      preview-size="126rpx"
+                    />
+                    <view class="image-text">品牌logo</view>
+                  </view>
+                </view>
+              </view>
+              <view class="updata">
+                <text>效果图</text>
+                <view class="updata-image">
+                  <view class="image-type">
+                    <van-uploader
+                      :file-list="fileList[1]"
+                      max-count="1"
+                      @after-read="afterRead($event, 1)"
+                      preview-size="126rpx"
+                    />
+                    <view class="image-text">您计划开店效果图</view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
       </van-cell-group>
     </view>
-    <view class="submit-btn">
-      <view class="updata">
-        <text>商铺照片</text>
-        <view class="updata-image">
-          <view class="image-type">
-            <van-uploader
-              :file-list="fileList[0]"
-              max-count="1"
-              @after-read="afterRead($event, 0)"
-              preview-size="126rpx"
-            />
-            <view class="image-text">品牌logo</view>
-          </view>
-        </view>
-      </view>
-      <view class="updata">
-        <text>效果图</text>
-        <view class="updata-image">
-          <view class="image-type">
-            <van-uploader
-              :file-list="fileList[1]"
-              max-count="1"
-              @after-read="afterRead($event, 1)"
-              preview-size="126rpx"
-            />
-            <view class="image-text">您计划开店效果图</view>
-          </view>
-        </view>
-      </view>
+
+    <view class="btn">
+      <van-button type="info" block @click="submit">提交</van-button>
     </view>
-		
-		<view class="btn">
-		  <van-button type="info" block @click="submit">提交</van-button>
-		</view>
 
     <van-action-sheet
       :show="show"
@@ -264,14 +302,14 @@
     >
       <StoreInfo @subimtStoreInfo="subimtStoreInfo" />
     </van-popup>
-	<van-toast id="van-toast" />
+    <van-toast id="van-toast" />
   </view>
 </template>
 
 <script>
 import area from "../../utils/areaT.js";
 import { getBrandAdd } from "../../utils/api.js";
-import Toast from '../../wxcomponents/vant/dist/toast/toast';
+import Toast from "../../wxcomponents/vant/dist/toast/toast";
 
 export default {
   data() {
@@ -283,7 +321,7 @@ export default {
         businessType: "服装",
         propertyStatus: "毛坯",
         propertyType: "社区底商",
-		    province: "440300",
+        province: "440300",
         city: this.$Localtion.city.cityCode,
         region: "440305",
         street: "440305007",
@@ -323,6 +361,8 @@ export default {
         brandLogo: "",
         effectPhotos: "",
       },
+      showTransactionInfo: false,
+      showEngineeringParameters: false,
 
       // 城市
       city: null,
@@ -345,7 +385,7 @@ export default {
       // 身份下拉菜单数据
       indentityList: [],
       // 物业状况下拉菜单数据
-			businessTypeList: [],
+      businessTypeList: [],
       propertyStatusList: [],
       // 物业类型下拉菜单数据
       propertyTypeList: [],
@@ -359,7 +399,6 @@ export default {
       tagList: [],
       selectList: [],
       popupType: "",
-
     };
     // 选择的内容
     activeItme: "";
@@ -392,19 +431,19 @@ export default {
         };
       });
     }
-		// 获取物业状况下拉菜单数据
-		if (
-		  this.Dict &&
-		  this.Dict.property_status &&
-		  this.Dict.property_status.length > 0
-		) {
-		  this.propertyStatusList = this.Dict.property_status.map((item, index) => {
-		    return {
-		      value: item.itemValue,
-		      name: item.itemText,
-		    };
-		  });
-		}
+    // 获取物业状况下拉菜单数据
+    if (
+      this.Dict &&
+      this.Dict.property_status &&
+      this.Dict.property_status.length > 0
+    ) {
+      this.propertyStatusList = this.Dict.property_status.map((item, index) => {
+        return {
+          value: item.itemValue,
+          name: item.itemText,
+        };
+      });
+    }
     // 获取物业类型下拉菜单数据
     if (
       this.Dict &&
@@ -423,9 +462,9 @@ export default {
     onChange(event) {
       this.checked = event.detail;
     },
-		isJoinIn(event) {
-			this.form.openjoin = event.detail
-		},
+    isJoinIn(event) {
+      this.form.openjoin = event.detail;
+    },
     // 选择侧边框选项
     selectTag(index) {
       let list = [];
@@ -444,14 +483,13 @@ export default {
     },
     // 打开侧边弹窗
     showEngineeringPopup(type) {
-        this.showEngineering = true;
-        this.tagList = this.Dict.engineering_conditions.map(
-          (item) => item.itemValue
-        );
-     
+      this.showEngineering = true;
+      this.tagList = this.Dict.engineering_conditions.map(
+        (item) => item.itemValue
+      );
+
       this.popupType = type;
     },
-
 
     subimtStoreInfo(property) {
       this.property = property;
@@ -463,12 +501,12 @@ export default {
     },
 
     complete() {
-        this.showEngineering = false;
-        let res = this.selectList.map((item) => {
-          return this.tagList[item];
-        });
-        console.log(res);
-        this.form.engineeringConditions = res.join(",");
+      this.showEngineering = false;
+      let res = this.selectList.map((item) => {
+        return this.tagList[item];
+      });
+      console.log(res);
+      this.form.engineeringConditions = res.join(",");
     },
 
     // 打开下拉框，重置下拉框中的选项
@@ -506,7 +544,7 @@ export default {
       this.positionValue =
         event.detail.values[event.detail.values.length - 1].code;
       // 城市code
-	  this.form.province = "广东省";
+      this.form.province = "广东省";
       this.form.city = event.detail.values[0].name;
       // 区域code
       this.form.region = event.detail.values[1].name;
@@ -592,16 +630,16 @@ export default {
     changeBrandProfie(e) {
       this.form.brandProfile = e.detail.trim();
     },
-		changeTargetCustomer(e) {
+    changeTargetCustomer(e) {
       this.form.targetCustomer = e.detail.trim();
     },
-		changeCustomerAveragePrice(e) {
+    changeCustomerAveragePrice(e) {
       this.form.customerAveragePrice = e.detail.trim();
     },
-		changeNum(e) {
+    changeNum(e) {
       this.form.num = e.detail.trim();
     },
-		changeJoinConditions(e) {
+    changeJoinConditions(e) {
       this.form.joinConditions = e.detail.trim();
     },
 
@@ -626,94 +664,95 @@ export default {
         effectPhotos: "",
       };
       if (!this.form.contactUsername) {
-          this.errMsg.contactUsername = "联系人不能为空！";
-      		Toast.fail('联系人不能为空！');
-          return false;
-        } else if (!/^[1][3,4,5,7,8,9][0-9]{9}$/.test(this.form.contactMobile)) {
-          this.errMsg.contactMobile = "请输入正确的电话号码";
-      		Toast.fail('请输入正确的电话号码！');
-          return false;
-        } else if (!this.form.indentity) {
-          this.errMsg.indentity = "身份不能为空！";
-      		Toast.fail('身份不能为空！');
-          return false;
-        } else if (!this.form.businessType) {
-          this.errMsg.businessType = "经营类型不能为空！";
-      		Toast.fail('经营类型不能为空！');
-          return false;
-        } else if (!this.form.propertyStatus) {
-          this.errMsg.propertyStatus = "物业类型不能为空！";
-      		Toast.fail('物业类型不能为空！');
-          return false;
-        } else if (!this.form.propertyType) {
-          this.errMsg.propertyType = "物业类型不能为空！";
-      		Toast.fail('物业类型不能为空！');
-          return false;
-        } else if (!this.form.city) {
-          this.errMsg.city = "位置不能为空！";
-      		Toast.fail('位置不能为空！');
-          return false;
-        } else if (!this.form.monthRent) {
-          this.errMsg.monthRent = "月租金不能为空！";
-      		Toast.fail('月租金不能为空！');
-          return false;
-        } else if (!this.form.measureArea) {
-          this.errMsg.measureArea = "面积不能为空！";
-      		Toast.fail('面积不能为空！');
-          return false;
-        } else if (!this.form.brandName) {
-          this.errMsg.brandName = "品牌名称不能为空！";
-      		Toast.fail('品牌名称不能为空！');
-          return false;
-        } else if (!this.form.brandProfile) {
-          this.errMsg.brandProfile = "品牌简介不能为空！";
-      		Toast.fail('品牌简介不能为空！');
-          return false;
-        } else if (!this.form.num) {
-          this.errMsg.num = "数量不能为空！";
-      		Toast.fail('数量不能为空！');
-          return false;
-        } else {
-      		return true
-      	}
-      },
+        this.errMsg.contactUsername = "联系人不能为空！";
+        Toast.fail("联系人不能为空！");
+        return false;
+      } else if (!/^[1][3,4,5,7,8,9][0-9]{9}$/.test(this.form.contactMobile)) {
+        this.errMsg.contactMobile = "请输入正确的电话号码";
+        Toast.fail("请输入正确的电话号码！");
+        return false;
+      } else if (!this.form.indentity) {
+        this.errMsg.indentity = "身份不能为空！";
+        Toast.fail("身份不能为空！");
+        return false;
+      } else if (!this.form.businessType) {
+        this.errMsg.businessType = "经营类型不能为空！";
+        Toast.fail("经营类型不能为空！");
+        return false;
+      } else if (!this.form.propertyStatus) {
+        this.errMsg.propertyStatus = "物业类型不能为空！";
+        Toast.fail("物业类型不能为空！");
+        return false;
+      } else if (!this.form.propertyType) {
+        this.errMsg.propertyType = "物业类型不能为空！";
+        Toast.fail("物业类型不能为空！");
+        return false;
+      } else if (!this.form.city) {
+        this.errMsg.city = "位置不能为空！";
+        Toast.fail("位置不能为空！");
+        return false;
+      } else if (!this.form.monthRent) {
+        this.errMsg.monthRent = "月租金不能为空！";
+        Toast.fail("月租金不能为空！");
+        return false;
+      } else if (!this.form.measureArea) {
+        this.errMsg.measureArea = "面积不能为空！";
+        Toast.fail("面积不能为空！");
+        return false;
+      } else if (!this.form.brandName) {
+        this.errMsg.brandName = "品牌名称不能为空！";
+        Toast.fail("品牌名称不能为空！");
+        return false;
+      } else if (!this.form.brandProfile) {
+        this.errMsg.brandProfile = "品牌简介不能为空！";
+        Toast.fail("品牌简介不能为空！");
+        return false;
+      } else if (!this.form.num) {
+        this.errMsg.num = "数量不能为空！";
+        Toast.fail("数量不能为空！");
+        return false;
+      } else {
+        return true;
+      }
+    },
 
     //提交数据
     submit() {
-			const params = this.form;
-			console.log(this.fileList)
-			if(this.fileList[0].length){
-				params.brandLogo = this.fileList[0][0].url
-			}
-			if(this.fileList[1].length){
-				params.effectPhotos = this.fileList[1][0].url
-			}
-		
-			if (this.checkInput()) {
-				params.accessToken = this.accessToken;
-				const toast = Toast.loading({
-					message: '提交中...',
-					forbidClick: true,
-					loadingType: 'spinner',
-				});
-				console.log(params)
-				getBrandAdd(params).then((res) => {
-					const data = res.data;
-					if (data.code == "200") {
-						Toast.success('发布成功');
-						setTimeout(()=>{
-							uni.switchTab({
-								url: '../Index/index'
-							});
-						},2000)
-					}else{		
-						Toast.fail(data.message);	
-					}
-				}).catch(error => {
-					Toast.fail(this.global.error);
-				});
-			}
-		
+      const params = this.form;
+      console.log(this.fileList);
+      if (this.fileList[0].length) {
+        params.brandLogo = this.fileList[0][0].url;
+      }
+      if (this.fileList[1].length) {
+        params.effectPhotos = this.fileList[1][0].url;
+      }
+
+      if (this.checkInput()) {
+        params.accessToken = this.accessToken;
+        const toast = Toast.loading({
+          message: "提交中...",
+          forbidClick: true,
+          loadingType: "spinner",
+        });
+        console.log(params);
+        getBrandAdd(params)
+          .then((res) => {
+            const data = res.data;
+            if (data.code == "200") {
+              Toast.success("发布成功");
+              setTimeout(() => {
+                uni.switchTab({
+                  url: "../Index/index",
+                });
+              }, 2000);
+            } else {
+              Toast.fail(data.message);
+            }
+          })
+          .catch((error) => {
+            Toast.fail(this.global.error);
+          });
+      }
     },
   },
 };
@@ -721,9 +760,25 @@ export default {
 
 <style lang="scss" scoped>
 .v-agent {
-  .from {
-    padding: 0 20rpx;
+  padding: 40rpx 36rpx;
+  background: #f5f5f5;
 
+  .card {
+    background: #fff;
+    border-radius: 30rpx;
+    margin-bottom: 40rpx;
+    padding: 30rpx 0;
+
+    .title {
+      padding: 0 20rpx;
+      font-size: 34rpx;
+      color: #1476fd;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  .from {
     /deep/ .van-field__label--disabled {
       color: #646566;
     }
@@ -749,7 +804,6 @@ export default {
 
   .submit-btn {
     padding: 0 46rpx;
-    background-color: #f8f8f8;
     display: flex;
 
     .updata {
@@ -790,10 +844,10 @@ export default {
       margin-top: 30rpx;
     }
   }
-	
-	.btn {
-		padding: 50rpx 50rpx;
-	}
+
+  .btn {
+    padding: 50rpx 50rpx;
+  }
 
   .pop-content {
     .hot {
