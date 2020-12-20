@@ -31,13 +31,14 @@
 					<van-tree-select height="100vw" max="10" :items="AreaStreets" :main-active-index="mainActiveIndex" :active-id="paras.streetId"
 					 selected-icon="success" @click-nav="onClickNav" @click-item="onClickItem" />
 				</van-dropdown-item>
-				<van-dropdown-item title="类型" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
+				<van-dropdown-item title="业态" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
 					<van-tree-select height="100vw" max="10" :items="typeList" :main-active-index="typeActiveIndex" :active-id="paras.shopCategoryIds"
 					 selected-icon="success" @click-nav="onClickType" @click-item="onClickTypeItem" />
 				</van-dropdown-item>
-				<van-dropdown-item title="租金" :style="{display: monthShow ? 'block' : 'none'}" @close="monthShow=false" @open="monthShow=true"
-				 :options="monthRentList" @change="changeMonthRent"></van-dropdown-item>
-				<van-dropdown-item title="面积" :style="{display: propertyShow ? 'block' : 'none'}" @close="propertyShow=false" @open="propertyShow=true"
+				<van-dropdown-item title="物业"  :style="{display: propertyShow ? 'block' : 'none'}" @close="propertyShow=false"
+				@open="propertyShow=true" :options="propertyList" @change="changePropertyType"></van-dropdown-item>
+				
+				<van-dropdown-item title="面积" :style="{display: measureShow ? 'block' : 'none'}" @close="measureShow=false" @open="measureShow=true"
 				 :options="searchAreaList" @change="changeAreaRent"></van-dropdown-item>
 				 <!--
 				<van-dropdown-item  title="更多" :style="{display: moreShow ? 'block' : 'none'}" @close="moreShow=false;searchList()"
@@ -109,7 +110,7 @@
 <script>
 	/*
 	品牌页的筛选条件 区域 类型 业态 面积 
-	*商铺页的筛选条件 区域 类型 租金 面积
+	*商铺页的筛选条件 区域 类型 物业 面积
 	购物中心内页的筛选条件 业态 楼层 租金 面积
 	品牌内页的筛选条件 区域 品类 面积
 	*/
@@ -142,6 +143,7 @@
 				typeList:[],
 				shopList: [],
 				searchAreaList: [], //面积
+				propertyList:[],//物业
 				monthRentList: [],
 				moneyList: [{
 					text: "0-2000元",
@@ -151,6 +153,7 @@
 				monthShow: false,
 				moreShow: false,
 				areaShow: false,
+				measureShow:false,
 				typeShow: false,
 				measureAreaEnd: "",
 				measureAreaStart: "",
@@ -323,6 +326,12 @@
 
 			//转换格式
 			changeDict() {
+				this.propertyList = [];
+				this.Dict.property_type.forEach((item)=>{
+					this.propertyList.push({
+						text: item.itemText, value: item.itemValue
+					})
+				})
 				this.searchAreaList = [{
 						text: "不限",
 						value: "",

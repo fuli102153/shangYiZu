@@ -301,7 +301,7 @@
 					{
 						name: '专业市场',
 						src: '../../static/images/icon_10.png',
-						router: '../ShoppingMall/index?projectType=9'
+						router: '../ShoppingMall/index?id=9'
 					},
 				],
 				localtionCity:{},

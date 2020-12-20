@@ -2,69 +2,20 @@
 	<!-- 购物中心 -->
 	<view class="v-shopping-mall">
 		<van-sticky>
-		
+			<!--业态 楼层 租金 面积-->
 			<van-dropdown-menu>
-				<van-dropdown-item title="区域" :style="{display: areaShow ? 'block' : 'none'}"  @close="areaShow=false" 
-				@open="areaShow=true">
-					<van-tree-select height="55vw" max="10" :items="AreaStreets" :main-active-index="mainActiveIndex" :active-id="paras.streetId" selected-icon="success"
-					 @click-nav="onClickNav" @click-item="onClickItem" />
+				<van-dropdown-item title="业态" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
+					<van-tree-select height="100vw" max="10" :items="typeList" :main-active-index="typeActiveIndex" :active-id="paras.shopCategoryIds"
+					 selected-icon="success" @click-nav="onClickType" @click-item="onClickTypeItem" />
 				</van-dropdown-item>
-				<van-dropdown-item title="月租金" :style="{display: monthShow ? 'block' : 'none'}"  @close="monthShow=false" 
+				<van-dropdown-item title="楼层"  :style="{display: floorShow ? 'block' : 'none'}" @close="floorShow=false"
+				@open="floorShow=true" :options="floorList" @change="changeFloor"></van-dropdown-item>
+				<van-dropdown-item title="租金" :style="{display: monthShow ? 'block' : 'none'}"  @close="monthShow=false" 
 				@open="monthShow=true" :options="monthRentList" @change="changeMonthRent"></van-dropdown-item>
-				<van-dropdown-item title="物业"  :style="{display: propertyShow ? 'block' : 'none'}" @close="propertyShow=false" 
-				@open="propertyShow=true" :options="propertyList" @change="changePropertyType"></van-dropdown-item>
-				<van-dropdown-item title="更多"  :style="{display: moreShow ? 'block' : 'none'}"  @close="moreShow=false;searchList()" 
-				@open="moreShow=true">
-					<van-tree-select
-						  :items="sortList"
-						  :main-active-index="sortActiveIndex"
-						  :active-id="sortActiveId"
-							height="412rpx"
-						  @click-nav="onClickItemNav"
-						  @click-item="onClickItemSort"
-						/>
-						<view class="month-rent">
-							<view class="label">
-								面积
-							</view>
-							<view class="content">
-								<view class="start">
-									<input type="text" v-model="measureAreaStart" value="" />
-									<text>m²</text>
-								</view>
-								<text>—</text>
-								<view class="start end">
-									<input type="text" v-model="measureAreaEnd" value="" />
-									<text>m²</text>
-								</view>
-							</view>
-						</view>
-						<view class="floor hot">
-							<view class="title">
-								楼层
-							</view>
-							<view class="hot-tag">
-								<view color="#B2B2B2" class="tag-item" :class="tagIndex == index ? 'active' : ''" v-for="(item, index) in tagList" :key="index" @click="selectTag(index)">{{ item.itemText }}</view>
-							</view>
-						</view>
-						<view class="lease hot">
-							<view class="title">
-								租赁性质
-							</view>
-							<view class="hot-tag">
-								<view color="#B2B2B2" class="tag-item" :class="leaseTagIndex == index ? 'active' : ''" v-for="(item, index) in leaseTagList" :key="index" @click="selectLeaseTag(index)">{{ item.itemText }}</view>
-							</view>
-						</view>
-						<view class="other hot" v-if="0">
-							<view class="title">
-								其他
-							</view>
-							<view class="hot-tag">
-								<view color="#B2B2B2" class="tag-item" :class="otherTagIndex == index ? 'active' : ''" v-for="(item, index) in otherTagList" :key="index" @click="selecOthertTag(index)">{{ item }}</view>
-							</view>
-						</view>
-					</van-dropdown-item>
-				</van-dropdown-item>
+				<van-dropdown-item title="面积" :style="{display: measureShow ? 'block' : 'none'}" @close="measureShow=false" @open="measureShow=true"
+				 :options="searchAreaList" @change="changeAreaRent"></van-dropdown-item>
+				
+				
 			</van-dropdown-menu> 
 			
 		</van-sticky>
@@ -83,11 +34,7 @@
 			</view>
 		</view>
 		<view class="view-list">
-			<van-sidebar :active-key="activeKey" @change="onChange">
-			  <van-sidebar-item :title="item.text" v-for="(item,index) in businessList" :key="index" />
-			</van-sidebar>
 			<view class="store-list" >
-				
 				<van-empty v-if="shopList.length==0" description="暂无数据" />
 				<StoreCard v-else v-for="(item,index) in shopList" :sourceData="item" :key="index" />
 			</view>
@@ -100,7 +47,7 @@
 	import StoreCard from '../../components/Card/Store'
 	import Toast from '../../wxcomponents/vant/dist/toast/toast';
 	import Dialog from '../../wxcomponents/vant/dist/dialog/dialog';
-	import {getProjectAndShopList,getAreaStreets,getCity} from "../../utils/api.js"
+	import {getProjectAndShopList,getAreaStreets,getCity,getPropertyFormAllData} from "../../utils/api.js"
 	export default {
 		components: {
 			StoreCard
@@ -111,10 +58,11 @@
 					activeKey: 0,
 					locationShow: false,
 					cityList: [],
+					typeList:[],
 					activeCity: '',
 					value: '',
 					mainActiveIndex: 0,
-					
+					typeActiveIndex: 0,
 					
 					AreaStreets: [],
 					shopList:[],
@@ -122,13 +70,18 @@
 					propertyList:[],//物业
 					monthRentList:[],
 					businessList:[],//业态
+					searchAreaList:[],//面积
+					floorList:[],//楼层
 					moneyList:[
 						{text: "0-2000元", value: 0}
 					],
 					propertyShow:false,
+					typeShow: false,
 					monthShow:false,
 					moreShow:false,
 					areaShow:false,
+					measureShow:false,
+					floorShow:false,
 					measureAreaEnd:"",
 					measureAreaStart:"",
 					sortList: [
@@ -151,9 +104,11 @@
 					otherTagIndex:-1,
 					selectOtherList: [],
 					
+					
 					paras:{
 						projectId:"",
 						businessType:"",
+						shopCategoryIds:[],
 						shopName:"",
 						label:"",
 						distance:"",
@@ -184,6 +139,8 @@
 			this.ajaxGetCityList();
 			//请求城市联动
 			this.ajaxGetAreaStreets();
+			//获取全部业态数据
+			this.ajaxGetPropertyFormAllData();
 			
 			this.sortList[0].children = this.Dict.search_more_sort.map(item => {
 				return {
@@ -283,6 +240,31 @@
 					})
 				})
 				
+				this.searchAreaList = [{
+						text: "不限",
+						value: "",
+					}];
+				this.Dict.search_area.forEach((item) => {
+					this.searchAreaList.push({
+						text: item.itemText,
+						value: item.itemValue,
+					});
+				});
+				
+				this.floorList = [{
+						text: "不限",
+						value: "",
+					}];
+				this.Dict.search_more_floorNum.forEach((item) => {
+					this.floorList.push({
+						text: item.itemText,
+						value: item.itemValue,
+					});
+				});
+				
+				
+				
+				
 			},
 			// 打开关闭弹出层
 			showPopup() {
@@ -322,6 +304,12 @@
 				this.ajaxGetShopList();
 			},
 			
+			changeFloor(e){
+			
+				this.paras.floorNum = Number(e.detail);
+				this.ajaxGetShopList();
+			},
+			
 			
 			onClickLeft() {
 				uni.navigateBack()
@@ -337,6 +325,27 @@
 				//console.log(e)
 				this.paras.streetId = this.paras.streetId === e.detail.id ? null : e.detail.id;
 				this.ajaxGetShopList();
+			},
+			
+			
+			//左侧导航点击时，触发的事件
+			onClickType(e) {
+				this.typeActiveIndex = e.detail.index || 0;
+				let t = this.typeList[this.typeActiveIndex].id;
+				
+				
+			},
+			//右侧选择项被点击时，会触发的事件
+			onClickTypeItem(e) {
+				//console.log(e)
+			
+				const index = this.paras.shopCategoryIds.indexOf(e.detail.id);
+				if (index > -1) {
+				  this.paras.shopCategoryIds.splice(index, 1);
+				} else {
+				  this.paras.shopCategoryIds.push(e.detail.id);
+				}
+				this.ajaxGetShopList();	
 			},
 			
 			// 进入商铺详情页
@@ -355,6 +364,7 @@
 				
 				const paras = {
 					projectId:this.paras.projectId,
+					shopCategoryIds:this.paras.shopCategoryIds.join(","),
 					businessType:this.paras.businessType,
 					pageNo:1,
 					pageSize:10,
@@ -458,6 +468,55 @@
 				
 				});
 			},
+			
+			
+			ajaxGetPropertyFormAllData() {
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					
+				};
+				paras.accessToken = that.accessToken;
+			
+				getPropertyFormAllData(paras)
+					.then((res) => {
+						const data = res.data;
+						console.log(data);
+			
+						if (data.code == "200") {
+							that.typeList = [];
+							data.data.forEach((item) => {
+								
+								
+								item.children && item.children.forEach((street) => {
+									if(street.name!="全部"){
+										let area = {};
+										area.id = street.id;
+										area.text = street.name;
+										area.children = [];
+										
+										street.children && street.children.forEach((three) => {
+											let streetItem = {};
+											streetItem.id = three.id;
+											streetItem.text = three.name;
+											area.children.push(streetItem);
+										})		
+										that.typeList.push(area);
+									}
+									
+								});
+								
+								
+								
+								
+							});
+							that.$forceUpdate();
+							console.log(that.typeList)
+						} else {}
+					})
+					.catch((error) => {});
+			},
+			
 			
 			
 		}

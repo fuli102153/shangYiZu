@@ -363,7 +363,7 @@
 
 		.store-list {
 			padding: 30rpx 25rpx;
-			background-color: #F5F8FA;
+			background-color: #fff;
 		}
 		.btn {
 			display: flex;
