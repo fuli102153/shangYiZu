@@ -171,37 +171,15 @@
           </view>
         </view>
         <view class="card">
-          <view class="title">
+          <view class="title" @click="showStoreInfo = !showStoreInfo">
             <text>交易信息</text>
             <van-icon
               name="play"
               color="#1476FD"
               :style="showStoreInfo ? 'transform: rotate(90deg)' : ''"
-              @click="showStoreInfo = !showStoreInfo"
             />
           </view>
           <view class="content" v-if="showStoreInfo">
-            <van-field
-              :value="form.freeTenancy"
-              :error-message="errMsg.freeTenancy"
-              clearable
-              label="免租期"
-              placeholder="请输入您商铺的免租期"
-              @input="changeFreeTenancy"
-              use-button-slot
-            >
-              <text slot="button">月</text>
-            </van-field>
-            <van-field
-              :value="property.transferFee"
-              clearable
-              label="转让费"
-              placeholder="您店铺的转让费"
-              use-button-slot
-              @input="changTransferFee"
-            >
-              <text slot="button">元</text>
-            </van-field>
             <van-field
               :value="property.payMode"
               clearable
@@ -217,9 +195,30 @@
               @input="changRentIncrease"
             />
             <van-field
+              :value="form.freeTenancy"
+              :error-message="errMsg.freeTenancy"
+              clearable
+              label="免租期限"
+              placeholder="请输入您商铺的免租期"
+              @input="changeFreeTenancy"
+              use-button-slot
+            >
+              <text slot="button">月</text>
+            </van-field>
+            <van-field
+              :value="property.transferFee"
+              clearable
+              label="转让费用"
+              placeholder="您店铺的转让费"
+              use-button-slot
+              @input="changTransferFee"
+            >
+              <text slot="button">元</text>
+            </van-field>
+            <van-field
               :value="property.waterRate"
               clearable
-              label="水费"
+              label="水务费用"
               placeholder="您店铺的用水费用"
               use-button-slot
               @input="changWaterRate"
@@ -229,7 +228,7 @@
             <van-field
               :value="property.powerRate"
               clearable
-              label="电费"
+              label="电务费用"
               placeholder="您店铺的用电费用"
               use-button-slot
               @input="changPowerRate"
@@ -239,7 +238,7 @@
           </view>
         </view>
         <view class="card">
-          <view class="title">
+          <view class="title" @click="showEngineeringParameters = !showEngineeringParameters">
             <text>工程参数</text>
             <van-icon
               name="play"
@@ -247,7 +246,6 @@
               :style="
                 showEngineeringParameters ? 'transform: rotate(90deg)' : ''
               "
-              @click="showEngineeringParameters = !showEngineeringParameters"
             />
           </view>
           <view class="content" v-if="showEngineeringParameters">

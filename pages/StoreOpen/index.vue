@@ -85,13 +85,12 @@
           </van-field>
         </view>
         <view class="card">
-          <view class="title">
+          <view class="title" @click="showTransactionInfo = !showTransactionInfo">
             <text>交易信息</text>
             <van-icon
               name="play"
               color="#1476FD"
               :style="showTransactionInfo ? 'transform: rotate(90deg)' : ''"
-              @click="showTransactionInfo = !showTransactionInfo"
             />
           </view>
           <view class="content" v-if="showTransactionInfo">
@@ -173,7 +172,7 @@
           </view>
         </view>
         <view class="card">
-          <view class="title">
+          <view class="title" @click="showEngineeringParameters = !showEngineeringParameters">
             <text>工程参数</text>
             <van-icon
               name="play"
@@ -181,7 +180,6 @@
               :style="
                 showEngineeringParameters ? 'transform: rotate(90deg)' : ''
               "
-              @click="showEngineeringParameters = !showEngineeringParameters"
             />
           </view>
           <view class="content" v-if="showEngineeringParameters">
