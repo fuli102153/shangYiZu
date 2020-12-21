@@ -11,18 +11,18 @@
 				</swiper-item>
 			</swiper>
 		</uni-swiper-dot>
-		<van-sticky style="position: relative; top:-30rpx;border-radius: 30rpx 30rpx 0 0;">
+		<van-sticky style="position: relative; top:-36rpx;">
 			<!--业态 楼层 租金 面积-->
 			<van-dropdown-menu>
-				<van-dropdown-item title="业态" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
-					<van-tree-select height="100vw" max="10" :items="typeList" :main-active-index="typeActiveIndex" :active-id="paras.shopCategoryIds"
+				<van-dropdown-item  title="业态" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
+					<van-tree-select height="60vw" max="10" :items="typeList" :main-active-index="typeActiveIndex" :active-id="paras.shopCategoryIds"
 					 selected-icon="success" @click-nav="onClickType" @click-item="onClickTypeItem" />
 				</van-dropdown-item>
 				<van-dropdown-item title="楼层"  :style="{display: floorShow ? 'block' : 'none'}" @close="floorShow=false"
 				@open="floorShow=true" :options="floorList" @change="changeFloor"></van-dropdown-item>
 				<van-dropdown-item title="面积" :style="{display: measureShow ? 'block' : 'none'}" @close="measureShow=false" @open="measureShow=true"
 				 :options="searchAreaList" @change="changeAreaRent"></van-dropdown-item>
-				<van-dropdown-item title="租金" :style="{display: monthShow ? 'block' : 'none'}"  @close="monthShow=false" 
+				<van-dropdown-item  title="租金" :style="{display: monthShow ? 'block' : 'none'}"  @close="monthShow=false" 
 				@open="monthShow=true" :options="monthRentList" @change="changeMonthRent"></van-dropdown-item>
 				
 				
@@ -171,12 +171,22 @@
 			console.log(this.Dict.business_type)
 			this.changeDict();
 		},
+		onReachBottom() {
+			console.log("onReachBottom");
+			this.loadMoreText = '更多';
+			this.ajaxGetShopList();
+		},
+		onPullDownRefresh() {
+			console.log("onPullDownRefresh");
+			this.reload = true;
+			this.ajaxGetShopList();
+		},
 		methods: {
 			
 			onChange(event) {
 				this.activeKey = event.detail;
 				this.paras.businessType = this.businessList[event.detail].value;
-				this.ajaxGetShopList();
+				this.reloadData();
 			},
 			
 			selectTag(index) {
@@ -213,7 +223,7 @@
 				}
 				
 				
-				this.ajaxGetShopList();
+				this.reloadData();
 			},
 			
 			onClickItemNav(e){
@@ -305,18 +315,25 @@
 				this.paras.monthRentEnd = Number(e.detail.split("-")[1]);
 				console.log(this.paras.monthRentStart)
 				console.log(this.paras.monthRentEnd)
-				this.ajaxGetShopList();
+				this.reloadData();
 			},
 			
 			changePropertyType(e){
 			
 				this.paras.propertyType = Number(e.detail);
-				this.ajaxGetShopList();
+				this.reloadData();
 			},
 			
 			changeFloor(e){
 			
-				this.paras.floorNum = Number(e.detail);
+				this.paras.floorNum = e.detail;
+				this.paras.floorNum = this.paras.floorNum.replace(/&lt;/g,"<");
+				this.paras.floorNum = this.paras.floorNum.replace(/&gt;/g,">");
+				this.reloadData();
+			},
+			
+			reloadData(){
+				this.shopList = [];
 				this.ajaxGetShopList();
 			},
 			
@@ -334,7 +351,7 @@
 			onClickItem(e) {
 				//console.log(e)
 				this.paras.streetId = this.paras.streetId === e.detail.id ? null : e.detail.id;
-				this.ajaxGetShopList();
+				this.reloadData();
 			},
 			
 			
@@ -355,7 +372,7 @@
 				} else {
 				  this.paras.shopCategoryIds.push(e.detail.id);
 				}
-				this.ajaxGetShopList();	
+				this.reloadData();	
 			},
 			
 			// 进入商铺详情页
@@ -376,6 +393,22 @@
 					projectId:this.paras.projectId,
 					shopCategoryIds:this.paras.shopCategoryIds.join(","),
 					businessType:this.paras.businessType,
+					cityCode:this.$Localtion.city.cityCode,
+					shopName:this.paras.shopName,
+					label:this.paras.label,
+					distance:this.paras.distance,
+					regionCode:this.paras.regionId,
+					streetCode:this.paras.streetId,
+					metroLine:this.paras.metroLine,
+					monthRentStart:this.paras.monthRentStart,
+					monthRentEnd:this.paras.monthRentEnd,
+					sort:this.paras.sort,
+					floorNum:this.paras.floorNum,
+					indentity:this.paras.indentity,
+					engineeringConditions:this.paras.engineeringConditions,
+					propertyType:this.paras.propertyType,
+					measureAreaStart:this.paras.measureAreaStart,
+					measureAreaEnd:this.paras.measureAreaEnd,
 					pageNo:1,
 					pageSize:10,
 				};
@@ -689,6 +722,10 @@
 				border: 1rpx solid #1676FE;
 			}
 		}
+	}
+	
+	/deep/ .van-dropdown-menu{
+		border-radius: 36rpx !important;
 	}
 		
 </style>

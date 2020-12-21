@@ -8,7 +8,7 @@
 			
 			<van-dropdown-menu>
 				
-				<van-dropdown-item title="业态" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
+				<van-dropdown-item  title="业态" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
 					<van-tree-select height="100vw" max="10" :items="typeList" main-active-class="font-size:100rpx;color:#f0f0f0"  :main-active-index="typeActiveIndex" :active-id="paras.shopCategoryIds"
 					 selected-icon="success" @click-nav="onClickType" @click-item="onClickTypeItem" />
 				</van-dropdown-item>
