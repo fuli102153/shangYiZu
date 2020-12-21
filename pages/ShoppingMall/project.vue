@@ -610,7 +610,7 @@
 				flex: 1;
 				height: 100%;
 				overflow: auto;
-				padding: 0 16rpx;
+				padding: 0 36rpx;
 			}
 		}
 	}

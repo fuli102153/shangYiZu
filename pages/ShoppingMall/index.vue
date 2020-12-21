@@ -128,7 +128,7 @@
 			let id = '';
 			if (paras.projectType == 1) {
 				title = '餐饮美食';
-				id = "1";
+				id = "306";
 			} else if (paras.projectType == 2) {
 				title = '娱乐酒店';
 				id = "2";
@@ -368,7 +368,10 @@
 			onClickType(e) {
 				this.typeActiveIndex = e.detail.index || 0;
 				let t = this.typeList[this.typeActiveIndex].id;
-				
+				if(this.paras.shopCategoryIds != t){
+					this.paras.shopCategoryIds = [t];
+					this.reloadData();
+				}
 				
 			},
 			//右侧选择项被点击时，会触发的事件
@@ -680,7 +683,7 @@
 				flex: 1;
 				height: 100%;
 				overflow: auto;
-				padding: 0 16rpx;
+				padding: 0 36rpx;
 			}
 		}
 	}
