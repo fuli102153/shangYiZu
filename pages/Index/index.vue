@@ -236,13 +236,7 @@
 				cityList: [],
 				activeCity: null,
 				// 轮播图
-				info: [{
-					content: '内容 A'
-				}, {
-					content: '内容 B'
-				}, {
-					content: '内容 C'
-				}],
+				info: [],
 				current: 0,
 				mode: 'round',
 				dotsStyles: {
@@ -444,6 +438,7 @@
 					console.log(data);
 					if(data.code=="200"){
 						that.bannerList = data.data;
+						that.info = data.data;
 					}else{
 						
 					}

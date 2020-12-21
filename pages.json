@@ -412,6 +412,7 @@
 			"path": "pages/ShoppingMall/project",
 			"style": {
 				"navigationBarTitleText": "项目物业",
+				"navigationStyle":"custom",  
 				"usingComponents":{
 					"van-search": "/wxcomponents/vant/dist/search/index",
 					"van-icon": "/wxcomponents/vant/dist/icon/index",

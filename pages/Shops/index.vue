@@ -27,13 +27,14 @@
 			</van-popup>
 			
 			<van-dropdown-menu>
-				<van-dropdown-item title="区域" :style="{display: areaShow ? 'block' : 'none'}" @close="areaShow=false" @open="areaShow=true">
-					<van-tree-select height="100vw" max="10" :items="AreaStreets" :main-active-index="mainActiveIndex" :active-id="paras.streetId"
-					 selected-icon="success" @click-nav="onClickNav" @click-item="onClickItem" />
-				</van-dropdown-item>
+				
 				<van-dropdown-item title="业态" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
 					<van-tree-select height="100vw" max="10" :items="typeList" :main-active-index="typeActiveIndex" :active-id="paras.shopCategoryIds"
 					 selected-icon="success" @click-nav="onClickType" @click-item="onClickTypeItem" />
+				</van-dropdown-item>
+				<van-dropdown-item title="区域" :style="{display: areaShow ? 'block' : 'none'}" @close="areaShow=false" @open="areaShow=true">
+					<van-tree-select height="100vw" max="10" :items="AreaStreets" :main-active-index="mainActiveIndex" :active-id="paras.streetId"
+					 selected-icon="success" @click-nav="onClickNav" @click-item="onClickItem" />
 				</van-dropdown-item>
 				<van-dropdown-item title="物业"  :style="{display: propertyShow ? 'block' : 'none'}" @close="propertyShow=false"
 				@open="propertyShow=true" :options="propertyList" @change="changePropertyType"></van-dropdown-item>
@@ -657,7 +658,11 @@
 						console.log(data);
 
 						if (data.code == "200") {
-							that.typeList = [];
+							that.typeList = [{
+								id:"",
+								text:"不限",
+								children:[]
+							}];
 							data.data.forEach((item) => {
 								
 								

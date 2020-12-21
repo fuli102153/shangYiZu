@@ -1,5 +1,5 @@
 <template>
-  <view class="vc-brand-card" :class="isShowLine?'':'bottom-line'" @click="goBrandDetails(source.brandNo)">
+  <view class="vc-brand-card" :class="isShowLine?'':'bottom-line'" @click="goBrandDetails(source.id)">
 		<view class="store-img">
 			<image :src="source.brandLogo ? source.brandLogo.split(',')[0] : '../../static/logo.png'"></image> 
 		</view>

@@ -1,7 +1,17 @@
 <template>
 	<!-- 购物中心 -->
 	<view class="v-shopping-mall">
-		<van-sticky>
+		<!-- 轮播图 -->
+		<uni-swiper-dot class="projectPic" style="width: 100%; height: 640rpx;" :info="info" :current="current" field="content" :mode="mode" :dotsStyles="dotsStyles">
+			<swiper  class="swiper-box projectPic"  :interval="5000" :autoplay="true">
+				<swiper-item class="projectPic" v-for="(item ,index) in projectEffectPicList" :key="index">
+					<view class="swiper-item">
+						<image :src="item" mode="" class="projectPic"></image>
+					</view>
+				</swiper-item>
+			</swiper>
+		</uni-swiper-dot>
+		<van-sticky style="position: relative; top:-30rpx;border-radius: 30rpx 30rpx 0 0;">
 			<!--业态 楼层 租金 面积-->
 			<van-dropdown-menu>
 				<van-dropdown-item title="业态" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
@@ -10,29 +20,17 @@
 				</van-dropdown-item>
 				<van-dropdown-item title="楼层"  :style="{display: floorShow ? 'block' : 'none'}" @close="floorShow=false"
 				@open="floorShow=true" :options="floorList" @change="changeFloor"></van-dropdown-item>
-				<van-dropdown-item title="租金" :style="{display: monthShow ? 'block' : 'none'}"  @close="monthShow=false" 
-				@open="monthShow=true" :options="monthRentList" @change="changeMonthRent"></van-dropdown-item>
 				<van-dropdown-item title="面积" :style="{display: measureShow ? 'block' : 'none'}" @close="measureShow=false" @open="measureShow=true"
 				 :options="searchAreaList" @change="changeAreaRent"></van-dropdown-item>
+				<van-dropdown-item title="租金" :style="{display: monthShow ? 'block' : 'none'}"  @close="monthShow=false" 
+				@open="monthShow=true" :options="monthRentList" @change="changeMonthRent"></van-dropdown-item>
+				
 				
 				
 			</van-dropdown-menu> 
 			
 		</van-sticky>
-		<view class="image-list" v-if="0">
-			<view class="recommend-content">
-				<view class="recommend-list">
-					<view class="recommend-item" v-for="(item,index) in projectList" :key="index">
-						<view class="recommend-image">
-							<image :src="item.projectImg"></image>
-						</view>
-						<view class="recommend-text">
-							{{item.projectName}}
-						</view>
-					</view>
-				</view>
-			</view>
-		</view>
+		
 		<view class="view-list">
 			<view class="store-list" >
 				<van-empty v-if="shopList.length==0" description="暂无数据" />
@@ -54,7 +52,18 @@
 		},
 		data() {
 			return {
-				
+					// 轮播图
+					info: [],
+					current: 0,
+					mode: 'round',
+					dotsStyles: {
+						width: 5,
+						height: 5,
+						backgroundColor: '#7D7D7D',
+						selectedBackgroundColor: '#1FA1FF',
+						border: 'none',
+						selectedBorder: 'none'
+					},
 					activeKey: 0,
 					locationShow: false,
 					cityList: [],
@@ -103,12 +112,13 @@
 					otherTagList: [],
 					otherTagIndex:-1,
 					selectOtherList: [],
-					
+					projectEffectPicList:[],//项目效果图
 					
 					paras:{
 						projectId:"",
 						businessType:"",
 						shopCategoryIds:[],
+						
 						shopName:"",
 						label:"",
 						distance:"",
@@ -383,7 +393,8 @@
 						setTimeout(() => {
 							Toast.clear();
 						}, 300)
-						that.projectList = [data.project];
+						that.projectEffectPicList = data.project.projectEffectPic.split(",");
+						console.log(that.projectEffectPicList)
 						that.shopList = data.shopList;
 						that.$forceUpdate();
 					
@@ -484,7 +495,11 @@
 						console.log(data);
 			
 						if (data.code == "200") {
-							that.typeList = [];
+							that.typeList = [{
+								id:"",
+								text:"不限",
+								children:[]
+							}];
 							data.data.forEach((item) => {
 								
 								
@@ -524,10 +539,15 @@
 </script>
 
 <style lang="scss" scoped>
+	.projectPic{
+		width: 100%;
+		height: 640rpx;
+	}
 	.v-shopping-mall {
 		height: 100vh;
 		display: flex;
 		flex-direction: column;
+		
 		.region {
 			display: flex;
 

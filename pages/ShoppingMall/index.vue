@@ -1,17 +1,20 @@
 <template>
 	<!-- 购物中心 -->
 	<view class="v-shopping-mall">
+		
+		
 		<van-sticky>
 		
 			
 			<van-dropdown-menu>
+				
+				<van-dropdown-item title="业态" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
+					<van-tree-select height="100vw" max="10" :items="typeList" main-active-class="font-size:100rpx;color:#f0f0f0"  :main-active-index="typeActiveIndex" :active-id="paras.shopCategoryIds"
+					 selected-icon="success" @click-nav="onClickType" @click-item="onClickTypeItem" />
+				</van-dropdown-item>
 				<van-dropdown-item title="区域" :style="{display: areaShow ? 'block' : 'none'}" @close="areaShow=false" @open="areaShow=true">
 					<van-tree-select height="100vw" max="10" :items="AreaStreets" :main-active-index="mainActiveIndex" :active-id="paras.streetId"
 					 selected-icon="success" @click-nav="onClickNav" @click-item="onClickItem" />
-				</van-dropdown-item>
-				<van-dropdown-item title="类型" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
-					<van-tree-select height="100vw" max="10" :items="typeList" :main-active-index="typeActiveIndex" :active-id="paras.shopCategoryIds"
-					 selected-icon="success" @click-nav="onClickType" @click-item="onClickTypeItem" />
 				</van-dropdown-item>
 				<van-dropdown-item v-if="0" title="租金" :style="{display: monthShow ? 'block' : 'none'}" @close="monthShow=false" @open="monthShow=true"
 				 :options="monthRentList" @change="changeMonthRent"></van-dropdown-item>
@@ -23,20 +26,7 @@
 			</van-dropdown-menu>
 			<!--<SelectHeader @onChangeMit="onChangeMit"></SelectHeader>-->
 		</van-sticky>
-		<view class="image-list" >
-			<view class="recommend-content">
-				<view class="recommend-list">
-					<view class="recommend-item" v-for="(item,index) in projectList" :key="index">
-						<view class="recommend-image">
-							<image :src="item.projectImg"></image>
-						</view>
-						<view class="recommend-text">
-							{{item.projectName}}
-						</view>
-					</view>
-				</view>
-			</view>
-		</view>
+	
 		<view class="view-list">
 			<view class="store-list" >
 				
@@ -89,6 +79,7 @@
 						id: null,
 						children: [],
 					}, ],
+					typeList:[],//业态
 					sortActiveIndex: 0,
 					sortActiveId: null,
 					projectList:[],
@@ -577,11 +568,16 @@
 						console.log(data);
 			
 						if (data.code == "200") {
-							that.typeList = [];
+							that.typeList = [{
+								id:"",
+								text:"不限",
+								children:[]
+							}];
 							//data.data.children.forEach((item) => {
 								
 								
 								data.data.children.forEach((street) => {
+									console.log(street);
 									if(street.name!="全部"){
 										let area = {};
 										area.id = street.id;
@@ -616,6 +612,7 @@
 </script>
 
 <style lang="scss" scoped>
+
 	.v-shopping-mall {
 		height: 100vh;
 		display: flex;
