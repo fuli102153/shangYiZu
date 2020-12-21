@@ -121,6 +121,8 @@
 			"style": {
 				"navigationBarTitleText": "",
 				"usingComponents":{
+					"van-tab": "/wxcomponents/vant/dist/tab/index",
+					"van-tabs": "/wxcomponents/vant/dist/tabs/index",
 					"van-icon": "/wxcomponents/vant/dist/icon/index",
 					"van-toast": "/wxcomponents/vant/dist/toast/index"
 				}
