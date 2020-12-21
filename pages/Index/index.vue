@@ -28,7 +28,7 @@
 		<!-- 轮播图 -->
 		<uni-swiper-dot :info="info" :current="current" field="content" :mode="mode" :dotsStyles="dotsStyles">
 			<swiper class="swiper-box" @change="change" :interval="5000" :autoplay="true">
-				<swiper-item v-for="(item ,index) in bannerList" :key="index">
+				<swiper-item v-for="(item ,index) in bannerList" :key="index" @click="toBannerDetail(item.hyperlinks)">
 					<view class="swiper-item">
 						<image :src="item.pics?item.pics : '../../static/images/swiper.png'" mode="" style="width: 100%; height: 400rpx;"></image>
 					</view>
@@ -561,6 +561,13 @@
 				.catch(error => {
 				
 				});
+			},
+			
+			toBannerDetail(link) {
+				//跳转到详情页面
+				uni.navigateTo({
+					url: link
+				})
 			},
 			
 			ajaxGetShopSumMeasureArea(){

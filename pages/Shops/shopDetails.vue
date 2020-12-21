@@ -52,7 +52,7 @@
 				<view class="icon" />
 				<view class="label">
 					<view class="title">
-						鹏润达商业广场
+						{{shop.detailLocation}}
 					</view>
 					<text>深圳市南山区后海滨路鹏润达商业广场</text>
 				</view>
@@ -247,7 +247,7 @@
 						<text>{{ item.name }}</text>
 					</view>
 				</view>
-				<view class="attestation-user">
+				<view class="attestation-user" v-if="0">
 					实勘顾问：张三
 				</view>
 			</view>
@@ -264,10 +264,10 @@
 			</view>
 		</view>
 		<!-- 猜你喜欢 -->
-		<view class="store" v-if="false">
-			<view class="store-header">猜你喜欢</view>
+		<view class="store" >
+			<view class="store-header">推荐商铺</view>
 			<view class="store-list">
-				<StoreCard v-for="item in 3" :sourceData="item" :key="item" />
+				<StoreCard v-for="(item,index) in guessYouLikeList.slice(0, 3)" :sourceData="item" :lastLine="index==2" :key="item" />
 			</view>
 		</view>
 		<!-- 预约 -->
@@ -296,7 +296,7 @@
 <script>
 	import StoreCard from '../../components/Card/Store'
 	import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
-	import {getShopDetail,getSubscribeAdd,getCollectAdd,getShareAdd} from "../../utils/api.js"
+	import {getShopDetail,getSubscribeAdd,getCollectAdd,getShareAdd,getGuessYouLike} from "../../utils/api.js"
 	import Toast from '../../wxcomponents/vant/dist/toast/toast';
 	export default {
 		components: {
@@ -342,6 +342,7 @@
 				
 				shop:[],//商铺信息
 				property:[],//店铺信息
+				guessYouLikeList:[],
 			}
 		},
 		onLoad(paras) {
@@ -351,6 +352,9 @@
 			if(paras.shopNo){
 				this.getDetail(paras.shopNo);
 			}
+			
+			//猜你喜欢
+			this.ajaxGetGuessYouLike();
 		},
 		methods:{
 			selectTab(item, index) {
@@ -423,6 +427,31 @@
 				})
 			},
 			
+			//猜你喜欢
+			ajaxGetGuessYouLike(){
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					cityCode:this.$Localtion.city.cityCode,
+					pageNo:1,
+					pageSize:10,
+				};
+				paras.accessToken = that.accessToken;
+				getGuessYouLike(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						that.guessYouLikeList = data.data;
+					}else{
+						
+					}
+				})
+				.catch(error => {
+				
+				});
+			},
+			
 			
 			ajaxAddCollect(shopNo){
 				
@@ -490,6 +519,8 @@
 
 <style lang="scss" scoped>
 	.v-shop-details {
+		padding-bottom: 120rpx;
+		
 		.swiper-box {
 			height: 430rpx;
 		}
@@ -695,7 +726,7 @@
 		}
 		
 		.facilities {
-			padding: 0 36rpx 42rpx;
+			padding: 0 36rpx;
 			.title {
 				font-size: 36rpx;	
 				color: #474A4C;
@@ -827,7 +858,7 @@
 		}
 
 		.warnning {
-			padding: 0 36rpx 120rpx;
+			padding: 0 36rpx;
 
 			.title {
 				font-size: 36rpx;	

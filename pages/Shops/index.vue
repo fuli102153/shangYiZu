@@ -769,7 +769,7 @@
 		}
 
 		.store-list {
-			padding: 0 16rpx;
+			padding: 0 36rpx;
 			.loading{
 				text-align: center;
 				padding: 20rpx;

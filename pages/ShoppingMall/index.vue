@@ -8,7 +8,7 @@
 			
 			<van-dropdown-menu>
 				
-				<van-dropdown-item title="业态" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
+				<van-dropdown-item  title="业态" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
 					<van-tree-select height="100vw" max="10" :items="typeList" main-active-class="font-size:100rpx;color:#f0f0f0"  :main-active-index="typeActiveIndex" :active-id="paras.shopCategoryIds"
 					 selected-icon="success" @click-nav="onClickType" @click-item="onClickTypeItem" />
 				</van-dropdown-item>
@@ -128,7 +128,7 @@
 			let id = '';
 			if (paras.projectType == 1) {
 				title = '餐饮美食';
-				id = "1";
+				id = "306";
 			} else if (paras.projectType == 2) {
 				title = '娱乐酒店';
 				id = "2";
@@ -368,7 +368,10 @@
 			onClickType(e) {
 				this.typeActiveIndex = e.detail.index || 0;
 				let t = this.typeList[this.typeActiveIndex].id;
-				
+				if(this.paras.shopCategoryIds != t){
+					this.paras.shopCategoryIds = [t];
+					this.reloadData();
+				}
 				
 			},
 			//右侧选择项被点击时，会触发的事件
@@ -680,7 +683,7 @@
 				flex: 1;
 				height: 100%;
 				overflow: auto;
-				padding: 0 16rpx;
+				padding: 0 36rpx;
 			}
 		}
 	}
