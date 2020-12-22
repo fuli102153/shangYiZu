@@ -9,7 +9,7 @@
 					{{ userInfo.nickName || '' }}
 				</view>
 				<view class="user-id">
-					手机号:{{mobile}}
+					{{ mobile }}
 				</view>
 			</view>
 			<view v-if="0" class="user-edit">
@@ -18,19 +18,41 @@
 			</view>
 		</view>
 		<view class="user-nav">
-			<view class="nav-item" v-for="(item, index) in navList" :key="index" @click="toPath(item)">
-				<image :src="item.src" />
-				<text>{{ item.name }}</text>
+			<view class="title">租赁服务</view>
+			<view class="content">
+				<view class="nav-item" v-for="(item, index) in navList" :key="index" @click="toPath(item)">
+					<image :src="item.src" />
+					<text>{{ item.name }}</text>
+				</view>
+			</view>
+			<view class="cell-list">
+				<view class="cell" @click="makePhoneCall(Configs.service_phone)">
+					<text>联系客服</text>
+					<van-icon name="arrow" color="#C8C8C8" />
+				</view>
+				<view class="cell" @click="goHelp">
+					<text>问题反馈</text>
+					<van-icon name="arrow" color="#C8C8C8" />
+				</view>
+				<view class="cell" @click="goSet">
+					<text>用户协议</text>
+					<van-icon name="arrow" color="#C8C8C8" />
+				</view>
+				<view class="cell" @click="goAbout">
+					<text>关于商易租</text>
+					<van-icon name="arrow" color="#C8C8C8" />
+				</view>
 			</view>
 		</view>
-		<van-cell-group>
+		
+		<!-- <van-cell-group>
 		  <van-cell title="我的分享" is-link size="large" @click="goShare" icon="manager" title-class="fontSize: '28rpx'; color: '#2d2d2d'; margin-left='20rpx'"/>
 		  <van-cell title="关于我们" is-link size="large" @click="goAbout" icon="award" />
 		  <van-cell title="帮助及反馈" is-link size="large" @click="goHelp" icon="question" />
 		  <van-cell title="设置" is-link size="large" @click="goSet" icon="setting" />
 		  <van-cell title="分享商易租" is-link size="large" icon="share" />
 		  <van-cell title="联系客服" is-link size="large" icon="service" @click="makePhoneCall(Configs.service_phone)" />
-		</van-cell-group>
+		</van-cell-group> -->
 	</view>
 </template>
 
@@ -130,17 +152,6 @@
 					}
 				})
 			},
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 		}
 	}
 </script>
@@ -174,12 +185,12 @@
 			padding-left: 36rpx;
 			
 			.user-text {
-				font-size: 36rpx;
+				font-size: 40rpx;
 				color: #2D2D2D;
 			}
 			
 			.user-id {
-				font-size: 20rpx;
+				font-size: 24rpx;
 				color: #2D2D2D;
 				margin-top: 15rpx;
 			}
@@ -211,30 +222,49 @@
 		margin: 10rpx 0;
 		padding: 10rpx 20rpx 46rpx 20rpx;
 		background-color: #ffffff;
-		display: flex;
-		justify-content: space-around;
-	
-		.nav-item {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
+
+		.title {
+			font-size: 32rpx;
+			color: #302F2C;
 			padding-top: 36rpx;
-	
-			image {
-				width: 80rpx;
-				height: 80rpx;
-			}
-	
-			text {
-				margin-top: 20rpx;
-				font-size: 24rpx;
+			padding-left: 35rpx;
+		}
+
+		.content {
+			display: flex;
+			justify-content: space-around;
+
+			.nav-item {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				padding-top: 36rpx;
+
+				image {
+					width: 80rpx;
+					height: 80rpx;
+				}
+
+				text {
+					margin-top: 20rpx;
+					font-size: 24rpx;
+				}
 			}
 		}
-	}
-	
-	/deep/ .van-cell {
-		.van-icon {
-			color: #1576FE;
+
+		.cell-list {
+			padding-top: 30rpx;
+
+			.cell {
+				display: flex;
+				justify-content: space-between;
+				padding: 15rpx 35rpx;
+				
+				text {
+					font-size: 28rpx;
+					color: #515151;
+				}
+			}
 		}
 	}
 }
