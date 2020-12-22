@@ -546,6 +546,15 @@
 					"van-toast": "/wxcomponents/vant/dist/toast/index"
 				}
 			}
+		},
+		{
+			"path": "pages/Map/mapDetail",
+			"style": {
+				"navigationBarTitleText": "位置",
+				"usingComponents":{
+					"van-toast": "/wxcomponents/vant/dist/toast/index"
+				}
+			}
 		}
 	],
 	"tabBar": {
