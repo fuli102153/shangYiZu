@@ -2,7 +2,7 @@
 	<!-- 购物中心 -->
 	<view class="v-shopping-mall">
 		<!-- 轮播图 -->
-		<uni-swiper-dot class="projectPic" style="width: 100%; height: 640rpx;" :info="info" :current="current" field="content" :mode="mode" :dotsStyles="dotsStyles">
+		<uni-swiper-dot class="projectPic" style="width: 100%; height: 430rpx;" :info="info" :current="current" field="content" :mode="mode" :dotsStyles="dotsStyles">
 			<swiper  class="swiper-box projectPic"  :interval="5000" :autoplay="true">
 				<swiper-item class="projectPic" v-for="(item ,index) in projectEffectPicList" :key="index">
 					<view class="swiper-item">
@@ -414,7 +414,7 @@
 				
 				const paras = {
 					projectId:this.paras.projectId,
-					shopCategoryIds:this.paras.shopCategoryIds.join(","),
+					shopCategoryIds:this.paras.shopCategoryIds.join("|"),
 					businessType:this.paras.businessType,
 					cityCode:this.$Localtion.city.cityCode,
 					shopName:this.paras.shopName,
@@ -597,7 +597,7 @@
 <style lang="scss" scoped>
 	.projectPic{
 		width: 100%;
-		height: 640rpx;
+		height: 430rpx;
 	}
 	.v-shopping-mall {
 		height: 100vh;

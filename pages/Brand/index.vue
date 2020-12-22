@@ -416,7 +416,7 @@
 				
 				const paras = {
 					cityCode:this.$Localtion.city.cityCode,
-					shopCategoryIds:this.paras.shopCategoryIds.join(","),
+					shopCategoryIds:this.paras.shopCategoryIds.join("|"),
 					shopName:this.paras.shopName,
 					label:this.paras.label,
 					distance:this.paras.distance,

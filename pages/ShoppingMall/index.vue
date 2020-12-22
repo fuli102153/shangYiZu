@@ -457,7 +457,7 @@
 					this.paras.pageSize = 10;
 				}
 				
-				var shopCategoryIds = id?id:this.paras.shopCategoryIds.join(",")
+				var shopCategoryIds = id?id:this.paras.shopCategoryIds.join("|")
 				const paras = {
 					shopCategoryIds:shopCategoryIds,
 					businessType:this.paras.businessType,
