@@ -315,7 +315,7 @@
 		{
 			"path": "pages/Rental/index",
 			"style": {
-				"navigationBarTitleText": "招租发布",
+				"navigationBarTitleText": "发布商铺",
 				"usingComponents":{
 					"van-button": "/wxcomponents/vant/dist/button/index",
 					"van-field": "/wxcomponents/vant/dist/field/index",
@@ -364,7 +364,7 @@
 		{
 			"path": "pages/StoreOpen/index",
 			"style": {
-				"navigationBarTitleText": "开店发布",
+				"navigationBarTitleText": "发布品牌",
 				"usingComponents":{
 					"van-button": "/wxcomponents/vant/dist/button/index",
 					"van-field": "/wxcomponents/vant/dist/field/index",

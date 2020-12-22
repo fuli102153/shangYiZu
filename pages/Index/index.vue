@@ -534,9 +534,9 @@
 					const data = res.data;
 					console.log(data);
 					if(data.code=="200"){
-						that.headlineList = data.data;
+						that.headlineList = data.data.slice(0,3);
 					}else{
-						
+						that.headlineList = [];
 					}
 				})
 				.catch(error => {

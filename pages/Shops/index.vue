@@ -41,56 +41,7 @@
 				
 				<van-dropdown-item title="面积" :style="{display: measureShow ? 'block' : 'none'}" @close="measureShow=false" @open="measureShow=true"
 				 :options="searchAreaList" @change="changeAreaRent"></van-dropdown-item>
-				 <!--
-				<van-dropdown-item  title="更多" :style="{display: moreShow ? 'block' : 'none'}" @close="moreShow=false;searchList()"
-				 @open="moreShow=true">
-					<van-tree-select :items="sortList" :main-active-index="sortActiveIndex" :active-id="sortActiveId" height="412rpx"
-					 @click-nav="onClickItemNav" @click-item="onClickItemSort" />
-					<view class="month-rent">
-						<view class="label">
-							面积
-						</view>
-						<view class="content">
-							<view class="start">
-								<input type="text" v-model="measureAreaStart" value="" />
-								<text>m²</text>
-							</view>
-							<text>—</text>
-							<view class="start end">
-								<input type="text" v-model="measureAreaEnd" value="" />
-								<text>m²</text>
-							</view>
-						</view>
-					</view>
-					<view class="floor hot">
-						<view class="title">
-							楼层
-						</view>
-						<view class="hot-tag">
-							<view color="#B2B2B2" class="tag-item" :class="tagIndex == index ? 'active' : ''" v-for="(item, index) in tagList"
-							 :key="index" @click="selectTag(index)">{{ item.itemText }}</view>
-						</view>
-					</view>
-					<view class="lease hot">
-						<view class="title">
-							租赁性质
-						</view>
-						<view class="hot-tag">
-							<view color="#B2B2B2" class="tag-item" :class="leaseTagIndex == index ? 'active' : ''" v-for="(item, index) in leaseTagList"
-							 :key="index" @click="selectLeaseTag(index)">{{ item.itemText }}</view>
-						</view>
-					</view>
-					<view class="other hot" v-if="0">
-						<view class="title">
-							其他
-						</view>
-						<view class="hot-tag">
-							<view color="#B2B2B2" class="tag-item" :class="otherTagIndex == index ? 'active' : ''" v-for="(item, index) in otherTagList"
-							 :key="index" @click="selecOthertTag(index)">{{ item }}</view>
-						</view>
-					</view>
-				</van-dropdown-item>
-				-->
+				
 			</van-dropdown-menu>
 			<!--<SelectHeader @onChangeMit="onChangeMit"></SelectHeader>-->
 		</van-sticky>
@@ -146,10 +97,7 @@
 				searchAreaList: [], //面积
 				propertyList:[],//物业
 				monthRentList: [],
-				moneyList: [{
-					text: "0-2000元",
-					value: 0
-				}],
+	
 				propertyShow: false,
 				monthShow: false,
 				moreShow: false,
@@ -158,16 +106,11 @@
 				typeShow: false,
 				measureAreaEnd: "",
 				measureAreaStart: "",
-				sortList: [{
-					text: "排序",
-					id: null,
-					children: [],
-				}, ],
+
 				sortActiveIndex: 0,
 				sortActiveId: null,
 
-				tagList: [],
-				tagIndex: -1,
+		
 				selectList: [],
 				leaseTagList: [],
 				leaseTagIndex: -1,
@@ -212,17 +155,8 @@
 			this.localtionCity = this.$Localtion.city;
 			this.$forceUpdate();
 
-			this.sortList[0].children = this.Dict.search_more_sort.map((item) => {
-				return {
-					text: item.itemText,
-					id: item.itemValue,
-				};
-			});
-			this.tagList = this.Dict.search_more_floorNum;
-			this.leaseTagList = this.Dict.search_more_rentNature;
-			this.otherTagList = this.Dict.search_more_rentNature.map((item) => {
-				return item.itemText;
-			});
+
+			
 		},
 		onShow() {
 			console.log(this.Dict.property_type);
@@ -240,49 +174,10 @@
 			this.ajaxGetShopList();
 		},
 		methods: {
-			selectTag(index) {
-				if(this.tagIndex == index){
-					this.tagIndex = -1;
-					this.paras.floorNum = "";
-				}else{
-					this.tagIndex = index;
-					this.paras.floorNum = this.tagList[index].itemValue;
-					this.paras.floorNum = this.paras.floorNum.replace(/&lt;/g, "<");
-					this.paras.floorNum = this.paras.floorNum.replace(/&gt;/g, ">");
-				}
-				
-				
-			},
-			selectLeaseTag(index) {
-				if(this.leaseTagIndex == index){
-					this.leaseTagIndex = -1;
-					this.paras.indentity = "";
-				}else{
-					this.leaseTagIndex = index;
-					this.paras.indentity = this.leaseTagList[index].itemValue;
-				}
-				
-			},
-			selecOthertTag(index) {
-				this.otherTagIndex = index;
-				this.paras.other = this.otherTagList[index].itemValue;
-				console.log(this.paras.other);
-			},
+			
+			
 
-			searchList() {
-				if (Number(this.measureAreaStart) > 0) {
-					this.paras.measureAreaStart = Number(this.measureAreaStart);
-				} else {
-					this.paras.measureAreaStart = "";
-				}
-				if (Number(this.measureAreaEnd) > 0) {
-					this.paras.measureAreaEnd = Number(this.measureAreaEnd);
-				} else {
-					this.paras.measureAreaEnd = "";
-				}
 
-				this.reloadData();
-			},
 			
 			// 选中城市
 			selectCity(index) {
@@ -476,7 +371,10 @@
 			onClickType(e) {
 				this.typeActiveIndex = e.detail.index || 0;
 				let t = this.typeList[this.typeActiveIndex].id;
-				
+				if(t == ""){
+					this.paras.shopCategoryIds = [];
+					this.reloadData();
+				}
 				
 			},
 			//右侧选择项被点击时，会触发的事件

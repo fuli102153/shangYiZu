@@ -49,7 +49,7 @@
 		},
 		data() {
 			return {
-				
+					parentCategoryIds:"",
 					activeKey: 0,
 					locationShow: false,
 					cityList: [],
@@ -61,6 +61,7 @@
 					AreaStreets: [],
 					shopList: [],
 					propertyList: [], //物业
+					searchAreaList:[],//面积
 					monthRentList: [],
 					moneyList: [{
 						text: "0-2000元",
@@ -125,45 +126,45 @@
 			
 			
 			let title = '';
-			let id = '';
+			
 			if (paras.projectType == 1) {
 				title = '餐饮美食';
-				id = "306";
+				this.parentCategoryIds = "306";
 			} else if (paras.projectType == 2) {
 				title = '娱乐酒店';
-				id = "2";
+				this.parentCategoryIds = "2";
 			} else if (paras.projectType == 3) {
 				title = '生活服务';
-				id = "3";
+				this.parentCategoryIds = "3";
 			} else if (paras.projectType == 4) {
 				title = '服饰鞋包';
-				id = "4";
+				this.parentCategoryIds = "4";
 			} else if (paras.projectType == 5) {
 				title = '精品零售';
-				id = "5";
+				this.parentCategoryIds = "5";
 			} else if (paras.projectType == 6) {
 				title = '教育培训';
-				id = "6";
+				this.parentCategoryIds = "6";
 			} else if (paras.projectType == 7) {
 				title = '医疗美容';
-				id = "7";
+				this.parentCategoryIds = "7";
 			} else if (paras.projectType == 8) {
 				title = '商超配套';
-				id = "8";
+				this.parentCategoryIds = "8";
 			} else if (paras.projectType == 9) {
 				title = '专业市场';
-				id = "9";
+				this.parentCategoryIds = "9";
 			}
 			uni.setNavigationBarTitle({
 				title: title
 			})
-			this.ajaxGetShopList();
+			this.ajaxGetShopList(this.parentCategoryIds);
 			//城市列表
 			this.ajaxGetCityList();
 			//请求城市联动
 			this.ajaxGetAreaStreets();
 			//
-			this.ajaxGetPropertyFormSubLevelData(id)
+			this.ajaxGetPropertyFormSubLevelData(this.parentCategoryIds)
 			
 			this.sortList[0].children = this.Dict.search_more_sort.map(item => {
 				return {
@@ -281,6 +282,17 @@
 					});
 				});
 				
+				this.searchAreaList = [{
+						text: "不限",
+						value: "",
+					}];
+				this.Dict.search_area.forEach((item) => {
+					this.searchAreaList.push({
+						text: item.itemText,
+						value: item.itemValue,
+					});
+				});
+				
 				this.businessList = [{text:"不限",value:""}];
 				this.Dict.business_type.forEach((item)=>{
 					this.businessList.push({
@@ -331,6 +343,26 @@
 				
 			},
 			
+			changeAreaRent(e) {
+				console.log(e);
+				if(e.detail){
+					let start = Number(e.detail.split("-")[0]) || 0;
+					let end = Number(e.detail.split("-")[1]) || "";
+					
+					if(this.paras.measureAreaStart != start || this.paras.measureAreaEnd != end){
+						this.paras.measureAreaStart = start;
+						this.paras.measureAreaEnd = end;
+						this.reloadData();
+					}
+				}else{
+					this.paras.measureAreaStart = "";
+					this.paras.measureAreaEnd = "";
+					this.reloadData();
+				}
+				
+				
+			},
+			
 			changePropertyType(e) {
 				let t = Number(e.detail) || "";
 				if(this.paras.propertyType != t){
@@ -368,10 +400,13 @@
 			onClickType(e) {
 				this.typeActiveIndex = e.detail.index || 0;
 				let t = this.typeList[this.typeActiveIndex].id;
-				if(this.paras.shopCategoryIds != t){
-					this.paras.shopCategoryIds = [t];
+				
+				
+				if(t == ""){
+					this.paras.shopCategoryIds = [this.parentCategoryIds];
 					this.reloadData();
 				}
+				
 				
 			},
 			//右侧选择项被点击时，会触发的事件
@@ -402,7 +437,7 @@
 			
 			
 			//ajax请求数据 
-			ajaxGetShopList(){
+			ajaxGetShopList(id){
 				//ajax个人信息查询
 				var that = this;
 				that.projectList = [];
@@ -422,8 +457,9 @@
 					this.paras.pageSize = 10;
 				}
 				
+				var shopCategoryIds = id?id:this.paras.shopCategoryIds.join(",")
 				const paras = {
-					shopCategoryIds:this.paras.shopCategoryIds.join(","),
+					shopCategoryIds:shopCategoryIds,
 					businessType:this.paras.businessType,
 					cityCode:this.$Localtion.city.cityCode,
 					shopName:this.paras.shopName,

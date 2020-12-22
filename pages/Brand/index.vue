@@ -40,28 +40,19 @@
 				</van-cell-group>
 			</van-popup>
 			<van-dropdown-menu>
-				<van-dropdown-item title="业态" :style="{display: areaShow ? 'block' : 'none'}" @close="areaShow=false" @open="areaShow=true">
-					<van-picker :columns="columns" @change="onChange" />
-					<view class="btn">
-						<van-button type="primary" block color="#BDBDBD" class="eliminate">清除</van-button>
-						<van-button type="primary" block color="#1676FE" class="determine">确定</van-button>
-					</view>
+				<van-dropdown-item title="业态" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
+					<van-tree-select height="100vw" max="10" :items="typeList" :main-active-index="typeActiveIndex" :active-id="paras.shopCategoryIds"
+					 selected-icon="success" @click-nav="onClickType" @click-item="onClickTypeItem" />
 				</van-dropdown-item>
-				<van-dropdown-item title="拓展区域">
-					<van-tree-select height="55vw" :items="items" :main-active-index="mainActiveIndex" :active-id="activeId" selected-icon="success"
-					 @click-nav="onClickNav" @click-item="onClickItem">
-							<van-tree-select height="55vw" :items="property" :main-active-index="mainActiveIndex" :active-id="activeId" selected-icon="success"
-							@click-nav="onClickNav" @click-item="onClickItem" />
-					 </van-tree-select>
+				<van-dropdown-item title="区域" :style="{display: areaShow ? 'block' : 'none'}" @close="areaShow=false" @open="areaShow=true">
+					<van-tree-select height="100vw" max="10" :items="AreaStreets" :main-active-index="mainActiveIndex" :active-id="paras.streetId"
+					 selected-icon="success" @click-nav="onClickNav" @click-item="onClickItem" />
 				</van-dropdown-item>
-				<van-dropdown-item title="物业">
-					<van-tree-select height="55vw" :items="property" :main-active-index="mainActiveIndex" :active-id="activeId" selected-icon="success"
-					 @click-nav="onClickNav" @click-item="onClickItem" />
-				</van-dropdown-item>
-				<van-dropdown-item title="面积">
-					<van-tree-select height="55vw" :items="measure" :main-active-index="mainActiveIndex" :active-id="activeId" selected-icon="success"
-					 @click-nav="onClickNav" @click-item="onClickItem" />
-				</van-dropdown-item>
+				<van-dropdown-item title="物业"  :style="{display: propertyShow ? 'block' : 'none'}" @close="propertyShow=false"
+				@open="propertyShow=true" :options="propertyList" @change="changePropertyType"></van-dropdown-item>
+				
+				<van-dropdown-item title="面积" :style="{display: measureShow ? 'block' : 'none'}" @close="measureShow=false" @open="measureShow=true"
+				 :options="searchAreaList" @change="changeAreaRent"></van-dropdown-item>
 			</van-dropdown-menu>
 		</van-sticky>
 		<view class="store-list">
@@ -74,7 +65,10 @@
 
 <script>
 	import BrandCard from '../../components/Card/Brand'
-	import {getBrandList, getAreaStreets,} from "../../utils/api.js"
+	import {getBrandList, 
+		getAreaStreets,
+		getCity,
+		getPropertyFormAllData,} from "../../utils/api.js"
 	import Toast from "../../wxcomponents/vant/dist/toast/toast";
 	export default {
 		components: {
@@ -82,86 +76,170 @@
 		},
 		data() {
 			return {
+				brandList:[],
 				locationShow: false,
 				cityList: ["北京", "上海", "广州", "深圳"],
 				activeCity: '',
 				value: '',
 				mainActiveIndex: 0,
-				activeId: null,
-				brandList:[],
-				items: [
-					{
-						text: '街道',
-						children: []
-					},
-					{
-						text: '地铁',
-						children: []
-					},
-				],
-				property: [{
-						text: '物业类型',
-						children: [],
-					},
-				],
-				measure: [
-					{
-						text: '附近',
-						children: [],
-					}
-				],
-				columns: [
-				  {
-				    values: ['杭州', '宁波', '温州', '嘉兴', '湖州'],
-				    className: 'column1',
-				  },
-				  {
-				    values: ['福州', '厦门', '莆田', '三明', '泉州'],
-				    className: 'column2',
-				  },
-				],
+				typeActiveIndex: 0,
+				localtionCity:{},
+				
+				AreaStreets: [],
+				typeList:[],
+				shopList: [],
+				searchAreaList: [], //面积
+				propertyList:[],//物业
+				monthRentList: [],
+					
+				propertyShow: false,
+				monthShow: false,
+				moreShow: false,
 				areaShow: false,
-				pageNo:1,
-				pageSize:10,
-				reload: false
+				measureShow:false,
+				typeShow: false,
+				measureAreaEnd: "",
+				measureAreaStart: "",
+				sortList: [{
+					text: "排序",
+					id: null,
+					children: [],
+				}, ],
+				sortActiveIndex: 0,
+				sortActiveId: null,
+				
+				tagList: [],
+				tagIndex: -1,
+				selectList: [],
+				leaseTagList: [],
+				leaseTagIndex: -1,
+				selectLeaseList: [],
+				otherTagList: [],
+				otherTagIndex: -1,
+				selectOtherList: [],
+				reload: false,
+				loadMoreText: "更多",
+				paras: {
+					shopName: "",
+					label: "",
+					distance: "",
+					regionId: "",
+					streetId: "",
+					shopCategoryIds:[],
+					metroLine: "",
+					monthRentStart: "",
+					monthRentEnd: "",
+					sort: "",
+					floorNum: "",
+					indentity: "",
+					engineeringConditions: "",
+					propertyType: "",
+					measureAreaStart: "",
+					measureAreaEnd: "",
+					longitude: "",
+					latitude: "",
+				},
 			}
 		},
 		onLoad() {
 			//请求品牌列表
 			this.ajaxGetBrandList();
+			//城市列表
+			this.ajaxGetCityList();
+			//请求城市联动
 			this.ajaxGetAreaStreets();
+			//获取全部业态数据
+			this.ajaxGetPropertyFormAllData();
 			
-			this.measure[0].children = [];
-			this.Dict.search_month_rent.forEach((item) => {
-				this.measure[0].children.push({
-					text: item.itemText,
-					id: item.itemValue,
-				});
-			});
-			
-			this.property[0].children = [];
-			this.Dict.property_type.forEach((item) => {
-				this.property[0].children.push({
-					text: item.itemText,
-					id: item.itemValue,
-				});
-			});
+			this.localtionCity = this.$Localtion.city;
+			this.$forceUpdate();
 			
 		},
+		onShow() {
+			console.log(this.Dict.property_type);
+			//把字典格式进行转换
+			this.changeDict();
+		},
+		onReachBottom() {
+			console.log("onReachBottom");
+			this.loadMoreText = '更多';
+			this.ajaxGetBrandList();
+		},
+		onPullDownRefresh() {
+			console.log("onPullDownRefresh");
+			this.reload = true;
+			this.ajaxGetBrandList();
+		},
 		methods: {
-			onReachBottom() {
-				console.log("onReachBottom");
-				this.loadMoreText = '更多';
-				this.ajaxGetBrandList();
+			// 选中城市
+			selectCity(index) {
+				var that = this;
+				this.activeCity = index;
+				uni.setStorage({
+					key: "__localtionCity__",
+					data: this.cityList[index],
+					success: (res) => {
+						
+						this.$Localtion.city  = this.cityList[index];
+						this.localtionCity  = this.cityList[index];
+			
+						this.$forceUpdate();
+						this.onClose();
+						
+						//请求品牌列表
+						this.reloadData();
+					},
+					fail: () => {
+						uni.showModal({
+							title: '用户信息获取失败!',
+							showCancel:false
+						})
+					}
+				})
+				
 			},
-			onPullDownRefresh() {
-				console.log("onPullDownRefresh");
-				this.reload = true;
-				this.ajaxGetBrandList();
+			
+			
+			
+			onClickItemNav(e) {
+				this.sortActiveIndex = e.detail.index || 0;
 			},
-			onChange(e) {
-				 const { picker, value, index } = e.detail;
-				 console.log(picker, value, index)
+			onClickItemSort(e) {
+				const sortActiveId =
+					this.sortActiveId === e.detail.id ? null : e.detail.id;
+				this.sortActiveId = sortActiveId;
+				this.paras.sort = sortActiveId;
+				console.log(this.paras.sort);
+			},
+			
+			//转换格式
+			changeDict() {
+				this.propertyList = [];
+				this.Dict.property_type.forEach((item)=>{
+					this.propertyList.push({
+						text: item.itemText, value: item.itemValue
+					})
+				})
+				this.searchAreaList = [{
+						text: "不限",
+						value: "",
+					}];
+				this.Dict.search_area.forEach((item) => {
+					this.searchAreaList.push({
+						text: item.itemText,
+						value: item.itemValue,
+					});
+				});
+				this.monthRentList = [{
+						text: "不限",
+						value: "",
+					}];
+				this.Dict.search_month_rent.forEach((item) => {
+					this.monthRentList.push({
+						text: item.itemText,
+						value: item.itemValue,
+					});
+				});
 			},
 			// 打开关闭弹出层
 			showPopup() {
@@ -170,60 +248,138 @@
 			onClose() {
 				this.locationShow = false;
 			},
-
-			// 选中城市
-			selectCity(index) {
-				console.log(1111)
-				this.activeCity = index;
+			
+			
+			onSearch(e) {
+				console.log(e.detail)
+				let that = this;
+				let history = []
+				uni.getStorage({
+					key: '__searchHistory__',
+					success(res) {
+						history = res.data
+						history.push(e.detail)
+						let newHistory = Array.from(new Set(history))
+						console.log(newHistory)
+						uni.setStorage({
+							key: "__searchHistory__",
+							data: newHistory,
+						})
+					},
+					fail: () => {
+						uni.setStorage({
+							key: "__searchHistory__",
+							data: [e.detail],
+						})
+					}
+				})
+				this.paras.shopName = e.detail;
+				this.reloadData();
 			},
-			onSearch() {
-				console.log('搜索')
+			makePhoneCall: function(tel) {
+				uni.makePhoneCall({
+					phoneNumber: tel,
+					success: () => {
+						console.log("成功拨打电话");
+					},
+				});
 			},
+			
+			changeMonthRent(e) {
+				console.log(e);
+				if(e.detail){
+					let start = Number(e.detail.split("-")[0]) || 0;
+					let end = Number(e.detail.split("-")[1]) || "";
+					
+					if(this.paras.monthRentStart != start || this.paras.monthRentEnd != end){
+						this.paras.monthRentStart = start;
+						this.paras.monthRentEnd = end;
+						this.reloadData();
+					}
+				}else{
+					this.paras.monthRentStart = "";
+					this.paras.monthRentEnd = "";
+					this.reloadData();
+				}
+				
+				
+			},
+			
+			changeAreaRent(e) {
+				console.log(e);
+				if(e.detail){
+					let start = Number(e.detail.split("-")[0]) || 0;
+					let end = Number(e.detail.split("-")[1]) || "";
+					
+					if(this.paras.measureAreaStart != start || this.paras.measureAreaEnd != end){
+						this.paras.measureAreaStart = start;
+						this.paras.measureAreaEnd = end;
+						this.reloadData();
+					}
+				}else{
+					this.paras.measureAreaStart = "";
+					this.paras.measureAreaEnd = "";
+					this.reloadData();
+				}
+				
+				
+			},
+			
+			changePropertyType(e) {
+				let t = Number(e.detail) || "";
+				if(this.paras.propertyType != t){
+					this.paras.propertyType = t;
+					this.reloadData();
+				}
+				
+			},
+			
 			onClickLeft() {
-				uni.navigateBack()
+				uni.navigateBack();
 			},
-			onClickNav({detail = {}}) {
-				this.mainActiveIndex = detail.index || 0
+			//左侧导航点击时，触发的事件
+			onClickNav(e) {
+				this.mainActiveIndex = e.detail.index || 0;
+				let t = this.AreaStreets[this.mainActiveIndex].id;
+				
+				if(this.paras.regionId != t){
+					this.paras.regionId = t;
+					this.paras.streetId = "";
+					this.reloadData();
+				}
 			},
-			onClickItem({detail = {}}) {
-				const activeId = this.activeId === detail.id ? null : detail.id;
-				this.activeId = activeId
+			//右侧选择项被点击时，会触发的事件
+			onClickItem(e) {
+				//console.log(e)
+				let t =	(this.paras.streetId === e.detail.id) ? null : e.detail.id;
+				if(this.paras.streetId != t){
+					this.paras.streetId = t;
+					this.reloadData();
+				}
 			},
 			
-			//城市联动
-			ajaxGetAreaStreets() {
-				//ajax个人信息查询
-				var that = this;
-				const paras = {
-					cityCode: this.$Localtion.city.cityCode,
-				};
-				paras.accessToken = that.accessToken;
 			
-				getAreaStreets(paras)
-					.then((res) => {
-						const data = res.data;
-						console.log(data);
+			//左侧导航点击时，触发的事件
+			onClickType(e) {
+				this.typeActiveIndex = e.detail.index || 0;
+				let t = this.typeList[this.typeActiveIndex].id;
+				if(t == ""){
+					this.paras.shopCategoryIds = [];
+					this.reloadData();
+				}
+				
+			},
+			//右侧选择项被点击时，会触发的事件
+			onClickTypeItem(e) {
+				//console.log(e)
 			
-						if (data.code == "200") {
-							that.items[0].children = [];
-							data.data.forEach((item) => {
-								let area = {};
-								area.id = item.areaCode;
-								area.text = item.areaName;
-								area.children = [];
-								item.streetVoList.forEach((street) => {
-									let streetItem = {};
-									streetItem.id = street.streetCode;
-									streetItem.text = street.streetName;
-									streetItem.children = [];
-									area.children.push(streetItem);
-								});
-								that.items[0].children.push(area);
-							});
-							that.$forceUpdate();
-						} else {}
-					})
-					.catch((error) => {});
+				const index = this.paras.shopCategoryIds.indexOf(e.detail.id);
+				if (index > -1) {
+				  this.paras.shopCategoryIds.splice(index, 1);
+				} else {
+				  this.paras.shopCategoryIds.push(e.detail.id);
+				}
+				this.reloadData();	
 			},
 	
 			reloadData(){
@@ -260,8 +416,26 @@
 				
 				const paras = {
 					cityCode:this.$Localtion.city.cityCode,
-					pageNum: this.pageNo,
-					pageSize: this.pageSize,
+					shopCategoryIds:this.paras.shopCategoryIds.join(","),
+					shopName:this.paras.shopName,
+					label:this.paras.label,
+					distance:this.paras.distance,
+					regionCode:this.paras.regionId,
+					streetCode:this.paras.streetId,
+					metroLine:this.paras.metroLine,
+					monthRentStart:this.paras.monthRentStart,
+					monthRentEnd:this.paras.monthRentEnd,
+					sort: this.paras.sort,
+					floorNum: this.paras.floorNum,
+					indentity: this.paras.indentity,
+					engineeringConditions: this.paras.engineeringConditions,
+					propertyType: this.paras.propertyType,
+					measureAreaStart: this.paras.measureAreaStart,
+					measureAreaEnd: this.paras.measureAreaEnd,
+					//longitude:this.location.longitude,
+					//latitude:this.location.latitude,
+					pageNo: this.paras.pageNo ,
+					pageSize: this.paras.pageSize,
 				};
 				paras.accessToken = that.accessToken;
 				const toast = Toast.loading({
@@ -285,6 +459,119 @@
 				}).catch(error => {
 					Toast.fail(this.global.error);
 				});
+			},
+			
+			
+			
+			ajaxGetCityList() {
+				var that = this;
+				const paras = {};
+				paras.accessToken = that.accessToken;
+			
+				getCity(paras)
+					.then((res) => {
+						const data = res.data;
+			
+						console.log(data);
+						if (data.code == "200") {
+							that.cityList = data.data;
+							
+						} else {}
+					})
+					.catch((error) => {});
+			},
+			
+			//城市联动
+			ajaxGetAreaStreets() {
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					cityCode: this.$Localtion.city.cityCode,
+				};
+				paras.accessToken = that.accessToken;
+			
+				getAreaStreets(paras)
+					.then((res) => {
+						const data = res.data;
+						console.log(data);
+			
+						if (data.code == "200") {
+							that.AreaStreets = [{
+								id:"",
+								text:"不限",
+								children:[]
+							}];
+							data.data.forEach((item) => {
+								let area = {};
+								area.id = item.areaCode;
+								area.text = item.areaName;
+								area.children = [];
+								item.streetVoList.forEach((street) => {
+									let streetItem = {};
+									streetItem.id = street.streetCode;
+									streetItem.text = street.streetName;
+									streetItem.children = [];
+									area.children.push(streetItem);
+								});
+								that.AreaStreets.push(area);
+							});
+							that.$forceUpdate();
+							console.log(that.AreaStreets);
+						} else {}
+					})
+					.catch((error) => {});
+			},
+			
+			
+			ajaxGetPropertyFormAllData() {
+				//ajax个人信息查询
+				var that = this;
+				const paras = {
+					
+				};
+				paras.accessToken = that.accessToken;
+			
+				getPropertyFormAllData(paras)
+					.then((res) => {
+						const data = res.data;
+						console.log(data);
+			
+						if (data.code == "200") {
+							that.typeList = [{
+								id:"",
+								text:"不限",
+								children:[]
+							}];
+							data.data.forEach((item) => {
+								
+								
+								item.children && item.children.forEach((street) => {
+									if(street.name!="全部"){
+										let area = {};
+										area.id = street.id;
+										area.text = street.name;
+										area.children = [];
+										
+										street.children && street.children.forEach((three) => {
+											let streetItem = {};
+											streetItem.id = three.id;
+											streetItem.text = three.name;
+											area.children.push(streetItem);
+										})		
+										that.typeList.push(area);
+									}
+									
+								});
+								
+								
+								
+								
+							});
+							that.$forceUpdate();
+							console.log(that.typeList)
+						} else {}
+					})
+					.catch((error) => {});
 			},
 		}
 	}

@@ -82,7 +82,7 @@
 							租金单价
 						</view>
 						<view class="value">
-							{{(shop.monthRent/shop.measureArea).toFixed(2)}}元/月/m²
+							{{(shop.monthRent/shop.measureArea).toFixed(2)}}元/平方米/月
 						</view>
 					</view>
 					<view class="item">
@@ -267,7 +267,7 @@
 		<view class="store" >
 			<view class="store-header">推荐商铺</view>
 			<view class="store-list">
-				<StoreCard v-for="(item,index) in guessYouLikeList.slice(0, 3)" :sourceData="item" :lastLine="index==2" :key="item" />
+				<StoreCard v-for="(item,index) in guessYouLikeList.slice(3, 6)" :sourceData="item" :lastLine="index==2" :key="item" />
 			</view>
 		</view>
 		<!-- 预约 -->

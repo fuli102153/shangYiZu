@@ -818,7 +818,7 @@ export default {
             }
           });
 
-          this.form.streetCode = "";
+          this.form.streetCode = "000000";
 
           this.form.detailLocation = res.name;
           this.form.longitude = res.longitude;
@@ -854,9 +854,6 @@ export default {
       this.form.propertyEnvironment = e.detail.trim();
     },
 
-    changShopName(e) {
-      this.property.shopName = e.detail.trim();
-    },
     changTransferFee(e) {
       this.property.transferFee = e.detail.trim();
     },

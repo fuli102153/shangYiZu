@@ -318,6 +318,26 @@
 				this.reloadData();
 			},
 			
+			changeAreaRent(e) {
+				console.log(e);
+				if(e.detail){
+					let start = Number(e.detail.split("-")[0]) || 0;
+					let end = Number(e.detail.split("-")[1]) || "";
+					
+					if(this.paras.measureAreaStart != start || this.paras.measureAreaEnd != end){
+						this.paras.measureAreaStart = start;
+						this.paras.measureAreaEnd = end;
+						this.reloadData();
+					}
+				}else{
+					this.paras.measureAreaStart = "";
+					this.paras.measureAreaEnd = "";
+					this.reloadData();
+				}
+				
+				
+			},
+			
 			changePropertyType(e){
 			
 				this.paras.propertyType = Number(e.detail);
@@ -359,7 +379,10 @@
 			onClickType(e) {
 				this.typeActiveIndex = e.detail.index || 0;
 				let t = this.typeList[this.typeActiveIndex].id;
-				
+				if(t == ""){
+					this.paras.shopCategoryIds = [];
+					this.reloadData();
+				}
 				
 			},
 			//右侧选择项被点击时，会触发的事件
