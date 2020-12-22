@@ -47,7 +47,7 @@
 			</view>
 			
 		</view>
-		<view class="shop-position" @click="goMap(shop.latitude, shop.longitude)">
+		<view class="shop-position" @click="goMap(shop.latitude, shop.longitude, shop.shopName)">
 			<view class="content">
 				<view class="icon" />
 				<view class="label">
@@ -364,9 +364,9 @@
 			onChange(e) {
 				console.log(e.detail)
 			},
-			goMap(latitude, longitude) {
+			goMap(latitude, longitude, shopName) {
 				uni.navigateTo({
-					url: `../Map/mapDetail?latitude=${latitude}&longitude=${longitude}`
+					url: `../Map/mapDetail?latitude=${latitude}&longitude=${longitude}&shopName=${shopName}`
 				})
 			},
 			//ajax查询商铺信息查询

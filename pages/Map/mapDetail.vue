@@ -42,7 +42,7 @@ export default {
 		width: 15,
 		height: 20,
         label: {
-			content: 'haaaaaaaahahahahahah',
+			content: params.shopName,
 			textAlign: 'center',
 			bgColor: '#fff',
 			borderWidth: 1,
