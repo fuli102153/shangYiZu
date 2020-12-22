@@ -124,7 +124,7 @@
             </view>
           </view>
         </van-tab>
-        <van-tab title="市调报告">
+        <van-tab title="物业需求">
 			<view class="info2">
 				<view class="content">
         		  <text>1.楼层净高：大于4.5米。 </text>
@@ -178,13 +178,13 @@
         <text>3、新闻的发布时间为约1-2个工作日，平均约0.5个工作日，周末一般不进行投放，请悉知。</text>
       </view>
     </view>
-    <!-- 猜你喜欢 -->
-    <view class="store" v-if="false">
-      <view class="store-header">猜你喜欢</view>
-      <view class="store-list">
-        <StoreCard v-for="item in 3" :sourceData="item" :key="item" />
-      </view>
-    </view>
+   <!-- 猜你喜欢 -->
+		<view class="store" >
+			<view class="store-header">推荐品牌</view>
+			<view class="store-list">
+				<BrandCard v-for="(item,index) in brandList.slice(0, 3)" :sourceData="item" :lastLine="index==2" :key="item" />
+			</view>
+		</view>
     <!-- 预约 -->
     <view class="foot">
       <view class="store-hot"> </view>
@@ -209,9 +209,13 @@
 </template>
 
 <script>
-import { getBrandDetail } from "../../utils/api.js";
+import { getBrandDetail, getBrandSpecialList } from "../../utils/api.js";
 import Toast from "../../wxcomponents/vant/dist/toast/toast";
+import BrandCard from '../../components/Card/Brand.vue'
 export default {
+	components: {
+		BrandCard,
+	},
   data() {
     return {
       tabList: [
@@ -237,7 +241,8 @@ export default {
         { name: "停车场", src: "../../static/images/parking-lot.png" },
         { name: "网络", src: "../../static/images/network.png" },
       ],
-      brand: {},
+			brand: {},
+			brandList: [],
     };
   },
   onLoad(paras) {
@@ -246,7 +251,8 @@ export default {
     //如果有项目ID
     if (paras.brandNo) {
       this.getDetail(paras.brandNo);
-    }
+		}
+		this.ajaxGetBrandSpecialList();
   },
   methods: {
 		onChange(e) {
@@ -284,7 +290,26 @@ export default {
         .catch((error) => {
           Toast.fail(this.global.error);
         });
-    },
+		},
+		
+		ajaxGetBrandSpecialList(){
+				var that = this;
+				const paras = {
+				};
+				paras.accessToken = that.accessToken;
+				getBrandSpecialList(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					if(data.code=="200"){
+						that.brandList = data.data.records;
+					}else{
+						
+					}
+				})
+				.catch(error => {
+				
+				});
+			},
   },
 };
 </script>
@@ -645,7 +670,7 @@ export default {
   }
 
   .warnning {
-    padding: 0 36rpx 120rpx;
+    padding: 0 36rpx 10rpx;
 
     .title {
       font-size: 36rpx;
@@ -672,7 +697,7 @@ export default {
   }
 
   .store {
-    padding: 42rpx 36rpx;
+    padding: 42rpx 36rpx 120rpx;
     .store-header {
       font-size: 36rpx;
       color: #474a4c;
