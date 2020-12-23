@@ -28,7 +28,7 @@
 					<van-icon name="delete" color="#888"/>清空
 				</view>
 			</view>
-			<van-cell :title="item" icon="clock-o" v-for="(item, index) in historList" :key="index" @click="historySearch(item)"/>
+			<van-cell :title="item" icon="clock-o" v-for="(item, index) in historList" :key="index" @click="gotoShops(item)"/>
 		</view>
 	</view>
 </template>
@@ -78,9 +78,7 @@ export default {
 					}
 				})
 				
-				uni.navigateTo({
-					url: `./searchList?keyword=${e.detail}`
-				})
+				this.gotoShops(e.detail)
 			}
 		},
 		deleteHistory() {
@@ -90,11 +88,7 @@ export default {
 			})
 			this.historList = []
 		},
-		historySearch(value) {
-			uni.navigateTo({
-				url: `./searchList?keyword=${value}`
-			})
-		},
+
 		searchKeyWord(value) {
 			let that = this
 			let history = []
@@ -111,9 +105,13 @@ export default {
 					})
 				}
 			})
-			uni.navigateTo({
-				url: `./searchList?keyword=${value}`
-			})
+			this.gotoShops(value)
+		},
+		
+		gotoShops(value){
+			uni.reLaunch({
+				 url: '../Shops/index?keyword='+value
+			});
 		},
 		onClickLeft() {
 			uni.navigateBack()

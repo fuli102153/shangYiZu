@@ -60,7 +60,7 @@
 					}
 				})
 				//临时处理的   到时要根据算法来
-				that.sourceData.hits = 1+(that.sourceData.hits % 4);
+				that.sourceData.hits = 3+(that.sourceData.hits % 3);
 				that.source = that.sourceData;
 
 			})

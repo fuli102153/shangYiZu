@@ -126,7 +126,7 @@
 			<view class="store-list">
 				<StoreCard v-for="(item,index) in guessYouLikeList.slice(0, 3)" :sourceData="item" :lastLine="index==2" :key="item" />
 			</view>
-			<view class="store-more">
+			<view class="store-more" @click="gotoMoreShops()">
 				<span>查看更多铺源</span>
 				<van-icon name="arrow" color="#9B9B9A" size="20rpx" />
 			</view>
@@ -134,11 +134,11 @@
 		
 		<!-- 轮播图 -->
 		<view class="mid-banner">
-			<uni-swiper-dot :info="info" :current="current" field="content" :mode="mode" :dotsStyles="dotsStyles">
+			<uni-swiper-dot  :current="current" field="content" :mode="mode" :dotsStyles="dotsStyles">
 				<swiper class="swiper-box" @change="change" :interval="3000" :autoplay="true">
-					<swiper-item v-for="(item ,index) in bannerList" :key="index">
+					<swiper-item v-for="(item ,index) in 1" :key="index">
 						<view class="swiper-item">
-							<image :src="item.pics?item.pics : '../../static/images/swiper.png'" mode="" style="width: 100%; height: 300rpx;"></image>
+							<image src="../../static/images/banner.jpg" mode="" style="width: 100%; height: 300rpx;border-radius: 10rpx;"></image>
 						</view>
 					</swiper-item>
 				</swiper>
@@ -158,7 +158,7 @@
 			<view class="store-list">
 				<BrandCard v-for="(item,index) in brandList.slice(0, 3)" :sourceData="item" :lastLine="index==2" :key="item" />
 			</view>
-			<view class="store-more">
+			<view class="store-more" @click="gotoMoreBrand">
 				<span>查看更多品牌</span>
 				<van-icon name="arrow" color="#9B9B9A" size="20rpx" />
 			</view>
@@ -185,31 +185,26 @@
 			<view class="title">
 				新闻中心
 			</view>
-			<van-tabs class="tab" :active="newActive" @change="onChange" color="#1476FD" line-width="50rpx">
+			<van-tabs class="tab" :active="newActive"  color="#1476FD" line-width="50rpx">
 				<van-tab title="行业动态">
 					<view class="content">
 						<view class="new-card" v-for="(item,index) in headlineList" :key="index" @click="goHeadDetails(item)">
 							<view class="new-img" >
 								<image :src="item.pic?item.pic : '../../static/images/swiper.png'" mode=""></image>
 							</view>
-							<view class="new-title">
-                    	        {{item.title}}
-							</view>
+						
 						</view>
 						<van-empty v-if="headlineList.length==0" description="暂无行业动态" />
 					</view>
 				</van-tab>
 				<van-tab title="热门话题">
 					<view class="content">
-						<view class="new-card" v-for="(item,index) in headlineList" :key="index" @click="goHeadDetails(item)">
+						<view class="new-card" v-for="(item,index) in headlineList_hot" :key="index" @click="goHeadDetails(item)">
 							<view class="new-img">
 								<image :src="item.pic?item.pic : '../../static/images/swiper.png'" mode=""></image>
 							</view>
-							<view class="new-title">
-						        {{item.title}}
-							</view>
 						</view>
-						<van-empty v-if="headlineList.length==0" description="暂无热门话题" />
+						<van-empty v-if="headlineList_hot.length==0" description="暂无热门话题" />
 					</view>
 				</van-tab>
 			</van-tabs>
@@ -305,6 +300,7 @@
 				brandList:[],
 				cooperativeList:[],
 				headlineList:[],
+				headlineList_hot:[],
 				// 新闻中心
 				newActive: 0,
 				//商铺总面积
@@ -417,13 +413,25 @@
 					url: './CooperativeEnterprise'
 				})
 			},
+			
+			gotoMoreShops(){
+				uni.switchTab({
+					 url: '../Shops/index'
+				});
+			},
+			
+			gotoMoreBrand(){
+				uni.switchTab({
+					 url: '../Brand/index'
+				});
+			},
 			// 轮播图
 			change(e) {
 				this.current = e.detail.current;
 			},
 			// 新闻中心tab切换
 			onChange(e) {
-				this.ajaxGetHeadline(e.detail.name)
+				
 			},
 			
 			//请求BANNER图片
@@ -521,13 +529,14 @@
 			},
 			
 			//头条信息
-			ajaxGetHeadline(type){
+			ajaxGetHeadline(){
 				//ajax个人信息查询
+				
 				var that = this;
 				const paras = {
 					pageNo:1,
 					pageSize:10,
-					type:type||0
+					type:0
 				};
 				paras.accessToken = that.accessToken;
 				getHeadline(paras).then(res => {
@@ -537,6 +546,27 @@
 						that.headlineList = data.data.slice(0,3);
 					}else{
 						that.headlineList = [];
+					}
+				})
+				.catch(error => {
+				
+				});
+				
+				
+				
+				const paras_hot = {
+					pageNo:1,
+					pageSize:10,
+					type:1
+				};
+				paras_hot.accessToken = that.accessToken;
+				getHeadline(paras_hot).then(res => {
+					const data = res.data;
+					console.log(data);
+					if(data.code=="200"){
+						that.headlineList_hot = data.data.slice(0,3);
+					}else{
+						that.headlineList_hot = [];
 					}
 				})
 				.catch(error => {
@@ -658,7 +688,7 @@
 			display: flex;
 			.location {
 				width: 160rpx;
-				font-size: 24rpx;
+				font-size: 30rpx;
 				color: #2B2B2B;
 				display: flex;
 				align-items: center;

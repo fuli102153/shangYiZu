@@ -46,7 +46,7 @@ export default {
 	    this.$nextTick(function(){
 			that.isShowLine = that.lastLine
 			//临时处理的   到时要根据算法来
-			that.sourceData.hits = 1+(that.sourceData.hot % 4);
+			that.sourceData.hits = 3+(that.sourceData.hot % 3);
 			that.source = that.sourceData;
 			
 	    })

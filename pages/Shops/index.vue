@@ -142,7 +142,12 @@
 				},
 			};
 		},
-		onLoad() {
+		onLoad(paras) {
+			if(paras.keyword){
+				this.value = paras.keyword;
+				this.paras.shopName =  paras.keyword;
+			}
+			
 			//请求品牌列表
 			this.ajaxGetShopList();
 			//城市列表
@@ -606,7 +611,7 @@
 			background-color: #ffffff;
 			.location {
 				width: 160rpx;
-				font-size: 24rpx;
+				font-size: 30rpx;
 				color: #2B2B2B;
 				display: flex;
 				align-items: center;

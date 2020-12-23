@@ -587,7 +587,7 @@
 		
 			.location {
 				width: 160rpx;
-				font-size: 24rpx;
+				font-size: 30rpx;
 				color: #2B2B2B;
 				display: flex;
 				align-items: center;

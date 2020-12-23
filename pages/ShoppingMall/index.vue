@@ -365,8 +365,8 @@
 			
 			changePropertyType(e) {
 				let t = Number(e.detail) || "";
-				if(this.paras.propertyType != t){
-					this.paras.propertyType = t;
+				if(this.paras.projectType != t){
+					this.paras.projectType = t;
 					this.reloadData();
 				}
 				
@@ -474,7 +474,7 @@
 					floorNum:this.paras.floorNum,
 					indentity:this.paras.indentity,
 					engineeringConditions:this.paras.engineeringConditions,
-					propertyType:this.paras.propertyType,
+					projectType:this.paras.projectType,
 					measureAreaStart:this.paras.measureAreaStart,
 					measureAreaEnd:this.paras.measureAreaEnd,
 					pageNo:1,

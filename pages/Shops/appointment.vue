@@ -14,7 +14,7 @@
 			placeholder="请输入联系电话"
 			@input="changeMobile"
 		/>
-		<van-field required
+		<van-field 
 			:value="recommender"
 			label="推荐人"
 			input-align="right"
@@ -134,10 +134,7 @@
 					Toast.fail("请输入联系人手机号");
 					return;
 				}
-				if(!that.recommender){
-					Toast.fail("请输入推荐人");
-					return;
-				}
+			
 				if(!that.startDate){
 					Toast.fail("请选择开始时间");
 					return;

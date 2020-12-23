@@ -247,8 +247,8 @@
 						<text>{{ item.name }}</text>
 					</view>
 				</view>
-				<view class="attestation-user" v-if="0">
-					实勘顾问：张三
+				<view class="attestation-user" >
+					实勘顾问：谢俊伟
 				</view>
 			</view>
 		</view>
@@ -281,10 +281,7 @@
 						<van-icon name="like-o" color="#1576FE" size="40rpx" />
 						<text>收藏</text>
 					</view>
-					<view class="share" @click="ajaxAddShare(shop.shopNo)">
-						<van-icon name="share-o" color="#1576FE" size="40rpx" />
-						<text>分享</text>
-					</view>
+					<van-button plain  class="share" size="large"  icon="share-o" id="shareShop" color="#1576FE" open-type="share">分享</van-button>
 				</view>
 				<view class="button" @click="toSubscribe(shop.shopNo, shop.streetCode)">预约看铺</view>
 			</view>
@@ -487,7 +484,28 @@
 				});
 			},
 			
+			onShareAppMessage(res) {
+				console.log(res)
+				var type = res.target.id;
+				var that = this;
+				
+				
 			
+				
+				var para={
+					shopNo:this.shop.shopNo,
+					type:type,
+					appUid:this.userDetail.id,
+					callBackUrl:"/pages/Shops/shopDetails?shopNo=" + this.shop.shopNo
+				}
+				return {
+					title: '分享商铺-'+this.shop.shopName,
+					path: "/pages/Shops/shopDetails?shopNo=" + this.shop.shopNo,
+					//path: '/pages/login/login?para='+JSON.stringify(para),
+				}
+				
+			    
+			},
 			ajaxAddShare(shopNo){
 				
 				var that = this;
@@ -919,10 +937,15 @@
 						display: flex;
 						align-items: center;
 						margin-right: 56rpx;
+						background-color: #fff;
+						border: none;
 						
 						text {
 							color: #1576FE;
 							margin-left: 15rpx;
+						}
+						/deep/.van-button--large{
+							border: none;
 						}
 					}
 				}

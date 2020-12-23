@@ -194,10 +194,8 @@
             <van-icon name="like-o" color="#1576FE" size="40rpx" />
             <text>收藏</text>
           </view>
-          <view class="share" @click="ajaxAddShare(shop.shopNo)">
-            <van-icon name="share-o" color="#1576FE" size="40rpx" />
-            <text>分享</text>
-          </view>
+			<van-button plain  class="share" size="large"  icon="share-o" id="shareShop" color="#1576FE" open-type="share">分享</van-button>
+         
         </view>
         <view class="button" @click="toSubscribe(shop.shopNo, shop.streetCode)"
           >预约看铺</view
@@ -251,8 +249,8 @@ export default {
     //如果有项目ID
     if (paras.brandNo) {
       this.getDetail(paras.brandNo);
-		}
-		this.ajaxGetBrandSpecialList();
+	}
+	this.ajaxGetBrandSpecialList();
   },
   methods: {
 		onChange(e) {
@@ -290,6 +288,21 @@ export default {
         .catch((error) => {
           Toast.fail(this.global.error);
         });
+		},
+		
+		
+		onShareAppMessage(res) {
+			
+			var type = res.target.id;
+			var that = this;
+			
+			return {
+				title: '分享品牌-'+this.brand.brandName,
+				path: '/pages/Brand/BrandDetails?brandNo='+this.brand.id,
+				//path: '/pages/login/login?para='+JSON.stringify(para),
+			}
+			
+		    
 		},
 		
 		ajaxGetBrandSpecialList(){
@@ -731,6 +744,9 @@ export default {
             color: #1576fe;
             margin-left: 15rpx;
           }
+		  /deep/.van-button--large{
+		  	border: none;
+		  }
         }
       }
 
