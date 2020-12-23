@@ -5,11 +5,11 @@
 				
 			</view>
 			<view class="content">
-				<view class="content-q">
-					{{ item.q }}
+				<view class="content-q" v-if="index % 2 == 0">
+					<rich-text :nodes="item.q"></rich-text>
 				</view>
-				<view class="content-a">
-					{{ item.a }}
+				<view class="content-a" v-else>
+					<rich-text :nodes="item.a"></rich-text>
 				</view>
 			</view>
 		</view>
@@ -24,8 +24,15 @@
 			}
 		},
 		onLoad() {
-			this.list = this.Configs.question_answer.split("\n\n").map(item => {
-				return { q: item.split("\n")[0], a: item.split("\n")[1] }
+			this.list = this.Configs.question_answer.split("</p><p>").map((item, index) => {
+				let q = '';
+				let a = '';
+				if (index % 2 == 0) {
+					q = item
+				} else {
+					a = item
+				}
+				return { q: q, a: a }
 			})
 			console.log(this.list)
 		}
