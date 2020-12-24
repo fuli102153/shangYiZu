@@ -7,8 +7,10 @@
 				<van-icon name="play" class="arrow" color="#2B2B2B" size="17rpx" />
 			</view>
 			<view class="search" @click="goSearch">
-				<van-search v-model="value" shape="round"  placeholder="点击搜索目的地/关键词" @search="onSearch" />
+				<van-search v-model="value" shape="round"  placeholder="搜索店铺名" @search="onSearch" />
 			</view>
+			<van-icon name="phone" color="#2B2B2B" class="phone" @click="makePhoneCall(Configs.service_phone)" />
+						
 			<!-- <view class="shop-partner" @click="goShopPartner">
 				<text>商铺合伙人</text>
 				<van-icon name="play-circle" size="26rpx" color="#ffffff" />
@@ -172,7 +174,7 @@
 					<!-- <view class="coop-more" @click="goCoop">更多 ></view> -->
 				</view>
 				<view class="coop-list">
-					<view class="coop-item" v-for="(item,index) in cooperativeList.slice(0,4)" :key="index">
+					<view class="coop-item" v-for="(item,index) in cooperativeList" :key="index">
 						<image class="image" :src="item.logo" /> 
 						<text>{{item.enterpriseName}}</text>
 					</view>
@@ -600,6 +602,15 @@
 				})
 			},
 			
+			makePhoneCall: function(tel) {
+				uni.makePhoneCall({
+					phoneNumber: tel,
+					success: () => {
+						console.log("成功拨打电话");
+					},
+				});
+			},
+			
 			ajaxGetShopSumMeasureArea(){
 				var that = this;
 				const paras = {
@@ -702,6 +713,10 @@
 			}
 			.search {
 				flex: 1;
+			}
+			
+			.phone {
+				margin-left: 20rpx;
 			}
 			
 			.shop-partner {
@@ -915,6 +930,11 @@
 				}
 				.coop-list {
 					width: 100%;
+					overflow-x: auto;
+				
+					&::-webkit-scrollbar{
+						display: none;
+					}
 					.coop-item {
 						display: inline-block;
 						text-align:center;
@@ -947,7 +967,7 @@
 					
 					color: #302F2C;
 					line-height: 42rpx;
-					margin-bottom: 25rpx;
+					margin-bottom: 11rpx;
 				}
 			}
 			.store-more {
@@ -966,7 +986,7 @@
 		
 		.mid-banner {
 			padding: 0 36rpx;
-			margin: 50rpx 0;
+			margin: 36rpx 0;
 			
 			.swiper-box{
 				height: 300rpx;
@@ -1003,7 +1023,7 @@
 			}
 
 			.content {
-				padding: 0 35rpx;
+				padding: 0 35rpx 100rpx;
 			}
 			
 			.new-card {

@@ -79,6 +79,14 @@
 				  	</view>
 					<view class="item">
 						<view class="label">
+							每月租金
+						</view>
+						<view class="value">
+							{{shop.monthRent}}元/月
+						</view>
+					</view>
+					<view class="item">
+						<view class="label">
 							租金单价
 						</view>
 						<view class="value">
@@ -283,7 +291,10 @@
 					</view>
 					<van-button plain  class="share" size="large"  icon="share-o" id="shareShop" color="#1576FE" open-type="share">分享</van-button>
 				</view>
-				<view class="button" @click="toSubscribe(shop.shopNo, shop.streetCode)">预约看铺</view>
+				<view class="buttonBox"  @click="toSubscribe(shop.shopNo, shop.streetCode)">
+					<view class="button" >预约看铺</view>
+				</view>
+				
 			</view>
 		</view>
 		<van-toast id="van-toast" />
@@ -742,7 +753,7 @@
 					}
 					
 					.up {
-						transform: rotate(-90deg);
+						transform: rotate(-0deg);
 					}
 				}
 			}
@@ -950,12 +961,16 @@
 					}
 				}
 				
-				.button {
-					padding: 17rpx 68rpx;
-					color: #fff;
-					background: #1576FE;
-					border-radius: 5rpx;
-					font-size: 28rpx;
+				.buttonBox {
+					padding: 20rpx;
+				
+					.button {
+						padding: 17rpx 68rpx;
+						color: #fff;
+						background: #1576FE;
+						border-radius: 5rpx;
+						font-size: 28rpx;
+					}
 				}
 			}
 		}

@@ -521,7 +521,7 @@ export default {
         }
 
         .up {
-          transform: rotate(-90deg);
+          transform: rotate(-0deg);
         }
       }
     }

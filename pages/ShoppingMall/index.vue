@@ -390,6 +390,7 @@
 				//console.log(e)
 				let t =	(this.paras.streetId === e.detail.id) ? null : e.detail.id;
 				if(this.paras.streetId != t){
+					this.areaShow = false;
 					this.paras.streetId = t;
 					this.reloadData();
 				}

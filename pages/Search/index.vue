@@ -4,7 +4,7 @@
 			<van-search
 				:value="value"
 				shape="round"
-				placeholder="输入意向位置/业态"
+				placeholder="搜索店铺名"
 				@search="onSearch">
 				<template #left>
 					<van-icon name="arrow-left" color="#fff" :style="{marginRight: '24rpx'}" @click="onClickLeft" />
