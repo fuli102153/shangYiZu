@@ -452,11 +452,14 @@
 						let list = data.data.records;
 						that.brandList = that.reload ? list : that.brandList.concat(list);
 						that.reload = false;
+						uni.stopPullDownRefresh()
 						console.log('that.brandList', that.brandList, list, 111111111)
-					}else{
+					} else {
+						uni.stopPullDownRefresh()
 						Toast.fail(data.message);
 					}
 				}).catch(error => {
+					uni.stopPullDownRefresh()
 					Toast.fail(this.global.error);
 				});
 			},

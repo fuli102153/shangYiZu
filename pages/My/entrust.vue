@@ -292,8 +292,6 @@
 				});
 				getEntrustmentList(paras).then(res => {
 					const data = res.data;
-					console.log(data);
-					
 					if(data.code=="200"){
 						setTimeout(() => {
 							Toast.clear();
@@ -301,15 +299,15 @@
 						let list = data.data.records;
 						that.entrustmentList = that.reload ? list : that.entrustmentList.concat(list);
 						that.reload = false;
+						uni.stopPullDownRefresh()
 						// that.entrustmentList = data.data.records;
-						
-					}else{
+					} else {
+						uni.stopPullDownRefresh()
 						Toast.fail(data.message);
-						
 					}
-					
 				})
 				.catch(error => {
+					uni.stopPullDownRefresh()
 					Toast.fail(this.global.error);
 				});
 			},

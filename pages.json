@@ -59,7 +59,8 @@
 					"van-loading": "/wxcomponents/vant/dist/loading/index",
 					"van-toast": "/wxcomponents/vant/dist/toast/index"
 				},
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": true,
+				"backgroundTextStyle": "dark"
 			}
 		},
 		{

@@ -82,16 +82,16 @@
 						let list = that.setTime(data.data);
 						that.subscribeList = that.reload ? list : that.subscribeList.concat(list);
 						that.reload = false;
+						uni.stopPullDownRefresh()
 						console.log(that.subscribeList)
-						
-					
-					}else{
+					} else {
+						uni.stopPullDownRefresh()
 						Toast.fail(data.message);
-						
 					}
 					
 				})
 				.catch(error => {
+					uni.stopPullDownRefresh()
 					Toast.fail(this.global.error);
 				});
 			},

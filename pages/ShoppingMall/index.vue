@@ -498,16 +498,19 @@
 						let list = that.setTime(data.shopList);
 						that.shopList = that.reload ? list : that.shopList.concat(list);
 						that.reload = false;
+						uni.stopPullDownRefresh()
 						console.log(that.projectList);
 						that.$forceUpdate();
 						
 					}else{
+						uni.stopPullDownRefresh()
 						Toast.fail(data.message);
 						
 					}
 					
 				})
 				.catch(error => {
+					uni.stopPullDownRefresh()
 					Toast.fail(this.global.error);
 				});
 			},

@@ -199,15 +199,18 @@
 						let list = data.data;
 						that.shopList = that.reload ? list : that.shopList.concat(list);
 						that.reload = false;
+						uni.stopPullDownRefresh()
 					
 					}else{
 						
+						uni.stopPullDownRefresh()
 						
 					}
 					
 				})
 				.catch(error => {
 				
+						uni.stopPullDownRefresh()
 				});
 			},
 			

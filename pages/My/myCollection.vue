@@ -82,22 +82,21 @@
 					const data = res.data;
 					console.log(data);
 					
-					if(data.code=="200"){
+					if (data.code=="200") {
 						setTimeout(() => {
 							Toast.clear();
 						}, 300)
 						let list = data.data;
 						that.shopList = that.reload ? list : that.shopList.concat(list);
 						that.reload = false;
-						
-					
-					}else{
+						uni.stopPullDownRefresh()
+					} else {
+						uni.stopPullDownRefresh()
 						Toast.fail(data.message);
-						
 					}
-					
 				})
 				.catch(error => {
+					uni.stopPullDownRefresh()
 					Toast.fail(this.global.error);
 				});
 			},

@@ -15,7 +15,6 @@
 			</view>
 			<!-- 地址弹出层 -->
 			<van-popup :show="locationShow" @close="onClose" position="top" round custom-style="max-height: 60%;">
-				
 				<van-cell-group class="city">
 					<van-cell v-for="(item, index) in cityList" :key="index" center :label="item.cityName" :title="index === 0 ? '已开通城市' : ''"
 					 :class="activeCity === index ? 'active' : ''" @click="selectCity(index, item)">
@@ -25,9 +24,7 @@
 					</van-cell>
 				</van-cell-group>
 			</van-popup>
-			
 			<van-dropdown-menu>
-				
 				<van-dropdown-item title="业态" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
 					<van-tree-select height="100vw" max="10" :items="typeList" :main-active-index="typeActiveIndex" :active-id="paras.shopCategoryIds"
 					 selected-icon="success" @click-nav="onClickType" @click-item="onClickTypeItem" />
@@ -51,7 +48,7 @@
 			<view class="loading" v-if="0">
 				<van-loading  size="24px">{{loadMoreText}}</van-loading>
 			</view>
-			<view class="loading" v-else-if="0">
+			<view class="loading" v-else-if="false">
 				{{loadMoreText}}
 			</view>
 		</view>
@@ -168,22 +165,18 @@
 			//把字典格式进行转换
 			this.changeDict();
 		},
-		onReachBottom() {
-			console.log("onReachBottom");
-			this.loadMoreText = '更多';
-			this.ajaxGetShopList();
-		},
-		onPullDownRefresh() {
-			console.log("onPullDownRefresh");
-			this.reload = true;
-			this.ajaxGetShopList();
-		},
+		
 		methods: {
-			
-			
-
-
-			
+			onReachBottom() {
+				console.log("onReachBottom");
+				this.loadMoreText = '更多';
+				this.ajaxGetShopList();
+			},
+			onPullDownRefresh() {
+				console.log("onPullDownRefresh");
+				this.reload = true;
+				this.ajaxGetShopList();
+			},
 			// 选中城市
 			selectCity(index) {
 				var that = this;
@@ -468,13 +461,15 @@
 							let list = that.setTime(data.data);
 							that.shopList = that.reload ? list : that.shopList.concat(list);
 							that.reload = false;
-							
-							
+							uni.stopPullDownRefresh()
 						} else {
+							uni.stopPullDownRefresh()
 							Toast.fail(data.message);
 						}
 					})
 					.catch((error) => {
+						that.reload = false;
+						uni.stopPullDownRefresh()
 						Toast.fail(this.global.error);
 					});
 			},

@@ -164,19 +164,22 @@
 			</view>
 		</view>
 		
-		<!-- 合作企业 -->
+		<!-- 合作品牌 -->
 		<view class="coop">
 			<view class="coop-content">
 				<view class="coop-header">
 					<view class="coop-title">合作品牌</view>
 					<!-- <view class="coop-more" @click="goCoop">更多 ></view> -->
 				</view>
-				<view class="coop-list">
-					<view class="coop-item" v-for="(item,index) in cooperativeList.slice(0,4)" :key="index">
-						<image class="image" :src="item.logo" /> 
-						<text>{{item.enterpriseName}}</text>
+				<view class="coop-main">
+					<view class="coop-list">
+						<view class="coop-item" v-for="(item,index) in cooperativeList" :key="index">
+							<image class="image" :src="item.logo" /> 
+							<text>{{item.enterpriseName}}</text>
+						</view>
 					</view>
 				</view>
+				
 			</view>
 		</view>
 		
@@ -913,12 +916,21 @@
 						color: #1676FE;
 					}
 				}
-				.coop-list {
+				
+				.coop-main {
 					width: 100%;
+					overflow-x: auto;
+				
+					&::-webkit-scrollbar{
+						display: none;
+					}
+				}
+				.coop-list {
+					white-space: nowrap;
 					.coop-item {
 						display: inline-block;
 						text-align:center;
-						width: 25%;
+						padding: 0 35rpx;
 						.image {
 							width: 120rpx;
 							height: 120rpx;

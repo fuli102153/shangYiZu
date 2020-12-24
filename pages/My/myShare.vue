@@ -83,13 +83,16 @@
 						let list = data.data;
 						that.shareList = that.reload ? list : that.shareList.concat(list);
 						that.reload = false;
+						uni.stopPullDownRefresh()
 					}else{
+						uni.stopPullDownRefresh()
 						Toast.fail(data.message);
 						
 					}
 					
 				})
 				.catch(error => {
+					uni.stopPullDownRefresh()
 					Toast.fail(this.global.error);
 				
 				});
