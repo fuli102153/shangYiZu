@@ -46,6 +46,7 @@
 			//招租委托查询
 			ajaxGetMyShare(){
 				//ajax个人信息查询
+				uni.stopPullDownRefresh()
 				var that = this;
 				if (this.shareList.length>0) {
 					//说明已有数据，目前处于上拉加载
@@ -83,16 +84,13 @@
 						let list = data.data;
 						that.shareList = that.reload ? list : that.shareList.concat(list);
 						that.reload = false;
-						uni.stopPullDownRefresh()
 					}else{
-						uni.stopPullDownRefresh()
 						Toast.fail(data.message);
 						
 					}
 					
 				})
 				.catch(error => {
-					uni.stopPullDownRefresh()
 					Toast.fail(this.global.error);
 				
 				});

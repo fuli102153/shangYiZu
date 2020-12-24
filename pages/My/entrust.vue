@@ -208,6 +208,7 @@
 			
 			//招租委托查询
 			ajaxGetMyShopList(){
+				uni.stopPullDownRefresh()
 				//ajax个人信息查询
 				var that = this;
 				if (this.shopList.length>0) {
@@ -263,6 +264,7 @@
 			
 			//开店委托查询
 			ajaxGetEntrustmentList(){
+				uni.stopPullDownRefresh()
 				//ajax个人信息查询
 				var that = this;
 				if (this.shopList.length>0) {
@@ -299,15 +301,12 @@
 						let list = data.data.records;
 						that.entrustmentList = that.reload ? list : that.entrustmentList.concat(list);
 						that.reload = false;
-						uni.stopPullDownRefresh()
 						// that.entrustmentList = data.data.records;
 					} else {
-						uni.stopPullDownRefresh()
 						Toast.fail(data.message);
 					}
 				})
 				.catch(error => {
-					uni.stopPullDownRefresh()
 					Toast.fail(this.global.error);
 				});
 			},

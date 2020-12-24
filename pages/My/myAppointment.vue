@@ -40,7 +40,7 @@
 			
 			
 			getList(){
-				
+				uni.stopPullDownRefresh()
 				var that = this;
 				if (this.subscribeList.length>0) {
 					//说明已有数据，目前处于上拉加载
@@ -82,16 +82,13 @@
 						let list = that.setTime(data.data);
 						that.subscribeList = that.reload ? list : that.subscribeList.concat(list);
 						that.reload = false;
-						uni.stopPullDownRefresh()
 						console.log(that.subscribeList)
 					} else {
-						uni.stopPullDownRefresh()
 						Toast.fail(data.message);
 					}
 					
 				})
 				.catch(error => {
-					uni.stopPullDownRefresh()
 					Toast.fail(this.global.error);
 				});
 			},

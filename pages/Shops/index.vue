@@ -8,7 +8,7 @@
 					<van-icon name="play" class="arrow" color="#2B2B2B" size="17rpx" />
 				</view>
 				<view class="search">
-					<van-search v-model="value" shape="round"  placeholder="搜索店铺或区域" @search="onSearch" />
+					<van-search v-model="value" shape="round"  placeholder="搜索店铺名" @search="onSearch" />
 				</view>
 				<van-icon name="phone" color="#2B2B2B" class="phone" @click="makePhoneCall(Configs.service_phone)" />
 				<van-dialog id="van-dialog" />
@@ -359,6 +359,7 @@
 				//console.log(e)
 				let t =	(this.paras.streetId === e.detail.id) ? null : e.detail.id;
 				if(this.paras.streetId != t){
+					this.areaShow = false;
 					this.paras.streetId = t;
 					this.reloadData();
 				}
@@ -398,6 +399,7 @@
 			//商铺列表
 			ajaxGetShopList() {
 				//ajax个人信息查询
+				uni.stopPullDownRefresh()
 				var that = this;
 				//that.shopList = [];
 				
@@ -461,15 +463,12 @@
 							let list = that.setTime(data.data);
 							that.shopList = that.reload ? list : that.shopList.concat(list);
 							that.reload = false;
-							uni.stopPullDownRefresh()
 						} else {
-							uni.stopPullDownRefresh()
 							Toast.fail(data.message);
 						}
 					})
 					.catch((error) => {
 						that.reload = false;
-						uni.stopPullDownRefresh()
 						Toast.fail(this.global.error);
 					});
 			},
@@ -481,6 +480,8 @@
 				});
 				return newItems;
 			},
+			
+			
 
 			ajaxGetCityList() {
 				var that = this;

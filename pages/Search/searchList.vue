@@ -148,6 +148,7 @@
 			//商铺列表
 			ajaxGetShopList(){
 				//ajax个人信息查询
+				uni.stopPullDownRefresh()
 				var that = this;
 				
 				if (this.shopList.length>0) {
@@ -199,18 +200,15 @@
 						let list = data.data;
 						that.shopList = that.reload ? list : that.shopList.concat(list);
 						that.reload = false;
-						uni.stopPullDownRefresh()
 					
 					}else{
 						
-						uni.stopPullDownRefresh()
 						
 					}
 					
 				})
 				.catch(error => {
 				
-						uni.stopPullDownRefresh()
 				});
 			},
 			

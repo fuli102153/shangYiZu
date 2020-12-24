@@ -48,7 +48,7 @@
 			
 			
 			ajaxGetShopList(){
-				
+				uni.stopPullDownRefresh()
 				var that = this;
 				if (this.shopList.length>0) {
 					//说明已有数据，目前处于上拉加载
@@ -89,14 +89,11 @@
 						let list = data.data;
 						that.shopList = that.reload ? list : that.shopList.concat(list);
 						that.reload = false;
-						uni.stopPullDownRefresh()
 					} else {
-						uni.stopPullDownRefresh()
 						Toast.fail(data.message);
 					}
 				})
 				.catch(error => {
-					uni.stopPullDownRefresh()
 					Toast.fail(this.global.error);
 				});
 			},

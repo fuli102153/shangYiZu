@@ -4,34 +4,22 @@
 			<view class="header">
 				<view class="location" @click="showPopup">
 					<van-icon name="location" class="location-icon" color="#2B2B2B" size="30rpx" />
-					<text>深圳</text>
+					<text>{{localtionCity.cityName}}</text>
 					<van-icon name="play" class="arrow" color="#2B2B2B" size="17rpx" />
 				</view>
 				<view class="search">
 					<van-search
 					  :value="value"
 					  shape="round"
-					  placeholder="搜索店铺或区域"
+					  placeholder="搜索品牌名"
 					/>
 				</view>
 				<van-icon name="phone" color="#2B2B2B" class="phone" />
 			</view>
 			<!-- 地址弹出层 -->
 			<van-popup :show="locationShow" @close="onClose" position="top" round custom-style="max-height: 60%;">
-				<van-cell-group>
-					<van-cell title="选择城市" value="" size="large" />
-				</van-cell-group>
 				<van-cell-group class="city">
-					<van-cell center title="当前定位">
-						<template #default>
-							<van-button round plain hairline type="info" size="mini">手动定位</van-button>
-						</template>
-						<template #label>
-							<van-icon name="location" class="location-icon" color="#1676fe" size="30rpx" />
-							<span>深圳</span>
-						</template>
-					</van-cell>
-					<van-cell v-for="(item, index) in cityList" :key="index" center :label="item" :title="index === 0 ? '已开通城市' : ''"
+					<van-cell v-for="(item, index) in cityList" :key="index" center :label="item.cityName" :title="index === 0 ? '已开通城市' : ''"
 					 :class="activeCity === index ? 'active' : ''" @click="selectCity(index, item)">
 						<template #right-icon>
 							<van-icon v-if="activeCity === index" name="success" color="#1676FE" />
@@ -353,6 +341,7 @@
 				//console.log(e)
 				let t =	(this.paras.streetId === e.detail.id) ? null : e.detail.id;
 				if(this.paras.streetId != t){
+					this.areaShow = false;
 					this.paras.streetId = t;
 					this.reloadData();
 				}
@@ -398,7 +387,7 @@
 			ajaxGetBrandList(){
 				//ajax个人信息查询
 				var that = this;
-				
+				uni.stopPullDownRefresh()
 				if (this.brandList.length>0) {
 					//说明已有数据，目前处于上拉加载
 					this.loadMoreText = '加载中';
@@ -452,14 +441,11 @@
 						let list = data.data.records;
 						that.brandList = that.reload ? list : that.brandList.concat(list);
 						that.reload = false;
-						uni.stopPullDownRefresh()
 						console.log('that.brandList', that.brandList, list, 111111111)
 					} else {
-						uni.stopPullDownRefresh()
 						Toast.fail(data.message);
 					}
 				}).catch(error => {
-					uni.stopPullDownRefresh()
 					Toast.fail(this.global.error);
 				});
 			},

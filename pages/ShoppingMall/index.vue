@@ -390,6 +390,7 @@
 				//console.log(e)
 				let t =	(this.paras.streetId === e.detail.id) ? null : e.detail.id;
 				if(this.paras.streetId != t){
+					this.areaShow = false;
 					this.paras.streetId = t;
 					this.reloadData();
 				}
@@ -439,6 +440,8 @@
 			//ajax请求数据 
 			ajaxGetShopList(id){
 				//ajax个人信息查询
+				
+				uni.stopPullDownRefresh()
 				var that = this;
 				that.projectList = [];
 				if (this.shopList.length>0) {
@@ -449,6 +452,7 @@
 					//判断是否要需要请求
 					if(parseInt(this.shopList.length%this.paras.pageSize) !== 0){ 
 						this.loadMoreText = '没有更多';
+
 						return;
 					}
 					
@@ -498,19 +502,16 @@
 						let list = that.setTime(data.shopList);
 						that.shopList = that.reload ? list : that.shopList.concat(list);
 						that.reload = false;
-						uni.stopPullDownRefresh()
 						console.log(that.projectList);
 						that.$forceUpdate();
 						
 					}else{
-						uni.stopPullDownRefresh()
 						Toast.fail(data.message);
 						
 					}
 					
 				})
 				.catch(error => {
-					uni.stopPullDownRefresh()
 					Toast.fail(this.global.error);
 				});
 			},
