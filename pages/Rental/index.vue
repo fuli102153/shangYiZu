@@ -282,7 +282,7 @@
 			  use-button-slot
 			  @input="changPowerRate"
 			>
-			  <text slot="button">元/度</text>
+			  <text slot="button">元/KWh</text>
 			</van-field>
             <van-field
               :value="property.floorHeight"
