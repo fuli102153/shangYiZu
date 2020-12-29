@@ -22,6 +22,15 @@
             required
             @input="changeContactMobile"
           />
+		  <van-field
+		    :value="form.brandName"
+		    :error-message="errMsg.brandName"
+		    required
+		    clearable
+		    label="品牌名称"
+		    placeholder="请输入您的品牌名称"
+		    @input="changeBrandName"
+		  />
           <van-field
             :value="form.indentity"
             :error-message="errMsg.indentity"
@@ -76,7 +85,7 @@
             :error-message="errMsg.measureArea"
             required
             clearable
-            label="面积"
+            label="面积需求"
             placeholder="请输入您商铺的面积"
             @input="changeMeasureArea"
             use-button-slot
@@ -86,7 +95,7 @@
         </view>
         <view class="card">
           <view class="title" @click="showTransactionInfo = !showTransactionInfo">
-            <text>交易信息</text>
+            <text>品牌信息</text>
             <van-icon
               name="play"
               color="#1476FD"
@@ -99,13 +108,21 @@
               :error-message="errMsg.monthRent"
               required
               clearable
-              label="月租金"
+              label="租金意向"
               placeholder="请输入您期望的月租金"
               @input="changeMonthRent"
               use-button-slot
             >
               <text slot="button">元</text>
             </van-field>
+			<van-field
+			  :value="form.customerAveragePrice"
+			  :error-message="errMsg.customerAveragePrice"
+			  clearable
+			  label="客单价"
+			  placeholder="请输入您开店的人均消费单价"
+			  @input="changeCustomerAveragePrice"
+			/>
             <van-field
               :value="form.targetCustomer"
               :error-message="errMsg.targetCustomer"
@@ -114,53 +131,51 @@
               placeholder="请输入您开店针对的客户群体"
               @input="changeTargetCustomer"
             />
-            <van-field
-              :value="form.customerAveragePrice"
-              :error-message="errMsg.customerAveragePrice"
-              clearable
-              label="客单价"
-              placeholder="请输入您开店的人均消费单价"
-              @input="changeCustomerAveragePrice"
-            />
-            <van-field
-              :value="form.brandName"
-              :error-message="errMsg.brandName"
-              required
-              clearable
-              label="品牌名称"
-              placeholder="请输入您的品牌名称"
-              @input="changeBrandName"
-            />
-            <van-field
-              :value="form.brandProfile"
-              :error-message="errMsg.brandProfile"
-              required
-              clearable
-              label="开店品牌简介"
-              placeholder="请简单介绍一下您的品牌是什么样的店铺"
-              @input="changeBrandProfie"
-            />
+           <van-field
+             :value="form.position"
+             :error-message="errMsg.position"
+             label="开店区域"
+             placeholder="请选择您商铺所在位置"
+             required
+             disabled
+             @click.native="showPosition('position')"
+             is-link
+             arrow-direction="down"
+             @input="changePosition"
+           />
+            
+            
 
             <van-field
               :value="form.num"
               :error-message="errMsg.num"
               required
               clearable
-              label="数量"
+              label="开店数量"
               placeholder="请输入您计划开店的数量"
               @input="changeNum"
             />
-            <view class="is-investment">
-              <text>您品牌是否开放招商加盟</text>
-              <van-radio-group
-                :value="form.openjoin"
-                class="store-radio"
-                @change="isJoinIn"
-              >
-                <van-radio name="1" label-disabled>是</van-radio>
-                <van-radio name="0" label-disabled>否</van-radio>
-              </van-radio-group>
-            </view>
+			<van-field
+			  :value="form.openjoin"
+			  :error-message="errMsg.openjoin"
+			  label="允许加盟"
+			  required
+			  disabled
+			  @click.native="showActionSheet('openjoin')"
+			  is-link
+			  arrow-direction="down"
+			  @input="changeOpenjoin"
+			/>
+			<van-field
+			  :value="form.brandProfile"
+			  :error-message="errMsg.brandProfile"
+			  required
+			  clearable
+			  label="品牌简介"
+			  placeholder="请简单介绍一下您的品牌是什么样的店铺"
+			  @input="changeBrandProfie"
+			/>
+           
             <van-field
               :value="form.joinConditions"
               :error-message="errMsg.joinConditions"
@@ -173,7 +188,7 @@
         </view>
         <view class="card">
           <view class="title" @click="showEngineeringParameters = !showEngineeringParameters">
-            <text>工程参数</text>
+            <text>工程需求</text>
             <van-icon
               name="play"
               color="#1476FD"
@@ -183,18 +198,7 @@
             />
           </view>
           <view class="content" v-if="showEngineeringParameters">
-            <van-field
-              :value="form.position"
-              :error-message="errMsg.position"
-              label="位置"
-              placeholder="请选择您商铺所在位置"
-              required
-              disabled
-              @click.native="showPosition('position')"
-              is-link
-              arrow-direction="down"
-              @input="changePosition"
-            />
+            
             <van-field
               :value="form.engineeringConditions"
               :error-message="errMsg.engineeringConditions"
@@ -220,7 +224,7 @@
                       @after-read="afterRead($event, 0)"
                       preview-size="126rpx"
                     />
-                    <view class="image-text">品牌logo</view>
+                    <view class="image-text">logo</view>
                   </view>
                 </view>
               </view>
@@ -234,7 +238,7 @@
                       @after-read="afterRead($event, 1)"
                       preview-size="126rpx"
                     />
-                    <view class="image-text">您计划开店效果图</view>
+                    <view class="image-text">店招</view>
                   </view>
                 </view>
               </view>
@@ -253,6 +257,7 @@
       :actions="actions"
       cancel-text="取消"
       @close="onClose"
+	   @cancel="onClose"
       @select="onSelect"
     />
     <van-action-sheet :show="positionShow">
@@ -331,7 +336,8 @@ export default {
         targetCustomer: "80后",
         customerAveragePrice: "20",
         num: "6",
-        openjoin: "1",
+        openjoin: "是",
+		
         joinConditions: "20万的加盟费",
         brandLogo: "",
         effectPhotos: "",
@@ -387,6 +393,13 @@ export default {
       propertyStatusList: [],
       // 物业类型下拉菜单数据
       propertyTypeList: [],
+	  openjoinList:[ {
+			name: '是',
+		  },
+		  {
+			name: '否',
+		  },
+	  ],
 
       fileList: [[], []],
 
@@ -460,14 +473,10 @@ export default {
     onChange(event) {
       this.checked = event.detail;
     },
-    isJoinIn(event) {
-      this.form.openjoin = event.detail;
-    },
     // 选择侧边框选项
     selectTag(index) {
       let list = [];
       list = JSON.parse(JSON.stringify(this.selectList));
-      console.log(1111, list);
       if (list.includes(index)) {
         list.forEach((item, idx) => {
           if (item === index) {
@@ -524,11 +533,6 @@ export default {
     },
     onSelect(event) {
       this.form[`${this.clickInput}`] = event.detail.name;
-      console.log(
-        this.clickInput,
-        this.form[`${this.clickInput}`],
-        event.detail
-      );
     },
 
     // 获取城市定位
@@ -603,6 +607,11 @@ export default {
     changePropertyType(e) {
       this.form.propertyType = e.detail.trim();
     },
+	//允许开店
+	changeOpenjoin(e) {
+		console.log(e.detail.trim())
+	  this.form.openjoin = e.detail.trim();
+	},
     // 位置
     changePosition(e) {
       this.form.position = e.detail.trim();
@@ -717,6 +726,7 @@ export default {
     //提交数据
     submit() {
       const params = this.form;
+	  params.openjoin = this.form.openjoin == "是" ? 1 : 0;
       console.log(this.fileList);
       if (this.fileList[0].length) {
         params.brandLogo = this.fileList[0][0].url;

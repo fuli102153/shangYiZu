@@ -1,15 +1,15 @@
 <template>
   <view class="v-brand-details">
-    <!-- <uni-swiper-dot :info="info" :current="current" field="content" :mode="mode">
+    <uni-swiper-dot >
 			<swiper class="swiper-box" >
-				<swiper-item v-for="(item ,index) in shop.shopPhotos? shop.shopPhotos.split(',') : []" :key="index">
+				<swiper-item v-for="(item ,index) in brand.effectPhotos? brand.effectPhotos.split(',') : []" :key="index">
 					<view class="swiper-item">
 						<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
 					</view>
 				</swiper-item>
 			</swiper>
-		</uni-swiper-dot> -->
-    <view class="banner">
+		</uni-swiper-dot> 
+    <view class="banner" v-if="0">
       <view class="banner-img">
         <view
           class="img-item"
@@ -26,7 +26,7 @@
           ></image>
         </view>
       </view>
-      <view class="banner-tab">
+      <view class="banner-tab" v-if="0">
         <view
           class="tab-item"
           :class="index === tabActive ? 'active' : ''"
@@ -182,7 +182,7 @@
 		<view class="store" >
 			<view class="store-header">推荐品牌</view>
 			<view class="store-list">
-				<BrandCard v-for="(item,index) in brandList.slice(0, 3)" :sourceData="item" :lastLine="index==2" :key="item" />
+				<BrandCard v-for="(item,index) in brandList.slice(3, 8)" :sourceData="item" :lastLine="index==2" :key="item" />
 			</view>
 		</view>
     <!-- 预约 -->

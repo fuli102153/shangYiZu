@@ -408,6 +408,7 @@
 			//ajax请求数据 
 			ajaxGetShopList(){
 				//ajax个人信息查询
+				uni.stopPullDownRefresh()
 				var that = this;
 				that.projectList = [];
 				that.shopList = [];
@@ -452,6 +453,9 @@
 						that.projectEffectPicList = data.project.projectEffectPic.split(",");
 						console.log(that.projectEffectPicList)
 						that.shopList = data.shopList;
+						uni.setNavigationBarTitle({
+							title: data.project.projectName
+						})
 						that.$forceUpdate();
 					
 					}else{
@@ -661,7 +665,8 @@
 		.view-list {
 			display: flex;
 			flex: 1;
-			
+			position: relative;
+			top:-55rpx;
 			.store-list {
 				flex: 1;
 				height: 100%;

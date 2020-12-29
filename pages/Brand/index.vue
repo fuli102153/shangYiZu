@@ -75,7 +75,7 @@
 				
 				AreaStreets: [],
 				typeList:[],
-				shopList: [],
+			
 				searchAreaList: [], //面积
 				propertyList:[],//物业
 				monthRentList: [],
@@ -156,7 +156,7 @@
 		onPullDownRefresh() {
 			console.log("onPullDownRefresh");
 			this.reload = true;
-			this.ajaxGetBrandList();
+			this.reloadData();
 		},
 		methods: {
 			// 选中城市
@@ -372,7 +372,7 @@
 			},
 	
 			reloadData(){
-				this.shopList = [];
+				this.brandList = [];
 				this.ajaxGetBrandList();
 			},
 			
@@ -494,7 +494,11 @@
 								let area = {};
 								area.id = item.areaCode;
 								area.text = item.areaName;
-								area.children = [];
+								area.children = [{
+									id:"",
+									text:"不限",
+									children:[]
+								}];
 								item.streetVoList.forEach((street) => {
 									let streetItem = {};
 									streetItem.id = street.streetCode;

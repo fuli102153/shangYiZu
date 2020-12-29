@@ -335,6 +335,7 @@
       :actions="actions"
       cancel-text="取消"
       @close="onClose"
+	  @cancel="onClose"
       @select="onSelect"
     />
     <van-action-sheet :show="positionShow">

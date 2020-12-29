@@ -21,8 +21,8 @@
 			placeholder="请输入推荐人"
 			@input="changeRecommender"
 		/>
-		<van-cell required title="选择开始时间" :value="startDate" @click="onDisplay" />
-		<van-cell required title="选择结束时间" :value="endDate" @click="onEndDisplay" />
+		<van-cell required title="选择开始时间" :value="startDateStr" @click="onDisplay" />
+		<van-cell required title="选择结束时间" :value="endDateStr" @click="onEndDisplay" />
 		<view class="submit">
 			<van-button type="info" block @click="addSubscribe">提交</van-button>
 		</view>
@@ -65,8 +65,10 @@
 				mobile: '',
 				recommender: '',
 				startDate: '',
+				startDateStr: '',
 				startShow: false,
 				endDate: '',
+				endDateStr: '',
 				endShow: false,
 				shopNo:"",
 				streetCode: '',
@@ -102,13 +104,15 @@
 				this.startShow = false;
 			  this.currentDate = event.detail
 				const date = new Date(event.detail)
-				this.startDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:00`;
+				this.startDate = date;
+				this.startDateStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:00`;
 			},
 			onEndConfirm(event) {
 				this.endShow = false;
 				this.currentDate = event.detail
 				const date = new Date(event.detail)
-				this.endDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:00`;
+				this.endDate = date;
+				this.endDateStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:00`;
 			},
 			
 			//联系人
@@ -135,12 +139,16 @@
 					return;
 				}
 			
-				if(!that.startDate){
+				if(!that.startDateStr){
 					Toast.fail("请选择开始时间");
 					return;
 				}
-				if(!that.endDate){
+				if(!that.endDateStr){
 					Toast.fail("请选择结束时间");
+					return;
+				}
+				if(that.startDate>=that.endDate){
+					Toast.fail("结束时间必须大于开始时间");
 					return;
 				}
 				const paras = {
@@ -150,8 +158,8 @@
 					streetCode: that.streetCode,
 					appUid:that.userDetail.id,
 					type:1,
-					subscribeTimeStart:that.startDate,
-					subscribeTimeEnd:that.endDate,
+					subscribeTimeStart:that.startDateStr,
+					subscribeTimeEnd:that.endDateStr,
 					recommender: that.recommender
 				};
 				paras.accessToken = that.accessToken;

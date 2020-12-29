@@ -1,27 +1,23 @@
 <template>
 	<view class="v-shop-details">
-		<!-- <uni-swiper-dot :info="info" :current="current" field="content" :mode="mode">
-			<swiper class="swiper-box" >
-				<swiper-item v-for="(item ,index) in shop.shopPhotos? shop.shopPhotos.split(',') : []" :key="index">
-					<view class="swiper-item">
-						<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
-					</view>
-				</swiper-item>
-			</swiper>
-		</uni-swiper-dot> -->
-		<view class="banner">
-			<view class="banner-img">
-				<view class="img-item" v-for="(item ,index) in shop.shopPhotos? shop.shopPhotos.split(',') : []" :key="index">
-					<image :src="item" mode="" style="width: 100%; height: 430rpx;" v-if="index === tabActive"></image>
-				</view>
-			</view>
+		
+		<view class="banner" >
+			<uni-swiper-dot   :current="tabActive"   >
+				<swiper class="swiper-box" @change="changeSwiper">
+					<swiper-item v-for="(item ,index) in shop.shopPhotos? shop.shopPhotos.split(',') : []" :key="index">
+						<view class="swiper-item">
+							<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
+						</view>
+					</swiper-item>
+				</swiper>
+			</uni-swiper-dot> 
 			<view class="banner-tab">
 				<view 
 					class="tab-item" 
 					:class="index === tabActive ? 'active' : ''" 
 					v-for="(item, index) in tabList" 
 					:key="index" 
-					@click="selectTab(item, index)">
+					>
 					{{ item.name }}
 				</view>
 			</view>
@@ -29,16 +25,16 @@
 		<view class="shop-name">
 			<view class="header">
 				<view class="title">
-					<text>{{shop.shopName || ''}}</text>
+					<text>{{shop.shopName || '-'}}</text>
 					<view class="btn" v-if="0">
 						平台直租
 					</view>
 				</view>
 				<view class="shop-id">
-					编号：{{ shop.shopNo || '' }}
+					编号：{{ shop.shopNo || '-' }}
 				</view>
 				<view class="shop-rent">
-					￥{{ shop.monthRent || ''}}
+					￥{{ shop.monthRent || '-'}}
 					<text>元/月</text>
 				</view>
 			</view>
@@ -54,7 +50,7 @@
 					<view class="title">
 						{{shop.detailLocation}}
 					</view>
-					<text>深圳市南山区后海滨路鹏润达商业广场</text>
+					<text>{{shop.addrPcas}}</text>
 				</view>
 				<view class="look">
 					<van-icon name="location" color="#BFBFBF"/>
@@ -62,7 +58,7 @@
 				</view>
 			</view>
 			<view class="time">
-				更新时间：{{shop.createTime}}
+				更新时间：{{shop.createTime || '-'}}
 			</view>
 		</view>
 		<view class="shop-info">
@@ -74,7 +70,7 @@
 				  			计租面积
 				  		</view>
 						<view class="value">
-							{{shop.measureArea}}m²
+							{{shop.measureArea || '-'}}m²
 						</view>
 				  	</view>
 					<view class="item">
@@ -82,7 +78,7 @@
 							每月租金
 						</view>
 						<view class="value">
-							{{shop.monthRent}}元/月
+							{{shop.monthRent || '-'}}元/月
 						</view>
 					</view>
 					<view class="item">
@@ -90,7 +86,7 @@
 							租金单价
 						</view>
 						<view class="value">
-							{{(shop.monthRent/shop.measureArea).toFixed(2)}}元/平方米/月
+							{{(shop.monthRent/shop.measureArea).toFixed(2)}}元/m²/月
 						</view>
 					</view>
 					<view class="item">
@@ -98,7 +94,7 @@
 							所在楼层
 						</view>
 						<view class="value">
-							{{property.floorNum}}层
+							{{property.floorNum || '-'}}层
 						</view>
 					</view>
 					<view class="item">
@@ -106,7 +102,7 @@
 							物业类型
 						</view>
 						<view class="value">
-							{{shop.propertyType || ""}}
+							{{shop.propertyType || '-'}}
 						</view>
 					</view>
 					<view class="item">
@@ -114,7 +110,7 @@
 							推荐业态
 						</view>
 						<view class="value">
-							{{shop.businessType || ""}}
+							{{shop.businessType || '-'}}
 						</view>
 					</view>
 					<view class="cell" @click="transactionShow = !transactionShow">
@@ -129,7 +125,7 @@
 								支付方式
 							</view>
 							<view class="value">
-								{{property.payMode || ""}}
+								{{property.payMode || '-'}}
 							</view>
 						</view>
 						<view class="item">
@@ -137,7 +133,7 @@
 								租金递增
 							</view>
 							<view class="value">
-								{{property.rentIncrease || ""}}
+								{{property.rentIncrease || '-'}}
 							</view>
 						</view>
 						<view class="item">
@@ -145,7 +141,7 @@
 								免租期限
 							</view>
 							<view class="value">
-								{{property.powerRate || ""}}个月
+								{{property.powerRate || '-'}}个月
 							</view>
 						</view>
 						<view class="item">
@@ -153,7 +149,7 @@
 								转让费用
 							</view>
 							<view class="value">
-								{{property.transferFee || ""}}元
+								{{property.transferFee || '-'}}元
 							</view>
 						</view>
 						<view class="item">
@@ -161,7 +157,7 @@
 								水务费用
 							</view>
 							<view class="value">
-								{{property.waterRate || ""}}元/m³
+								{{property.waterRate || '-'}}元/m³
 							</view>
 						</view>
 						<view class="item">
@@ -169,7 +165,7 @@
 								电务费用
 							</view>
 							<view class="value">
-								{{property.waterRate || ""}}元/KWh
+								{{property.waterRate || '-'}}元/KWh
 							</view>
 						</view>
 					</view>
@@ -185,7 +181,7 @@
 								楼层层高
 							</view>
 							<view class="value">
-								{{property.floorHeight || ""}}m
+								{{property.floorHeight || '-'}}m
 							</view>
 						</view>
 						<view class="item">
@@ -193,7 +189,7 @@
 								楼层开间
 							</view>
 							<view class="value">
-								{{property.bayWidth || ""}}m
+								{{property.bayWidth || '-'}}m
 							</view>
 						</view>
 						<view class="item">
@@ -201,7 +197,7 @@
 								楼层进深
 							</view>
 							<view class="value">
-								{{property.depthLength || ""}}m
+								{{property.depthLength || '-'}}m
 							</view>
 						</view>
 					</view>
@@ -275,7 +271,7 @@
 		<view class="store" >
 			<view class="store-header">推荐商铺</view>
 			<view class="store-list">
-				<StoreCard v-for="(item,index) in guessYouLikeList.slice(3, 6)" :sourceData="item" :lastLine="index==2" :key="item" />
+				<StoreCard v-for="(item,index) in guessYouLikeList.slice(3, 8)" :sourceData="item" :lastLine="index==2" :key="item" />
 			</view>
 		</view>
 		<!-- 预约 -->
@@ -326,7 +322,6 @@
 				engineeringShow: true,
 				// 轮播图
 				info: [],
-				current: 0,
 				mode: 'nav',
 				
 				tagList: ['临近地铁', '临近学校', '居民密集区', '无进场费'],
@@ -371,6 +366,11 @@
 			},
 			onChange(e) {
 				console.log(e.detail)
+			},
+			changeSwiper(e){
+				console.log(e.detail)
+				this.tabActive = e.detail.current;
+				
 			},
 			goMap(latitude, longitude, shopName) {
 				uni.navigateTo({

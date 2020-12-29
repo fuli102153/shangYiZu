@@ -175,7 +175,7 @@
 			onPullDownRefresh() {
 				console.log("onPullDownRefresh");
 				this.reload = true;
-				this.ajaxGetShopList();
+				this.reloadData();
 			},
 			// 选中城市
 			selectCity(index) {
@@ -525,7 +525,11 @@
 								let area = {};
 								area.id = item.areaCode;
 								area.text = item.areaName;
-								area.children = [];
+								area.children = [{
+									id:"",
+									text:"不限",
+									children:[]
+								}];
 								item.streetVoList.forEach((street) => {
 									let streetItem = {};
 									streetItem.id = street.streetCode;

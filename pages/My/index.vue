@@ -2,11 +2,11 @@
 	<view class="v-my">
 		<view class="user-info">
 			<view class="user-img">
-				<image :src="userInfo.avatarUrl || ''" mode=""></image>
+				<open-data class="avatar" type="userAvatarUrl"></open-data>
 			</view>
 			<view class="user-name">
 				<view class="user-text">
-					{{ userInfo.nickName || '' }}
+					<open-data class="name" type="userNickName"></open-data>
 				</view>
 				<view class="user-id">
 					{{ mobile }}
@@ -72,13 +72,13 @@
 						router: './contract'
 					},
 					{
-						name: '我的收藏',
+						name: '查看收藏',
 						src: '../../static/images/Collection.png',
 						router: './myCollection'
 					},
 					{
-						name: '我的预约',
-						src: '../../static/images/appointment.png',
+						name: '预约管理',
+						src: '../../static/images/ppointment.png',
 						router: './myAppointment'
 					},
 				],
