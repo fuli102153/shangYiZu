@@ -55,18 +55,6 @@
             @input="changePropertyStatus"
           />
           <van-field
-            :value="form.propertyType"
-            :error-message="errMsg.propertyType"
-            label="物业类型"
-            placeholder="请选择您商铺物业类型"
-            required
-            disabled
-            @click.native="showActionSheet('propertyType')"
-            is-link
-            arrow-direction="down"
-            @input="changePropertyType"
-          />
-          <van-field
             v-if="0"
             :value="form.position"
             :error-message="errMsg.position"
@@ -89,20 +77,6 @@
             @click.native="changeDetailedLocation()"
             is-link
           />
-
-          <van-field
-            :value="form.monthRent"
-            :error-message="errMsg.monthRent"
-            required
-            clearable
-            label="月租金"
-            placeholder="请输入您期望的月租金"
-            @input="changeMonthRent"
-            type="number"
-            use-button-slot
-          >
-            <text slot="button">元</text>
-          </van-field>
           <van-field
             :value="form.measureArea"
             :error-message="errMsg.measureArea"
@@ -180,6 +154,31 @@
             />
           </view>
           <view class="content" v-if="showStoreInfo">
+			<van-field
+			  :value="form.propertyType"
+			  :error-message="errMsg.propertyType"
+			  label="物业类型"
+			  placeholder="请选择您商铺物业类型"
+			  required
+			  disabled
+			  @click.native="showActionSheet('propertyType')"
+			  is-link
+			  arrow-direction="down"
+			  @input="changePropertyType"
+			/>
+			<van-field
+			  :value="form.monthRent"
+			  :error-message="errMsg.monthRent"
+			  required
+			  clearable
+			  label="月租金"
+			  placeholder="请输入您期望的月租金"
+			  @input="changeMonthRent"
+			  type="number"
+			  use-button-slot
+			>
+			  <text slot="button">元</text>
+			</van-field>
             <van-field
               :value="property.payMode"
               clearable
@@ -215,26 +214,16 @@
             >
               <text slot="button">元</text>
             </van-field>
-            <van-field
-              :value="property.waterRate"
-              clearable
-              label="水务费用"
-              placeholder="您店铺的用水费用"
-              use-button-slot
-              @input="changWaterRate"
-            >
-              <text slot="button">元/m³</text>
-            </van-field>
-            <van-field
-              :value="property.powerRate"
-              clearable
-              label="电务费用"
-              placeholder="您店铺的用电费用"
-              use-button-slot
-              @input="changPowerRate"
-            >
-              <text slot="button">元/度</text>
-            </van-field>
+			<van-field
+			  :value="property.floorNum"
+			  clearable
+			  label="楼层"
+			  placeholder="您店铺的位置楼层"
+			  use-button-slot
+			  @input="changFloorNu"
+			>
+			  <text slot="button">层</text>
+			</van-field>
           </view>
         </view>
         <view class="card">
@@ -275,16 +264,26 @@
               placeholder="请介绍您点评周边物业环境配套情况"
               @input="changePropertyEnvironment"
             />
-            <van-field
-              :value="property.floorNum"
-              clearable
-              label="楼层"
-              placeholder="您店铺的位置楼层"
-              use-button-slot
-              @input="changFloorNu"
-            >
-              <text slot="button">层</text>
-            </van-field>
+			<van-field
+			  :value="property.waterRate"
+			  clearable
+			  label="水务费用"
+			  placeholder="您店铺的用水费用"
+			  use-button-slot
+			  @input="changWaterRate"
+			>
+			  <text slot="button">元/m³</text>
+			</van-field>
+			<van-field
+			  :value="property.powerRate"
+			  clearable
+			  label="电务费用"
+			  placeholder="您店铺的用电费用"
+			  use-button-slot
+			  @input="changPowerRate"
+			>
+			  <text slot="button">元/度</text>
+			</van-field>
             <van-field
               :value="property.floorHeight"
               clearable
