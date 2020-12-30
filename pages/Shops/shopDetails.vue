@@ -4,7 +4,7 @@
 		<view class="banner" >
 			<uni-swiper-dot   :current="tabActive"   >
 				<swiper class="swiper-box" @change="changeSwiper">
-					<swiper-item v-for="(item ,index) in shop.shopPhotos? shop.shopPhotos.split(',') : []" :key="index">
+					<swiper-item @click="previewImage(shop.shopPhotos? shop.shopPhotos.split(',') : [],index)" v-for="(item ,index) in shop.shopPhotos? shop.shopPhotos.split(',') : []" :key="index">
 						<view class="swiper-item">
 							<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
 						</view>
@@ -493,6 +493,17 @@
 				.catch(error => {
 					Toast.fail(this.global.error);
 				});
+			},
+			
+			previewImage(urls,index){
+				
+				//暂时不开放给他们使用
+				/*
+				uni.previewImage({
+					current:index,
+					urls:urls
+				})
+				*/
 			},
 			
 			onShareAppMessage(res) {

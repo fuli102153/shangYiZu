@@ -128,7 +128,7 @@
 			let title = '';
 			
 			if (paras.projectType == 1) {
-				title = '餐饮美食';
+				title = '餐饮酒楼';
 				this.parentCategoryIds = "306";
 			} else if (paras.projectType == 2) {
 				title = '娱乐酒店';

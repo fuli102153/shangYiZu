@@ -26,10 +26,12 @@
             :value="form.shopName"
             clearable
             required
-            label="商铺名称"
-            placeholder="给您的店铺取个亮眼的名称吧"
+            label="物业名称"
+            placeholder="请输入物业名称"
             @input="changShopName"
           />
+		 
+		 
           <van-field
             :value="form.indentity"
             :error-message="errMsg.indentity"
@@ -54,19 +56,7 @@
             arrow-direction="down"
             @input="changePropertyStatus"
           />
-          <van-field
-            v-if="0"
-            :value="form.position"
-            :error-message="errMsg.position"
-            label="位置"
-            placeholder="请选择您商铺所在位置"
-            required
-            disabled
-            @click.native="showPosition('position')"
-            is-link
-            arrow-direction="down"
-            @input="changePosition"
-          />
+         
           <van-field
             :value="form.detailLocation"
             :error-message="errMsg.detailLocation"
@@ -82,7 +72,7 @@
             :error-message="errMsg.measureArea"
             required
             clearable
-            label="面积"
+            label="计租面积"
             type="number"
             placeholder="请输入您商铺的面积"
             @input="changeMeasureArea"
@@ -102,7 +92,7 @@
           /> -->
           <view class="submit-btn">
             <view class="updata">
-              <text>商铺照片</text>
+              <text>物业图片</text>
               <view class="updata-image">
                 <view class="image-type">
                   <van-uploader
@@ -154,6 +144,16 @@
             />
           </view>
           <view class="content" v-if="showStoreInfo">
+			  <van-field
+			    :value="property.floorNum"
+			    clearable
+			    label="所在楼层"
+			    placeholder="您店铺的位置楼层"
+			    use-button-slot
+			    @input="changFloorNu"
+			  >
+			    <text slot="button">层</text>
+			  </van-field>
 			<van-field
 			  :value="form.propertyType"
 			  :error-message="errMsg.propertyType"
@@ -166,19 +166,7 @@
 			  arrow-direction="down"
 			  @input="changePropertyType"
 			/>
-			<van-field
-			  :value="form.monthRent"
-			  :error-message="errMsg.monthRent"
-			  required
-			  clearable
-			  label="月租金"
-			  placeholder="请输入您期望的月租金"
-			  @input="changeMonthRent"
-			  type="number"
-			  use-button-slot
-			>
-			  <text slot="button">元</text>
-			</van-field>
+			
             <van-field
               :value="property.payMode"
               clearable
@@ -202,7 +190,7 @@
               @input="changeFreeTenancy"
               use-button-slot
             >
-              <text slot="button">月</text>
+              <text slot="button">个月</text>
             </van-field>
             <van-field
               :value="property.transferFee"
@@ -214,16 +202,7 @@
             >
               <text slot="button">元</text>
             </van-field>
-			<van-field
-			  :value="property.floorNum"
-			  clearable
-			  label="楼层"
-			  placeholder="您店铺的位置楼层"
-			  use-button-slot
-			  @input="changFloorNu"
-			>
-			  <text slot="button">层</text>
-			</van-field>
+			
           </view>
         </view>
         <view class="card">
@@ -265,6 +244,36 @@
               @input="changePropertyEnvironment"
             />
 			<van-field
+			  :value="property.floorHeight"
+			  clearable
+			  label="楼层层高"
+			  placeholder="您店铺的位置楼层"
+			  use-button-slot
+			  @input="changFloorHeight"
+			>
+			  <text slot="button">m</text>
+			</van-field>
+			<van-field
+			  :value="property.bayWidth"
+			  clearable
+			  label="楼层开间"
+			  placeholder="您店铺的层高"
+			  use-button-slot
+			  @input="changBayWidth"
+			>
+			  <text slot="button">m</text>
+			</van-field>
+			<van-field
+			  :value="property.depthLength"
+			  clearable
+			  label="楼层进深"
+			  placeholder="您店铺的开间宽度"
+			  use-button-slot
+			  @input="changDepthLength"
+			>
+			  <text slot="button">m</text>
+			</van-field>
+			<van-field
 			  :value="property.waterRate"
 			  clearable
 			  label="水务费用"
@@ -284,36 +293,9 @@
 			>
 			  <text slot="button">元/KWh</text>
 			</van-field>
-            <van-field
-              :value="property.floorHeight"
-              clearable
-              label="层高"
-              placeholder="您店铺的位置楼层"
-              use-button-slot
-              @input="changFloorHeight"
-            >
-              <text slot="button">m</text>
-            </van-field>
-            <van-field
-              :value="property.bayWidth"
-              clearable
-              label="开间"
-              placeholder="您店铺的层高"
-              use-button-slot
-              @input="changBayWidth"
-            >
-              <text slot="button">m</text>
-            </van-field>
-            <van-field
-              :value="property.depthLength"
-              clearable
-              label="进深"
-              placeholder="您店铺的开间宽度"
-              use-button-slot
-              @input="changDepthLength"
-            >
-              <text slot="button">m</text>
-            </van-field>
+            
+            
+            
             <van-field
               :value="property.location"
               clearable
@@ -1070,7 +1052,7 @@ export default {
     .updata {
       display: flex;
       flex-direction: column;
-
+	margin-right: 40rpx;
       .updata-image {
         display: flex;
         justify-content: space-between;

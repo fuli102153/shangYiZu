@@ -21,45 +21,49 @@ function post(data,url){
 }
  
 export function getAccessToken(){
+	
+	
+	//请求常量
+	getAllDictItems({}).then(res => {
+		const data = res.data;
+		
+		if(data.code=="200"){
+			let dict = data.data;
+			let _d = {}
+			dict.forEach((item)=>{
+				_d[item.dictCode] = item.dictItemVos
+			})
+			Vue.prototype.Dict = _d;
+			
+		}else{}
+		
+	})
+	.catch(error => {});
+	
+	getAllConfigs({}).then(res => {
+		const data = res.data;
+		
+		if(data.code=="200"){
+			let dict = data.data;
+			let _d = {}
+			dict.forEach((item)=>{
+				_d[item.confKey] = item.confValue
+			})
+			Vue.prototype.Configs = _d;
+			
+			
+		}else{}
+		
+	})
+	.catch(error => {});
+	
 	uni.getStorage({
 		key: "__accessToken__",
 		success: (res) => {
 			console.log("success__accessToken__")
 			Vue.prototype.accessToken = res.data;
 			
-			//请求常量
-			getAllDictItems({accessToken:res.data}).then(res => {
-				const data = res.data;
-				
-				if(data.code=="200"){
-					let dict = data.data;
-					let _d = {}
-					dict.forEach((item)=>{
-						_d[item.dictCode] = item.dictItemVos
-					})
-					Vue.prototype.Dict = _d;
-					
-				}else{}
-				
-			})
-			.catch(error => {});
 			
-			getAllConfigs({accessToken:res.data}).then(res => {
-				const data = res.data;
-				
-				if(data.code=="200"){
-					let dict = data.data;
-					let _d = {}
-					dict.forEach((item)=>{
-						_d[item.confKey] = item.confValue
-					})
-					Vue.prototype.Configs = _d;
-					
-					
-				}else{}
-				
-			})
-			.catch(error => {});
 			
 		},
 		fail: () => {

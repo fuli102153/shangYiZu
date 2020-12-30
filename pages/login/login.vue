@@ -3,19 +3,15 @@
 		<image class="logo" src="../../static/logo.png"></image>
 		<view v-if="showLogin" class="text">登录中...</view>
 		<view v-else>
+		
 			<button  class="btn_login" type="default"  @click="_getuserTest"  >体验一下</button>
 			
-			<button  class="btn_login" type="primary"  open-type="getUserInfo" @getuserinfo="_getuserinfo" withCredentials="true">登录</button>
+			<button  class="btn_login" type="primary"  open-type="getPhoneNumber" @getphonenumber="getPhoneNumber" >登录</button>
 		</view>
 		
 
 		<van-toast id="van-toast" />
-		<van-dialog id="van-dialog" title="请绑定手机号"
-		  :show="showDialog"
-		  show-cancel-button
-		  confirm-button-open-type="getPhoneNumber"
-			@cancel = "_requestLogin"
-		  @getphonenumber="getPhoneNumber"/>
+
 	</view>
 </template>
 
@@ -29,13 +25,14 @@
 		},
 		data() {
 			return {
-				showDialog:false,
+			
 				showLogin:true,
 				para:{},
 				verifyCode:"",
 				code:"",
 				accessToken:"",
 				openid:"",
+				userInfo:{},
 			}
 		},
 		
@@ -51,9 +48,14 @@
 			_getuserTest(){
 				// wx登录
 				//跳转到首页
-				uni.switchTab({
-					 url: '../Index/index'
-				});
+				
+				
+				getAccessToken();
+				setTimeout(() => {
+					uni.switchTab({
+						 url: '../Index/index'
+					});
+				}, 0)
 			},
 			getPhoneNumber(val){
 				//用户接受
@@ -78,6 +80,29 @@
 							that.code = res.code;
 						  	// 获取微信用户信息
 							console.log(that.code)
+							//判断手机号是否存在  如果不存在  则提示
+							
+							//判断用户有没有用手机号
+							
+							uni.getStorage({
+								key: "__userDetail__",
+								success: (res) => {
+									//that._requestLogin();
+									
+									var mobile = res.data.mobile
+									if(mobile){
+										that._getuserTest();
+									}else{
+										that.showLogin = false; 
+									}
+								},
+								fail: () => {
+									that.showLogin = false; 
+									
+								}
+							})
+							
+							/*
 							wx.getUserInfo({
 							  success: function(res) {
 								
@@ -89,18 +114,18 @@
 								uni.getStorage({
 									key: "__userDetail__",
 									success: (res) => {
-										that._requestLogin();
-										/*
+										//that._requestLogin();
+										
 										var mobile = res.data.mobile
 										if(mobile){
 											that._requestLogin();
 										}else{
-											that.showDialog = true;
-										}*/
+										
+										}
 									},
 									fail: () => {
-										that._requestLogin();
-										//that.showDialog = true;
+										//that._requestLogin();
+										
 									}
 								})
 								
@@ -127,7 +152,7 @@
 								that.showLogin = false; 
 								
 							   }
-							})
+							})*/
 							
 					    } else {
 							
@@ -144,8 +169,6 @@
 					const paras = {
 						appid:"wx659fdf8f4e2445d0",
 						code:that.code,
-						signature:that.userInfo.signature,
-						rawData:that.userInfo.rawData,
 						encryptedData:that.userInfo.encryptedData,
 						iv:that.userInfo.iv,
 					};
@@ -161,7 +184,7 @@
 						if(data.code=="200"){
 							
 							that.accessToken = data.data.accessToken;
-						
+							//存储token
 							uni.setStorage({
 								key: "__accessToken__",
 								data: data.data.accessToken,
@@ -172,10 +195,19 @@
 										that.getUserInfoByLogin();
 									}, 0)
 									
-									
-									
-									
-								
+								},
+								fail: () => {
+									Toast.fail("用户信息获取失败!");
+								}
+							})
+							
+							
+							//存储token
+							uni.setStorage({
+								key: "__userDetail__",
+								data: data.data.appUser,
+								success: (res) => {
+
 									
 								},
 								fail: () => {

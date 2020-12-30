@@ -254,7 +254,7 @@
 						router: '../Map/index'
 					},
 					{
-						name: '餐饮美食',
+						name: '餐饮酒楼',
 						src: '../../static/images/icon_2.png',
 						router: '../ShoppingMall/index?projectType=1'
 					},

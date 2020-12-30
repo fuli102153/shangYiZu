@@ -9,7 +9,7 @@
 					<open-data class="name" type="userNickName"></open-data>
 				</view>
 				<view class="user-id">
-					{{ mobile }}
+					{{ mobile || "绑定手机号" }}
 				</view>
 			</view>
 			<view v-if="0" class="user-edit">

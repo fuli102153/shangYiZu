@@ -92,6 +92,50 @@
           >
             <text slot="button">m²</text>
           </van-field>
+		  
+		  <van-field
+		    :value="form.position"
+		    :error-message="errMsg.position"
+		    label="开店区域"
+		    placeholder="请选择您商铺所在位置"
+		    required
+		    disabled
+		    @click.native="showPosition('position')"
+		    is-link
+		    arrow-direction="down"
+		    @input="changePosition"
+		  />
+		  
+
+		  
+		  
+		  <view class="submit-btn">
+		    <view class="updata">
+				<text>品牌图片</text>
+		      <view class="updata-image">
+		        <view class="image-type">
+		          <van-uploader
+		            :file-list="fileList[0]"
+		            max-count="1"
+		            @after-read="afterRead($event, 0)"
+		            preview-size="126rpx"
+		          />
+		          <view class="image-text">logo</view>
+		        </view>
+				
+				<view class="image-type">
+				  <van-uploader
+				    :file-list="fileList[1]"
+				    max-count="1"
+				    @after-read="afterRead($event, 1)"
+				    preview-size="126rpx"
+				  />
+				  <view class="image-text">店招</view>
+				</view>
+		      </view>
+		    </view>
+		  </view>
+		  
         </view>
         <view class="card">
           <view class="title" @click="showTransactionInfo = !showTransactionInfo">
@@ -119,7 +163,7 @@
 			  :value="form.customerAveragePrice"
 			  :error-message="errMsg.customerAveragePrice"
 			  clearable
-			  label="客单价"
+			  label="客单价格"
 			  placeholder="请输入您开店的人均消费单价"
 			  @input="changeCustomerAveragePrice"
 			/>
@@ -131,18 +175,7 @@
               placeholder="请输入您开店针对的客户群体"
               @input="changeTargetCustomer"
             />
-           <van-field
-             :value="form.position"
-             :error-message="errMsg.position"
-             label="开店区域"
-             placeholder="请选择您商铺所在位置"
-             required
-             disabled
-             @click.native="showPosition('position')"
-             is-link
-             arrow-direction="down"
-             @input="changePosition"
-           />
+          
             
             
 
@@ -210,41 +243,7 @@
             />
           </view>
         </view>
-        <view class="card">
-          <view class="title"> 品牌图片 </view>
-          <view class="content">
-            <view class="submit-btn">
-              <view class="updata">
-                <text>商铺照片</text>
-                <view class="updata-image">
-                  <view class="image-type">
-                    <van-uploader
-                      :file-list="fileList[0]"
-                      max-count="1"
-                      @after-read="afterRead($event, 0)"
-                      preview-size="126rpx"
-                    />
-                    <view class="image-text">logo</view>
-                  </view>
-                </view>
-              </view>
-              <view class="updata">
-                <text>效果图</text>
-                <view class="updata-image">
-                  <view class="image-type">
-                    <van-uploader
-                      :file-list="fileList[1]"
-                      max-count="1"
-                      @after-read="afterRead($event, 1)"
-                      preview-size="126rpx"
-                    />
-                    <view class="image-text">店招</view>
-                  </view>
-                </view>
-              </view>
-            </view>
-          </view>
-        </view>
+
       </van-cell-group>
     </view>
 
@@ -812,7 +811,7 @@ export default {
 
   .submit-btn {
     padding: 0 46rpx;
-    display: flex;
+    
 
     .updata {
       display: flex;
@@ -820,16 +819,19 @@ export default {
       margin-right: 40rpx;
 
       .updata-image {
-        display: flex;
+     
         justify-content: space-between;
 
         .image-type {
           text-align: left;
-
+		  width: 120rpx;
+		  display: inline-block;
+			margin-right: 40rpx;
           .image-text {
             font-size: 28rpx;
             color: #888888;
             margin-top: 28rpx;
+			text-align: center;
           }
         }
       }
