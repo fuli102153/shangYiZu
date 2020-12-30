@@ -81,30 +81,9 @@
 							{{shop.monthRent || '-'}}元/月
 						</view>
 					</view>
-					<view class="item">
-						<view class="label">
-							租金单价
-						</view>
-						<view class="value">
-							{{(shop.monthRent/shop.measureArea).toFixed(2)}}元/m²/月
-						</view>
-					</view>
-					<view class="item">
-						<view class="label">
-							所在楼层
-						</view>
-						<view class="value">
-							{{property.floorNum || '-'}}层
-						</view>
-					</view>
-					<view class="item">
-						<view class="label">
-							物业类型
-						</view>
-						<view class="value">
-							{{shop.propertyType || '-'}}
-						</view>
-					</view>
+					
+					
+					
 					<view class="item">
 						<view class="label">
 							推荐业态
@@ -120,6 +99,30 @@
 						<van-icon name="play" :class="transactionShow ? 'down' : 'up'"/>
 					</view>
 					<view class="transaction-info" v-show="transactionShow">
+						<view class="item">
+							<view class="label">
+								物业类型
+							</view>
+							<view class="value">
+								{{shop.propertyType || '-'}}
+							</view>
+						</view>
+						<view class="item">
+							<view class="label">
+								所在楼层
+							</view>
+							<view class="value">
+								{{property.floorNum || '-'}}层
+							</view>
+						</view>
+						<view class="item">
+							<view class="label">
+								租金单价
+							</view>
+							<view class="value">
+								{{(shop.monthRent/shop.measureArea).toFixed(2)}}元/m²/月
+							</view>
+						</view>
 						<view class="item">
 							<view class="label">
 								支付方式
@@ -152,6 +155,15 @@
 								{{property.transferFee || '-'}}元
 							</view>
 						</view>
+						
+					</view>
+					<view class="cell" @click="engineeringShow = !engineeringShow">
+						<view class="label">
+							工程参数
+						</view>
+						<van-icon name="play" :class="engineeringShow ? 'down' : 'up'"/>
+					</view>
+					<view class="engineering-info" v-show="engineeringShow">
 						<view class="item">
 							<view class="label">
 								水务费用
@@ -168,14 +180,6 @@
 								{{property.waterRate || '-'}}元/KWh
 							</view>
 						</view>
-					</view>
-					<view class="cell" @click="engineeringShow = !engineeringShow">
-						<view class="label">
-							工程参数
-						</view>
-						<van-icon name="play" :class="engineeringShow ? 'down' : 'up'"/>
-					</view>
-					<view class="engineering-info" v-show="engineeringShow">
 						<view class="item">
 							<view class="label">
 								楼层层高
