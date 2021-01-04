@@ -144,7 +144,7 @@
 								免租期限
 							</view>
 							<view class="value">
-								{{property.powerRate || '-'}}个月
+								{{property.freeTenancy || '-'}}个月
 							</view>
 						</view>
 						<view class="item">
@@ -177,7 +177,7 @@
 								电务费用
 							</view>
 							<view class="value">
-								{{property.waterRate || '-'}}元/KWh
+								{{property.powerRate || '-'}}元/KWh
 							</view>
 						</view>
 						<view class="item">

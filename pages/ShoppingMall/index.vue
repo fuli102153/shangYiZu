@@ -137,22 +137,22 @@
 				title = '生活服务';
 				this.parentCategoryIds = "3";
 			} else if (paras.projectType == 4) {
-				title = '服饰鞋包';
+				title = '医疗美容';
 				this.parentCategoryIds = "4";
 			} else if (paras.projectType == 5) {
-				title = '精品零售';
+				title = '商朝配套';
 				this.parentCategoryIds = "5";
 			} else if (paras.projectType == 6) {
-				title = '教育培训';
+				title = '专业市场';
 				this.parentCategoryIds = "6";
 			} else if (paras.projectType == 7) {
-				title = '医疗美容';
+				title = '服饰鞋包';
 				this.parentCategoryIds = "7";
 			} else if (paras.projectType == 8) {
-				title = '商超配套';
+				title = '精品零售';
 				this.parentCategoryIds = "8";
 			} else if (paras.projectType == 9) {
-				title = '专业市场';
+				title = '教育培训';
 				this.parentCategoryIds = "9";
 			}
 			uni.setNavigationBarTitle({

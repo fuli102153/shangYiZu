@@ -6,7 +6,7 @@
 					<van-empty v-if="shopList.length==0" description="暂无数据" />
 					<!--fail-->
 					<!--状态 0：拒绝;1-待审核;2-已发布（空置）;3-洽谈中;4-已成交未结佣;5-已成交已结佣;6-竞方出租;7-下线-->
-					<view v-for="(item,index) in shopList" :key="index">
+					<view v-else v-for="(item,index) in shopList" :key="index">
 						<view class="card success" :class="'cardStatus_'+statusList[item.status].value" >
 							<view class="header">
 								<view class="title">
@@ -246,7 +246,7 @@
 							Toast.clear();
 						}, 300)
 						// that.shopList = data.data;
-						let list = data.data;
+						let list = data.data || [];
 						that.shopList = that.reload ? list : that.shopList.concat(list);
 						that.reload = false;
 						console.log(that.shopList);

@@ -5,7 +5,6 @@
 </template>
 
 <script>
-
 	export default {
 		data() {
 			return {
@@ -13,8 +12,7 @@
 			}
 		},
 		onLoad() {
-			this.content = this.Configs.about_us;
-			console.log(this.Configs.about_us)
+			this.content = this.Configs.copyright_agreement;
 		},
 		methods:{
 			

@@ -113,7 +113,8 @@
 					otherTagIndex:-1,
 					selectOtherList: [],
 					projectEffectPicList:[],//项目效果图
-					
+					reload: false,
+					loadMoreText: "更多",
 					paras:{
 						projectId:"",
 						businessType:"",
@@ -413,6 +414,23 @@
 				that.projectList = [];
 				that.shopList = [];
 				
+				if (this.shopList.length>0) {
+					//说明已有数据，目前处于上拉加载
+					this.loadMoreText = '加载中';
+					this.paras.pageNo = Math.floor(this.shopList.length/this.paras.pageSize)+1;
+					this.paras.pageSize = 10;
+					//判断是否要需要请求
+					if(parseInt(this.shopList.length%this.paras.pageSize) !== 0){ 
+						this.loadMoreText = '没有更多';
+				
+						return;
+					}
+					
+				}else{
+					this.paras.pageNo = 1;
+					this.paras.pageSize = 10;
+				}
+				
 				const paras = {
 					projectId:this.paras.projectId,
 					shopCategoryIds:this.paras.shopCategoryIds.join("|"),
@@ -451,8 +469,10 @@
 							Toast.clear();
 						}, 300)
 						that.projectEffectPicList = data.project.projectEffectPic.split(",");
-						console.log(that.projectEffectPicList)
-						that.shopList = data.shopList;
+						let list = that.setTime(data.shopList);
+						that.shopList = that.reload ? list : that.shopList.concat(list);
+						that.reload = false;
+						
 						uni.setNavigationBarTitle({
 							title: data.project.projectName
 						})
@@ -467,6 +487,15 @@
 				.catch(error => {
 					Toast.fail(this.global.error);
 				});
+			},
+			
+			
+			setTime: function(items) {
+				var newItems = [];
+				items.forEach(e => {
+					newItems.push(e);
+				});
+				return newItems;
 			},
 			
 			

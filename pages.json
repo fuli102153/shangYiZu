@@ -178,6 +178,14 @@
 					
 				}
 			}
+		},{
+			"path": "pages/My/userAgreement",
+			"style": {
+				"navigationBarTitleText": "用户协议",
+				"usingComponents":{
+					
+				}
+			}
 		},
 		{
 			"path": "pages/My/feedback",

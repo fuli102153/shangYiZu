@@ -64,6 +64,7 @@
 				if(val.detail.errMsg=="getPhoneNumber:ok"){
 					that.userInfo.encryptedData = val.detail.encryptedData;
 					that.userInfo.iv = val.detail.iv;
+					
 					that._requestLogin();
 				}else{
 					console.log('用户点击了拒绝') ;  
@@ -87,11 +88,12 @@
 							uni.getStorage({
 								key: "__userDetail__",
 								success: (res) => {
-									//that._requestLogin();
+									
 									
 									var mobile = res.data.mobile
 									if(mobile){
-										that._getuserTest();
+										//that._requestLogin();
+										that._requestLogin();
 									}else{
 										that.showLogin = false; 
 									}
@@ -161,17 +163,24 @@
 					})
 				},
 				
-				_requestLogin(n) {
+				_requestLogin() {
 					this.showDialog = false;
-					console.log("ajax⽤户登录"+n)
 					var that = this;
 					//ajax⽤户登录
-					const paras = {
-						appid:"wx659fdf8f4e2445d0",
-						code:that.code,
-						encryptedData:that.userInfo.encryptedData,
-						iv:that.userInfo.iv,
-					};
+					if(that.userInfo.encryptedData){
+						var paras = {
+							appid:"wx659fdf8f4e2445d0",
+							code:that.code,
+							encryptedData:that.userInfo.encryptedData,
+							iv:that.userInfo.iv,
+						};
+					}else{
+						var paras = {
+							appid:"wx659fdf8f4e2445d0",
+							code:that.code,
+						};
+					}
+					
 					const toast = Toast.loading({
 					  message: '登录中...',
 					  forbidClick: true,
