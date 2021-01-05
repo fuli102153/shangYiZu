@@ -180,7 +180,7 @@
 		onPullDownRefresh() {
 			console.log("onPullDownRefresh");
 			this.reload = true;
-			this.ajaxGetShopList();
+			this.reloadData();
 		},
 		methods: {
 			
@@ -412,7 +412,7 @@
 				uni.stopPullDownRefresh()
 				var that = this;
 				that.projectList = [];
-				that.shopList = [];
+				
 				
 				if (this.shopList.length>0) {
 					//说明已有数据，目前处于上拉加载
@@ -451,8 +451,8 @@
 					propertyType:this.paras.propertyType,
 					measureAreaStart:this.paras.measureAreaStart,
 					measureAreaEnd:this.paras.measureAreaEnd,
-					pageNo:1,
-					pageSize:10,
+					pageNo:this.paras.pageNo,
+					pageSize:this.paras.pageSize,
 				};
 				paras.accessToken = that.accessToken;
 				const toast = Toast.loading({

@@ -141,7 +141,7 @@
 						</view>
 						<view class="item">
 							<view class="label">
-								免租期限
+								装修免租
 							</view>
 							<view class="value">
 								{{property.freeTenancy || '-'}}个月

@@ -185,7 +185,7 @@
               :value="form.freeTenancy"
               :error-message="errMsg.freeTenancy"
               clearable
-              label="免租期限"
+              label="装修免租"
               placeholder="请输入您商铺的免租期"
               @input="changeFreeTenancy"
               use-button-slot

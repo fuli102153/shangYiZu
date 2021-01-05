@@ -481,8 +481,8 @@
 					projectType:this.paras.projectType,
 					measureAreaStart:this.paras.measureAreaStart,
 					measureAreaEnd:this.paras.measureAreaEnd,
-					pageNo:1,
-					pageSize:10,
+					pageNo:this.paras.pageNo,
+					pageSize:this.paras.pageSize,
 				};
 				paras.accessToken = that.accessToken;
 				const toast = Toast.loading({

@@ -198,7 +198,7 @@
          
         </view>
         <view class="button" @click="toSubscribe(shop.shopNo, shop.streetCode)"
-          >预约看铺</view
+          >联系直招</view
         >
       </view>
     </view>
@@ -297,7 +297,7 @@ export default {
 			var that = this;
 			
 			return {
-				title: '分享品牌-'+this.brand.brandName,
+				title: this.brand.brandName,
 				path: '/pages/Brand/BrandDetails?brandNo='+this.brand.id,
 				//path: '/pages/login/login?para='+JSON.stringify(para),
 			}

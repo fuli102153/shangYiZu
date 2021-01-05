@@ -186,8 +186,8 @@
 					measureAreaEnd:this.paras.measureAreaEnd,
 					longitude:this.paras.longitude,
 					latitude:this.paras.latitude,
-					pageNo:1,
-					pageSize:10,
+					pageNo:this.paras.pageNo,
+					pageSize:this.paras.pageSize,
 				};
 				paras.accessToken = that.accessToken;
 				
