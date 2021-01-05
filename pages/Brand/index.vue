@@ -194,7 +194,7 @@
 			},
 			onClickItemSort(e) {
 				const sortActiveId =
-					this.sortActiveId === e.detail.id ? null : e.detail.id;
+					this.sortActiveId === e.detail.text ? null : e.detail.text;
 				this.sortActiveId = sortActiveId;
 				this.paras.sort = sortActiveId;
 				console.log(this.paras.sort);
@@ -339,7 +339,7 @@
 			//右侧选择项被点击时，会触发的事件
 			onClickItem(e) {
 				//console.log(e)
-				let t =	(this.paras.streetId === e.detail.id) ? null : e.detail.id;
+				let t =	(this.paras.streetId === e.detail.text) ? null : e.detail.text;
 				if(this.paras.streetId != t){
 					this.areaShow = false;
 					this.paras.streetId = t;
@@ -360,13 +360,13 @@
 			},
 			//右侧选择项被点击时，会触发的事件
 			onClickTypeItem(e) {
-				//console.log(e)
+				console.log(e)
 			
-				const index = this.paras.shopCategoryIds.indexOf(e.detail.id);
+				const index = this.paras.shopCategoryIds.indexOf(e.detail.text);
 				if (index > -1) {
 				  this.paras.shopCategoryIds.splice(index, 1);
 				} else {
-				  this.paras.shopCategoryIds.push(e.detail.id);
+				  this.paras.shopCategoryIds.push(e.detail.text);
 				}
 				this.reloadData();	
 			},
@@ -391,39 +391,27 @@
 				if (this.brandList.length>0) {
 					//说明已有数据，目前处于上拉加载
 					this.loadMoreText = '加载中';
-					this.pageNo = Math.floor(this.brandList.length/this.pageSize)+1;
-					this.pageSize = 10;
+					this.paras.pageNo = Math.floor(this.brandList.length/this.pageSize)+1;
+					this.paras.pageSize = 10;
 					//判断是否要需要请求
 					if(parseInt(this.brandList.length%this.pageSize) !== 0){ 
 						this.loadMoreText = '没有更多';
 						return;
 					}
 				}else{
-					this.pageNo = 1;
-					this.pageSize = 10;
+					this.paras.pageNo = 1;
+					this.paras.pageSize = 10;
 				}
 				
 				const paras = {
-					cityCode:this.$Localtion.city.cityCode,
-					shopCategoryIds:this.paras.shopCategoryIds.join("|"),
-					shopName:this.paras.shopName,
-					label:this.paras.label,
-					distance:this.paras.distance,
-					regionCode:this.paras.regionId,
-					streetCode:this.paras.streetId,
-					metroLine:this.paras.metroLine,
-					monthRentStart:this.paras.monthRentStart,
-					monthRentEnd:this.paras.monthRentEnd,
-					sort: this.paras.sort,
-					floorNum: this.paras.floorNum,
-					indentity: this.paras.indentity,
-					engineeringConditions: this.paras.engineeringConditions,
+					city:this.$Localtion.city.cityName,
+					propertyForm:this.paras.shopCategoryIds.join("|"),
+					brandName:this.paras.shopName,
+					region:this.paras.regionId,
+					street:this.paras.streetId,
 					propertyType: this.paras.propertyType,
-					measureAreaStart: this.paras.measureAreaStart,
-					measureAreaEnd: this.paras.measureAreaEnd,
-					//longitude:this.location.longitude,
-					//latitude:this.location.latitude,
-					pageNo: this.paras.pageNo ,
+					measureAreaStr: this.paras.measureAreaStart+"-"+this.paras.measureAreaEnd,
+					pageNum: this.paras.pageNo ,
 					pageSize: this.paras.pageSize,
 				};
 				paras.accessToken = that.accessToken;
