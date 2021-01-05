@@ -325,3 +325,6 @@ export function getBrandSpecialList(data){ return post(data,'open/brand/specialL
 //42、品牌总数
 export function getBrandCount(data){ return get(data,'open/brand/count')}
 
+// 43、头条详情
+export function getHeadlineDetail(data){ return get(data,'open/headline/getDetail')}
+

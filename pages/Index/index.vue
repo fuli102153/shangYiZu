@@ -398,7 +398,7 @@
 			goHeadDetails(item) {
 				var pic = item.pic?item.pic:'';
 				uni.navigateTo({
-					url: '../Headlines/details?title=' + item.title + "&content="+item.content+"&createTime="+item.createTime+"&pic="+pic
+					url: '../Headlines/details?id=' + item.id
 				})
 			},
 			// 进入搜索页

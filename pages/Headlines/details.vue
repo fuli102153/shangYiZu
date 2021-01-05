@@ -19,6 +19,7 @@
 </template>
 
 <script>
+	import { getHeadlineDetail } from "../../utils/api.js"
 	export default {
 	    data() {
 	        return {
@@ -28,20 +29,28 @@
 				time: '',
 	        }
 	    },
-			onLoad(params) {
-				console.log('params')
-				//console.log(JSON.parse(params.item))
-				//const item = JSON.parse(params.item)
-				this.title = params.title
-				this.time = params.createTime;
-				this.pic = params.pic?params.pic : '../../static/images/swiper.png';
-				this.strings = `<div style="text-align:left;">
-						
-						<div>
-							${params.content}
-						</div>
-					</div>`
+		onLoad(params) {
+			console.log(params)
+			//console.log(JSON.parse(params.item))
+			//const item = JSON.parse(params.item)
+			this.getData(params.id)
+			this.title = params.title
+			this.time = params.createTime;
+			this.pic = params.pic?params.pic : '../../static/images/swiper.png';
+			this.strings = `<div style="text-align:left;">
+					
+					<div>
+						${params.content}
+					</div>
+				</div>`
+		},
+		methods: {
+			getData(id) {
+				getHeadlineDetail({id: id}).then(res => {
+					console.log(res)
+				})
 			}
+		}
 	}
 </script>
 

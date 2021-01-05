@@ -29,11 +29,11 @@
 			</van-popup>
 			<van-dropdown-menu>
 				<van-dropdown-item title="业态" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
-					<van-tree-select height="100vw" max="10" :items="typeList" :main-active-index="typeActiveIndex" :active-id="paras.shopCategoryIds"
+					<van-tree-select height="100vw" max="10" :items="typeList" :main-active-index="typeActiveIndex" :active-id="activeShopCategoryIds"
 					 selected-icon="success" @click-nav="onClickType" @click-item="onClickTypeItem" />
 				</van-dropdown-item>
 				<van-dropdown-item title="区域" :style="{display: areaShow ? 'block' : 'none'}" @close="areaShow=false" @open="areaShow=true">
-					<van-tree-select height="100vw" max="10" :items="AreaStreets" :main-active-index="mainActiveIndex" :active-id="paras.streetId"
+					<van-tree-select height="100vw" max="10" :items="AreaStreets" :main-active-index="mainActiveIndex" :active-id="activeStreetId"
 					 selected-icon="success" @click-nav="onClickNav" @click-item="onClickItem" />
 				</van-dropdown-item>
 				<van-dropdown-item title="物业"  :style="{display: propertyShow ? 'block' : 'none'}" @close="propertyShow=false"
@@ -127,6 +127,8 @@
 					longitude: "",
 					latitude: "",
 				},
+				activeShopCategoryIds: [],
+				activeStreetId: ''
 			}
 		},
 		onLoad() {
@@ -343,6 +345,7 @@
 				if(this.paras.streetId != t){
 					this.areaShow = false;
 					this.paras.streetId = t;
+					this.activeStreetId = e.detail.id;
 					this.reloadData();
 				}
 			},
@@ -360,13 +363,15 @@
 			},
 			//右侧选择项被点击时，会触发的事件
 			onClickTypeItem(e) {
-				console.log(e)
-			
+				console.log(e,111)
+				
 				const index = this.paras.shopCategoryIds.indexOf(e.detail.text);
 				if (index > -1) {
 				  this.paras.shopCategoryIds.splice(index, 1);
+				  this.activeShopCategoryIds.splice(index, 1)
 				} else {
 				  this.paras.shopCategoryIds.push(e.detail.text);
+				  this.activeShopCategoryIds.push(e.detail.id);
 				}
 				this.reloadData();	
 			},
@@ -391,10 +396,10 @@
 				if (this.brandList.length>0) {
 					//说明已有数据，目前处于上拉加载
 					this.loadMoreText = '加载中';
-					this.paras.pageNo = Math.floor(this.brandList.length/this.pageSize)+1;
+					this.paras.pageNo = Math.floor(this.brandList.length/this.paras.pageSize)+1;
 					this.paras.pageSize = 10;
 					//判断是否要需要请求
-					if(parseInt(this.brandList.length%this.pageSize) !== 0){ 
+					if(parseInt(this.brandList.length%this.paras.pageSize) !== 0){ 
 						this.loadMoreText = '没有更多';
 						return;
 					}
@@ -410,7 +415,7 @@
 					region:this.paras.regionId,
 					street:this.paras.streetId,
 					propertyType: this.paras.propertyType,
-					measureAreaStr: this.paras.measureAreaStart+"-"+this.paras.measureAreaEnd,
+					measureAreaStr: this.paras.measureAreaEnd ? `${this.paras.measureAreaStart}-${this.paras.measureAreaEnd}` : '',
 					pageNum: this.paras.pageNo ,
 					pageSize: this.paras.pageSize,
 				};
@@ -647,6 +652,10 @@
 				flex: 1;
 				border-radius: 0;
 			}
+		}
+		
+		/deep/ .van-tree-select__item--active {
+			color: #1676FE;
 		}
 	}
 </style>
