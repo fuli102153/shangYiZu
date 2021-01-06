@@ -124,6 +124,7 @@
 					regionId: "",
 					streetId: "",
 					shopCategoryIds:[],
+					shopCategoryNames: [],
 					metroLine: "",
 					monthRentStart: "",
 					monthRentEnd: "",
@@ -383,8 +384,10 @@
 				const index = this.paras.shopCategoryIds.indexOf(e.detail.id);
 				if (index > -1) {
 				  this.paras.shopCategoryIds.splice(index, 1);
+				  this.paras.shopCategoryNames.splice(index, 1)
 				} else {
 				  this.paras.shopCategoryIds.push(e.detail.id);
+				  this.paras.shopCategoryNames.push(e.detail.text);
 				}
 				this.reloadData();	
 			},
@@ -422,7 +425,8 @@
 				const paras = {
 					
 					cityCode:this.$Localtion.city.cityCode,
-					shopCategoryIds:this.paras.shopCategoryIds.join("|"),
+					// shopCategoryIds:this.paras.shopCategoryIds.join("|"),
+					shopCategoryNames: this.paras.shopCategoryNames.join("|"),
 					shopName:this.paras.shopName,
 					label:this.paras.label,
 					distance:this.paras.distance,
