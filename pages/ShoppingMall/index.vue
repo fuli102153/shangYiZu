@@ -105,6 +105,7 @@
 						regionId:"",
 						streetId:"",
 						shopCategoryIds:[],
+						shopCategoryNames: [],
 						metroLine:"",
 						monthRentStart:"",
 						monthRentEnd:"",
@@ -160,7 +161,7 @@
 			uni.setNavigationBarTitle({
 				title: title
 			})
-			this.ajaxGetShopList(this.parentCategoryIds);
+			this.ajaxGetShopList(title);
 			//城市列表
 			this.ajaxGetCityList();
 			//请求城市联动
@@ -419,8 +420,10 @@
 				const index = this.paras.shopCategoryIds.indexOf(e.detail.id);
 				if (index > -1) {
 				  this.paras.shopCategoryIds.splice(index, 1);
+				  this.paras.shopCategoryNames.splice(index, 1);
 				} else {
 				  this.paras.shopCategoryIds.push(e.detail.id);
+				  this.paras.shopCategoryNames.push(e.detail.text);
 				}
 				this.reloadData();	
 			},
@@ -463,9 +466,10 @@
 					this.paras.pageSize = 10;
 				}
 				
-				var shopCategoryIds = id?id:this.paras.shopCategoryIds.join("|")
+				var shopCategoryNames = id?id:this.paras.shopCategoryNames.join("|")
 				const paras = {
-					shopCategoryIds:shopCategoryIds,
+					// shopCategoryIds:shopCategoryIds,
+					shopCategoryNames: shopCategoryNames,
 					businessType:this.paras.businessType,
 					cityCode:this.$Localtion.city.cityCode,
 					shopName:this.paras.shopName,
