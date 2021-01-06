@@ -7,8 +7,8 @@
 			<view class="store-top">
 				<view class="store-title">{{source.shopName || ""}}</view>
 				<view class="store-price">
-					<span>￥{{source.monthRent || ""}}</span>
-					<span class="company">元/月</span>
+					<span>{{source.measureArea || "-"}}</span>
+					<span class="company">m²</span>
 				</view>
 			</view>
 			<view class="store-payment">
@@ -17,7 +17,7 @@
 						<view class="tag" v-if="source.streetName || source.areaName">区域街道：{{source.areaName || ""}} {{source.streetName || ""}}</view>
 					</view>
 					<view>
-						<view class="tag" v-if="source.measureArea">商铺面积：{{`${source.measureArea}m²` || ""}}</view>
+						<view class="tag" v-if="source.monthRent">每月租金：￥{{`${source.monthRent}元/月` || ""}}</view>
 					</view>
 					<view class="hot-list">
 						<i class="hot" v-for="item in source.hits" :key="item"></i>
