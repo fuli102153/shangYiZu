@@ -582,9 +582,15 @@
 			
 			toBannerDetail(link) {
 				//跳转到详情页面
-				uni.navigateTo({
-					url: link
-				})
+				if (link === '../Index/index' || link === '../Shops/index' || link === '../Brand/index' || link === '../My/index') {
+					uni.switchTab({
+						url: link
+					})
+				} else {
+					uni.navigateTo({
+						url: link
+					})
+				}
 			},
 			
 			makePhoneCall: function(tel) {
