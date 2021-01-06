@@ -2,16 +2,16 @@
 	<view class="uni-common-mt" style="background:#FFF; padding:40rpx;">
 		<view class="header">
 			<view class="title">
-				{{ title }}
+				{{ news.title }}
 			</view>
 			<view class="time">
-				{{ time }}
+				{{ news.createTime }}
 			</view>
 		</view>
 		<van-divider />
 		
-		<view class="new-img" v-if="pic">
-			<image :src="pic" mode=""></image>
+		<view class="new-img" v-if="news.pic">
+			<image :src="news.pic" mode=""></image>
 		</view>
 		
 		<rich-text class="content" :nodes="strings"></rich-text>
@@ -23,10 +23,8 @@
 	export default {
 	    data() {
 	        return {
-	            strings: '',
-				title: '',
-				pic:'',
-				time: '',
+	            news:{},
+				strings:"",
 	        }
 	    },
 		onLoad(params) {
@@ -34,20 +32,26 @@
 			//console.log(JSON.parse(params.item))
 			//const item = JSON.parse(params.item)
 			this.getData(params.id)
-			this.title = params.title
-			this.time = params.createTime;
-			this.pic = params.pic?params.pic : '../../static/images/swiper.png';
-			this.strings = `<div style="text-align:left;">
-					
-					<div>
-						${params.content}
-					</div>
-				</div>`
 		},
 		methods: {
 			getData(id) {
 				getHeadlineDetail({id: id}).then(res => {
-					console.log(res)
+					
+					const data = res.data;
+					console.log(data);
+					
+					if(data.code=="200"){
+						this.news = data.data
+						
+						this.strings = `<div style="text-align:left;">
+								<div>
+									${data.data.content}
+								</div>
+							</div>`
+					}else{
+						
+						
+					}
 				})
 			}
 		}

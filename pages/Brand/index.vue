@@ -28,7 +28,7 @@
 				</van-cell-group>
 			</van-popup>
 			<van-dropdown-menu>
-				<van-dropdown-item title="业态" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
+				<van-dropdown-item title="业态" :style="{display: typeShow ? 'block' : 'none'}" ref="item" @close="typeShow=false"  @open="typeShow=true">
 					<van-tree-select height="100vw" max="10" :items="typeList" :main-active-index="typeActiveIndex" :active-id="activeShopCategoryIds"
 					 selected-icon="success" @click-nav="onClickType" @click-item="onClickTypeItem" />
 				</van-dropdown-item>
@@ -113,7 +113,7 @@
 					distance: "",
 					regionId: "",
 					streetId: "",
-					shopCategoryIds:[],
+					shopCategoryIds:"",
 					metroLine: "",
 					monthRentStart: "",
 					monthRentEnd: "",
@@ -127,7 +127,7 @@
 					longitude: "",
 					latitude: "",
 				},
-				activeShopCategoryIds: [],
+				activeShopCategoryIds: "",
 				activeStreetId: ''
 			}
 		},
@@ -354,26 +354,33 @@
 			//左侧导航点击时，触发的事件
 			onClickType(e) {
 				this.typeActiveIndex = e.detail.index || 0;
-				let t = this.typeList[this.typeActiveIndex].id;
-				if(t == ""){
-					this.paras.shopCategoryIds = [];
+				let t = this.typeList[this.typeActiveIndex].text;
+				console.log(t);
+				if(t == "不限"){
+					this.paras.shopCategoryIds = "";
+					this.activeShopCategoryIds = "";
+					this.$refs.item.toggle();
+					this.reloadData();
+				}
+				else if(this.paras.shopCategoryIds != t){
+					this.paras.shopCategoryIds = t;
+					this.activeShopCategoryIds = this.typeList[this.typeActiveIndex].id;
+					this.$refs.item.toggle();
 					this.reloadData();
 				}
 				
 			},
 			//右侧选择项被点击时，会触发的事件
 			onClickTypeItem(e) {
-				console.log(e,111)
 				
-				const index = this.paras.shopCategoryIds.indexOf(e.detail.text);
-				if (index > -1) {
-				  this.paras.shopCategoryIds.splice(index, 1);
-				  this.activeShopCategoryIds.splice(index, 1)
-				} else {
-				  this.paras.shopCategoryIds.push(e.detail.text);
-				  this.activeShopCategoryIds.push(e.detail.id);
+				//console.log(e)
+				let t =	(this.paras.shopCategoryIds === e.detail.text) ? null : e.detail.text;
+				if(this.paras.shopCategoryIds != t){
+					this.paras.shopCategoryIds = t;
+					this.activeShopCategoryIds = e.detail.id;
+					this.$refs.item.toggle();
+					this.reloadData();
 				}
-				this.reloadData();	
 			},
 	
 			reloadData(){
@@ -410,7 +417,7 @@
 				
 				const paras = {
 					city:this.$Localtion.city.cityName,
-					propertyForm:this.paras.shopCategoryIds.join("|"),
+					propertyForm:this.paras.shopCategoryIds,
 					brandName:this.paras.shopName,
 					region:this.paras.regionId,
 					street:this.paras.streetId,

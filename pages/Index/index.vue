@@ -191,7 +191,7 @@
 			<view class="title">
 				新闻中心
 			</view>
-			<van-tabs class="tab" :active="newActive"  color="#1476FD" line-width="50rpx">
+			<van-tabs class="tab" :active="newActive" @change="onChange" color="#1476FD" line-width="50rpx">
 				<van-tab title="行业动态">
 					<view class="content">
 						<view class="new-card" v-for="(item,index) in headlineList" :key="index" @click="goHeadDetails(item)">
@@ -205,12 +205,12 @@
 				</van-tab>
 				<van-tab title="热门话题">
 					<view class="content">
-						<view class="new-card" v-for="(item,index) in headlineList_hot" :key="index" @click="goHeadDetails(item)">
+						<view class="new-card" v-for="(item,index) in headlineList" :key="index" @click="goHeadDetails(item)">
 							<view class="new-img">
 								<image :src="item.pic?item.pic : '../../static/images/swiper.png'" mode=""></image>
 							</view>
 						</view>
-						<van-empty v-if="headlineList_hot.length==0" description="暂无热门话题" />
+						<van-empty v-if="headlineList.length==0" description="暂无热门话题" />
 					</view>
 				</van-tab>
 			</van-tabs>
@@ -296,7 +296,7 @@
 					{
 						name: '专业市场',
 						src: '../../static/images/icon_10.png',
-						router: '../ShoppingMall/index?id=9'
+						router: '../ShoppingMall/index?projectType=9'
 					},
 				],
 				localtionCity:{},
@@ -306,7 +306,6 @@
 				brandList:[],
 				cooperativeList:[],
 				headlineList:[],
-				headlineList_hot:[],
 				// 新闻中心
 				newActive: 0,
 				//商铺总面积
@@ -321,7 +320,7 @@
 			//合作企业
 			this.ajaxGetCooperativeList();
 			//头条信息
-			this.ajaxGetHeadline();
+			this.ajaxGetHeadline(0);
 			//城市列表
 			this.ajaxGetCityList();
 			//新增商铺总面积
@@ -437,7 +436,8 @@
 			},
 			// 新闻中心tab切换
 			onChange(e) {
-				
+				console.log(e.detail.index)
+				this.ajaxGetHeadline(e.detail.index);
 			},
 			
 			//请求BANNER图片
@@ -535,14 +535,14 @@
 			},
 			
 			//头条信息
-			ajaxGetHeadline(){
+			ajaxGetHeadline(type){
 				//ajax个人信息查询
 				
 				var that = this;
 				const paras = {
 					pageNo:1,
 					pageSize:10,
-					type:0
+					type:type
 				};
 				paras.accessToken = that.accessToken;
 				getHeadline(paras).then(res => {
@@ -559,25 +559,6 @@
 				});
 				
 				
-				
-				const paras_hot = {
-					pageNo:1,
-					pageSize:10,
-					type:1
-				};
-				paras_hot.accessToken = that.accessToken;
-				getHeadline(paras_hot).then(res => {
-					const data = res.data;
-					console.log(data);
-					if(data.code=="200"){
-						that.headlineList_hot = data.data.slice(0,3);
-					}else{
-						that.headlineList_hot = [];
-					}
-				})
-				.catch(error => {
-				
-				});
 			},
 			
 			ajaxGetCityList(){
