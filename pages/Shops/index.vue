@@ -373,6 +373,7 @@
 				let t = this.typeList[this.typeActiveIndex].id;
 				if(t == ""){
 					this.paras.shopCategoryIds = [];
+					this.paras.shopCategoryNames = [];
 					this.reloadData();
 				}
 				

@@ -50,6 +50,7 @@
 		data() {
 			return {
 					parentCategoryIds:"",
+					parentCategoryNames: "",
 					activeKey: 0,
 					locationShow: false,
 					cityList: [],
@@ -161,6 +162,7 @@
 			uni.setNavigationBarTitle({
 				title: title
 			})
+			this.parentCategoryNames = title
 			this.ajaxGetShopList(title);
 			//城市列表
 			this.ajaxGetCityList();
@@ -408,6 +410,7 @@
 				
 				if(t == ""){
 					this.paras.shopCategoryIds = [this.parentCategoryIds];
+					this.paras.shopCategoryNames = [this.parentCategoryNames];
 					this.reloadData();
 				}
 				
