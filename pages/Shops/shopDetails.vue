@@ -81,10 +81,17 @@
 							{{shop.monthRent || '-'}}元/月
 						</view>
 					</view>
-					
-					
-					
 					<view class="item">
+						<view class="label">
+							租金单价
+						</view>
+						<view class="value">
+							{{(shop.monthRent/shop.measureArea).toFixed(2)}}元/m²/月
+						</view>
+					</view>
+					
+					
+					<view class="item" v-if="0">
 						<view class="label">
 							推荐业态
 						</view>
@@ -115,14 +122,7 @@
 								{{property.floorNum || '-'}}层
 							</view>
 						</view>
-						<view class="item">
-							<view class="label">
-								租金单价
-							</view>
-							<view class="value">
-								{{(shop.monthRent/shop.measureArea).toFixed(2)}}元/m²/月
-							</view>
-						</view>
+						
 						<view class="item">
 							<view class="label">
 								支付方式

@@ -2,7 +2,7 @@
   <view class="v-brand-details">
     <uni-swiper-dot >
 			<swiper class="swiper-box" >
-				<swiper-item v-for="(item ,index) in brand.effectPhotos? brand.effectPhotos.split(',') : []" :key="index">
+				<swiper-item v-for="(item ,index) in brand.effectPhotos? brand.effectPhotos.split(',') : [brand.brandLogo]" :key="index">
 					<view class="swiper-item">
 						<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
 					</view>
@@ -73,34 +73,34 @@
             <view class="item">
               <view class="label"> 品牌业态 </view>
               <view class="value">
-                {{ brand.businessType }}
+                {{ brand.propertyFormStr || "-" }}
               </view>
             </view>
             <view class="item">
               <view class="label"> 意向租金 </view>
-              <view class="value"> {{ brand.monthRent }}元/月 </view>
+              <view class="value"> {{ brand.monthRent || "-" }}元/月 </view>
             </view>
             <view class="item">
               <view class="label"> 客单价格 </view>
               <view class="value">
-                {{ brand.customerAveragePrice || "" }}元
+                {{ brand.customerAveragePrice || "-" }}元
               </view>
             </view>
             <view class="item">
               <view class="label"> 目标客群 </view>
               <view class="value">
-                {{ brand.targetCustomer || "" }}
+                {{ brand.targetCustomer || "-" }}
               </view>
             </view>
             <view class="item">
               <view class="label"> 开店区域 </view>
               <view class="value">
-                {{ brand.region || "" }}
+                {{ brand.region || "-" }}
               </view>
             </view>
             <view class="item">
               <view class="label"> 开店数量 </view>
-              <view class="value"> {{ brand.num || "" }}家 </view>
+              <view class="value"> {{ brand.num || "-" }}家 </view>
             </view>
             <view class="item">
               <view class="label"> 是否开放加盟 </view>
@@ -286,7 +286,7 @@ export default {
           }
         })
         .catch((error) => {
-          Toast.fail(this.global.error);
+          //Toast.fail(this.global.error);
         });
 		},
 		
