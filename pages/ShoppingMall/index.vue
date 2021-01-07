@@ -42,7 +42,7 @@
 	import StoreCard from '../../components/Card/Store'
 	import Toast from '../../wxcomponents/vant/dist/toast/toast';
 	import Dialog from '../../wxcomponents/vant/dist/dialog/dialog';
-	import {getProjectList,getAreaStreets,getCity,getPropertyFormSubLevelData} from "../../utils/api.js"
+	import {getShopList,getAreaStreets,getCity,getPropertyFormSubLevelData} from "../../utils/api.js"
 	export default {
 		components: {
 			StoreCard
@@ -84,7 +84,7 @@
 					typeList:[],//业态
 					sortActiveIndex: 0,
 					sortActiveId: null,
-					projectList:[],
+				
 					tagList: [],
 					tagIndex: -1,
 					selectList: [],
@@ -196,7 +196,7 @@
 		onPullDownRefresh() {
 			console.log("onPullDownRefresh");
 			this.reload = true;
-			this.ajaxGetShopList();
+			this.reloadData();
 		},
 		methods: {
 			
@@ -451,7 +451,7 @@
 				
 				uni.stopPullDownRefresh()
 				var that = this;
-				that.projectList = [];
+				
 				if (this.shopList.length>0) {
 					//说明已有数据，目前处于上拉加载
 					this.loadMoreText = '加载中';
@@ -499,7 +499,7 @@
 				  forbidClick: true,
 				  loadingType: 'spinner',
 				});
-				getProjectList(paras).then(res => {
+				getShopList(paras).then(res => {
 					const data = res.data;
 					console.log(data);
 					
@@ -507,12 +507,10 @@
 						setTimeout(() => {
 							Toast.clear();
 						}, 300)
-						that.projectList = data.projectList;
-						let list = that.setTime(data.shopList);
+						
+						let list = that.setTime(data.data);
 						that.shopList = that.reload ? list : that.shopList.concat(list);
 						that.reload = false;
-						console.log(that.projectList);
-						that.$forceUpdate();
 						
 					}else{
 						Toast.fail(data.message);

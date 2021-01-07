@@ -166,18 +166,18 @@
 			//把字典格式进行转换
 			this.changeDict();
 		},
-		
+		onReachBottom() {
+			console.log("onReachBottom");
+			this.loadMoreText = '更多';
+			this.ajaxGetShopList();
+		},
+		onPullDownRefresh() {
+			console.log("onPullDownRefresh");
+			this.reload = true;
+			this.reloadData();
+		},
 		methods: {
-			onReachBottom() {
-				console.log("onReachBottom");
-				this.loadMoreText = '更多';
-				this.ajaxGetShopList();
-			},
-			onPullDownRefresh() {
-				console.log("onPullDownRefresh");
-				this.reload = true;
-				this.reloadData();
-			},
+			
 			// 选中城市
 			selectCity(index) {
 				var that = this;
