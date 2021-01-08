@@ -722,8 +722,7 @@
 		}
 		
 		.view-list {
-			display: flex;
-			flex: 1;
+			
 			
 			
 			.store-list {

@@ -62,7 +62,7 @@
 		</view>
 		<!-- 出租和找店 -->
 		<view class="rent">
-			<view class="rel-rent rent-item">
+			<view class="rel-rent rent-item" @click="toPath('../Rental/index')">
 				<view class="text">
 					<view class="title">
 						我要出租
@@ -74,9 +74,9 @@
 						{{shopSumMeasureArea}} m²
 					</view>
 				</view>
-				<view class="btn" @click="toPath('../Rental/index')" />
+				<view class="btn"  />
 			</view>
-			<view class="looking-shop rent-item">
+			<view class="looking-shop rent-item" @click="toPath('../StoreOpen/index')">
 				<view class="text">
 					<view class="title">
 						我要找店
@@ -88,7 +88,7 @@
 						{{brandCount}} 个
 					</view>
 				</view>
-				<view class="btn"  @click="toPath('../StoreOpen/index')" />
+				<view class="btn"   />
 			</view>
 		</view>
 		<!-- 推荐 -->

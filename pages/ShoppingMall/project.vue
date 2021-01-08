@@ -1,6 +1,9 @@
 <template>
 	<!-- 购物中心 -->
 	<view class="v-shopping-mall">
+		<div>
+			
+		</div>
 		<!-- 轮播图 -->
 		<uni-swiper-dot class="projectPic" style="width: 100%; height: 430rpx;" :info="info" :current="current" field="content" :mode="mode" :dotsStyles="dotsStyles">
 			<swiper  class="swiper-box projectPic"  :interval="5000" :autoplay="true">
@@ -692,8 +695,7 @@
 		}
 		
 		.view-list {
-			display: flex;
-			flex: 1;
+			
 			position: relative;
 			top:-55rpx;
 			.store-list {
@@ -782,7 +784,7 @@
 	}
 	
 	/deep/ .van-dropdown-menu{
-		border-radius: 36rpx !important;
+		border-radius: 36rpx 36rpx 0 0 !important;
 	}
 		
 </style>

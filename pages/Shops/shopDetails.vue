@@ -43,7 +43,7 @@
 			</view>
 			
 		</view>
-		<view class="shop-position" @click="goMap(shop.latitude, shop.longitude, shop.shopName)">
+		<view class="shop-position" @click="goMap(latitude, longitude, shop.shopName)">
 			<view class="content">
 				<view class="icon" />
 				<view class="label">
@@ -266,9 +266,9 @@
 				交易须知
 			</view>
 			<view class="content">
-				<text>1、稿件内容必须属于正面信息，负面、涉政、敏感内容等内容一律有权不予发布。</text>
-				<text>2、稿件发布之后不可修改、取消或删除，请在发布前确认发布稿件的内容(请引起足够重视)。</text>
-				<text>3、新闻的发布时间为约1-2个工作日，平均约0.5个工作日，周末一般不进行投放，请悉知。</text>
+				<text>1、“商易租”不对任何脱离平台的租赁签约进行交易保障，切勿与业务员个人私下进行无交易保障的租赁签约。</text>
+				<text>2、“商易租”在提供租赁服务过程中，不会向受让方（承租人）收取任何费用，如“商易租”方人员提出收费要求或已发生收费行为的，请拨打官方客服电话400 888 8888举报，已发生的收费行为一经查实，平台将进行全额退款。</text>
+				<text>3、“商易租”仅帮助出让方（意向出租人）公开展示并传播交易标的的信息，意向受让方（意向承租人）务必在交易前对标的进行实地查勘，对标的物的具体情况自行查看。如因此产生的纠纷“商易租”均不承担任何法律责任和赔偿义务。</text>
 			</view>
 		</view>
 		<!-- 猜你喜欢 -->
@@ -304,7 +304,7 @@
 <script>
 	import StoreCard from '../../components/Card/Store'
 	import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
-	import {getShopDetail,getSubscribeAdd,getCollectAdd,getShareAdd,getGuessYouLike} from "../../utils/api.js"
+	import {getShopDetail,getSubscribeAdd,getCollectAdd,getShareAdd,getGuessYouLike,bMapToQQMap} from "../../utils/api.js"
 	import Toast from '../../wxcomponents/vant/dist/toast/toast';
 	export default {
 		components: {
@@ -405,8 +405,9 @@
 						that.shop = data.data.shop;
 						that.property = data.data.property;
 						
-						that.latitude = that.shop.latitude || that.location.latitude;
-						that.longitude = that.shop.longitude || that.location.longitude;
+						let mapArr = bMapToQQMap(that.shop.longitude || that.location.longitude,that.shop.latitude || that.location.latitude)
+						that.latitude = mapArr[1];
+						that.longitude = mapArr[0];
 						
 						var infoPhotos = that.shop.shopPhotos.split(",");
 						that.info = [];
@@ -916,7 +917,7 @@
 			}
 
 			.content {
-				height: 320rpx;
+				
 				box-sizing: border-box;
 				background: #E6E9F0;
 				border-radius: 10rpx;

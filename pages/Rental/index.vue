@@ -396,7 +396,7 @@
 </template>
 
 <script>
-import { getShopAdd, getAreaStreets } from "../../utils/api.js";
+import { getShopAdd, getAreaStreets,qqMapToBMap } from "../../utils/api.js";
 // import StoreInfo from "./storeInfo";
 import Toast from "../../wxcomponents/vant/dist/toast/toast";
 
@@ -803,8 +803,10 @@ export default {
           this.form.streetCode = "000000";
 
           this.form.detailLocation = res.name;
-          this.form.longitude = res.longitude;
-          this.form.latitude = res.latitude;
+		  
+		  let mapArr = qqMapToBMap(res.longitude,res.latitude)
+          this.form.longitude = mapArr[0];
+          this.form.latitude = mapArr[1];
 
           console.log(res);
         },

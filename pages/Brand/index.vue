@@ -11,7 +11,7 @@
 					<van-search
 					  :value="value"
 					  shape="round"
-					  placeholder="搜索品牌名"
+					  placeholder="搜索品牌名"  @search="onSearch"
 					/>
 				</view>
 				<van-icon name="phone" color="#2B2B2B" class="phone" />
@@ -242,27 +242,6 @@
 			
 			onSearch(e) {
 				console.log(e.detail)
-				let that = this;
-				let history = []
-				uni.getStorage({
-					key: '__searchHistory__',
-					success(res) {
-						history = res.data
-						history.push(e.detail)
-						let newHistory = Array.from(new Set(history))
-						console.log(newHistory)
-						uni.setStorage({
-							key: "__searchHistory__",
-							data: newHistory,
-						})
-					},
-					fail: () => {
-						uni.setStorage({
-							key: "__searchHistory__",
-							data: [e.detail],
-						})
-					}
-				})
 				this.paras.shopName = e.detail;
 				this.reloadData();
 			},
