@@ -1,11 +1,8 @@
 <template>
 	<!-- 购物中心 -->
 	<view class="v-shopping-mall">
-		<div>
-			
-		</div>
 		<!-- 轮播图 -->
-		<uni-swiper-dot class="projectPic" style="width: 100%; height: 430rpx;" :info="info" :current="current" field="content" :mode="mode" :dotsStyles="dotsStyles">
+		<uni-swiper-dot  class="projectPic" style="width: 100%; height: 430rpx;" :info="info" :current="current" field="content" :mode="mode" :dotsStyles="dotsStyles">
 			<swiper  class="swiper-box projectPic"  :interval="5000" :autoplay="true">
 				<swiper-item class="projectPic" v-for="(item ,index) in projectEffectPicList" :key="index">
 					<view class="swiper-item">
@@ -17,7 +14,7 @@
 		<van-sticky style="position: relative; top:-36rpx;">
 			<!--业态 楼层 租金 面积-->
 			<van-dropdown-menu>
-				<van-dropdown-item  title="业态" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
+				<van-dropdown-item  title="业态" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true" >
 					<van-tree-select height="60vw" max="10" :items="typeList" :main-active-index="typeActiveIndex" :active-id="paras.shopCategoryIds"
 					 selected-icon="success" @click-nav="onClickType" @click-item="onClickTypeItem" />
 				</van-dropdown-item>
@@ -57,6 +54,7 @@
 			return {
 					// 轮播图
 					info: [],
+					showSwiper:true,
 					current: 0,
 					mode: 'round',
 					dotsStyles: {
@@ -185,8 +183,12 @@
 			this.reload = true;
 			this.reloadData();
 		},
+
 		methods: {
-			
+			typeShowOpened(){
+				console.log("typeShowOpened")
+				this.showSwiper = false;
+			},
 			onChange(event) {
 				this.activeKey = event.detail;
 				this.paras.businessType = this.businessList[event.detail].value;

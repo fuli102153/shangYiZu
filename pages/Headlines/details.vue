@@ -2,10 +2,10 @@
 	<view class="uni-common-mt" style="background:#FFF; padding:40rpx;">
 		<view class="header">
 			<view class="title">
-				{{ news.title }}
+				{{ news.title || "" }}
 			</view>
 			<view class="time">
-				{{ news.createTime }}
+				{{ news.createTime || "" }}
 			</view>
 		</view>
 		<van-divider />
@@ -14,7 +14,7 @@
 			<image :src="news.pic" mode=""></image>
 		</view>
 		
-		<rich-text class="content" :nodes="strings"></rich-text>
+		<rich-text class="content" :nodes="strings || ''"></rich-text>
 	</view>
 </template>
 

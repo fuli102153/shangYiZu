@@ -106,7 +106,7 @@
 								{{ item.projectName }}
 							</view>
 							<text>
-								南山区
+								{{ item.areaName }}
 							</text>
 						</view>
 					</view>

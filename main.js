@@ -12,7 +12,7 @@ Vue.prototype.$Localtion = {
 	city:""
 };//当前城市
 Vue.prototype.address = {};//当前地址
-Vue.prototype.HOST = "https://app.wan0wan.com/"
+Vue.prototype.HOST = "https://app.shangyizu.com.cn/"
 Vue.prototype.Dict = {};
 Vue.prototype.Configs = {};
 Vue.prototype.global = {
