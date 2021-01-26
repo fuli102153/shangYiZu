@@ -2,16 +2,7 @@
 	<!-- 购物中心 -->
 	<view class="v-shopping-mall">
 		<!-- 轮播图 -->
-		<uni-swiper-dot  class="projectPic" style="width: 100%; height: 430rpx;" :info="info" :current="current" field="content" :mode="mode" :dotsStyles="dotsStyles">
-			<swiper  class="swiper-box projectPic"  :interval="5000" :autoplay="true">
-				<swiper-item class="projectPic" v-for="(item ,index) in projectEffectPicList" :key="index">
-					<view class="swiper-item">
-						<image :src="item" mode="" class="projectPic"></image>
-					</view>
-				</swiper-item>
-			</swiper>
-		</uni-swiper-dot>
-		<van-sticky style="position: relative; top:-36rpx;">
+		<van-sticky >
 			<!--业态 楼层 租金 面积-->
 			<van-dropdown-menu>
 				<van-dropdown-item  title="业态" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true" >
@@ -30,6 +21,16 @@
 			</van-dropdown-menu> 
 			
 		</van-sticky>
+		<uni-swiper-dot  class="projectPic" style="width: 100%; height: 430rpx;" :info="info" :current="current" field="content" :mode="mode" :dotsStyles="dotsStyles">
+			<swiper  class="swiper-box projectPic"  :interval="5000" :autoplay="true">
+				<swiper-item class="projectPic"  @click="previewImage(projectEffectPicList,index)"  v-for="(item ,index) in projectEffectPicList" :key="index">
+					<view class="swiper-item">
+						<image :src="item" mode="" class="projectPic"></image>
+					</view>
+				</swiper-item>
+			</swiper>
+		</uni-swiper-dot>
+		
 		
 		<view class="view-list">
 			<view class="store-list" >
@@ -404,6 +405,16 @@
 				this.reloadData();	
 			},
 			
+			previewImage(urls,index){
+				
+				
+				uni.previewImage({
+					current:index,
+					urls:urls
+				})
+				
+			},
+			
 			// 进入商铺详情页
 			goShopdetails() {
 				uni.navigateTo({
@@ -473,7 +484,7 @@
 						setTimeout(() => {
 							Toast.clear();
 						}, 300)
-						that.projectEffectPicList = data.project.projectEffectPic.split(",");
+						that.projectEffectPicList = data.project.projectEffectPic.split(",") || [];
 						let list = that.setTime(data.shopList);
 						that.shopList = that.reload ? list : that.shopList.concat(list);
 						that.reload = false;
@@ -699,7 +710,7 @@
 		.view-list {
 			
 			position: relative;
-			top:-55rpx;
+			//top:-55rpx;
 			.store-list {
 				flex: 1;
 				height: 100%;
@@ -786,7 +797,7 @@
 	}
 	
 	/deep/ .van-dropdown-menu{
-		border-radius: 36rpx 36rpx 0 0 !important;
+		//border-radius: 36rpx 36rpx 0 0 !important;
 	}
 		
 </style>

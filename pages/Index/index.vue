@@ -174,12 +174,19 @@
 					<!-- <view class="coop-more" @click="goCoop">更多 ></view> -->
 				</view>
 				<view class="coop-main">
-					<view class="coop-list">
-						<view class="coop-item" v-for="(item,index) in cooperativeList" :key="index">
-							<image class="image" :src="item.logo" /> 
-							<text>{{item.enterpriseName}}</text>
-						</view>
-					</view>
+					
+					<uni-swiper-dot class="logo-box"  :current="tabActive"   >
+						<swiper class="logo-box-swiper" :interval="5000" :autoplay="true">
+							<swiper-item  v-for="(item ,index) in cooperativeList" :key="index">
+								<view class="coop-list">
+									<view class="coop-item" v-for="(_item,index) in item" :key="_index">
+										<image class="image" :src="_item.logo" /> 
+										<text>{{_item.enterpriseName}}</text>
+									</view>
+								</view>
+							</swiper-item>
+						</swiper>
+					</uni-swiper-dot> 
 				</view>
 				
 				
@@ -204,13 +211,13 @@
 					</view>
 				</van-tab>
 				<van-tab title="热门话题">
-					<view class="content">
-						<view class="new-card" v-for="(item,index) in headlineList" :key="index" @click="goHeadDetails(item)">
+					<view class="content" >
+						<view class="new-card" v-for="(item,index) in headlineList_hot" :key="index" @click="goHeadDetails(item)">
 							<view class="new-img">
 								<image :src="item.pic?item.pic : '../../static/images/swiper.png'" mode=""></image>
 							</view>
 						</view>
-						<van-empty v-if="headlineList.length==0" description="暂无热门话题" />
+						<van-empty v-if="headlineList_hot.length==0" description="暂无热门话题" />
 					</view>
 				</van-tab>
 			</van-tabs>
@@ -239,6 +246,7 @@
 				// 轮播图
 				info: [],
 				current: 0,
+				tabActive: 0,
 				mode: 'round',
 				dotsStyles: {
 					width: 5,
@@ -306,12 +314,31 @@
 				brandList:[],
 				cooperativeList:[],
 				headlineList:[],
+				headlineList_hot:[],
 				// 新闻中心
 				newActive: 0,
 				//商铺总面积
 				shopSumMeasureArea:0,
 				brandCount:0,
 			};
+		},
+		onShareAppMessage(res) {
+			return {
+				title:"找商铺，找品牌，上商易租",
+				path:"/pages/login/login",
+				imageUrl:"https://shangyizu2020.oss-cn-shenzhen.aliyuncs.com/project/20210122172931.jpg",
+				success(res){
+					uni.showToast({
+						title:'分享成功'
+					})
+				},
+				fail(res){
+					uni.showToast({
+						title:'分享失败',
+						icon:'none'
+					})
+				}
+			}
 		},
 		onLoad() {
 			//请求BANNER
@@ -437,7 +464,7 @@
 			// 新闻中心tab切换
 			onChange(e) {
 				console.log(e.detail.index)
-				this.ajaxGetHeadline(e.detail.index);
+				//this.ajaxGetHeadline(e.detail.index);
 			},
 			
 			//请求BANNER图片
@@ -523,7 +550,17 @@
 					console.log(data);
 					
 					if(data.code=="200"){
-						that.cooperativeList = data.data;
+						that.cooperativeList = [];
+						data.data.forEach((item,index)=>{
+							const i = Math.floor(index/4);
+							const j = Math.floor(index%4);
+							if(j==0){
+								that.cooperativeList[i] = [item]
+							}else{
+								that.cooperativeList[i].push(item)
+							}
+							
+						})
 					}else{
 						
 					}
@@ -539,10 +576,10 @@
 				//ajax个人信息查询
 				
 				var that = this;
-				const paras = {
+				var paras = {
 					pageNo:1,
 					pageSize:10,
-					type:type
+					type:0
 				};
 				paras.accessToken = that.accessToken;
 				getHeadline(paras).then(res => {
@@ -552,6 +589,27 @@
 						that.headlineList = data.data.slice(0,3);
 					}else{
 						that.headlineList = [];
+					}
+				})
+				.catch(error => {
+				
+				});
+				
+				
+				
+				var paras = {
+					pageNo:1,
+					pageSize:10,
+					type:1
+				};
+				paras.accessToken = that.accessToken;
+				getHeadline(paras).then(res => {
+					const data = res.data;
+					console.log(data);
+					if(data.code=="200"){
+						that.headlineList_hot = data.data.slice(0,3);
+					}else{
+						that.headlineList_hot = [];
 					}
 				})
 				.catch(error => {
@@ -749,6 +807,10 @@
 		
 		.swiper-box{
 			height: 400rpx;
+		}
+		
+		.logo-box,.logo-box-swiper{
+			height: 162rpx;
 		}
 		
 		
@@ -990,7 +1052,7 @@
 		
 		.new {
 			margin-top: 20rpx;
-			
+			min-height: 1000rpx;
 			/deep/ .tab{
 				.van-tabs__wrap {
 					padding: 0 6rpx;

@@ -33,12 +33,12 @@
 				accessToken:"",
 				openid:"",
 				userInfo:{},
+				url:"/pages/Index/index",
 			}
 		},
 		
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
 		    
-			
 		},
 		onShow(){
 			this._getuserinfo();
@@ -53,7 +53,7 @@
 				getAccessToken();
 				setTimeout(() => {
 					uni.switchTab({
-						 url: '../Index/index'
+						 url: this.url,
 					});
 				}, 0)
 			},
@@ -265,7 +265,7 @@
 								success: (res) => {
 									
 									uni.switchTab({
-										 url: '../Index/index'
+										 url: this.url,
 									});
 								},
 								fail: () => {

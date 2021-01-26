@@ -116,6 +116,10 @@
 				font-size: 28rpx;
 				color: #2D2D2D;
 				margin-bottom: 12rpx;
+				white-space:nowrap;
+				overflow:hidden;
+				text-overflow:ellipsis;
+				width: 350rpx;
 			}
 			
 			.store-price {

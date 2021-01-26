@@ -377,6 +377,8 @@
 				
 			},
 			goMap(latitude, longitude, shopName) {
+				//var latitude = "22.525811";
+				//var longitude = "113.935388";
 				uni.navigateTo({
 					url: `../Map/mapDetail?latitude=${latitude}&longitude=${longitude}&shopName=${shopName}`
 				})
@@ -502,13 +504,12 @@
 			
 			previewImage(urls,index){
 				
-				//暂时不开放给他们使用
-				/*
+				
 				uni.previewImage({
 					current:index,
 					urls:urls
 				})
-				*/
+				
 			},
 			
 			onShareAppMessage(res) {
