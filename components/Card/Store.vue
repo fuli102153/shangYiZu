@@ -1,7 +1,7 @@
 <template>
 	<view class="vc-store-card" :class="isShowLine?'':'bottom-line'" @click="toDetail(source.shopNo)">
 		<view class="store-img">
-			<image :src="source.shopPhotos? source.shopPhotos.split(',')[0] : '../../static/logo.png'"></image>
+			<image :src="source.shopPhotos? source.shopPhotos.split(',')[0] : '../../static/store.jpg'"></image>
 		</view>
 		<view class="store-info">
 			<view class="store-top">
