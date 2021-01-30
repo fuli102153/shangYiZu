@@ -36,9 +36,30 @@
 				<van-dropdown-item title="物业"  :style="{display: propertyShow ? 'block' : 'none'}" @close="propertyShow=false"
 				@open="propertyShow=true" :options="propertyList" @change="changePropertyType"></van-dropdown-item>
 				
-				<van-dropdown-item title="面积" :style="{display: measureShow ? 'block' : 'none'}" @close="measureShow=false" @open="measureShow=true"
-				 :options="searchAreaList" @change="changeAreaRent"></van-dropdown-item>
-				
+				<van-dropdown-item title="面积" id="area" :value="activeArea" :style="{display: measureShow ? 'block' : 'none'}" @close="measureShow=false" @open="measureShow=true"
+				 :options="searchAreaList" @change="changeAreaRent">
+					<view class="slider">
+						<slider-range
+						  :value="rangeValue"
+						  :min="0"
+						  :max="1000"
+						  :step="1"
+						  :bar-height="3"
+						  :block-size="18"
+						  background-color="#CCCCCC"
+						  border-color="#1476FD"
+						  active-color="#1476FD"
+						  :format="format"
+						  :decorationVisible="false"
+						  @change="handleRangeChange"
+						></slider-range>
+					</view>
+					<view class="btn">
+						<view class="submit" @click="submitSelect">
+							完成
+						</view>
+					</view>
+				 </van-dropdown-item>
 			</van-dropdown-menu>
 			<!--<SelectHeader @onChangeMit="onChangeMit"></SelectHeader>-->
 		</van-sticky>
@@ -66,6 +87,7 @@
 	import StoreCard from "../../components/Card/Store";
 	import Toast from "../../wxcomponents/vant/dist/toast/toast";
 	import Dialog from "../../wxcomponents/vant/dist/dialog/dialog";
+	import SliderRange from '../../components/slider-range/index.vue';
 	import {
 		getShopList,
 		getAreaStreets,
@@ -75,7 +97,7 @@
 
 	export default {
 		components: {
-			StoreCard,
+			StoreCard, SliderRange
 		},
 		data() {
 			return {
@@ -92,6 +114,8 @@
 				typeList:[],
 				shopList: [],
 				searchAreaList: [], //面积
+				activeArea: '',
+				
 				propertyList:[],//物业
 				monthRentList: [],
 	
@@ -138,6 +162,7 @@
 					longitude: "",
 					latitude: "",
 				},
+				rangeValue: [0, 100]
 			};
 		},
 		onLoad(paras) {
@@ -177,6 +202,14 @@
 			this.reloadData();
 		},
 		methods: {
+			format(val) {
+			  return val + 'm²'
+			},
+			handleRangeChange(e) {
+			  this.rangeValue = e
+			  this.paras.measureAreaStart = e[0];
+			  this.paras.measureAreaEnd = e[1];
+			},
 			
 			// 选中城市
 			selectCity(index) {
@@ -313,7 +346,8 @@
 			},
 			
 			changeAreaRent(e) {
-				console.log(e);
+				console.log(e, this.activeArea);
+				
 				if(e.detail){
 					let start = Number(e.detail.split("-")[0]) || 0;
 					let end = Number(e.detail.split("-")[1]) || "";
@@ -321,15 +355,22 @@
 					if(this.paras.measureAreaStart != start || this.paras.measureAreaEnd != end){
 						this.paras.measureAreaStart = start;
 						this.paras.measureAreaEnd = end;
+						this.rangeValue[0] = start;
+						this.rangeValue[1] = end;
 						this.reloadData();
 					}
 				}else{
 					this.paras.measureAreaStart = "";
 					this.paras.measureAreaEnd = "";
+					this.rangeValue[0] = "";
+					this.rangeValue[1] = "";
 					this.reloadData();
 				}
-				
-				
+			},
+			
+			submitSelect() {
+				this.selectComponent('#area').toggle();
+				this.reloadData();
 			},
 
 			changePropertyType(e) {
@@ -673,6 +714,40 @@
 
 			.van-list {
 				flex: 1;
+			}
+		}
+		
+		.slider {
+			box-sizing: border-box;
+			padding: 0 36rpx;
+		}
+		
+		.btn {
+			padding: 0 36rpx;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100rpx;
+			
+			.clear {
+				height: 60rpx;
+				flex: 1;
+				color: #1476FD;
+				font-size: 26rpx;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			.submit {
+				height: 60rpx;
+				flex: 1;
+				color: #fff;
+				font-size: 26rpx;
+				background: #1476FD;
+				border-radius: 25rpx;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 			}
 		}
 

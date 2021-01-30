@@ -20,8 +20,30 @@
 				 :options="monthRentList" @change="changeMonthRent"></van-dropdown-item>
 				 <van-dropdown-item title="物业"  :style="{display: propertyShow ? 'block' : 'none'}" @close="propertyShow=false"
 				 @open="propertyShow=true" :options="propertyList" @change="changePropertyType"></van-dropdown-item>
-				<van-dropdown-item title="面积" :style="{display: measureShow ? 'block' : 'none'}" @close="measureShow=false" @open="measureShow=true"
-				 :options="searchAreaList" @change="changeAreaRent"></van-dropdown-item>
+				<van-dropdown-item title="面积" id="area" :style="{display: measureShow ? 'block' : 'none'}" @close="measureShow=false" @open="measureShow=true"
+				 :options="searchAreaList" @change="changeAreaRent">
+					<view class="slider">
+						<slider-range
+						  :value="rangeValue"
+						  :min="0"
+						  :max="1000"
+						  :step="1"
+						  :bar-height="3"
+						  :block-size="18"
+						  background-color="#CCCCCC"
+						  border-color="#1476FD"
+						  active-color="#1476FD"
+						  :format="format"
+						  :decorationVisible="false"
+						  @change="handleRangeChange"
+						></slider-range>
+					</view>
+					<view class="btn">
+						<view class="submit" @click="submitSelect">
+							完成
+						</view>
+					</view>
+				</van-dropdown-item>
 			
 			</van-dropdown-menu>
 			<!--<SelectHeader @onChangeMit="onChangeMit"></SelectHeader>-->
@@ -42,85 +64,87 @@
 	import StoreCard from '../../components/Card/Store'
 	import Toast from '../../wxcomponents/vant/dist/toast/toast';
 	import Dialog from '../../wxcomponents/vant/dist/dialog/dialog';
+	import SliderRange from '../../components/slider-range/index.vue';
 	import {getShopList,getAreaStreets,getCity,getPropertyFormSubLevelData} from "../../utils/api.js"
 	export default {
 		components: {
-			StoreCard
+			StoreCard, SliderRange
 		},
 		data() {
 			return {
-					parentCategoryIds:"",
-					parentCategoryNames: "",
-					activeKey: 0,
-					locationShow: false,
-					cityList: [],
-					activeCity: '',
-					value: '',
-					mainActiveIndex: 0,
-					typeActiveIndex: 0,
-					businessList:[],//业态
-					AreaStreets: [],
-					shopList: [],
-					propertyList: [], //物业
-					searchAreaList:[],//面积
-					monthRentList: [],
-					moneyList: [{
-						text: "0-2000元",
-						value: 0
-					}],
-					propertyShow: false,
-					monthShow: false,
-					moreShow: false,
-					areaShow: false,
-					typeShow: false,
-					measureShow:false,
-					measureAreaEnd: "",
-					measureAreaStart: "",
-					sortList: [{
-						text: "排序",
-						id: null,
-						children: [],
-					}, ],
-					typeList:[],//业态
-					sortActiveIndex: 0,
-					sortActiveId: null,
+				parentCategoryIds:"",
+				parentCategoryNames: "",
+				activeKey: 0,
+				locationShow: false,
+				cityList: [],
+				activeCity: '',
+				value: '',
+				mainActiveIndex: 0,
+				typeActiveIndex: 0,
+				businessList:[],//业态
+				AreaStreets: [],
+				shopList: [],
+				propertyList: [], //物业
+				searchAreaList:[],//面积
+				monthRentList: [],
+				moneyList: [{
+					text: "0-2000元",
+					value: 0
+				}],
+				propertyShow: false,
+				monthShow: false,
+				moreShow: false,
+				areaShow: false,
+				typeShow: false,
+				measureShow:false,
+				measureAreaEnd: "",
+				measureAreaStart: "",
+				sortList: [{
+					text: "排序",
+					id: null,
+					children: [],
+				}, ],
+				typeList:[],//业态
+				sortActiveIndex: 0,
+				sortActiveId: null,
+			
+				tagList: [],
+				tagIndex: -1,
+				selectList: [],
+				leaseTagList: [],
+				leaseTagIndex: -1,
+				selectLeaseList: [],
+				otherTagList: [],
+				otherTagIndex: -1,
+				selectOtherList: [],
+				reload: false,
+				loadMoreText: "更多",
 				
-					tagList: [],
-					tagIndex: -1,
-					selectList: [],
-					leaseTagList: [],
-					leaseTagIndex: -1,
-					selectLeaseList: [],
-					otherTagList: [],
-					otherTagIndex: -1,
-					selectOtherList: [],
-					reload: false,
-					loadMoreText: "更多",
-					
-					paras:{
-						projectType:"",
-						businessType:"",
-						shopName:"",
-						label:"",
-						distance:"",
-						regionId:"",
-						streetId:"",
-						shopCategoryIds:[],
-						shopCategoryNames: [],
-						metroLine:"",
-						monthRentStart:"",
-						monthRentEnd:"",
-						sort:"",
-						floorNum:"",
-						indentity:"",
-						engineeringConditions:"",
-						propertyType:"",
-						measureAreaStart:"",
-						measureAreaEnd:"",
-						longitude:"",
-						latitude:"",
-					}
-				}
+				paras:{
+					projectType:"",
+					businessType:"",
+					shopName:"",
+					label:"",
+					distance:"",
+					regionId:"",
+					streetId:"",
+					shopCategoryIds:[],
+					shopCategoryNames: [],
+					metroLine:"",
+					monthRentStart:"",
+					monthRentEnd:"",
+					sort:"",
+					floorNum:"",
+					indentity:"",
+					engineeringConditions:"",
+					propertyType:"",
+					measureAreaStart:"",
+					measureAreaEnd:"",
+					longitude:"",
+					latitude:"",
+				},
+				rangeValue: [0, 100]
+			}
 		},
 		onLoad(paras) {
 			console.log(paras)
@@ -199,6 +223,14 @@
 			this.reloadData();
 		},
 		methods: {
+			format(val) {
+			  return val + 'm²'
+			},
+			handleRangeChange(e) {
+			  this.rangeValue = e
+			  this.paras.measureAreaStart = e[0];
+			  this.paras.measureAreaEnd = e[1];
+			},
 			
 			onChange(event) {
 				this.activeKey = event.detail;
@@ -357,15 +389,22 @@
 					if(this.paras.measureAreaStart != start || this.paras.measureAreaEnd != end){
 						this.paras.measureAreaStart = start;
 						this.paras.measureAreaEnd = end;
+						this.rangeValue[0] = start;
+						this.rangeValue[1] = end;
 						this.reloadData();
 					}
 				}else{
 					this.paras.measureAreaStart = "";
 					this.paras.measureAreaEnd = "";
+					this.rangeValue[0] = '';
+					this.rangeValue[1] = '';
 					this.reloadData();
 				}
-				
-				
+			},
+			
+			submitSelect() {
+				this.selectComponent('#area').toggle();
+				this.reloadData();
 			},
 			
 			changePropertyType(e) {
@@ -718,6 +757,35 @@
 						}
 					}
 				}
+			}
+		}
+		
+		.btn {
+			padding: 0 36rpx;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100rpx;
+			
+			.clear {
+				height: 60rpx;
+				flex: 1;
+				color: #1476FD;
+				font-size: 26rpx;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			.submit {
+				height: 60rpx;
+				flex: 1;
+				color: #fff;
+				font-size: 26rpx;
+				background: #1476FD;
+				border-radius: 25rpx;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 			}
 		}
 		
