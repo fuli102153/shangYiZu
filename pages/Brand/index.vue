@@ -28,9 +28,17 @@
 				</van-cell-group>
 			</van-popup>
 			<van-dropdown-menu>
-				<van-dropdown-item title="业态" :style="{display: typeShow ? 'block' : 'none'}" ref="item" @close="typeShow=false"  @open="typeShow=true">
+				<van-dropdown-item title="业态" id="type" :style="{display: typeShow ? 'block' : 'none'}" ref="item" @close="typeShow=false"  @open="typeShow=true">
 					<van-tree-select height="100vw" max="10" :items="typeList" :main-active-index="typeActiveIndex" :active-id="activeShopCategoryIds"
 					 selected-icon="success" @click-nav="onClickType" @click-item="onClickTypeItem" />
+					 <view class="btn">
+					 	<view class="clear" @click="clearTypeSelect">
+					 		清除选项
+					 	</view>
+					 	<view class="submit" @click="submitTypeSelect">
+					 		完成
+					 	</view>
+					 </view>
 				</van-dropdown-item>
 				<van-dropdown-item title="区域" :style="{display: areaShow ? 'block' : 'none'}" @close="areaShow=false" @open="areaShow=true">
 					<van-tree-select height="100vw" max="10" :items="AreaStreets" :main-active-index="mainActiveIndex" :active-id="activeStreetId"
@@ -57,6 +65,9 @@
 						></slider-range>
 					</view>
 					<view class="btn">
+						<view class="clear" @click="clearSelect">
+							取消
+						</view>
 						<view class="submit" @click="submitSelect">
 							完成
 						</view>
@@ -68,6 +79,40 @@
 			<van-empty v-if="brandList.length==0" description="暂无数据" />
 			<BrandCard v-for="(item,index) in brandList" :sourceData="item" :key="index" />
 		</view>
+		<van-popup
+			:show="isShowPop" 
+			:overlay="false" 
+			:z-index="90"
+			custom-style="width: 675rpx; border-radius: 15rpx; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); top: 310rpx" 
+			@close="onSelectClose">
+			<view class="select-content">
+				<text>已选条件：</text>
+				<view class="item" v-if="paras.shopCategoryIds">
+					<text class="label">
+						业态：
+					</text>
+					<text class="txt">{{paras.shopCategoryIds}}</text>
+				</view>
+				<view class="item" v-if="paras.streetId">
+					<text class="label">
+						区域：
+					</text>
+					<text class="txt">{{paras.streetId}}</text>
+				</view>
+				<view class="item" v-if="paras.propertyType">
+					<text class="label">
+						物业：
+					</text>
+					<text class="txt">{{paras.propertyName}}</text>
+				</view>
+				<view class="item" v-if="paras.measureAreaEnd">
+					<text class="label">
+						面积：
+					</text>
+					<text class="txt">{{paras.measureAreaStart}}m²-{{paras.measureAreaEnd}}m²</text>
+				</view>
+			</view>
+		</van-popup>
 		<van-toast id="van-toast" />
 	</view>
 </template>
@@ -151,7 +196,12 @@
 				},
 				activeShopCategoryIds: "",
 				activeStreetId: '',
-				rangeValue: [0, 100]
+				rangeValue: ['', '']
+			}
+		},
+		computed: {
+			isShowPop() {
+				return !!(this.paras.shopCategoryIds || this.paras.streetId || this.paras.propertyType || this.paras.measureAreaEnd)
 			}
 		},
 		onLoad() {
@@ -236,7 +286,10 @@
 			
 			//转换格式
 			changeDict() {
-				this.propertyList = [];
+				this.propertyList = [{
+						text: "不限",
+						value: "",
+					}];
 				this.Dict.property_type.forEach((item)=>{
 					this.propertyList.push({
 						text: item.itemText, value: item.itemValue
@@ -328,15 +381,30 @@
 				}
 			},
 			
+			clearSelect() {
+				this.selectComponent('#area').toggle();
+			},
 			submitSelect() {
 				this.selectComponent('#area').toggle();
 				this.reloadData();
 			},
+			// 业态
+			clearTypeSelect() {
+				this.paras.shopCategoryIds = '';
+				this.activeShopCategoryIds = '';
+				this.selectComponent('#type').toggle();
+			},
+			submitTypeSelect() {
+				this.selectComponent('#type').toggle();
+				this.reloadData();
+			},
 			
 			changePropertyType(e) {
+				console.log(e)
 				let t = Number(e.detail) || "";
 				if(this.paras.propertyType != t){
 					this.paras.propertyType = t;
+					this.paras.propertyName = this.propertyList.filter(item => item.value == t)[0].text
 					this.reloadData();
 				}
 				
@@ -358,7 +426,7 @@
 			},
 			//右侧选择项被点击时，会触发的事件
 			onClickItem(e) {
-				//console.log(e)
+				console.log(e)
 				let t =	(this.paras.streetId === e.detail.text) ? null : e.detail.text;
 				if(this.paras.streetId != t){
 					this.areaShow = false;
@@ -377,14 +445,14 @@
 				if(t == "不限"){
 					this.paras.shopCategoryIds = "";
 					this.activeShopCategoryIds = "";
-					this.$refs.item.toggle();
-					this.reloadData();
+					// this.$refs.item.toggle();
+					// this.reloadData();
 				}
 				else if(this.paras.shopCategoryIds != t){
 					this.paras.shopCategoryIds = t;
 					this.activeShopCategoryIds = this.typeList[this.typeActiveIndex].id;
-					this.$refs.item.toggle();
-					this.reloadData();
+					// this.$refs.item.toggle();
+					// this.reloadData();
 				}
 				
 			},
@@ -396,8 +464,8 @@
 				if(this.paras.shopCategoryIds != t){
 					this.paras.shopCategoryIds = t;
 					this.activeShopCategoryIds = e.detail.id;
-					this.$refs.item.toggle();
-					this.reloadData();
+					// this.$refs.item.toggle();
+					// this.reloadData();
 				}
 			},
 	
@@ -715,6 +783,23 @@
 		
 		/deep/ .van-tree-select__item--active {
 			color: #1676FE;
+		}
+	}
+	.select-content {
+		padding: 23rpx 28rpx;
+		
+		text {
+			font-size: 26rpx;
+			line-height: 36rpx;
+		}
+		.item {
+			font-size: 22rpx;
+			.label {
+				color: #1476FD;
+			}
+			.txt {
+				color: #666666;
+			}
 		}
 	}
 </style>

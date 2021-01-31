@@ -25,9 +25,17 @@
 				</van-cell-group>
 			</van-popup>
 			<van-dropdown-menu>
-				<van-dropdown-item title="业态" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
+				<van-dropdown-item title="业态" id="type" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true">
 					<van-tree-select height="100vw" max="10" :items="typeList" :main-active-index="typeActiveIndex" :active-id="paras.shopCategoryIds"
 					 selected-icon="success" @click-nav="onClickType" @click-item="onClickTypeItem" />
+					 <view class="btn">
+					 	<view class="clear" @click="clearTypeSelect">
+					 		清除选项
+					 	</view>
+					 	<view class="submit" @click="submitTypeSelect">
+					 		完成
+					 	</view>
+					 </view>
 				</van-dropdown-item>
 				<van-dropdown-item title="区域" :style="{display: areaShow ? 'block' : 'none'}" @close="areaShow=false" @open="areaShow=true">
 					<van-tree-select height="100vw" max="10" :items="AreaStreets" :main-active-index="mainActiveIndex" :active-id="paras.streetId"
@@ -55,6 +63,9 @@
 						></slider-range>
 					</view>
 					<view class="btn">
+						<view class="clear" @click="clearSelect">
+							取消
+						</view>
 						<view class="submit" @click="submitSelect">
 							完成
 						</view>
@@ -73,6 +84,40 @@
 				{{loadMoreText}}
 			</view>
 		</view>
+		<van-popup 
+			:show="isShowPop" 
+			:overlay="false" 
+			:z-index="90"
+			custom-style="width: 675rpx; border-radius: 15rpx; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); top: 310rpx" 
+			@close="onSelectClose">
+			<view class="select-content">
+				<text>已选条件：</text>
+				<view class="item" v-if="paras.shopCategoryNames && paras.shopCategoryNames.length > 0">
+					<text class="label">
+						业态：
+					</text>
+					<text class="txt" v-for="(item, index) in paras.shopCategoryNames" :key="index">{{item}}、</text>
+				</view>
+				<view class="item" v-if="paras.streetId">
+					<text class="label">
+						区域：
+					</text>
+					<text class="txt">{{paras.streetName}}</text>
+				</view>
+				<view class="item" v-if="paras.propertyType">
+					<text class="label">
+						物业：
+					</text>
+					<text class="txt">{{paras.propertyName}}</text>
+				</view>
+				<view class="item" v-if="paras.measureAreaEnd">
+					<text class="label">
+						面积：
+					</text>
+					<text class="txt">{{paras.measureAreaStart}}m²-{{paras.measureAreaEnd}}m²</text>
+				</view>
+			</view>
+		</van-popup>
 		<van-toast id="van-toast" />
 	</view>
 </template>
@@ -101,6 +146,7 @@
 		},
 		data() {
 			return {
+				showSelect: true,
 				locationShow: false,
 				cityList: [],
 				activeCity: "",
@@ -147,6 +193,7 @@
 					distance: "",
 					regionId: "",
 					streetId: "",
+					streetName: "",
 					shopCategoryIds:[],
 					shopCategoryNames: [],
 					metroLine: "",
@@ -157,13 +204,19 @@
 					indentity: "",
 					engineeringConditions: "",
 					propertyType: "",
+					propertyName: "",
 					measureAreaStart: "",
 					measureAreaEnd: "",
 					longitude: "",
 					latitude: "",
 				},
-				rangeValue: [0, 100]
+				rangeValue: ['', '']
 			};
+		},
+		computed: {
+			isShowPop() {
+				return !!(this.paras.shopCategoryNames.length > 0 || this.paras.streetId || this.paras.propertyType || this.paras.measureAreaEnd)
+			}
 		},
 		onLoad(paras) {
 			if(paras.keyword){
@@ -182,9 +235,6 @@
 			
 			this.localtionCity = this.$Localtion.city;
 			this.$forceUpdate();
-
-
-			
 		},
 		onShow() {
 			console.log(this.Dict.property_type);
@@ -202,6 +252,9 @@
 			this.reloadData();
 		},
 		methods: {
+			onSelectClose() {
+				this.showSelect = false
+			},
 			format(val) {
 			  return val + 'm²'
 			},
@@ -254,7 +307,10 @@
 
 			//转换格式
 			changeDict() {
-				this.propertyList = [];
+				this.propertyList = [{
+					text: "不限",
+					value: "",
+				}];
 				this.Dict.property_type.forEach((item)=>{
 					this.propertyList.push({
 						text: item.itemText, value: item.itemValue
@@ -367,18 +423,34 @@
 					this.reloadData();
 				}
 			},
-			
+			// 面积
+			clearSelect() {
+				this.selectComponent('#area').toggle();
+			},
 			submitSelect() {
 				this.selectComponent('#area').toggle();
 				this.reloadData();
 			},
+			// 业态
+			clearTypeSelect() {
+				this.paras.shopCategoryIds = [];
+				this.paras.shopCategoryNames = [];
+				this.selectComponent('#type').toggle();
+			},
+			submitTypeSelect() {
+				this.selectComponent('#type').toggle();
+				this.reloadData();
+			},
 
 			changePropertyType(e) {
+				console.log(e)
 				let t = Number(e.detail) || "";
 				if(this.paras.propertyType != t){
 					this.paras.propertyType = t;
+					this.paras.propertyName = this.propertyList.filter(item => item.value == t)[0].text
 					this.reloadData();
 				}
+				
 				
 			},
 
@@ -398,11 +470,12 @@
 			},
 			//右侧选择项被点击时，会触发的事件
 			onClickItem(e) {
-				//console.log(e)
+				// console.log(e)
 				let t =	(this.paras.streetId === e.detail.id) ? null : e.detail.id;
 				if(this.paras.streetId != t){
 					this.areaShow = false;
 					this.paras.streetId = t;
+					this.paras.streetName = e.detail.text
 					this.reloadData();
 				}
 			},
@@ -431,7 +504,7 @@
 				  this.paras.shopCategoryIds.push(e.detail.id);
 				  this.paras.shopCategoryNames.push(e.detail.text);
 				}
-				this.reloadData();	
+				// this.reloadData();	
 			},
 
 			
@@ -835,6 +908,24 @@
 				color: #fff;
 				background-color: #1676fe;
 				border: 1rpx solid #1676fe;
+			}
+		}
+	}
+	
+	.select-content {
+		padding: 23rpx 28rpx;
+		
+		text {
+			font-size: 26rpx;
+			line-height: 36rpx;
+		}
+		.item {
+			font-size: 22rpx;
+			.label {
+				color: #1476FD;
+			}
+			.txt {
+				color: #666666;
 			}
 		}
 	}

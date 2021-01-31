@@ -5,9 +5,17 @@
 		<van-sticky >
 			<!--业态 楼层 租金 面积-->
 			<van-dropdown-menu>
-				<van-dropdown-item  title="业态" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true" >
+				<van-dropdown-item  title="业态" id="type" :style="{display: typeShow ? 'block' : 'none'}" @close="typeShow=false" @open="typeShow=true" >
 					<van-tree-select height="60vw" max="10" :items="typeList" :main-active-index="typeActiveIndex" :active-id="paras.shopCategoryIds"
 					 selected-icon="success" @click-nav="onClickType" @click-item="onClickTypeItem" />
+					 <view class="btn">
+					 	<view class="clear" @click="clearTypeSelect">
+					 		清除选项
+					 	</view>
+					 	<view class="submit" @click="submitTypeSelect">
+					 		完成
+					 	</view>
+					 </view>
 				</van-dropdown-item>
 				<van-dropdown-item title="楼层"  :style="{display: floorShow ? 'block' : 'none'}" @close="floorShow=false"
 				@open="floorShow=true" :options="floorList" @change="changeFloor"></van-dropdown-item>
@@ -30,6 +38,9 @@
 						></slider-range>
 					</view>
 					<view class="btn">
+						<view class="clear" @click="clearSelect">
+							取消
+						</view>
 						<view class="submit" @click="submitSelect">
 							完成
 						</view>
@@ -58,6 +69,40 @@
 			</view>
 			<van-toast id="van-toast" />
 		</view>
+		<van-popup
+			:show="isShowPop" 
+			:overlay="false" 
+			:z-index="90"
+			custom-style="width: 675rpx; border-radius: 15rpx; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); top: 180rpx" 
+			@close="onSelectClose">
+			<view class="select-content">
+				<text>已选条件：</text>
+				<view class="item" v-if="paras.shopCategoryNames && paras.shopCategoryNames.length > 0">
+					<text class="label">
+						业态：
+					</text>
+					<text class="txt" v-for="(item, index) in paras.shopCategoryNames" :key="index">{{item}}、</text>
+				</view>
+				<view class="item" v-if="paras.floorNum">
+					<text class="label">
+						楼层：
+					</text>
+					<text class="txt">{{paras.floorNum}}</text>
+				</view>
+				<view class="item" v-if="paras.measureAreaEnd">
+					<text class="label">
+						面积：
+					</text>
+					<text class="txt">{{paras.measureAreaStart}}m²-{{paras.measureAreaEnd}}m²</text>
+				</view>
+				<view class="item" v-if="paras.monthRentEnd">
+					<text class="label">
+						租金：
+					</text>
+					<text class="txt">{{paras.monthRentEnd}}</text>
+				</view>
+			</view>
+		</van-popup>
 	</view>
 </template>
 
@@ -141,7 +186,7 @@
 						projectId:"",
 						businessType:"",
 						shopCategoryIds:[],
-						
+						shopCategoryNames: [],
 						shopName:"",
 						label:"",
 						distance:"",
@@ -160,8 +205,13 @@
 						longitude:"",
 						latitude:"",
 					},
-					rangeValue: [0, 100]
+					rangeValue: ['', '']
 				}
+		},
+		computed: {
+			isShowPop() {
+				return !!(this.paras.shopCategoryNames.length > 0 || this.paras.floorNum || this.paras.monthRentEnd || this.paras.measureAreaEnd)
+			}
 		},
 		onLoad(paras) {
 			console.log(paras)
@@ -376,8 +426,21 @@
 				}
 			},
 			
+			clearSelect() {
+				this.selectComponent('#area').toggle();
+			},
 			submitSelect() {
 				this.selectComponent('#area').toggle();
+				this.reloadData();
+			},
+			// 业态
+			clearTypeSelect() {
+				this.paras.shopCategoryIds = [];
+				this.paras.shopCategoryNames = [];
+				this.selectComponent('#type').toggle();
+			},
+			submitTypeSelect() {
+				this.selectComponent('#type').toggle();
 				this.reloadData();
 			},
 			
@@ -435,10 +498,12 @@
 				const index = this.paras.shopCategoryIds.indexOf(e.detail.id);
 				if (index > -1) {
 				  this.paras.shopCategoryIds.splice(index, 1);
+				  this.paras.shopCategoryNames.splice(index, 1);
 				} else {
 				  this.paras.shopCategoryIds.push(e.detail.id);
+				  this.paras.shopCategoryNames.push(e.detail.text);
 				}
-				this.reloadData();	
+				// this.reloadData();	
 			},
 			
 			previewImage(urls,index){
@@ -857,6 +922,23 @@
 				color: #fff;
 				background-color: #1676FE;
 				border: 1rpx solid #1676FE;
+			}
+		}
+	}
+	.select-content {
+		padding: 23rpx 28rpx;
+		
+		text {
+			font-size: 26rpx;
+			line-height: 36rpx;
+		}
+		.item {
+			font-size: 22rpx;
+			.label {
+				color: #1476FD;
+			}
+			.txt {
+				color: #666666;
 			}
 		}
 	}
