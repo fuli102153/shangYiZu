@@ -91,7 +91,7 @@
 					<text class="label">
 						业态：
 					</text>
-					<text class="txt">{{paras.shopCategoryIds}}</text>
+					<text class="txt">{{typeListItem}} > {{paras.shopCategoryIds}}</text>
 				</view>
 				<view class="item" v-if="paras.streetId">
 					<text class="label">
@@ -196,7 +196,8 @@
 				},
 				activeShopCategoryIds: "",
 				activeStreetId: '',
-				rangeValue: ['', '']
+				rangeValue: ['', ''],
+				typeListItem: '',
 			}
 		},
 		computed: {
@@ -393,6 +394,7 @@
 				this.paras.shopCategoryIds = '';
 				this.activeShopCategoryIds = '';
 				this.selectComponent('#type').toggle();
+				this.reloadData();
 			},
 			submitTypeSelect() {
 				this.selectComponent('#type').toggle();
@@ -454,6 +456,8 @@
 					// this.$refs.item.toggle();
 					// this.reloadData();
 				}
+				
+				this.typeListItem = this.typeList[this.typeActiveIndex].text
 				
 			},
 			//右侧选择项被点击时，会触发的事件

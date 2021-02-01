@@ -80,7 +80,15 @@
 					<text class="label">
 						业态：
 					</text>
-					<text class="txt" v-for="(item, index) in paras.shopCategoryNames" :key="index">{{item}}、</text>
+					<view class="list">
+						<view class="txt" v-for="(item, index) in Object.keys(typeListData)" :key="index">
+							<text v-if="typeListData[item] && typeListData[item].length > 0">
+								<text>{{ item }} </text>
+								<text> > </text>
+								<text v-for="(val, idx) in typeListData[item]" :key="idx"> {{ val }}、</text>
+							</text>
+						</view>
+					</view>
 				</view>
 				<view class="item" v-if="paras.streetId">
 					<text class="label">
@@ -188,7 +196,9 @@
 					longitude:"",
 					latitude:"",
 				},
-				rangeValue: ['', '']
+				rangeValue: ['', ''],
+				typeListItem: '',
+				typeListData: {},
 			}
 		},
 		computed: {
@@ -463,6 +473,7 @@
 				this.paras.shopCategoryIds = [];
 				this.paras.shopCategoryNames = [];
 				this.selectComponent('#type').toggle();
+				this.reloadData();
 			},
 			submitTypeSelect() {
 				this.selectComponent('#type').toggle();
@@ -514,8 +525,10 @@
 				if(t == ""){
 					this.paras.shopCategoryIds = [this.parentCategoryIds];
 					this.paras.shopCategoryNames = [this.parentCategoryNames];
-					this.reloadData();
+					// this.reloadData();
 				}
+				
+				this.typeListItem = this.typeList[this.typeActiveIndex].text
 				
 				
 			},
@@ -530,6 +543,13 @@
 				} else {
 				  this.paras.shopCategoryIds.push(e.detail.id);
 				  this.paras.shopCategoryNames.push(e.detail.text);
+				}
+				const list = this.typeListData[this.typeListItem] ? this.typeListData[this.typeListItem] : []
+				const idx = list.indexOf(e.detail.text)
+				if (idx > -1) {
+					this.typeListData[this.typeListItem].splice(idx, 1)
+				} else {
+					this.typeListData[this.typeListItem] = [...list, e.detail.text]
 				}
 				// this.reloadData();	
 			},
@@ -950,10 +970,16 @@
 		}
 		.item {
 			font-size: 22rpx;
+			display: flex;
 			.label {
 				color: #1476FD;
+				width: 85rpx;
+			}
+			.list {
+				flex: 1;
 			}
 			.txt {
+				flex: 1;
 				color: #666666;
 			}
 		}
