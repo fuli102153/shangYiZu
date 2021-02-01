@@ -2,7 +2,7 @@
   <view class="v-brand-details">
     <uni-swiper-dot >
 			<swiper class="swiper-box" >
-				<swiper-item @click="previewImage(brand.effectPhotos? brand.effectPhotos.split(',') : [brand.brandLogo],index)"  v-for="(item ,index) in brand.effectPhotos? brand.effectPhotos.split(',') : [brand.brandLogo]" :key="index">
+				<swiper-item @click="previewImage(bigPhotos.length>0? bigPhotos : [brand.brandLogo],index)"  v-for="(item ,index) in brand.effectPhotos? brand.effectPhotos.split(',') : [brand.brandLogo]" :key="index">
 					<view class="swiper-item">
 						<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
 					</view>
@@ -241,6 +241,7 @@ export default {
       ],
 			brand: {},
 			brandList: [],
+      bigPhotos:[],
     };
   },
   onLoad(paras) {
@@ -281,6 +282,17 @@ export default {
             that.brand.engineeringConditions = that.brand.engineeringConditions.split(
               ","
             );
+
+            var infoPhotos = that.brand.effectPhotos.split(",");
+						that.bigPhotos = [];
+						infoPhotos.forEach((item)=>{
+							var _index = item.lastIndexOf(".");
+							var bigPhoto = item.slice(0,_index)+"_thumb"+item.slice(_index)
+							that.bigPhotos.push(bigPhoto);
+            })
+
+            console.log(that.bigPhotos)
+            
           } else {
             Toast.fail(data.message);
           }

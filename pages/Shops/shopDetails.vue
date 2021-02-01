@@ -4,7 +4,7 @@
 		<view class="banner" >
 			<uni-swiper-dot   :current="tabActive"   >
 				<swiper class="swiper-box" @change="changeSwiper">
-					<swiper-item @click="previewImage(shop.shopPhotos? shop.shopPhotos.split(',') : [],index)" v-for="(item ,index) in shop.shopPhotos? shop.shopPhotos.split(',') : []" :key="index">
+					<swiper-item @click="previewImage(bigPhotos.length>0? bigPhotos : ['../../static/store.jpg'],index)" v-for="(item ,index) in shop.shopPhotos? shop.shopPhotos.split(',') : ['../../static/store.jpg']" :key="index">
 						<view class="swiper-item">
 							<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
 						</view>
@@ -256,7 +256,7 @@
 					</view>
 				</view>
 				<view class="attestation-user" >
-					实勘顾问：谢俊伟
+					实勘顾问：{{shop.contactUsername}}
 				</view>
 			</view>
 		</view>
@@ -333,6 +333,7 @@
 				
 				latitude: "",
 				longitude: "",
+				bigPhotos:[],
 
 				facilitiesList: [
 					{name: '外摆', src: '../../static/images/external-pendulum.png'},
@@ -413,9 +414,15 @@
 						
 						var infoPhotos = that.shop.shopPhotos.split(",");
 						that.info = [];
+						that.bigPhotos = [];
 						infoPhotos.forEach((item)=>{
 							that.info.push({"content":"商铺编号："+that.shop.shopNo})
+							var _index = item.lastIndexOf(".");
+							var bigPhoto = item.slice(0,_index)+"_thumb"+item.slice(_index)
+							that.bigPhotos.push(bigPhoto);
 						})
+						
+						//console.log(that.bigPhotos)
 						
 						that.Dict.property_type.forEach((item)=>{
 							if(that.shop.propertyType == item.itemValue){

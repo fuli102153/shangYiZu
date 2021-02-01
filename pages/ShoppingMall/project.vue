@@ -53,7 +53,7 @@
 		</van-sticky>
 		<uni-swiper-dot  class="projectPic" style="width: 100%; height: 430rpx;" :info="info" :current="current" field="content" :mode="mode" :dotsStyles="dotsStyles">
 			<swiper  class="swiper-box projectPic"  :interval="5000" :autoplay="true">
-				<swiper-item class="projectPic"  @click="previewImage(projectEffectPicList,index)"  v-for="(item ,index) in projectEffectPicList" :key="index">
+				<swiper-item class="projectPic"  @click="previewImage(bigPhotos.length>0? bigPhotos : ['../../static/store.jpg'],index)"  v-for="(item ,index) in projectEffectPicList" :key="index">
 					<view class="swiper-item">
 						<image :src="item" mode="" class="projectPic"></image>
 					</view>
@@ -205,7 +205,8 @@
 						longitude:"",
 						latitude:"",
 					},
-					rangeValue: ['', '']
+					rangeValue: ['', ''],
+					bigPhotos:[],
 				}
 		},
 		computed: {
@@ -586,6 +587,17 @@
 							Toast.clear();
 						}, 300)
 						that.projectEffectPicList = data.project.projectEffectPic.split(",") || [];
+
+	
+						that.bigPhotos = [];
+						that.projectEffectPicList.forEach((item)=>{
+							var _index = item.lastIndexOf(".");
+							var bigPhoto = item.slice(0,_index)+"_thumb"+item.slice(_index)
+							that.bigPhotos.push(bigPhoto);
+						})
+
+						console.log(that.bigPhotos)
+
 						let list = that.setTime(data.shopList);
 						that.shopList = that.reload ? list : that.shopList.concat(list);
 						that.reload = false;
