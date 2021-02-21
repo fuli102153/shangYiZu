@@ -19,6 +19,9 @@
 					<view>
 						<view class="tag" v-if="source.monthRent">每月租金：￥{{`${source.monthRent}元/月` || ""}}</view>
 					</view>
+					<view v-if="propertyType(source.propertyType)">
+						<view class="tag">物业类型：{{propertyType(source.propertyType)}}</view>
+					</view>
 					<view class="hot-list">
 						<i class="hot" v-for="item in source.hits" :key="item"></i>
 					</view>
@@ -72,7 +75,13 @@
 					url: "../Shops/shopDetails?shopNo=" + shopNo
 				})
 			},
-
+			propertyType(id) {
+				if (!id) {
+					return ''
+				}
+				let name = this.Dict.property_type.filter(item => item.itemValue === id);
+				return name[0].itemText ? name[0].itemText : ''
+			}
 
 		}
 	}
@@ -115,7 +124,6 @@
 			.store-title {
 				font-size: 28rpx;
 				color: #2D2D2D;
-				margin-bottom: 12rpx;
 				white-space:nowrap;
 				overflow:hidden;
 				text-overflow:ellipsis;
@@ -143,7 +151,6 @@
 					.tag {
 						color: #9B9B9A;
 						font-size: 20rpx;
-						margin-top: 10rpx;
 					}
 					.hot-list {
 						display: flex;

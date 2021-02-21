@@ -164,16 +164,16 @@ export default {
       return ((this.values[1] - this.min) / (this.max - this.min)) * 100
     },
     lowerTipStyle() {
-      if (this.lowerHandlePosition < 90) {
+      // if (this.lowerHandlePosition < 90) {
         return `left: ${this.lowerHandlePosition}%;`
-      }
-      return `right: ${100 - this.lowerHandlePosition}%;transform: translate(50%, -100%);`
+      // }
+      // return `right: ${100 - this.lowerHandlePosition}%;transform: translate(50%, -100%);`
     },
     higherTipStyle() {
-      if (this.higherHandlePosition < 90) {
+      // if (this.higherHandlePosition < 90) {
         return `left: ${this.higherHandlePosition}%;`
-      }
-      return `right: ${100 - this.higherHandlePosition}%;transform: translate(50%, -100%);`
+      // }
+      // return `right: ${100 - this.higherHandlePosition}%;transform: translate(50%, -100%);`
     },
   },
   created: function() {},
