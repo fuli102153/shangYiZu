@@ -75,13 +75,14 @@
 			<!--<SelectHeader @onChangeMit="onChangeMit"></SelectHeader>-->
 		</van-sticky>
 		<view class="store-list">
-			<view class="select-content" v-if="isShowPop">
+			<view class="select-content" :class="isOpen ? '' : 'select-content-open'" v-if="isShowPop">
+				<text class="open" @click="openMore">{{isOpen ? '收起' : '展开'}}</text>
 				<text>已选条件：</text>
-				<view class="item" v-if="paras.shopCategoryNames && paras.shopCategoryNames.length > 0">
+				<view class="item" :class="isOpen ? '' : 'item-open'" v-if="paras.shopCategoryNames && paras.shopCategoryNames.length > 0">
 					<text class="label">
 						业态：
 					</text>
-					<view class="list">
+					<view class="list" :class="isOpen ? '' : 'openlist'">
 						<text class="txt" v-for="(item, index) in Object.keys(typeListData)" :key="index">
 							<text v-if="typeListData[item] && typeListData[item].length > 0">
 								<text>{{ item }} </text>
@@ -92,19 +93,19 @@
 						；
 					</view>
 				</view>
-				<view class="item" v-if="paras.streetId">
+				<view class="item" :class="isOpen ? '' : 'item-open'" v-if="paras.streetId">
 					<text class="label">
 						区域：
 					</text>
 					<text class="txt">{{paras.streetName}}</text>
 				</view>
-				<view class="item" v-if="paras.propertyType">
+				<view class="item" :class="isOpen ? '' : 'item-open'" v-if="paras.propertyType">
 					<text class="label">
 						物业：
 					</text>
 					<text class="txt">{{paras.propertyName}}</text>
 				</view>
-				<view class="item" v-if="paras.measureAreaEnd">
+				<view class="item" :class="isOpen ? '' : 'item-open'" v-if="paras.measureAreaEnd">
 					<text class="label">
 						面积：
 					</text>
@@ -216,6 +217,7 @@
 				rangeValue: ['', ''],
 				typeListItem: '',
 				typeListData: {},
+				isOpen: false
 			};
 		},
 		computed: {
@@ -257,6 +259,9 @@
 			this.reloadData();
 		},
 		methods: {
+			openMore() {
+				this.isOpen = !this.isOpen
+			},
 			onSelectClose() {
 				this.showSelect = false
 			},
@@ -932,9 +937,17 @@
 		padding: 23rpx 28rpx;
 		margin-top:15rpx;
 		border-radius: 15rpx; box-shadow: 0px 5rpx 15rpx rgba(0, 0, 0, 0.2);
+		position: relative;
 		text {
 			font-size: 26rpx;
 			line-height: 36rpx;
+		}
+		.open {
+			position: absolute;
+			font-size: 26rpx;
+			color: #005AC8;
+			top: 68rpx;
+			right: 28rpx;
 		}
 		.item {
 			font-size: 22rpx;
@@ -944,12 +957,26 @@
 				width: 85rpx;
 			}
 			.list {
-				flex: 1;
+				width: 420rpx;
 			}
+			.openlist {
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			
 			.txt {
 				flex: 1;
 				color: #666666;
 			}
 		}
+		
+		.item-open {
+			margin-bottom: 20rpx;
+		}
+	}
+	.select-content-open {
+		height: 80rpx;
+		overflow: hidden;
 	}
 </style>
