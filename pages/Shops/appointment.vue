@@ -102,7 +102,9 @@
 			},
 			onConfirm(event) {
 				this.startShow = false;
-			  this.currentDate = event.detail
+				this.currentDate = event.detail;
+				console.log(this.currentDate)
+				console.log(new Date().getTime())
 				const date = new Date(event.detail)
 				this.startDate = date;
 				this.startDateStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:00`;
@@ -149,6 +151,11 @@
 				}
 				if(that.startDate>=that.endDate){
 					Toast.fail("结束时间必须大于开始时间");
+					return;
+				}
+
+				if((this.currentDate-new Date().getTime())<3600000){
+					Toast.fail("开始时间必须大于当前时间1个小时");
 					return;
 				}
 				const paras = {

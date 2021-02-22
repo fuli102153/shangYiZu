@@ -75,22 +75,7 @@
 			<!--<SelectHeader @onChangeMit="onChangeMit"></SelectHeader>-->
 		</van-sticky>
 		<view class="store-list">
-			<van-empty v-if="shopList.length==0" description="暂无数据" />
-			<StoreCard v-for="(item,index) in shopList" :sourceData="item" :key="index"  />
-			<view class="loading" v-if="0">
-				<van-loading  size="24px">{{loadMoreText}}</van-loading>
-			</view>
-			<view class="loading" v-else-if="false">
-				{{loadMoreText}}
-			</view>
-		</view>
-		<van-popup 
-			:show="isShowPop" 
-			:overlay="false" 
-			:z-index="90"
-			custom-style="width: 675rpx; border-radius: 15rpx; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); top: 310rpx" 
-			@close="onSelectClose">
-			<view class="select-content">
+			<view class="select-content" v-if="isShowPop">
 				<text>已选条件：</text>
 				<view class="item" v-if="paras.shopCategoryNames && paras.shopCategoryNames.length > 0">
 					<text class="label">
@@ -125,7 +110,16 @@
 					<text class="txt">{{paras.measureAreaStart}}m²-{{paras.measureAreaEnd}}m²</text>
 				</view>
 			</view>
-		</van-popup>
+			<van-empty v-if="shopList.length==0" description="暂无数据" />
+			<StoreCard v-for="(item,index) in shopList" :sourceData="item" :key="index"  />
+			<view class="loading" v-if="0">
+				<van-loading  size="24px">{{loadMoreText}}</van-loading>
+			</view>
+			<view class="loading" v-else-if="false">
+				{{loadMoreText}}
+			</view>
+		</view>
+		
 		<van-toast id="van-toast" />
 	</view>
 </template>
@@ -935,7 +929,8 @@
 	
 	.select-content {
 		padding: 23rpx 28rpx;
-		
+		margin-top:15rpx;
+		border-radius: 15rpx; box-shadow: 0px 5rpx 15rpx rgba(0, 0, 0, 0.2);
 		text {
 			font-size: 26rpx;
 			line-height: 36rpx;
