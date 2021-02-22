@@ -15,6 +15,9 @@
 					<view>
 						<view class="tag" v-if="source.measureArea">需求面积：{{source.measureArea || ""}}m²</view>
 					</view>
+					<view v-if="propertyType(source.propertyType)">
+						<view class="tag">物业类型：{{propertyType(source.propertyType)}}</view>
+					</view>
 					<view>
 						<view class="tag">拓店数量：{{source.viewNum}}家</view>
 					</view>
@@ -41,6 +44,7 @@ export default {
 			isShowLine:false,
 	 	}
 	},
+	
 	mounted(){
 	    var that = this;
 	    this.$nextTick(function(){
@@ -58,7 +62,13 @@ export default {
 				url: '../../pages/Brand/BrandDetails?brandNo='+brandNo
 			})
 		},
-	 	
+	 	propertyType(id) {
+			if (!id) {
+				return ''
+			}
+	 		let name = this.Dict.property_type.filter(item => item.itemValue === id);
+	 		return name[0].itemText ? name[0].itemText : ''
+	 	}
 	 }
 }
 </script>
@@ -79,6 +89,7 @@ export default {
 			width: 330rpx;
 			height: 200rpx;
 			border-radius: 15rpx;
+			box-shadow: 0px 0px 10px rgba(66, 65, 65, 0.44);
 
 			image {
 				width: 330rpx;
@@ -100,7 +111,6 @@ export default {
 			.store-title {
 				font-size: 28rpx;
 				color: #2D2D2D;
-				margin-bottom: 12rpx;
 				white-space:nowrap;
 				overflow:hidden;
 				text-overflow:ellipsis;
@@ -131,7 +141,6 @@ export default {
 					.tag {
 						color: #9B9B9A;
 						font-size: 20rpx;
-						margin-top: 10rpx;
 					}
 					.hot-list {
 						display: flex;

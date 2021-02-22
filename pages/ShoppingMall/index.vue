@@ -81,13 +81,14 @@
 						业态：
 					</text>
 					<view class="list">
-						<view class="txt" v-for="(item, index) in Object.keys(typeListData)" :key="index">
+						<text class="txt" v-for="(item, index) in Object.keys(typeListData)" :key="index">
 							<text v-if="typeListData[item] && typeListData[item].length > 0">
 								<text>{{ item }} </text>
 								<text> > </text>
-								<text v-for="(val, idx) in typeListData[item]" :key="idx"> {{ val }}、</text>
+								<text v-for="(val, idx) in typeListData[item]" :key="idx"> {{idx === 0 ? '' : '、'}}{{ val }}</text>
 							</text>
-						</view>
+						</text>
+						；
 					</view>
 				</view>
 				<view class="item" v-if="paras.streetId">
