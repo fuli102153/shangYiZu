@@ -65,6 +65,14 @@
 			<van-tabs class="tab" :active="active" @change="onChange" color="#1476FD" title-active-color="#1476FD" line-width="50rpx">
 			  <van-tab title="商铺概况">
 				  <view class="info">
+					  <view class="item">
+					  	<view class="label">
+					  		每月租金
+					  	</view>
+					  	<view class="value">
+					  		{{shop.monthRent || '-'}}元/月
+					  	</view>
+					  </view>
 				  	<view class="item">
 				  		<view class="label">
 				  			计租面积
@@ -82,13 +90,28 @@
 							{{(shop.monthRent/shop.measureArea).toFixed(2)}}元/m²/月
 						</view>
 					</view>
-					
 					<view class="item">
 						<view class="label">
-							所在楼层
+							套内面积
 						</view>
 						<view class="value">
-							{{property.floorNum || '-'}}层
+							{{property.insideArea || 'X'}}
+						</view>
+					</view>
+					<view class="item">
+						<view class="label">
+							使用比率
+						</view>
+						<view class="value">
+							{{property.insideArea || 'X'}}
+						</view>
+					</view>
+					<view class="item">
+						<view class="label">
+							所在区域
+						</view>
+						<view class="value">
+							{{source.areaName || "-"}} {{source.streetName || "-"}}
 						</view>
 					</view>
 					<view class="item">
@@ -99,6 +122,15 @@
 							{{shop.propertyType || '-'}}
 						</view>
 					</view>
+					<view class="item">
+						<view class="label">
+							所在楼层
+						</view>
+						<view class="value">
+							{{property.floorNum || '-'}}层
+						</view>
+					</view>
+					
 					<view class="item" >
 						<view class="label">
 							推荐业态
@@ -115,22 +147,7 @@
 					</view>
 					<view class="transaction-info" v-show="transactionShow">
 						
-						<view class="item">
-							<view class="label">
-								套内面积
-							</view>
-							<view class="value">
-								{{property.insideArea || 'X'}}
-							</view>
-						</view>
-						<view class="item">
-							<view class="label">
-								使用比率
-							</view>
-							<view class="value">
-								{{property.insideArea || 'X'}}
-							</view>
-						</view>
+						
 						<view class="item">
 							<view class="label">
 								支付方式
@@ -165,28 +182,13 @@
 						</view>
 						<view class="item">
 							<view class="label">
-								联营扣点
+								管理费用
 							</view>
 							<view class="value">
 								{{property.a || '-'}}元
 							</view>
 						</view>
-						<view class="item">
-							<view class="label">
-								水务费用
-							</view>
-							<view class="value">
-								{{property.waterRate || '-'}}元/m³
-							</view>
-						</view>
-						<view class="item">
-							<view class="label">
-								电务费用
-							</view>
-							<view class="value">
-								{{property.powerRate || '-'}}元/KWh
-							</view>
-						</view>
+						
 						
 					</view>
 					<view class="cell" @click="engineeringShow = !engineeringShow">
@@ -227,6 +229,22 @@
 							</view>
 							<view class="value">
 								{{property.columnSpacing || 'X'}}m
+							</view>
+						</view>
+						<view class="item">
+							<view class="label">
+								水务费用
+							</view>
+							<view class="value">
+								{{property.waterRate || '-'}}元/m³
+							</view>
+						</view>
+						<view class="item">
+							<view class="label">
+								电务费用
+							</view>
+							<view class="value">
+								{{property.powerRate || '-'}}元/KWh
 							</view>
 						</view>
 						<view class="item">
