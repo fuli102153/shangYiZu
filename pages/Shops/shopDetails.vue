@@ -47,10 +47,16 @@
 			<view class="content">
 				<view class="icon" />
 				<view class="label">
+					<view class="project">
+						<view class="name">
+							鹏润达商业广场 
+						</view>
+						<text>查看商场所有空铺</text>
+					</view>
 					<view class="title">
 						{{shop.detailLocation}}
 					</view>
-					<text>{{shop.addrPcas}}</text>
+					<!-- <text>{{shop.addrPcas}}</text> -->
 				</view>
 				<view class="look">
 					<van-icon name="location" color="#BFBFBF"/>
@@ -689,13 +695,29 @@
 				.label {
 					flex: 1;
 					display: flex;
-					flex-direction: column;
-					justify-content: space-between;
-					margin-left: 20rpx;
+					.project {
+						width: 212rpx;
+						text-align: center;
+						border-right: 1px solid #C9C8C8;
+						padding: 0 8rpx;
+						
+						.name {
+							font-size: 28rpx;
+							line-height: 36rpx;
+							color: #252525;
+						}
+						text {
+							font-size: 18rpx;
+							line-height: 36rpx;
+							color: #BFBFBF;
+						}
+					}
 					.title {
-						color: #252525;
-						font-size: 28rpx;
+						flex: 1;
+						font-size: 20rpx;
 						line-height: 36rpx;
+						color: #6A6A6A;
+						padding: 0 16rpx;
 					}
 					text {
 						font-size: 24rpx;
