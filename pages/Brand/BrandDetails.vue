@@ -70,44 +70,167 @@
       >
         <van-tab title="开店需求">
           <view class="info">
-            <view class="item">
-              <view class="label"> 品牌业态 </view>
-              <view class="value">
-                {{ brand.propertyFormStr || "-" }}
-              </view>
-            </view>
-            <view class="item">
-              <view class="label"> 意向租金 </view>
-              <view class="value"> {{ brand.monthRent || "-" }}元/月 </view>
-            </view>
-            <view class="item">
-              <view class="label"> 客单价格 </view>
-              <view class="value">
-                {{ brand.customerAveragePrice || "-" }}元
-              </view>
-            </view>
-            <view class="item">
-              <view class="label"> 目标客群 </view>
-              <view class="value">
-                {{ brand.targetCustomer || "-" }}
-              </view>
-            </view>
-            <view class="item">
-              <view class="label"> 开店区域 </view>
-              <view class="value">
-                {{ brand.region || "-" }}
-              </view>
-            </view>
-            <view class="item">
-              <view class="label"> 开店数量 </view>
-              <view class="value"> {{ brand.num || "-" }}家 </view>
-            </view>
-            <view class="item">
-              <view class="label"> 是否开放加盟 </view>
-              <view class="value">
-                {{ brand.openjoin == 0 ? "不开" : "开" }}
-              </view>
-            </view>
+			  <view class="item">
+				<view class="label"> 需求面积 </view>
+				<view class="value">
+				  {{ brand.measureArea || "-" }}m²
+				</view>
+			  </view>
+			  
+			  <view class="item">
+			    <view class="label"> 意向租金 </view>
+			    <view class="value"> {{ brand.monthRent || "-" }}元/月 </view>
+			  </view>
+			  
+				<view class="item">
+				  <view class="label"> 品牌业态 </view>
+				  <view class="value">
+					{{ brand.propertyFormStr || "-" }}
+				  </view>
+				</view>
+				
+				<view class="item">
+					<view class="label"> 楼层要求 </view>
+					<view class="value">
+					  {{ brand.floorNum || "X" }}
+					</view>
+				</view>
+				
+				<view class="item">
+				  <view class="label"> 开店区域 </view>
+				  <view class="value">
+				    {{ brand.region || "-" }}
+				  </view>
+				</view>
+				
+				<view class="item">
+				  <view class="label"> 开店数量 </view>
+				  <view class="value"> {{ brand.num || "-" }}家 </view>
+				</view>
+				
+				<view class="item">
+				  <view class="label"> 开放加盟 </view>
+				  <view class="value">
+				    {{ brand.openjoin == 0 ? "不开" : "开" }}
+				  </view>
+				</view>
+           
+				<view class="item">
+				  <view class="label"> 客单价格 </view>
+				  <view class="value">
+					{{ brand.customerAveragePrice || "-" }}
+				  </view>
+				</view>
+				
+				
+				<view class="item">
+				  <view class="label"> 目标客群 </view>
+				  <view class="value">
+					{{ brand.targetCustomer || "-" }}
+				  </view>
+				</view>
+				
+				
+				<view class="item">
+				  <view class="label"> 客群年龄 </view>
+				  <view class="value">
+					{{ brand.age || "X" }}
+				  </view>
+				</view>
+				
+				<view class="cell" @click="transactionShow = !transactionShow">
+					<view class="label">
+						工程要求
+					</view>
+					<van-icon name="play" :class="transactionShow ? 'down' : 'up'"/>
+				</view>
+				<view class="transaction-info" v-show="transactionShow">
+					<view class="item">
+						<view class="label">
+							楼层层高
+						</view>
+						<view class="value">
+							{{property.floorHeight || 'X'}}m
+						</view>
+					</view>
+					<view class="item">
+						<view class="label">
+							楼层开间
+						</view>
+						<view class="value">
+							{{property.bayWidth || 'X'}}m
+						</view>
+					</view>
+					<view class="item">
+						<view class="label">
+							楼层进深
+						</view>
+						<view class="value">
+							{{property.depthLength || 'X'}}m
+						</view>
+					</view>
+					<view class="item">
+						<view class="label">
+							商铺柱距
+						</view>
+						<view class="value">
+							{{property.columnSpacing || 'X'}}m
+						</view>
+					</view>
+					<view class="item">
+						<view class="label">
+							供电总量
+						</view>
+						<view class="value">
+							{{property.totalPowerSupply || 'X'}}KW
+						</view>
+					</view>
+					<view class="item">
+						<view class="label">
+							燃气供量
+						</view>
+						<view class="value">
+							{{property.gasSupply || 'X'}}m³/h
+						</view>
+					</view>
+					<view class="item">
+						<view class="label">
+							排烟总量
+						</view>
+						<view class="value">
+							{{property.smokeExhaust || 'X'}}m³/h
+						</view>
+					</view>
+					<view class="item">
+						<view class="label">
+							新风总量
+						</view>
+						<view class="value">
+							{{property.totalFreshAir || 'X'}}m³/h
+						</view>
+					</view>
+					<view class="item">
+						<view class="label">
+							给水口径
+						</view>
+						<view class="value">
+							{{property.waterSupplyCaliber || 'X'}}
+						</view>
+					</view>
+					<view class="item">
+						<view class="label">
+							排污口径
+						</view>
+						<view class="value">
+							{{property.dischargeCaliber || 'X'}}
+						</view>
+					</view>
+					
+					
+				</view>
+           
+            
+            
             <view
               class="cell"
               @click="engineeringShow = !engineeringShow"
