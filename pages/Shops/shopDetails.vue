@@ -73,14 +73,7 @@
 							{{shop.measureArea || '-'}}m²
 						</view>
 				  	</view>
-					<view class="item">
-						<view class="label">
-							每月租金
-						</view>
-						<view class="value">
-							{{shop.monthRent || '-'}}元/月
-						</view>
-					</view>
+					
 					<view class="item">
 						<view class="label">
 							租金单价
@@ -90,8 +83,23 @@
 						</view>
 					</view>
 					
-					
-					<view class="item" v-if="0">
+					<view class="item">
+						<view class="label">
+							所在楼层
+						</view>
+						<view class="value">
+							{{property.floorNum || '-'}}层
+						</view>
+					</view>
+					<view class="item">
+						<view class="label">
+							物业类型
+						</view>
+						<view class="value">
+							{{shop.propertyType || '-'}}
+						</view>
+					</view>
+					<view class="item" >
 						<view class="label">
 							推荐业态
 						</view>
@@ -106,23 +114,23 @@
 						<van-icon name="play" :class="transactionShow ? 'down' : 'up'"/>
 					</view>
 					<view class="transaction-info" v-show="transactionShow">
-						<view class="item">
-							<view class="label">
-								物业类型
-							</view>
-							<view class="value">
-								{{shop.propertyType || '-'}}
-							</view>
-						</view>
-						<view class="item">
-							<view class="label">
-								所在楼层
-							</view>
-							<view class="value">
-								{{property.floorNum || '-'}}层
-							</view>
-						</view>
 						
+						<view class="item">
+							<view class="label">
+								套内面积
+							</view>
+							<view class="value">
+								{{property.insideArea || 'X'}}
+							</view>
+						</view>
+						<view class="item">
+							<view class="label">
+								使用比率
+							</view>
+							<view class="value">
+								{{property.insideArea || 'X'}}
+							</view>
+						</view>
 						<view class="item">
 							<view class="label">
 								支付方式
@@ -141,7 +149,7 @@
 						</view>
 						<view class="item">
 							<view class="label">
-								装修免租
+								免租期限
 							</view>
 							<view class="value">
 								{{property.freeTenancy || '-'}}个月
@@ -155,15 +163,14 @@
 								{{property.transferFee || '-'}}元
 							</view>
 						</view>
-						
-					</view>
-					<view class="cell" @click="engineeringShow = !engineeringShow">
-						<view class="label">
-							工程参数
+						<view class="item">
+							<view class="label">
+								联营扣点
+							</view>
+							<view class="value">
+								{{property.a || '-'}}元
+							</view>
 						</view>
-						<van-icon name="play" :class="engineeringShow ? 'down' : 'up'"/>
-					</view>
-					<view class="engineering-info" v-show="engineeringShow">
 						<view class="item">
 							<view class="label">
 								水务费用
@@ -180,6 +187,16 @@
 								{{property.powerRate || '-'}}元/KWh
 							</view>
 						</view>
+						
+					</view>
+					<view class="cell" @click="engineeringShow = !engineeringShow">
+						<view class="label">
+							工程参数
+						</view>
+						<van-icon name="play" :class="engineeringShow ? 'down' : 'up'"/>
+					</view>
+					<view class="engineering-info" v-show="engineeringShow">
+						
 						<view class="item">
 							<view class="label">
 								楼层层高
@@ -202,6 +219,62 @@
 							</view>
 							<view class="value">
 								{{property.depthLength || '-'}}m
+							</view>
+						</view>
+						<view class="item">
+							<view class="label">
+								商铺柱距
+							</view>
+							<view class="value">
+								{{property.columnSpacing || 'X'}}m
+							</view>
+						</view>
+						<view class="item">
+							<view class="label">
+								供电总量
+							</view>
+							<view class="value">
+								{{property.totalPowerSupply || 'X'}}KW
+							</view>
+						</view>
+						<view class="item">
+							<view class="label">
+								燃气供量
+							</view>
+							<view class="value">
+								{{property.gasSupply || 'X'}}m³/h
+							</view>
+						</view>
+						<view class="item">
+							<view class="label">
+								排烟总量
+							</view>
+							<view class="value">
+								{{property.smokeExhaust || 'X'}}m³/h
+							</view>
+						</view>
+						<view class="item">
+							<view class="label">
+								新风总量
+							</view>
+							<view class="value">
+								{{property.totalFreshAir || 'X'}}m³/h
+							</view>
+						</view>
+						<view class="item">
+							<view class="label">
+								给水口径
+							</view>
+							<view class="value">
+								{{property.waterSupplyCaliber || 'X'}}
+							</view>
+						</view>
+						<view class="item">
+							<view class="label">
+								排污口径
+							</view>
+							<view class="value">
+								{{property.dischargeCaliber || 'X'}}
 							</view>
 						</view>
 					</view>
