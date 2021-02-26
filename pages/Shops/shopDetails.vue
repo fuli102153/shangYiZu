@@ -2,9 +2,36 @@
 	<view class="v-shop-details">
 		
 		<view class="banner" >
-			<uni-swiper-dot   :current="tabActive"   >
-				<swiper class="swiper-box" @change="changeSwiper">
+			<uni-swiper-dot   v-if="tabActive==0"  >
+				<swiper class="swiper-box" >
 					<swiper-item @click="previewImage(bigPhotos.length>0? bigPhotos : ['../../static/store.jpg'],index)" v-for="(item ,index) in shop.shopPhotos? shop.shopPhotos.split(',') : ['../../static/store.jpg']" :key="index">
+						<view class="swiper-item">
+							<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
+						</view>
+					</swiper-item>
+				</swiper>
+			</uni-swiper-dot> 
+			<uni-swiper-dot   v-else-if="tabActive==1"  >
+				<swiper class="swiper-box" >
+					<swiper-item @click="previewImage(signBoardImg.length>0? signBoardImg : ['../../static/store.jpg'],index)" v-for="(item ,index) in shop.signBoardImg? shop.signBoardImg.split(',') : ['../../static/store.jpg']" :key="index">
+						<view class="swiper-item">
+							<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
+						</view>
+					</swiper-item>
+				</swiper>
+			</uni-swiper-dot> 
+			<uni-swiper-dot   v-else-if="tabActive==2"  >
+				<swiper class="swiper-box" >
+					<swiper-item @click="previewImage(shopInsideImg.length>0? shopInsideImg : ['../../static/store.jpg'],index)" v-for="(item ,index) in shop.shopInsideImg? shop.shopInsideImg.split(',') : ['../../static/store.jpg']" :key="index">
+						<view class="swiper-item">
+							<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
+						</view>
+					</swiper-item>
+				</swiper>
+			</uni-swiper-dot> 
+			<uni-swiper-dot   v-else-if="tabActive==3"  >
+				<swiper class="swiper-box" >
+					<swiper-item @click="previewImage(shopPeripheryImg.length>0? shopPeripheryImg : ['../../static/store.jpg'],index)" v-for="(item ,index) in shop.shopPeripheryImg? shop.shopPeripheryImg.split(',') : ['../../static/store.jpg']" :key="index">
 						<view class="swiper-item">
 							<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
 						</view>
@@ -17,6 +44,7 @@
 					:class="index === tabActive ? 'active' : ''" 
 					v-for="(item, index) in tabList" 
 					:key="index" 
+					@click="selectTab(index)"
 					>
 					{{ item.name }}
 				</view>
@@ -26,7 +54,7 @@
 			<view class="header">
 				<view class="title">
 					<text>{{shop.shopName || '-'}}</text>
-					<view class="btn" v-if="0">
+					<view class="btn" v-if="property.directLease">
 						平台直租
 					</view>
 				</view>
@@ -47,7 +75,7 @@
 			<view class="content">
 				<view class="icon" />
 				<view class="label">
-					<view class="project">
+					<view class="project" v-if="1">
 						<view class="name">
 							鹏润达商业广场 
 						</view>
@@ -101,15 +129,18 @@
 							套内面积
 						</view>
 						<view class="value">
-							{{property.insideArea || 'X'}}
+							{{property.insideArea || '-'}}m²
 						</view>
 					</view>
 					<view class="item">
 						<view class="label">
 							使用比率
 						</view>
-						<view class="value">
-							{{property.insideArea || 'X'}}
+						<view class="value" v-if="property.insideArea && shop.measureArea">
+							{{(property.insideArea/shop.measureArea).toFixed(2)}}
+						</view>
+						<view class="value" v-else>
+							-
 						</view>
 					</view>
 					<view class="item">
@@ -234,7 +265,7 @@
 								商铺柱距
 							</view>
 							<view class="value">
-								{{property.columnSpacing || 'X'}}m
+								{{property.columnSpacing || '-'}}m
 							</view>
 						</view>
 						<view class="item">
@@ -258,7 +289,7 @@
 								供电总量
 							</view>
 							<view class="value">
-								{{property.totalPowerSupply || 'X'}}KW
+								{{property.totalPowerSupply || '-'}}KW
 							</view>
 						</view>
 						<view class="item">
@@ -266,7 +297,7 @@
 								燃气供量
 							</view>
 							<view class="value">
-								{{property.gasSupply || 'X'}}m³/h
+								{{property.gasSupply || '-'}}m³/h
 							</view>
 						</view>
 						<view class="item">
@@ -274,7 +305,7 @@
 								排烟总量
 							</view>
 							<view class="value">
-								{{property.smokeExhaust || 'X'}}m³/h
+								{{property.smokeExhaust || '-'}}m³/h
 							</view>
 						</view>
 						<view class="item">
@@ -282,7 +313,7 @@
 								新风总量
 							</view>
 							<view class="value">
-								{{property.totalFreshAir || 'X'}}m³/h
+								{{property.totalFreshAir || '-'}}m³/h
 							</view>
 						</view>
 						<view class="item">
@@ -290,7 +321,7 @@
 								给水口径
 							</view>
 							<view class="value">
-								{{property.waterSupplyCaliber || 'X'}}
+								{{property.waterSupplyCaliber || '-'}}
 							</view>
 						</view>
 						<view class="item">
@@ -298,7 +329,7 @@
 								排污口径
 							</view>
 							<view class="value">
-								{{property.dischargeCaliber || 'X'}}
+								{{property.dischargeCaliber || '-'}}
 							</view>
 						</view>
 					</view>
@@ -411,9 +442,10 @@
 		data() {
 			return {
 				tabList: [
-					{ name: '正面', code: 0 },
-					{ name: '内部', code: 1 },
-					{ name: '周边环境', code: 2 },
+					{ name: '平面', code: 0 },
+					{ name: '店招', code: 1 },
+					{ name: '内部', code: 2 },
+					{ name: '周边', code: 3 },
 				],
 				// 图片切换
 				tabActive: 0,
@@ -431,6 +463,9 @@
 				latitude: "",
 				longitude: "",
 				bigPhotos:[],
+				signBoardImg:[],//店招
+				shopInsideImg:[],//内部
+				shopPeripheryImg:[],//周边
 
 				facilitiesList: [
 					{name: '外摆', src: '../../static/images/external-pendulum.png'},
@@ -462,18 +497,14 @@
 			this.ajaxGetGuessYouLike();
 		},
 		methods:{
-			selectTab(item, index) {
+			selectTab(index) {
 				this.tabActive = index
-				console.log('tabActive', this.tabActive, index)
+				console.log('tabActive', index)
 			},
 			onChange(e) {
 				console.log(e.detail)
 			},
-			changeSwiper(e){
-				console.log(e.detail)
-				this.tabActive = e.detail.current;
-				
-			},
+
 			goMap(latitude, longitude, shopName) {
 				//var latitude = "22.525811";
 				//var longitude = "113.935388";
@@ -510,13 +541,37 @@
 						that.longitude = mapArr[0];
 						
 						var infoPhotos = that.shop.shopPhotos.split(",");
-						that.info = [];
+						var signBoardImg = that.shop.signBoardImg.split(",");
+						var shopInsideImg = that.shop.shopInsideImg.split(",");
+						var shopPeripheryImg = that.shop.shopPeripheryImg.split(",");
+						
 						that.bigPhotos = [];
+						that.signBoardImg=[];
+						that.shopInsideImg=[];
+						that.shopPeripheryImg=[];
+						
 						infoPhotos.forEach((item)=>{
-							that.info.push({"content":"商铺编号："+that.shop.shopNo})
 							var _index = item.lastIndexOf(".");
 							var bigPhoto = item.slice(0,_index)+"_thumb"+item.slice(_index)
 							that.bigPhotos.push(bigPhoto);
+						})
+						
+						signBoardImg.forEach((item)=>{
+							var _index = item.lastIndexOf(".");
+							var bigPhoto = item.slice(0,_index)+"_thumb"+item.slice(_index)
+							that.signBoardImg.push(bigPhoto);
+						})
+						
+						shopInsideImg.forEach((item)=>{
+							var _index = item.lastIndexOf(".");
+							var bigPhoto = item.slice(0,_index)+"_thumb"+item.slice(_index)
+							that.shopInsideImg.push(bigPhoto);
+						})
+						
+						shopPeripheryImg.forEach((item)=>{
+							var _index = item.lastIndexOf(".");
+							var bigPhoto = item.slice(0,_index)+"_thumb"+item.slice(_index)
+							that.shopPeripheryImg.push(bigPhoto);
 						})
 						
 						//console.log(that.bigPhotos)

@@ -67,6 +67,19 @@
             @click.native="changeDetailedLocation()"
             is-link
           />
+		  <van-field
+		    :value="form.monthRent"
+		    :error-message="errMsg.monthRent"
+		    required
+		    clearable
+		    label="每月租金"
+		    type="number"
+		    placeholder="请输入您商铺的租金"
+		    @input="changeMonthRent"
+		    use-button-slot
+		  >
+			<text slot="button">元</text>
+		  </van-field>
           <van-field
             :value="form.measureArea"
             :error-message="errMsg.measureArea"
@@ -143,7 +156,43 @@
               :style="showStoreInfo ? 'transform: rotate(90deg)' : ''"
             />
           </view>
+		  <!--每月租金/计租面积-->
           <view class="content" v-if="showStoreInfo">
+			  <van-field v-if="form.monthRent && form.measureArea"
+			    :value="(form.monthRent/form.measureArea).toFixed(2)"
+			    clearable
+			    label="租金单价"
+			    placeholder="自动计算"
+			    use-button-slot
+				disabled
+			    
+			  >
+			    <text slot="button">元/平方米/月</text>
+			  </van-field>
+			  
+			  <van-field
+			    :value="property.insideArea"
+			    clearable
+			    label="套内面积"
+			    placeholder="您店铺的套内面积"
+			    use-button-slot
+			    @input="changInsideArea"
+			  >
+			    <text slot="button">m²</text>
+			  </van-field>
+			  <!--实用面积/计租面积-->
+			  <van-field v-if="property.insideArea && form.measureArea"
+			    :value="(property.insideArea/form.measureArea).toFixed(2)*100"
+			    clearable
+			    label="使用比率"
+			    placeholder="自动计算"
+			    use-button-slot
+			  	disabled
+			    
+			  >
+			    <text slot="button">%</text>
+			  </van-field>
+			  
 			  <van-field
 			    :value="property.floorNum"
 			    clearable
@@ -852,6 +901,9 @@ export default {
     },
     changPowerRate(e) {
       this.property.powerRate = e.detail.trim();
+    },
+	changInsideArea(e) {
+      this.property.insideArea = Number(e.detail.trim());
     },
     changFloorNu(e) {
       this.property.floorNum = Number(e.detail.trim());
