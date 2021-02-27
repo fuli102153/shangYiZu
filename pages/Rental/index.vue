@@ -23,7 +23,7 @@
             @input="changeContactMobile"
           />
           <van-field
-            :value="form.shopName"
+            :value="property.shopName"
             clearable
             required
             label="物业名称"
@@ -251,7 +251,38 @@
             >
               <text slot="button">元</text>
             </van-field>
-			
+			<van-field
+			  :value="property.taxRate"
+			  clearable
+			  label="税款扣点"
+			  placeholder="您店铺的税款扣点"
+			  use-button-slot
+			  @input="changeTaxRate"
+			>
+			  <text slot="button">元</text>
+			</van-field>
+			<!-- <van-field
+			  :value="property.directLease"
+			  :error-message="errMsg.directLease"
+			  label="平台直租"
+			  placeholder="请选择是否平台直租"
+			  required
+			  disabled
+			  @click.native="showActionSheet('directLease')"
+			  is-link
+			  arrow-direction="down"
+			  @input="changeDirectLease"
+			/>
+			<van-field
+			  :value="property.columnSpacing"
+			  clearable
+			  label="商铺柱距"
+			  placeholder="您店铺的商铺柱距"
+			  use-button-slot
+			  @input="changeColumnSpacing"
+			>
+			  <text slot="button"></text>
+			</van-field> -->
           </view>
         </view>
         <view class="card">
@@ -342,9 +373,66 @@
 			>
 			  <text slot="button">元/KWh</text>
 			</van-field>
-            
-            
-            
+			<van-field
+			  :value="property.totalPowerSupply"
+			  clearable
+			  label="供电总量"
+			  placeholder="您店铺的供电总量"
+			  use-button-slot
+			  @input="changeTotalPowerSupply"
+			>
+			  <text slot="button">KW</text>
+			</van-field>
+			<van-field
+			  :value="property.gasSupply"
+			  clearable
+			  label="燃气总量"
+			  placeholder="您店铺的燃气总量"
+			  use-button-slot
+			  @input="changeGasSupply"
+			>
+			  <text slot="button">m³/h</text>
+			</van-field>
+			<van-field
+			  :value="property.smokeExhaust"
+			  clearable
+			  label="排烟总量"
+			  placeholder="您店铺的排烟总量"
+			  use-button-slot
+			  @input="changeSmokeExhaust"
+			>
+			  <text slot="button">m³/h</text>
+			</van-field>
+			<van-field
+			  :value="property.totalFreshAir"
+			  clearable
+			  label="新风总量"
+			  placeholder="您店铺的新风总量"
+			  use-button-slot
+			  @input="changeTotalFreshAir"
+			>
+			  <text slot="button">m³/h</text>
+			</van-field>
+			<van-field
+			  :value="property.waterSupplyCaliber"
+			  clearable
+			  label="给水口径"
+			  placeholder="您店铺的给水口径"
+			  use-button-slot
+			  @input="changeWaterSupplyCaliber"
+			>
+			  <text slot="button">DN</text>
+			</van-field>
+			<van-field
+			  :value="property.dischargeCaliber"
+			  clearable
+			  label="排污口径"
+			  placeholder="您店铺的排污口径"
+			  use-button-slot
+			  @input="changeDischargeCaliber"
+			>
+			  <text slot="button">DN</text>
+			</van-field>
             <van-field
               :value="property.location"
               clearable
@@ -460,7 +548,6 @@ export default {
         contactUsername: "谢先生",
         // 联系电话
         contactMobile: "15915376026",
-        shopName: "",
         // 身份
         indentity: "业主",
         // 物业现况
@@ -486,7 +573,28 @@ export default {
         // 店铺信息
         storeInfo: "",
       },
-      property: {},
+      property: {
+        shopName: "",
+        transferFee: "",
+        payMode: "",
+        rentIncrease: "",
+        waterRate: "",
+        powerRate: "",
+        floorNum: "",
+        floorHeight: "",
+        bayWidth: "",
+        depthLength: "",
+        location: "",
+		taxRate: "",
+		directLease: '',
+		columnSpacing: '',
+		totalPowerSupply: '',
+		gasSupply: '',
+		smokeExhaust: '',
+		totalFreshAir: '',
+		waterSupplyCaliber: '',
+		dischargeCaliber: ''
+      },
       errMsg: {
         // 联系人
         contactUsername: "",
@@ -518,18 +626,7 @@ export default {
         // 店铺信息
         storeInfo: "",
       },
-      property: {
-        transferFee: "",
-        payMode: "",
-        rentIncrease: "",
-        waterRate: "",
-        powerRate: "",
-        floorNum: "",
-        floorHeight: "",
-        bayWidth: "",
-        depthLength: "",
-        location: "",
-      },
+      
       showStoreInfo: false,
       showEngineeringParameters: false,
 
@@ -557,6 +654,7 @@ export default {
       propertyStatusList: [],
       // 物业类型下拉菜单数据
       propertyTypeList: [],
+	  directLeaseList: [{value: 0, name: '不是'}, {value: 1, name: '是'}],
 
       fileList: [[], [], [], []],
 
@@ -890,6 +988,15 @@ export default {
     changTransferFee(e) {
       this.property.transferFee = e.detail.trim();
     },
+	changeTaxRate(e) {
+		this.property.taxRate = e.detail.trim();
+	},
+	changeDirectLease(e) {
+		this.property.directLease = e.detail.trim();
+	},
+	changeColumnSpacing(e) {
+		this.property.directLease = e.detail.trim();
+	},
     changPayMode(e) {
       this.property.payMode = e.detail.trim();
     },
@@ -917,6 +1024,25 @@ export default {
     changDepthLength(e) {
       this.property.depthLength = e.detail.trim();
     },
+	
+	changeTotalPowerSupply(e) {
+		this.property.totalPowerSupply = e.detail.trim();
+	},
+	changeGasSupply(e) {
+		this.property.gasSupply = e.detail.trim();
+	},
+	changeSmokeExhaust(e) {
+		this.property.smokeExhaust = e.detail.trim();
+	},
+	changeTotalFreshAir(e) {
+		this.property.totalFreshAir = e.detail.trim();
+	},
+	changeWaterSupplyCaliber(e) {
+		this.property.waterSupplyCaliber = e.detail.trim();
+	},
+	changeDischargeCaliber(e) {
+		this.property.dischargeCaliber = e.detail.trim();
+	},
     changLocation(e) {
       this.property.location = e.detail.trim();
     },
