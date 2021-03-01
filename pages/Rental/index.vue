@@ -111,40 +111,115 @@
                   <van-uploader
                     :file-list="fileList[0]"
                     max-count="1"
-                    @after-read="afterRead($event, 0)"
+                    @after-read="afterRead($event, 0, 'fileList')"
                     preview-size="126rpx"
                   />
-                  <view class="image-text"> 正面门面 </view>
                 </view>
                 <view class="image-type">
                   <van-uploader
                     :file-list="fileList[1]"
                     max-count="1"
-                    @after-read="afterRead($event, 1)"
+                    @after-read="afterRead($event, 1, 'fileList')"
                     preview-size="126rpx"
                   />
-                  <view class="image-text"> 外部全景 </view>
                 </view>
                 <view class="image-type">
                   <van-uploader
                     :file-list="fileList[2]"
                     max-count="1"
-                    @after-read="afterRead($event, 2)"
+                    @after-read="afterRead($event, 2, 'fileList')"
                     preview-size="126rpx"
                   />
-                  <view class="image-text"> 商铺内部 </view>
-                </view>
-                <view class="image-type">
-                  <van-uploader
-                    :file-list="fileList[3]"
-                    max-count="1"
-                    @after-read="afterRead($event, 3)"
-                    preview-size="126rpx"
-                  />
-                  <view class="image-text"> 商铺内部 </view>
                 </view>
               </view>
             </view>
+			<view class="updata">
+			  <text>店招</text>
+			  <view class="updata-image">
+			    <view class="image-type">
+			      <van-uploader
+			        :file-list="signBoardImg[0]"
+			        max-count="1"
+			        @after-read="afterRead($event, 0, 'signBoardImg')"
+			        preview-size="126rpx"
+			      />
+			    </view>
+			    <view class="image-type">
+			      <van-uploader
+			        :file-list="signBoardImg[1]"
+			        max-count="1"
+			        @after-read="afterRead($event, 1, 'signBoardImg')"
+			        preview-size="126rpx"
+			      />
+			    </view>
+			    <view class="image-type">
+			      <van-uploader
+			        :file-list="signBoardImg[2]"
+			        max-count="1"
+			        @after-read="afterRead($event, 2, 'signBoardImg')"
+			        preview-size="126rpx"
+			      />
+			    </view>
+			  </view>
+			</view>
+			<view class="updata">
+			  <text>内部</text>
+			  <view class="updata-image">
+			    <view class="image-type">
+			      <van-uploader
+			        :file-list="shopInsideImg[0]"
+			        max-count="1"
+			        @after-read="afterRead($event, 0, 'shopInsideImg')"
+			        preview-size="126rpx"
+			      />
+			    </view>
+			    <view class="image-type">
+			      <van-uploader
+			        :file-list="shopInsideImg[1]"
+			        max-count="1"
+			        @after-read="afterRead($event, 1, 'shopInsideImg')"
+			        preview-size="126rpx"
+			      />
+			    </view>
+			    <view class="image-type">
+			      <van-uploader
+			        :file-list="shopInsideImg[2]"
+			        max-count="1"
+			        @after-read="afterRead($event, 2, 'shopInsideImg')"
+			        preview-size="126rpx"
+			      />
+			    </view>
+			  </view>
+			</view>
+			<view class="updata">
+			  <text>周边</text>
+			  <view class="updata-image">
+			    <view class="image-type">
+			      <van-uploader
+			        :file-list="shopPeripheryImg[0]"
+			        max-count="1"
+			        @after-read="afterRead($event, 0, 'shopPeripheryImg')"
+			        preview-size="126rpx"
+			      />
+			    </view>
+			    <view class="image-type">
+			      <van-uploader
+			        :file-list="shopPeripheryImg[1]"
+			        max-count="1"
+			        @after-read="afterRead($event, 1, 'shopPeripheryImg')"
+			        preview-size="126rpx"
+			      />
+			    </view>
+			    <view class="image-type">
+			      <van-uploader
+			        :file-list="shopPeripheryImg[2]"
+			        max-count="1"
+			        @after-read="afterRead($event, 2, 'shopPeripheryImg')"
+			        preview-size="126rpx"
+			      />
+			    </view>
+			  </view>
+			</view>
           </view>
         </view>
         <view class="card">
@@ -656,7 +731,10 @@ export default {
       propertyTypeList: [],
 	  directLeaseList: [{value: 0, name: '不是'}, {value: 1, name: '是'}],
 
-      fileList: [[], [], [], []],
+      fileList: [[], [], []],
+	  signBoardImg: [[], [], []],
+	  shopInsideImg: [[], [], []],
+	  shopPeripheryImg: [[], [], []],
 
       showEngineering: false,
       businessShowEngineering: false,
@@ -870,7 +948,7 @@ export default {
       this.positionShow = false;
     },
     // 上传图片
-    afterRead(event, index) {
+    afterRead(event, index, type) {
       const { file } = event.detail;
       var that = this;
       // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
@@ -887,12 +965,36 @@ export default {
         },
         success(res) {
           // 上传完成需要更新 fileList
-          that.fileList[index] = [
-            {
-              url: JSON.parse(res.data)["data"],
-              name: "",
-            },
-          ];
+		  if (type === 'fileList') {
+			  that.fileList[index] = [
+			    {
+			      url: JSON.parse(res.data)["data"],
+			      name: "",
+			    },
+			  ];
+		  } else if (type === 'signBoardImg') {
+			  that.signBoardImg[index] = [
+			    {
+			      url: JSON.parse(res.data)["data"],
+			      name: "",
+			    },
+			  ];
+		  } else if (type === 'shopInsideImg') {
+			  that.shopInsideImg[index] = [
+			    {
+			      url: JSON.parse(res.data)["data"],
+			      name: "",
+			    },
+			  ];
+		  } else if (type === 'shopPeripheryImg') {
+			  that.shopPeripheryImg[index] = [
+			    {
+			      url: JSON.parse(res.data)["data"],
+			      name: "",
+			    },
+			  ];
+		  }
+          
           that.$forceUpdate();
         },
       });
@@ -1151,6 +1253,27 @@ export default {
         }
       });
       this.form.shopPhotos = url.join(",");
+	  
+	  this.signBoardImg.forEach((item) => {
+	    if (item[0] && item[0].url) {
+	      url.push(item[0].url);
+	    }
+	  });
+	  this.form.signBoardImg = url.join(",");
+	  
+	  this.shopInsideImg.forEach((item) => {
+	    if (item[0] && item[0].url) {
+	      url.push(item[0].url);
+	    }
+	  });
+	  this.form.shopInsideImg = url.join(",");
+	  
+	  this.shopPeripheryImg.forEach((item) => {
+	    if (item[0] && item[0].url) {
+	      url.push(item[0].url);
+	    }
+	  });
+	  this.form.shopPeripheryImg = url.join(",");
 
       const params = {
         shop: Object.assign(
