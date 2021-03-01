@@ -75,9 +75,9 @@
 			<view class="content">
 				<view class="icon" />
 				<view class="label">
-					<view class="project" v-if="1">
+					<view class="project" v-if="projectName" @click="toProject(projectId)">
 						<view class="name">
-							鹏润达商业广场 
+							{{projectName}} 
 						</view>
 						<text>查看商场所有空铺</text>
 					</view>
@@ -483,6 +483,9 @@
 				shop:[],//商铺信息
 				property:[],//店铺信息
 				guessYouLikeList:[],
+				
+				projectId: "",
+				projectName: "",
 			}
 		},
 		onLoad(paras) {
@@ -535,6 +538,9 @@
 						}, 300)
 						that.shop = data.data.shop;
 						that.property = data.data.property;
+						
+						that.projectId = data.data.projectId;
+						that.projectName = data.data.projectName;
 						
 						let mapArr = bMapToQQMap(that.shop.longitude || that.location.longitude,that.shop.latitude || that.location.latitude)
 						that.latitude = mapArr[1];
@@ -592,6 +598,13 @@
 				.catch(error => {
 					Toast.fail(this.global.error);
 				});
+			},
+			
+			//项目信息和旗下的物业列表
+			toProject(id){
+				uni.navigateTo({
+					url: "../ShoppingMall/project?projectId="+id
+				})
 			},
 			
 			toSubscribe(shopNo, streetCode){

@@ -545,31 +545,31 @@ export default {
     return {
       form: {
         // 联系人
-        contactUsername: "谢先生",
+        contactUsername: "",
         // 联系电话
-        contactMobile: "15915376026",
+        contactMobile: "",
         // 身份
-        indentity: "业主",
+        indentity: "",
         // 物业现况
-        propertyStatus: "毛坯",
+        propertyStatus: "",
         // 物业类型
-        propertyType: "购物中心",
+        propertyType: "",
         // 位置
         //position: "深圳市南山区粤海街道",
         // 详细位置
         detailLocation: "",
         // 工程条件
-        engineeringConditions: "上下水,排油烟",
+        engineeringConditions: "",
         // 期望招商类别
         businessType: "",
         // 月租金
-        monthRent: "666",
+        monthRent: "",
         // 面积
-        measureArea: "200",
+        measureArea: "",
         // 免租期
-        freeTenancy: "0",
+        freeTenancy: "",
         // 物业环境
-        propertyEnvironment: "良好",
+        propertyEnvironment: "",
         // 店铺信息
         storeInfo: "",
       },
