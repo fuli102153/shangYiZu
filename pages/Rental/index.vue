@@ -233,8 +233,8 @@
           </view>
 		  <!--每月租金/计租面积-->
           <view class="content" v-if="showStoreInfo">
-			  <van-field v-if="form.monthRent && form.measureArea"
-			    :value="(form.monthRent/form.measureArea).toFixed(2)"
+			  <van-field 
+			    :value="(form.monthRent && form.measureArea) ? (form.monthRent/form.measureArea).toFixed(2) : ''"
 			    clearable
 			    label="租金单价"
 			    placeholder="自动计算"
@@ -256,8 +256,8 @@
 			    <text slot="button">m²</text>
 			  </van-field>
 			  <!--实用面积/计租面积-->
-			  <van-field v-if="property.insideArea && form.measureArea"
-			    :value="(property.insideArea/form.measureArea).toFixed(2)*100"
+			  <van-field 
+			    :value="(property.insideArea && form.measureArea) ? (property.insideArea/form.measureArea).toFixed(2)*100 : ''"
 			    clearable
 			    label="使用比率"
 			    placeholder="自动计算"
@@ -334,7 +334,7 @@
 			  use-button-slot
 			  @input="changeTaxRate"
 			>
-			  <text slot="button">元</text>
+			  <text slot="button">%</text>
 			</van-field>
 			<!-- <van-field
 			  :value="property.directLease"
@@ -619,6 +619,7 @@ export default {
   data() {
     return {
       form: {
+		 shopName: "",
         // 联系人
         contactUsername: "",
         // 联系电话
@@ -649,7 +650,7 @@ export default {
         storeInfo: "",
       },
       property: {
-        shopName: "",
+        
         transferFee: "",
         payMode: "",
         rentIncrease: "",
