@@ -241,6 +241,116 @@
               @click.native="showEngineeringPopup('engineering_conditions')"
               is-link
             />
+			<van-field
+			  :value="form.floorHeight"
+			  clearable
+			  label="楼层层高"
+			  placeholder="您店铺的位置楼层"
+			  use-button-slot
+			  @input="changFloorHeight"
+			>
+			  <text slot="button">m</text>
+			</van-field>
+			<van-field
+			  :value="form.bayWidth"
+			  clearable
+			  label="楼层开间"
+			  placeholder="您店铺的层高"
+			  use-button-slot
+			  @input="changBayWidth"
+			>
+			  <text slot="button">m</text>
+			</van-field>
+			<van-field
+			  :value="form.depthLength"
+			  clearable
+			  label="楼层进深"
+			  placeholder="您店铺的开间宽度"
+			  use-button-slot
+			  @input="changDepthLength"
+			>
+			  <text slot="button">m</text>
+			</van-field>
+			<van-field
+			  :value="form.waterRate"
+			  clearable
+			  label="水务费用"
+			  placeholder="您店铺的用水费用"
+			  use-button-slot
+			  @input="changWaterRate"
+			>
+			  <text slot="button">元/m³</text>
+			</van-field>
+			<van-field
+			  :value="form.powerRate"
+			  clearable
+			  label="电务费用"
+			  placeholder="您店铺的用电费用"
+			  use-button-slot
+			  @input="changPowerRate"
+			>
+			  <text slot="button">元/KWh</text>
+			</van-field>
+			<van-field
+			  :value="form.totalPowerSupply"
+			  clearable
+			  label="供电总量"
+			  placeholder="您店铺的供电总量"
+			  use-button-slot
+			  @input="changeTotalPowerSupply"
+			>
+			  <text slot="button">KW</text>
+			</van-field>
+			<van-field
+			  :value="form.gasSupply"
+			  clearable
+			  label="燃气总量"
+			  placeholder="您店铺的燃气总量"
+			  use-button-slot
+			  @input="changeGasSupply"
+			>
+			  <text slot="button">m³/h</text>
+			</van-field>
+			<van-field
+			  :value="form.smokeExhaust"
+			  clearable
+			  label="排烟总量"
+			  placeholder="您店铺的排烟总量"
+			  use-button-slot
+			  @input="changeSmokeExhaust"
+			>
+			  <text slot="button">m³/h</text>
+			</van-field>
+			<van-field
+			  :value="form.totalFreshAir"
+			  clearable
+			  label="新风总量"
+			  placeholder="您店铺的新风总量"
+			  use-button-slot
+			  @input="changeTotalFreshAir"
+			>
+			  <text slot="button">m³/h</text>
+			</van-field>
+			<van-field
+			  :value="form.waterSupplyCaliber"
+			  clearable
+			  label="给水口径"
+			  placeholder="您店铺的给水口径"
+			  use-button-slot
+			  @input="changeWaterSupplyCaliber"
+			>
+			  <text slot="button">DN</text>
+			</van-field>
+			<van-field
+			  :value="form.dischargeCaliber"
+			  clearable
+			  label="排污口径"
+			  placeholder="您店铺的排污口径"
+			  use-button-slot
+			  @input="changeDischargeCaliber"
+			>
+			  <text slot="button">DN</text>
+			</van-field>
           </view>
         </view>
 
@@ -648,6 +758,34 @@ export default {
     changeJoinConditions(e) {
       this.form.joinConditions = e.detail.trim();
     },
+	changFloorHeight(e) {
+	  this.form.floorHeight = e.detail.trim();
+	},
+	changBayWidth(e) {
+	  this.form.bayWidth = e.detail.trim();
+	},
+	changDepthLength(e) {
+	  this.form.depthLength = e.detail.trim();
+	},
+	
+	changeTotalPowerSupply(e) {
+		this.form.totalPowerSupply = e.detail.trim();
+	},
+	changeGasSupply(e) {
+		this.form.gasSupply = e.detail.trim();
+	},
+	changeSmokeExhaust(e) {
+		this.form.smokeExhaust = e.detail.trim();
+	},
+	changeTotalFreshAir(e) {
+		this.form.totalFreshAir = e.detail.trim();
+	},
+	changeWaterSupplyCaliber(e) {
+		this.form.waterSupplyCaliber = e.detail.trim();
+	},
+	changeDischargeCaliber(e) {
+		this.form.dischargeCaliber = e.detail.trim();
+	},
 
     // 表单校验
     checkInput() {
