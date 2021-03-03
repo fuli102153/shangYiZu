@@ -31,18 +31,7 @@
 		    placeholder="请输入您的品牌名称"
 		    @input="changeBrandName"
 		  />
-          <van-field
-            :value="form.indentity"
-            :error-message="errMsg.indentity"
-            label="身份"
-            placeholder="请输入您的身份"
-            required
-            disabled
-            @click.native="showActionSheet('indentity')"
-            is-link
-            arrow-direction="down"
-            @input="changeIndentity"
-          />
+          
           <van-field
             :value="form.businessType"
             :error-message="errMsg.businessType"
@@ -677,11 +666,7 @@ export default {
         this.errMsg.contactMobile = "请输入正确的电话号码";
         Toast.fail("请输入正确的电话号码！");
         return false;
-      } else if (!this.form.indentity) {
-        this.errMsg.indentity = "身份不能为空！";
-        Toast.fail("身份不能为空！");
-        return false;
-      } else if (!this.form.businessType) {
+      }  else if (!this.form.businessType) {
         this.errMsg.businessType = "经营类型不能为空！";
         Toast.fail("经营类型不能为空！");
         return false;

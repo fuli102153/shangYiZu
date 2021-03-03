@@ -837,7 +837,7 @@ export default {
     }
 
     .content {
-      height: 320rpx;
+      
       box-sizing: border-box;
       background: #e6e9f0;
       border-radius: 10rpx;
