@@ -150,7 +150,7 @@
 							楼层层高
 						</view>
 						<view class="value">
-							{{property.floorHeight || 'X'}}m
+							{{brand.floorHeight || 'X'}}m
 						</view>
 					</view>
 					<view class="item">
@@ -158,7 +158,7 @@
 							楼层开间
 						</view>
 						<view class="value">
-							{{property.bayWidth || 'X'}}m
+							{{brand.bayWidth || 'X'}}m
 						</view>
 					</view>
 					<view class="item">
@@ -166,7 +166,7 @@
 							楼层进深
 						</view>
 						<view class="value">
-							{{property.depthLength || 'X'}}m
+							{{brand.depthLength || 'X'}}m
 						</view>
 					</view>
 					<view class="item">
@@ -174,7 +174,7 @@
 							商铺柱距
 						</view>
 						<view class="value">
-							{{property.columnSpacing || 'X'}}m
+							{{brand.columnSpacing || 'X'}}m
 						</view>
 					</view>
 					<view class="item">
@@ -182,7 +182,7 @@
 							供电总量
 						</view>
 						<view class="value">
-							{{property.totalPowerSupply || 'X'}}KW
+							{{brand.totalPowerSupply || 'X'}}KW
 						</view>
 					</view>
 					<view class="item">
@@ -190,7 +190,7 @@
 							燃气供量
 						</view>
 						<view class="value">
-							{{property.gasSupply || 'X'}}m³/h
+							{{brand.gasSupply || 'X'}}m³/h
 						</view>
 					</view>
 					<view class="item">
@@ -198,7 +198,7 @@
 							排烟总量
 						</view>
 						<view class="value">
-							{{property.smokeExhaust || 'X'}}m³/h
+							{{brand.smokeExhaust || 'X'}}m³/h
 						</view>
 					</view>
 					<view class="item">
@@ -206,7 +206,7 @@
 							新风总量
 						</view>
 						<view class="value">
-							{{property.totalFreshAir || 'X'}}m³/h
+							{{brand.totalFreshAir || 'X'}}m³/h
 						</view>
 					</view>
 					<view class="item">
@@ -214,7 +214,7 @@
 							给水口径
 						</view>
 						<view class="value">
-							{{property.waterSupplyCaliber || 'X'}}
+							{{brand.waterSupplyCaliber || 'X'}}DN
 						</view>
 					</view>
 					<view class="item">
@@ -222,7 +222,7 @@
 							排污口径
 						</view>
 						<view class="value">
-							{{property.dischargeCaliber || 'X'}}
+							{{brand.dischargeCaliber || 'X'}}DN
 						</view>
 					</view>
 					

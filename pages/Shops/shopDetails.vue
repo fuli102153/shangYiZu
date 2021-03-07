@@ -321,7 +321,7 @@
 								给水口径
 							</view>
 							<view class="value">
-								{{property.waterSupplyCaliber || '-'}}
+								{{property.waterSupplyCaliber || '-'}}DN
 							</view>
 						</view>
 						<view class="item">
@@ -329,7 +329,7 @@
 								排污口径
 							</view>
 							<view class="value">
-								{{property.dischargeCaliber || '-'}}
+								{{property.dischargeCaliber || '-'}}DN
 							</view>
 						</view>
 					</view>
