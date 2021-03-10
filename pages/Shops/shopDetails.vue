@@ -79,7 +79,7 @@
 						<view class="name">
 							{{projectName}} 
 						</view>
-						<text>查看商场所有空铺</text>
+						<text>查看商场所有店铺</text>
 					</view>
 					<view class="title">
 						{{shop.detailLocation}}
@@ -148,7 +148,7 @@
 							所在区域
 						</view>
 						<view class="value">
-							{{source.areaName || "-"}} {{source.streetName || "-"}}
+							{{shop.addrPcas || "-"}}
 						</view>
 					</view>
 					<view class="item">
@@ -206,7 +206,7 @@
 								免租期限
 							</view>
 							<view class="value">
-								{{property.freeTenancy || '-'}}个月
+								{{shop.freeTenancy || '-'}}个月
 							</view>
 						</view>
 						<view class="item">
@@ -222,7 +222,7 @@
 								管理费用
 							</view>
 							<view class="value">
-								{{property.a || '-'}}元
+								{{property.taxRate || '-'}}元
 							</view>
 						</view>
 						
@@ -337,6 +337,7 @@
 			  </van-tab>
 			  <van-tab title="市调报告">
 				  	<view class="info">
+						
 				  		<view class="uni-common-mt" style="font-size: 30rpx; color: #6A6A6A;">
 							<rich-text :nodes="shop.marketReport || '暂无市场调研报告'"></rich-text>
 				  		</view>
@@ -345,20 +346,19 @@
 			</van-tabs>
 		</view>
 		<view class="facilities">
-			<view class="title">
-				配套设施
+		  <view class="title"> 配套设施 </view>
+		  <view class="content">
+			<view
+			  class="facilities-item"
+			  v-for="(item, index) in shop.supportEquList"
+			  :key="index"
+			>
+			  <view class="facilities-icon">
+				<image :src="item.src" mode=""></image>
+			  </view>
+			  <text>{{ item.name }}</text>
 			</view>
-			<view class="content">
-				<view class="facilities-item" v-for="(item, index) in facilitiesList" :key="index">
-					<view class="facilities-icon">
-						<image :src="item.src" mode=""></image>
-					</view>
-					<text>{{ item.name }}</text>
-				</view>
-			</view>
-			<!-- <view class="title-tag" v-if="shop.engineeringConditions">
-				<view color="#B2B2B2" class="tag-item" v-for="(item, index) in shop.engineeringConditions?shop.engineeringConditions.split(','):[]" :key="index">{{ item }}</view>
-			</view> -->
+		  </view>
 		</view>
 		
 	
@@ -442,10 +442,11 @@
 		data() {
 			return {
 				tabList: [
-					{ name: '平面', code: 0 },
-					{ name: '店招', code: 1 },
-					{ name: '内部', code: 2 },
-					{ name: '周边', code: 3 },
+					{ name: '平面图', code: 0 },
+					{ name: '门面图', code: 1 },
+					{ name: '室内图', code: 2 },
+					{ name: '外立面', code: 3 },
+					
 				],
 				// 图片切换
 				tabActive: 0,
@@ -484,6 +485,9 @@
 				property:[],//店铺信息
 				guessYouLikeList:[],
 				
+				supportingEquipmentList:[],
+				propertyTypeList:[],
+				
 				projectId: "",
 				projectName: "",
 			}
@@ -494,6 +498,30 @@
 			//如果有项目ID
 			if(paras.shopNo){
 				this.getDetail(paras.shopNo);
+			}
+			
+			// 获取身份下拉菜单数据
+			if (
+			  this.Dict &&
+			  this.Dict.brand_identify &&
+			  this.Dict.brand_identify.length > 0
+			) {
+			  //配套需求字段
+			  this.supportingEquipmentList = this.Dict.supporting_equipment.map((item, index) => {
+			    return {
+			      value: item.itemValue,
+			      name: item.itemText,
+			    };
+			  }); 
+			  
+			  
+			  this.propertyTypeList = this.Dict.property_type.map((item, index) => {
+			    return {
+			      value: item.itemValue,
+			      name: item.itemText,
+			    };
+			  });
+			  
 			}
 			
 			//猜你喜欢
@@ -588,6 +616,25 @@
 							}
 						})
 						
+						
+						//配套需求字段
+						const _supportEqu = that.shop.supportEqu.split(",");
+						that.shop.supportEquList = [];
+						that.supportingEquipmentList.forEach((item)=>{
+							if(_supportEqu.includes(item.name)){
+								that.shop.supportEquList.push({ 
+									name: item.name, 
+									src: "../../static/images/icon_support_"+item.value+".png" 
+								})
+							}
+						})
+						
+						
+						that.propertyTypeList.forEach((item)=>{
+							if(that.shop.propertyType == item.value){
+								that.shop.propertyType = item.name
+							}
+						})
 						
 					}else{
 						Toast.fail(data.message);
@@ -866,7 +913,7 @@
 							color: #252525;
 						}
 						text {
-							font-size: 18rpx;
+							font-size: 24rpx;
 							line-height: 36rpx;
 							color: #BFBFBF;
 						}
@@ -877,6 +924,8 @@
 						line-height: 36rpx;
 						color: #6A6A6A;
 						padding: 0 16rpx;
+						display: flex;
+						align-items: center;
 					}
 					text {
 						font-size: 24rpx;
@@ -976,21 +1025,19 @@
 				background: #F4F4F4;
 				border-radius: 10rpx;
 				padding: 35rpx 0 27rpx;
-				display: flex;
-				justify-content: space-evenly;
+	
 
 				.facilities-item {
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					
+					display: inline-block;
+					width: 150rpx;
+					text-align: center;
+					margin:10rpx;
 					.facilities-icon {
-						width: 60rpx;
-						height: 60rpx;
+						text-align: center;
 						
 						image {
-							width: 100%;
-							height: 100%;
+							width: 60rpx;
+							height: 60rpx;
 						}
 					}
 					text {

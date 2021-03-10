@@ -388,6 +388,8 @@
 					"van-toast": "/wxcomponents/vant/dist/toast/index",
 					"van-radio": "/wxcomponents/vant/dist/radio/index",
 					"van-radio-group": "/wxcomponents/vant/dist/radio-group/index",
+					"van-checkbox": "/wxcomponents/vant/dist/checkbox/index",
+					"van-checkbox-group": "/wxcomponents/vant/dist/checkbox-group/index",
 					"van-popup": "/wxcomponents/vant/dist/popup/index"
 				}
 			}

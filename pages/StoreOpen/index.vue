@@ -35,8 +35,8 @@
           <van-field
             :value="form.businessType"
             :error-message="errMsg.businessType"
-            label="经营类型"
-            placeholder="请选择您商铺物业现况"
+            label="品牌业态"
+            placeholder="请选择您商铺品牌业态"
             required
             disabled
             @click.native="showActionSheet('businessType')"
@@ -44,30 +44,8 @@
             arrow-direction="down"
             @input="changeBusinessType"
           />
-          <van-field
-            :value="form.propertyStatus"
-            :error-message="errMsg.propertyStatus"
-            label="物业现况"
-            placeholder="请选择您商铺物业现况"
-            required
-            disabled
-            @click.native="showActionSheet('propertyStatus')"
-            is-link
-            arrow-direction="down"
-            @input="changePropertyStatus"
-          />
-          <van-field
-            :value="form.propertyType"
-            :error-message="errMsg.propertyType"
-            label="物业类型"
-            placeholder="请选择您商铺物业类型"
-            required
-            disabled
-            @click.native="showActionSheet('propertyType')"
-            is-link
-            arrow-direction="down"
-            @input="changePropertyType"
-          />
+         
+          
 
           <van-field
             :value="form.measureArea"
@@ -95,101 +73,104 @@
             @input="changePosition"
           />
 
-          <view class="submit-btn">
-            <view class="updata">
-              <text>品牌图片</text>
-              <view class="updata-image">
-                <view class="image-type">
-                  <van-uploader
-                    :file-list="fileList[0]"
-                    max-count="1"
-                    @after-read="afterRead($event, 0, 0, 'fileList')"
-                    preview-size="126rpx"
-                  />
-                  <view class="image-text">logo</view>
-                </view>
 
-                <view class="image-type">
-                  <van-uploader
-                    :file-list="fileList[1]"
-                    max-count="1"
-                    @after-read="afterRead($event, 1, 0, 'fileList')"
-                    preview-size="126rpx"
-                  />
-                  <view class="image-text">店招</view>
-                </view>
-              </view>
-            </view>
-          </view>
-          <view class="submit-btn">
-            <view class="updata">
-              <text>正面图</text>
-              <view class="updata-image">
-                <view class="image-type">
-                  <van-uploader
-                    :file-list="frontImg[0]"
-                    max-count="1"
-                    @after-read="afterRead($event, 0, 'frontImg')"
-                    preview-size="126rpx"
-                  />
-                </view>
-                <!-- <view class="image-type">
-                  <van-uploader
-                    :file-list="frontImg[1]"
-                    max-count="1"
-                    @after-read="afterRead($event, 1, 'frontImg')"
-                    preview-size="126rpx"
-                  />
-                </view> -->
-              </view>
-            </view>
-          </view>
-          <view class="submit-btn">
-            <view class="updata">
-              <text>内部图</text>
-              <view class="updata-image">
-                <view class="image-type">
-                  <van-uploader
-                    :file-list="innerImg[0]"
-                    max-count="1"
-                    @after-read="afterRead($event, 0, 'innerImg')"
-                    preview-size="126rpx"
-                  />
-                </view>
-                <!-- <view class="image-type">
-                  <van-uploader
-                    :file-list="innerImg[1]"
-                    max-count="1"
-                    @after-read="afterRead($event, 1, 'innerImg')"
-                    preview-size="126rpx"
-                  />
-                </view> -->
-              </view>
-            </view>
-          </view>
-          <view class="submit-btn">
-            <view class="updata">
-              <text>周边图</text>
-              <view class="updata-image">
-                <view class="image-type">
-                  <van-uploader
-                    :file-list="aroundImg[0]"
-                    max-count="1"
-                    @after-read="afterRead($event, 0, 'aroundImg')"
-                    preview-size="126rpx"
-                  />
-                </view>
-                <!-- <view class="image-type">
-                  <van-uploader
-                    :file-list="aroundImg[1]"
-                    max-count="1"
-                    @after-read="afterRead($event, 1, 'aroundImg')"
-                    preview-size="126rpx"
-                  />
-                </view> -->
-              </view>
-            </view>
-          </view>
+			<view class="submit-btn">
+			  <view class="updata">
+			    <view class="updata-title"><text class="red">*</text> LOGO</view>
+			    <view class="updata-image">
+			      <view class="image-type">
+			        <van-uploader
+			          :file-list="fileList[0]"
+			          max-count="1"
+			          @after-read="afterRead($event, 0, 'fileList')"
+			          preview-size="126rpx"
+			        />
+			      </view>
+			      <view class="image-type">
+			        <van-uploader
+			          :file-list="fileList[1]"
+			          max-count="1"
+			          @after-read="afterRead($event, 1, 'fileList')"
+			          preview-size="126rpx"
+			        />
+			      </view>
+			    
+			    </view>
+			  </view>
+			<view class="updata">
+			  <view class="updata-title"><text class="red">*</text> 正面图</view>
+			  <view class="updata-image">
+				<view class="image-type">
+				  <van-uploader
+					:file-list="frontImg[0]"
+					max-count="1"
+					@after-read="afterRead($event, 0, 'frontImg')"
+					preview-size="126rpx"
+				  />
+				</view>
+				<view class="image-type">
+				  <van-uploader
+					:file-list="frontImg[1]"
+					max-count="1"
+					@after-read="afterRead($event, 1, 'frontImg')"
+					preview-size="126rpx"
+				  />
+				</view>
+			   
+			  </view>
+			</view>
+			<view class="updata">
+			  <view class="updata-title">内部图</view>
+			  <view class="updata-image">
+				<view class="image-type">
+				  <van-uploader
+					:file-list="innerImg[0]"
+					max-count="1"
+					@after-read="afterRead($event, 0, 'innerImg')"
+					preview-size="126rpx"
+				  />
+				</view>
+				<view class="image-type">
+				  <van-uploader
+					:file-list="innerImg[1]"
+					max-count="1"
+					@after-read="afterRead($event, 1, 'innerImg')"
+					preview-size="126rpx"
+				  />
+				</view>
+			   
+			  </view>
+			</view>
+			<view class="updata">
+			  <view class="updata-title">周边图</view>
+			  <view class="updata-image">
+				<view class="image-type">
+				  <van-uploader
+					:file-list="aroundImg[0]"
+					max-count="1"
+					@after-read="afterRead($event, 0, 'aroundImg')"
+					preview-size="126rpx"
+				  />
+				</view>
+				<view class="image-type">
+				  <van-uploader
+					:file-list="aroundImg[1]"
+					max-count="1"
+					@after-read="afterRead($event, 1, 'aroundImg')"
+					preview-size="126rpx"
+				  />
+				</view>
+				
+			  </view>
+			</view>
+			</view>
+			
+			
+			
+          
+         
+          
+          
         </view>
         <view class="card">
           <view
@@ -207,7 +188,7 @@
             <van-field
               :value="form.monthRent"
               :error-message="errMsg.monthRent"
-              required
+             
               clearable
               label="租金意向"
               placeholder="请输入您期望的月租金"
@@ -223,7 +204,9 @@
               label="客单价格"
               placeholder="请输入您开店的人均消费单价"
               @input="changeCustomerAveragePrice"
-            />
+            >
+			<text slot="button">元</text>
+			</van-field>
             <van-field
               :value="form.targetCustomer"
               :error-message="errMsg.targetCustomer"
@@ -240,6 +223,17 @@
               placeholder="请输入您开店针对的客群年龄"
               @input="changeAge"
             />
+			
+			<van-field
+			  :value="form.floorNum"
+			  :error-message="errMsg.floorNum"
+			  clearable
+			  label="楼层要求"
+			  placeholder="请输入您开店的楼层要求"
+			  @input="changeFloorNum"
+			>
+			<text slot="button">层</text>
+			</van-field>
 
             <van-field
               :value="form.num"
@@ -249,7 +243,22 @@
               label="开店数量"
               placeholder="请输入您计划开店的数量"
               @input="changeNum"
-            />
+            >
+			<text slot="button">家</text>
+			</van-field>
+			
+			<van-field
+			  :value="form.propertyType"
+			  :error-message="errMsg.propertyType"
+			  label="物业需求"
+			  placeholder="请选择您商铺物业需求"
+			  disabled
+			  @click.native="showActionSheet('propertyType')"
+			  is-link
+			  arrow-direction="down"
+			  @input="changePropertyType"
+			/>
+			
             <van-field
               :value="form.openjoin"
               :error-message="errMsg.openjoin"
@@ -261,6 +270,14 @@
               arrow-direction="down"
               @input="changeOpenjoin"
             />
+			<van-field
+			  :value="form.brandChar"
+			  required
+			  clearable
+			  label="品牌特色"
+			  placeholder="多个特色空格隔开"
+			  @input="changeBrandChar"
+			/>
             <van-field
               :value="form.brandProfile"
               :error-message="errMsg.brandProfile"
@@ -271,14 +288,7 @@
               @input="changeBrandProfie"
             />
 
-            <van-field
-              :value="form.joinConditions"
-              :error-message="errMsg.joinConditions"
-              clearable
-              label="加盟条件"
-              placeholder="请输入您的品牌加盟条件"
-              @input="changeJoinConditions"
-            />
+            
           </view>
         </view>
         <view class="card">
@@ -296,25 +306,8 @@
             />
           </view>
           <view class="content" v-if="showEngineeringParameters">
-            <van-field
-              :value="form.engineeringConditions"
-              :error-message="errMsg.engineeringConditions"
-              label="工程条件"
-              placeholder="请选择您商铺具备的工程条件"
-              disabled
-              @click.native="showEngineeringPopup('engineering_conditions')"
-              is-link
-            />
-			<van-field
-			  :value="form.floorNum"
-			  clearable
-			  label="楼层要求"
-			  placeholder="您店铺的楼层要求"
-			  use-button-slot
-			  @input="changFloorNum"
-			>
-			  <text slot="button">m</text>
-			</van-field>
+            
+			
             <van-field
               :value="form.floorHeight"
               clearable
@@ -355,6 +348,28 @@
 			>
 			  <text slot="button">m</text>
 			</van-field>
+			<van-field
+			  :value="form.waterFee"
+			  clearable
+			  label="水务费用"
+			  placeholder="您店铺的水务费用"
+			  use-button-slot
+			  @input="changWaterFee"
+			>
+			  <text slot="button">元/m³</text>
+			</van-field>
+			
+			<van-field
+			  :value="form.eleFee"
+			  clearable
+			  label="电务费用"
+			  placeholder="您店铺的电务费用"
+			  use-button-slot
+			  @input="changEleFee"
+			>
+			  <text slot="button">元/KWh</text>
+			</van-field>
+			
             <van-field
               :value="form.totalPowerSupply"
               clearable
@@ -417,7 +432,30 @@
             </van-field>
           </view>
         </view>
-      </van-cell-group>
+      
+		<view class="card">
+			<view
+				class="title"
+				@click="showSupportingRequirements = !showSupportingRequirements"
+			  >
+				<text>配套需求</text>
+				<van-icon
+				  name="play"
+				  color="#1476FD"
+				  :style="
+					showSupportingRequirements ? 'transform: rotate(90deg)' : ''
+				  "
+				/>
+			  </view>
+			<view class="content" v-if="showSupportingRequirements">
+				<van-checkbox-group :value="form.supportEqu" @change="changeSupportEqu">
+				  <van-checkbox style="width: 250rpx;display: inline-block;margin:20rpx 30rpx;" :name="item.name" v-for="(item,index) in  supportingEquipmentList" :key="index">{{item.name}}</van-checkbox>
+				</van-checkbox-group>
+			
+		    
+			</view>
+		</view>
+	  </van-cell-group>
     </view>
 
     <view class="btn">
@@ -494,7 +532,7 @@ export default {
         contactMobile: "13487654321",
         indentity: "个体商家",
         businessType: "服装",
-        propertyStatus: "毛坯",
+  
         propertyType: "社区底商",
         province: "440300",
         city: this.$Localtion.city.cityCode,
@@ -510,7 +548,7 @@ export default {
         customerAveragePrice: "20",
         num: "6",
         openjoin: "是",
-
+		brandChar:"",
         joinConditions: "20万的加盟费",
         brandLogo: "",
         effectPhotos: "",
@@ -525,6 +563,9 @@ export default {
 		totalFreshAir: "",
 		waterSupplyCaliber: "",
 		dischargeCaliber: "",
+		waterFee:"",//水务费用
+		eleFee:"",//电务费用
+		supportEqu:[],
 
       },
       errMsg: {
@@ -532,7 +573,6 @@ export default {
         contactMobile: "",
         indentity: "",
         businessType: "",
-        propertyStatus: "",
         propertyType: "",
         city: "",
         region: "",
@@ -552,6 +592,7 @@ export default {
       },
       showTransactionInfo: false,
       showEngineeringParameters: false,
+	  showSupportingRequirements:false,
 
       // 城市
       city: null,
@@ -575,9 +616,10 @@ export default {
       indentityList: [],
       // 物业状况下拉菜单数据
       businessTypeList: [],
-      propertyStatusList: [],
       // 物业类型下拉菜单数据
       propertyTypeList: [],
+	  //配套需求
+	  supportingEquipmentList:[],
       openjoinList: [
         {
           name: "是",
@@ -617,6 +659,15 @@ export default {
           name: item.itemText,
         };
       });
+	  
+	  
+	  //配套需求字段
+	  this.supportingEquipmentList = this.Dict.supporting_equipment.map((item, index) => {
+	    return {
+	      value: item.itemValue,
+	      name: item.itemText,
+	    };
+	  });
     }
     // 获取经营类型下拉菜单数据
     if (
@@ -631,19 +682,7 @@ export default {
         };
       });
     }
-    // 获取物业状况下拉菜单数据
-    if (
-      this.Dict &&
-      this.Dict.property_status &&
-      this.Dict.property_status.length > 0
-    ) {
-      this.propertyStatusList = this.Dict.property_status.map((item, index) => {
-        return {
-          value: item.itemValue,
-          name: item.itemText,
-        };
-      });
-    }
+    
     // 获取物业类型下拉菜单数据
     if (
       this.Dict &&
@@ -811,10 +850,7 @@ export default {
     changeIndentity(e) {
       this.form.indentity = e.detail.trim();
     },
-    //物业现况
-    changePropertyStatus(e) {
-      this.form.propertyStatus = e.detail.trim();
-    },
+
     //物业类型
     changePropertyType(e) {
       this.form.propertyType = e.detail.trim();
@@ -864,7 +900,10 @@ export default {
     changeJoinConditions(e) {
       this.form.joinConditions = e.detail.trim();
     },
-	changFloorNum(e) {
+	changeBrandChar(e) {
+	  this.form.brandChar = e.detail.trim();
+	},
+	changeFloorNum(e) {
       this.form.floorNum = e.detail.trim();
     },
     changFloorHeight(e) {
@@ -878,6 +917,12 @@ export default {
     },
 	changColumnSpacing(e) {
 	  this.form.columnSpacing = e.detail.trim();
+	},
+	changWaterFee(e) {
+	  this.form.waterFee = e.detail.trim();
+	},
+	changEleFee(e) {
+	  this.form.eleFee = e.detail.trim();
 	},
 
     changeTotalPowerSupply(e) {
@@ -898,6 +943,9 @@ export default {
     changeDischargeCaliber(e) {
       this.form.dischargeCaliber = e.detail.trim();
     },
+	changeSupportEqu(e){
+		this.form.supportEqu = e.detail;
+	},
 	
 
     // 表单校验
@@ -907,7 +955,6 @@ export default {
         contactMobile: "",
         indentity: "",
         businessType: "",
-        propertyStatus: "",
         propertyType: "",
         city: "",
         region: "",
@@ -932,21 +979,9 @@ export default {
         this.errMsg.businessType = "经营类型不能为空！";
         Toast.fail("经营类型不能为空！");
         return false;
-      } else if (!this.form.propertyStatus) {
-        this.errMsg.propertyStatus = "物业类型不能为空！";
-        Toast.fail("物业类型不能为空！");
-        return false;
-      } else if (!this.form.propertyType) {
-        this.errMsg.propertyType = "物业类型不能为空！";
-        Toast.fail("物业类型不能为空！");
-        return false;
-      } else if (!this.form.city) {
+      }  else if (!this.form.city) {
         this.errMsg.city = "位置不能为空！";
         Toast.fail("位置不能为空！");
-        return false;
-      } else if (!this.form.monthRent) {
-        this.errMsg.monthRent = "月租金不能为空！";
-        Toast.fail("月租金不能为空！");
         return false;
       } else if (!this.form.measureArea) {
         this.errMsg.measureArea = "面积不能为空！";
@@ -973,22 +1008,55 @@ export default {
     submit() {
       const params = this.form;
       params.openjoin = this.form.openjoin == "是" ? 1 : 0;
-      console.log(this.fileList);
+	  //配套，以,分割
+	  if(this.form.supportEqu){
+		  params.supportEqu = this.form.supportEqu.join(",");
+	  }else{
+		  params.supportEqu = ""; 
+	  }
+	  
+	  //品牌特色，以,分割
+	  params.brandChar = this.form.brandChar.split(" ").join(",");
+      /*
       if (this.fileList[0].length) {
         params.brandLogo = this.fileList[0][0].url;
       }
       if (this.fileList[1].length) {
         params.effectPhotos = this.fileList[1][0].url;
       }
-      if (this.frontImg[0].length) {
-        params.frontImg = this.frontImg[0][0].url;
-      }
-      if (this.innerImg[0].length) {
-        params.innerImg = this.innerImg[0][0].url;
-      }
-      if (this.aroundImg[0].length) {
-        params.aroundImg = this.aroundImg[0][0].url;
-      }
+	  */
+
+		var url = [];
+	  this.fileList.forEach((item) => {
+	    if (item[0] && item[0].url) {
+	      url.push(item[0].url);
+	    }
+	  });
+	  this.form.brandLogo = url.join(",");
+	  
+	  var url = [];
+	  this.frontImg.forEach((item) => {
+	    if (item[0] && item[0].url) {
+	      url.push(item[0].url);
+	    }
+	  });
+	  this.form.frontImg = url.join(",");
+	  
+	  var url = [];
+	  this.innerImg.forEach((item) => {
+	    if (item[0] && item[0].url) {
+	      url.push(item[0].url);
+	    }
+	  });
+	  this.form.innerImg = url.join(",");
+	  
+	  var url = [];
+	  this.aroundImg.forEach((item) => {
+	    if (item[0] && item[0].url) {
+	      url.push(item[0].url);
+	    }
+	  });
+	  this.form.aroundImg = url.join(",");
 
       if (this.checkInput()) {
         params.accessToken = this.accessToken;
@@ -1066,26 +1134,35 @@ export default {
   }
 
   .submit-btn {
-    padding: 0 46rpx;
+    padding: 0 20rpx;
 
     .updata {
       display: flex;
       flex-direction: column;
-      margin-right: 40rpx;
+      margin-right: 300rpx;
+	  
+	  .updata-title{
+	  	color:#646566;
+	  	font-size: 32rpx;
+	  	margin:10rpx 0;
+	  	
+	  	.red{
+	  		color: #ee0a24;
+	  		font-size: 36rpx;
+	  	}
+	  }
 
       .updata-image {
+        display: flex;
         justify-content: space-between;
-
+      		padding:10rpx 26rpx;
         .image-type {
-          text-align: left;
-          width: 120rpx;
-          display: inline-block;
-          margin-right: 40rpx;
+          text-align: center;
+      
           .image-text {
             font-size: 28rpx;
             color: #888888;
             margin-top: 28rpx;
-            text-align: center;
           }
         }
       }

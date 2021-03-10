@@ -79,7 +79,7 @@
           /> -->
           <view class="submit-btn">
             <view class="updata">
-              <text>物业图片</text>
+              <view class="updata-title"><text class="red">*</text> 平面图</view>
               <view class="updata-image">
                 <view class="image-type">
                   <van-uploader
@@ -97,18 +97,11 @@
                     preview-size="126rpx"
                   />
                 </view>
-                <view class="image-type">
-                  <van-uploader
-                    :file-list="fileList[2]"
-                    max-count="1"
-                    @after-read="afterRead($event, 2, 'fileList')"
-                    preview-size="126rpx"
-                  />
-                </view>
+    
               </view>
             </view>
 			<view class="updata">
-			  <text>店招</text>
+			  <view class="updata-title"><text class="red">*</text> 门面图</view>
 			  <view class="updata-image">
 			    <view class="image-type">
 			      <van-uploader
@@ -126,18 +119,11 @@
 			        preview-size="126rpx"
 			      />
 			    </view>
-			    <view class="image-type">
-			      <van-uploader
-			        :file-list="signBoardImg[2]"
-			        max-count="1"
-			        @after-read="afterRead($event, 2, 'signBoardImg')"
-			        preview-size="126rpx"
-			      />
-			    </view>
+			   
 			  </view>
 			</view>
 			<view class="updata">
-			  <text>内部</text>
+			  <view class="updata-title">室内图</view>
 			  <view class="updata-image">
 			    <view class="image-type">
 			      <van-uploader
@@ -155,18 +141,11 @@
 			        preview-size="126rpx"
 			      />
 			    </view>
-			    <view class="image-type">
-			      <van-uploader
-			        :file-list="shopInsideImg[2]"
-			        max-count="1"
-			        @after-read="afterRead($event, 2, 'shopInsideImg')"
-			        preview-size="126rpx"
-			      />
-			    </view>
+			   
 			  </view>
 			</view>
 			<view class="updata">
-			  <text>周边</text>
+			  <view class="updata-title">外立面</view>
 			  <view class="updata-image">
 			    <view class="image-type">
 			      <van-uploader
@@ -184,14 +163,7 @@
 			        preview-size="126rpx"
 			      />
 			    </view>
-			    <view class="image-type">
-			      <van-uploader
-			        :file-list="shopPeripheryImg[2]"
-			        max-count="1"
-			        @after-read="afterRead($event, 2, 'shopPeripheryImg')"
-			        preview-size="126rpx"
-			      />
-			    </view>
+			    
 			  </view>
 			</view>
           </view>
@@ -257,7 +229,6 @@
 			  :error-message="errMsg.propertyType"
 			  label="物业类型"
 			  placeholder="请选择您商铺物业类型"
-			  required
 			  disabled
 			  @click.native="showActionSheet('propertyType')"
 			  is-link
@@ -269,14 +240,14 @@
               :value="property.payMode"
               clearable
               label="支付方式"
-              placeholder="您店铺租金的支付方式如“押二付一"
+              placeholder="押二付一"
               @input="changPayMode"
             />
             <van-field
               :value="property.rentIncrease"
               clearable
               label="租金递增"
-              placeholder="您店铺租金的递增方式"
+              placeholder="每1年递增10%"
               @input="changRentIncrease"
             />
             <van-field
@@ -303,12 +274,12 @@
 			<van-field
 			  :value="property.taxRate"
 			  clearable
-			  label="税款扣点"
-			  placeholder="您店铺的税款扣点"
+			  label="管理费用"
+			  placeholder="您店铺的管理费用"
 			  use-button-slot
 			  @input="changeTaxRate"
 			>
-			  <text slot="button">%</text>
+			  <text slot="button">元</text>
 			</van-field>
 			<!-- <van-field
 			  :value="property.directLease"
@@ -346,6 +317,7 @@
             />
           </view>
           <view class="content" v-if="showEngineeringParameters">
+			  <!--
             <van-field
               :value="form.engineeringConditions"
               :error-message="errMsg.engineeringConditions"
@@ -372,6 +344,7 @@
               placeholder="请介绍您点评周边物业环境配套情况"
               @input="changePropertyEnvironment"
             />
+			-->
 			<van-field
 			  :value="property.floorHeight"
 			  clearable
@@ -399,6 +372,16 @@
 			  placeholder="您店铺的开间宽度"
 			  use-button-slot
 			  @input="changDepthLength"
+			>
+			  <text slot="button">m</text>
+			</van-field>
+			<van-field
+			  :value="property.columnSpacing"
+			  clearable
+			  label="柱间距离"
+			  placeholder="您店铺的柱间距离"
+			  use-button-slot
+			  @input="changeColumnSpacing"
 			>
 			  <text slot="button">m</text>
 			</van-field>
@@ -491,6 +474,31 @@
             />
           </view>
         </view>
+		
+		<view class="card">
+			<view
+				class="title"
+				@click="showSupportingRequirements = !showSupportingRequirements"
+			  >
+				<text>配套设施</text>
+				<van-icon
+				  name="play"
+				  color="#1476FD"
+				  :style="
+					showSupportingRequirements ? 'transform: rotate(90deg)' : ''
+				  "
+				/>
+			  </view>
+			<view class="content" v-if="showSupportingRequirements">
+				<van-checkbox-group :value="form.supportEqu" @change="changeSupportEqu">
+				  <van-checkbox style="width: 250rpx;display: inline-block;margin:20rpx 30rpx;" :name="item.name" v-for="(item,index) in  supportingEquipmentList" :key="index">{{item.name}}</van-checkbox>
+				</van-checkbox-group>
+			
+		    
+			</view>
+		</view>
+		
+		
       </van-cell-group>
     </view>
 
@@ -622,6 +630,8 @@ export default {
         propertyEnvironment: "",
         // 店铺信息
         storeInfo: "",
+		
+		supportEqu:[],
       },
       property: {
         
@@ -679,6 +689,7 @@ export default {
       
       showStoreInfo: false,
       showEngineeringParameters: false,
+	  showSupportingRequirements:false,
 
       // 城市
       cityId: null,
@@ -722,9 +733,11 @@ export default {
 
       businessTypeList: [],
       businessSelectList: [],
-    };
-    // 选择的内容
-    activeItme: "";
+	  
+	  //配套设施
+	  supportingEquipmentList:[],
+	  
+    }
   },
   onLoad() {
     //console.log(area);
@@ -743,6 +756,16 @@ export default {
           name: item.itemText,
         };
       });
+	  
+	  
+	  //配套设施字段
+	  this.supportingEquipmentList = this.Dict.supporting_equipment.map((item, index) => {
+	    return {
+	      value: item.itemValue,
+	      name: item.itemText,
+	    };
+	  });
+	  
     }
     // 获取物业状况下拉菜单数据
     if (
@@ -1009,6 +1032,10 @@ export default {
     changePosition(e) {
       this.form.position = e.detail.trim();
     },
+	
+	changeSupportEqu(e){
+		this.form.supportEqu = e.detail;
+	},
     //详细信息
     changeDetailedLocation() {
       uni.chooseLocation({
@@ -1166,11 +1193,6 @@ export default {
         Toast.fail("请输入正确的电话号码！");
         console.log(2);
         return false;
-      }   else if (!this.form.propertyType) {
-        this.errMsg.propertyType = "物业类型不能为空！";
-        Toast.fail("物业类型不能为空！");
-        console.log(5);
-        return false;
       } else if (!this.form.detailLocation) {
         this.errMsg.detailLocation = "详细位置不能为空！";
         Toast.fail("详细位置不能为空！");
@@ -1185,6 +1207,12 @@ export default {
         this.errMsg.measureArea = "面积不能为空！";
         Toast.fail("面积不能为空！");
         console.log(9);
+        return false;
+      }else if (!this.form.shopPhotos) {
+        Toast.fail("请上传至少一张平面图！");
+        return false;
+      }else if (!this.form.signBoardImg) {
+        Toast.fail("请上传至少一张门面图！");
         return false;
       } else {
         return true;
@@ -1211,7 +1239,7 @@ export default {
         }
       });
 
-      let url = [];
+      var url = [];
       this.fileList.forEach((item) => {
         if (item[0] && item[0].url) {
           url.push(item[0].url);
@@ -1219,6 +1247,7 @@ export default {
       });
       this.form.shopPhotos = url.join(",");
 	  
+	  var url = [];
 	  this.signBoardImg.forEach((item) => {
 	    if (item[0] && item[0].url) {
 	      url.push(item[0].url);
@@ -1226,6 +1255,7 @@ export default {
 	  });
 	  this.form.signBoardImg = url.join(",");
 	  
+	  var url = [];
 	  this.shopInsideImg.forEach((item) => {
 	    if (item[0] && item[0].url) {
 	      url.push(item[0].url);
@@ -1233,12 +1263,19 @@ export default {
 	  });
 	  this.form.shopInsideImg = url.join(",");
 	  
+	  var url = [];
 	  this.shopPeripheryImg.forEach((item) => {
 	    if (item[0] && item[0].url) {
 	      url.push(item[0].url);
 	    }
 	  });
 	  this.form.shopPeripheryImg = url.join(",");
+	  
+	  //配套，以,分割
+	  if(this.form.supportEqu){
+		  this.form.supportEqu = this.form.supportEqu.join(",");
+	  }
+	  
 
       const params = {
         shop: Object.assign(
@@ -1315,16 +1352,28 @@ export default {
   }
 
   .submit-btn {
-    padding: 0 46rpx;
+    padding: 0 20rpx;
 
     .updata {
       display: flex;
       flex-direction: column;
-	margin-right: 40rpx;
+		margin-right: 300rpx;
+		
+		.updata-title{
+			color:#646566;
+			font-size: 32rpx;
+			margin:10rpx 0;
+			
+			.red{
+				color: #ee0a24;
+				font-size: 36rpx;
+			}
+		}
+		
       .updata-image {
         display: flex;
         justify-content: space-between;
-
+		padding:10rpx 26rpx;
         .image-type {
           text-align: center;
 

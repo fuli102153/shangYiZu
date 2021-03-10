@@ -1,43 +1,57 @@
 <template>
   <view class="v-brand-details">
-    <uni-swiper-dot >
+	<view class="banner" >
+		<uni-swiper-dot   v-if="tabActive==0"  >
 			<swiper class="swiper-box" >
-				<swiper-item @click="previewImage(bigPhotos.length>0? bigPhotos : [brand.brandLogo],index)"  v-for="(item ,index) in brand.effectPhotos? brand.effectPhotos.split(',') : [brand.brandLogo]" :key="index">
+				<swiper-item @click="previewImage(bigPhotos.length>0? bigPhotos : ['../../static/store.jpg'],index)" v-for="(item ,index) in brand.effectPhotos? brand.effectPhotos.split(',') : ['../../static/store.jpg']" :key="index">
 					<view class="swiper-item">
 						<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
 					</view>
 				</swiper-item>
 			</swiper>
 		</uni-swiper-dot> 
-    <view class="banner" v-if="0">
-      <view class="banner-img">
-        <view
-          class="img-item"
-          v-for="(item, index) in brand.effectPhotos
-            ? brand.effectPhotos.split(',')
-            : []"
-          :key="index"
-        >
-          <image
-            :src="item"
-            mode=""
-            style="width: 100%; height: 430rpx"
-            v-if="index === tabActive"
-          ></image>
-        </view>
-      </view>
-      <view class="banner-tab" v-if="0">
-        <view
-          class="tab-item"
-          :class="index === tabActive ? 'active' : ''"
-          v-for="(item, index) in tabList"
-          :key="index"
-          @click="selectTab(item, index)"
-        >
-          {{ item.name }}
-        </view>
-      </view>
-    </view>
+		<uni-swiper-dot   v-else-if="tabActive==1"  >
+			<swiper class="swiper-box" >
+				<swiper-item @click="previewImage(frontImg.length>0? frontImg : ['../../static/store.jpg'],index)" v-for="(item ,index) in brand.frontImg? brand.frontImg.split(',') : ['../../static/store.jpg']" :key="index">
+					<view class="swiper-item">
+						<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
+					</view>
+				</swiper-item>
+			</swiper>
+		</uni-swiper-dot> 
+		<uni-swiper-dot   v-else-if="tabActive==2"  >
+			<swiper class="swiper-box" >
+				<swiper-item @click="previewImage(innerImg.length>0? innerImg : ['../../static/store.jpg'],index)" v-for="(item ,index) in brand.innerImg? brand.innerImg.split(',') : ['../../static/store.jpg']" :key="index">
+					<view class="swiper-item">
+						<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
+					</view>
+				</swiper-item>
+			</swiper>
+		</uni-swiper-dot> 
+		<uni-swiper-dot   v-else-if="tabActive==3"  >
+			<swiper class="swiper-box" >
+				<swiper-item @click="previewImage(aroundImg.length>0? aroundImg : ['../../static/store.jpg'],index)" v-for="(item ,index) in brand.aroundImg? brand.aroundImg.split(',') : ['../../static/store.jpg']" :key="index">
+					<view class="swiper-item">
+						<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
+					</view>
+				</swiper-item>
+			</swiper>
+		</uni-swiper-dot> 
+		<view class="banner-tab">
+			<view 
+				class="tab-item" 
+				:class="index === tabActive ? 'active' : ''" 
+				v-for="(item, index) in tabList" 
+				:key="index" 
+				@click="selectTab(index)"
+				>
+				{{ item.name }}
+			</view>
+		</view>
+	</view>
+   
+
+     
     <view class="shop-name">
       <view class="header">
         <view class="title">
@@ -49,16 +63,27 @@
           {{ brand.measureArea || "" }}m²
         </view>
       </view>
-      <view class="title-tag" v-if="brand.engineeringConditions">
-        <view
+      <view class="title-tag" v-if="brand.brandChar">
+        <view v-if="item"
           color="#B2B2B2"
           class="tag-item"
-          v-for="(item, index) in brand.engineeringConditions"
+          v-for="(item, index) in brand.brandChar.split(',')"
           :key="index"
           >{{ item }}</view
         >
       </view>
+	  
+	  
     </view>
+	<!--品牌简介-->
+	<view class="profile" >
+		<view class="title">
+			品牌简介
+		</view>
+		<view class="content">
+			{{brand.brandProfile}}
+		</view>
+	</view>
     <view class="shop-info">
       <van-tabs
         class="tab"
@@ -78,22 +103,46 @@
 			  </view>
 			  
 			  <view class="item">
+			    <view class="label"> 品牌业态 </view>
+			    <view class="value">
+			  	{{ brand.propertyFormStr || "-" }}
+			    </view>
+			  </view>
+			  
+			  <view class="item">
 			    <view class="label"> 意向租金 </view>
 			    <view class="value"> {{ brand.monthRent || "-" }}元/月 </view>
 			  </view>
 			  
-				<view class="item">
-				  <view class="label"> 品牌业态 </view>
-				  <view class="value">
-					{{ brand.propertyFormStr || "-" }}
-				  </view>
-				</view>
+				
 				
 				<view class="item">
 					<view class="label"> 楼层要求 </view>
 					<view class="value">
-					  {{ brand.floorNum || "X" }}
+					  {{ brand.floorNum || "-" }}
 					</view>
+				</view>
+				
+				<view class="item">
+				  <view class="label"> 客单价格 </view>
+				  <view class="value">
+					{{ brand.customerAveragePrice || "-" }}
+				  </view>
+				</view>
+				
+				<view class="item">
+				  <view class="label"> 目标客群 </view>
+				  <view class="value">
+					{{ brand.targetCustomer || "-" }}
+				  </view>
+				</view>
+				
+				
+				<view class="item">
+				  <view class="label"> 客群年龄 </view>
+				  <view class="value">
+					{{ brand.age || "-" }}
+				  </view>
 				</view>
 				
 				<view class="item">
@@ -109,34 +158,19 @@
 				</view>
 				
 				<view class="item">
-				  <view class="label"> 开放加盟 </view>
+				  <view class="label"> 允许加盟 </view>
 				  <view class="value">
-				    {{ brand.openjoin == 0 ? "不开" : "开" }}
+				    {{ brand.openjoin == 0 ? "否" : "是" }}
 				  </view>
 				</view>
            
-				<view class="item">
-				  <view class="label"> 客单价格 </view>
-				  <view class="value">
-					{{ brand.customerAveragePrice || "-" }}
-				  </view>
-				</view>
 				
 				
-				<view class="item">
-				  <view class="label"> 目标客群 </view>
-				  <view class="value">
-					{{ brand.targetCustomer || "-" }}
-				  </view>
-				</view>
 				
 				
-				<view class="item">
-				  <view class="label"> 客群年龄 </view>
-				  <view class="value">
-					{{ brand.age || "X" }}
-				  </view>
-				</view>
+				
+				
+				
 				
 				<view class="cell" @click="transactionShow = !transactionShow">
 					<view class="label">
@@ -150,7 +184,7 @@
 							楼层层高
 						</view>
 						<view class="value">
-							{{brand.floorHeight || 'X'}}m
+							{{brand.floorHeight || '-'}}m
 						</view>
 					</view>
 					<view class="item">
@@ -158,7 +192,7 @@
 							楼层开间
 						</view>
 						<view class="value">
-							{{brand.bayWidth || 'X'}}m
+							{{brand.bayWidth || '-'}}m
 						</view>
 					</view>
 					<view class="item">
@@ -166,7 +200,7 @@
 							楼层进深
 						</view>
 						<view class="value">
-							{{brand.depthLength || 'X'}}m
+							{{brand.depthLength || '-'}}m
 						</view>
 					</view>
 					<view class="item">
@@ -174,7 +208,23 @@
 							商铺柱距
 						</view>
 						<view class="value">
-							{{brand.columnSpacing || 'X'}}m
+							{{brand.columnSpacing || '-'}}m
+						</view>
+					</view>
+					<view class="item">
+						<view class="label">
+							水务费用
+						</view>
+						<view class="value">
+							{{brand.waterFee || '-'}}元/m³
+						</view>
+					</view>
+					<view class="item">
+						<view class="label">
+							电务费用
+						</view>
+						<view class="value">
+							{{brand.eleFee || '-'}}元/KWh
 						</view>
 					</view>
 					<view class="item">
@@ -182,7 +232,7 @@
 							供电总量
 						</view>
 						<view class="value">
-							{{brand.totalPowerSupply || 'X'}}KW
+							{{brand.totalPowerSupply || '-'}}KW
 						</view>
 					</view>
 					<view class="item">
@@ -190,7 +240,7 @@
 							燃气供量
 						</view>
 						<view class="value">
-							{{brand.gasSupply || 'X'}}m³/h
+							{{brand.gasSupply || '-'}}m³/h
 						</view>
 					</view>
 					<view class="item">
@@ -198,7 +248,7 @@
 							排烟总量
 						</view>
 						<view class="value">
-							{{brand.smokeExhaust || 'X'}}m³/h
+							{{brand.smokeExhaust || '-'}}m³/h
 						</view>
 					</view>
 					<view class="item">
@@ -206,7 +256,7 @@
 							新风总量
 						</view>
 						<view class="value">
-							{{brand.totalFreshAir || 'X'}}m³/h
+							{{brand.totalFreshAir || '-'}}m³/h
 						</view>
 					</view>
 					<view class="item">
@@ -214,7 +264,7 @@
 							给水口径
 						</view>
 						<view class="value">
-							{{brand.waterSupplyCaliber || 'X'}}DN
+							{{brand.waterSupplyCaliber || '-'}}DN
 						</view>
 					</view>
 					<view class="item">
@@ -222,7 +272,7 @@
 							排污口径
 						</view>
 						<view class="value">
-							{{brand.dischargeCaliber || 'X'}}DN
+							{{brand.dischargeCaliber || '-'}}DN
 						</view>
 					</view>
 					
@@ -279,7 +329,7 @@
       <view class="content">
         <view
           class="facilities-item"
-          v-for="(item, index) in facilitiesList"
+          v-for="(item, index) in brand.supportEquList"
           :key="index"
         >
           <view class="facilities-icon">
@@ -288,11 +338,8 @@
           <text>{{ item.name }}</text>
         </view>
       </view>
-      <!-- <view class="title-tag" v-if="shop.engineeringConditions">
-				<view color="#B2B2B2" class="tag-item" v-for="(item, index) in shop.engineeringConditions?shop.engineeringConditions.split(','):[]" :key="index">{{ item }}</view>
-			</view> -->
     </view>
-
+ 
     <view class="warnning">
       <view class="title"> 交易须知 </view>
 	  <view class="content">
@@ -339,32 +386,32 @@ export default {
 	},
   data() {
     return {
-      tabList: [
-        { name: "正面", code: 0 },
-        { name: "内部", code: 1 },
-        { name: "周边环境", code: 2 },
-      ],
-      // 图片切换
-      tabActive: 0,
-      // tab切换
-      active: 0,
-      transactionShow: true,
-      engineeringShow: true,
-      // 轮播图
-      info: [],
-      current: 0,
-      mode: "nav",
-      latitude: "",
-      longitude: "",
-      facilitiesList: [
-        { name: "外摆", src: "../../static/images/external-pendulum.png" },
-        { name: "空调", src: "../../static/images/air-conditioner.png" },
-        { name: "停车场", src: "../../static/images/parking-lot.png" },
-        { name: "网络", src: "../../static/images/network.png" },
-      ],
-			brand: {},
-			brandList: [],
-      bigPhotos:[],
+		tabList: [
+			{ name: 'LOGO', code: 0 },
+			{ name: '正面图', code: 1 },
+			{ name: '内部图', code: 2 },
+			{ name: '周边图', code: 3 },
+		],
+		  // 图片切换
+		tabActive: 0,
+		  // tab切换
+		active: 0,
+		transactionShow: true,
+		engineeringShow: true,
+		  // 轮播图
+		info: [],
+		current: 0,
+		mode: "nav",
+		latitude: "",
+		longitude: "",
+		brand: {},
+		brandList: [],
+		bigPhotos:[],
+		frontImg:[],//店招
+		innerImg:[],//内部
+		aroundImg:[],//周边
+		
+		supportingEquipmentList:[],
     };
   },
   onLoad(paras) {
@@ -374,12 +421,34 @@ export default {
     if (paras.brandNo) {
       this.getDetail(paras.brandNo);
 	}
+	
+	// 获取身份下拉菜单数据
+	if (
+	  this.Dict &&
+	  this.Dict.brand_identify &&
+	  this.Dict.brand_identify.length > 0
+	) {
+	  
+	  //配套需求字段
+	  this.supportingEquipmentList = this.Dict.supporting_equipment.map((item, index) => {
+	    return {
+	      value: item.itemValue,
+	      name: item.itemText,
+	    };
+	  });
+	  
+	  
+	}
 	this.ajaxGetBrandSpecialList();
   },
   methods: {
-		onChange(e) {
-			console.log(e.detail)
-		},
+	  selectTab(index) {
+	  	this.tabActive = index
+	  	console.log('tabActive', index)
+	  },
+	onChange(e) {
+		console.log(e.detail)
+	},
     getDetail(brandNo) {
       var that = this;
       const paras = {
@@ -406,13 +475,55 @@ export default {
               ","
             );
 
-            var infoPhotos = that.brand.effectPhotos.split(",");
-						that.bigPhotos = [];
-						infoPhotos.forEach((item)=>{
-							var _index = item.lastIndexOf(".");
-							var bigPhoto = item.slice(0,_index)+"_thumb"+item.slice(_index)
-							that.bigPhotos.push(bigPhoto);
+            var infoPhotos = that.brand.brandLogo.split(",");
+			var frontImg = that.brand.frontImg.split(",");
+			var innerImg = that.brand.innerImg.split(",");
+			var aroundImg = that.brand.aroundImg.split(",");
+			
+			that.bigPhotos = [];
+			that.frontImg = [];
+			that.innerImg = [];
+			that.aroundImg = [];
+			
+			infoPhotos.forEach((item)=>{
+				var _index = item.lastIndexOf(".");
+				var bigPhoto = item.slice(0,_index)+"_thumb"+item.slice(_index)
+				that.bigPhotos.push(bigPhoto);
             })
+			
+			frontImg.forEach((item)=>{
+				var _index = item.lastIndexOf(".");
+				var bigPhoto = item.slice(0,_index)+"_thumb"+item.slice(_index)
+				that.frontImg.push(bigPhoto);
+			})
+			
+			innerImg.forEach((item)=>{
+				var _index = item.lastIndexOf(".");
+				var bigPhoto = item.slice(0,_index)+"_thumb"+item.slice(_index)
+				that.innerImg.push(bigPhoto);
+			})
+			
+			aroundImg.forEach((item)=>{
+				var _index = item.lastIndexOf(".");
+				var bigPhoto = item.slice(0,_index)+"_thumb"+item.slice(_index)
+				that.aroundImg.push(bigPhoto);
+			})
+			
+			
+			
+			
+			//配套需求字段
+			const _supportEqu = that.brand.supportEqu.split(",");
+			that.brand.supportEquList = [];
+			that.supportingEquipmentList.forEach((item)=>{
+	
+				if(_supportEqu.includes(item.name)){
+					that.brand.supportEquList.push({ 
+						name: item.name, 
+						src: "../../static/images/icon_support_"+item.value+".png" 
+					})
+				}
+			})
 
             console.log(that.bigPhotos)
             
@@ -503,6 +614,20 @@ export default {
         border-radius: 20rpx;
       }
     }
+  }
+  
+  .profile{
+		padding: 47rpx 26rpx 26rpx;
+		.title{
+			color: #1476FD;
+			font-size: 32rpx;
+			line-height: 57rpx;
+		 }
+		 .content{
+			 color: #6A6A6A;
+			 font-size: 30rpx;
+			 
+		 }
   }
 
   .shop-name {
@@ -707,22 +832,20 @@ export default {
       background: #f4f4f4;
       border-radius: 10rpx;
       padding: 35rpx 0 27rpx;
-      display: flex;
-      justify-content: space-evenly;
+
 
       .facilities-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
+        display: inline-block;
+        width: 150rpx;
+        text-align: center;
+        margin:10rpx;
         .facilities-icon {
-          width: 60rpx;
-          height: 60rpx;
-
-          image {
-            width: 100%;
-            height: 100%;
-          }
+        	text-align: center;
+        	
+        	image {
+        		width: 60rpx;
+        		height: 60rpx;
+        	}
         }
         text {
           color: #252525;
