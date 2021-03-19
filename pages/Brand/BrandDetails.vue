@@ -1,5 +1,5 @@
 <template>
-  <view class="v-brand-details">
+  <view class="v-brand-details" v-cloak>
 	<view class="banner" >
 		<uni-swiper-dot   v-if="tabActive==0"  >
 			<swiper class="swiper-box" >
@@ -56,7 +56,14 @@
       <view class="header">
         <view class="title">
           <text>{{ brand.brandName || "" }}</text>
-          <view class="btn" v-if="0"> 平台直租 </view>
+          
+		  <view class="btn" v-if="brand.platType==0">
+		  	<view class="btnBox">平台直推</view>
+		  </view>
+		  <view class="btn" v-if="0">
+		  	<view class="btnBox">非平台直租</view>
+		  	<view class="btnDes">请谨慎交易</view>
+		  </view>
         </view>
         <view class="shop-rent">
           <text>需求面积:</text>
@@ -120,6 +127,13 @@
 					<view class="label"> 楼层要求 </view>
 					<view class="value">
 					  {{ brand.floorNum || "-" }}
+					</view>
+				</view>
+				
+				<view class="item">
+					<view class="label"> 物业需求 </view>
+					<view class="value">
+					  {{ brand.propertyType || "-" }}
 					</view>
 				</view>
 				
@@ -367,9 +381,8 @@
 			<van-button plain  class="share" size="large"  icon="share-o" id="shareShop" color="#1576FE" open-type="share">分享</van-button>
          
         </view>
-        <view class="button" @click="toSubscribe(shop.shopNo, shop.streetCode)"
-          >联系直招</view
-        >
+        <view class="button"  @click="makePhoneCall(Configs.service_phone)">联系直招</view>
+	
       </view>
     </view>
     <van-toast id="van-toast" />
@@ -412,6 +425,7 @@ export default {
 		aroundImg:[],//周边
 		
 		supportingEquipmentList:[],
+		propertyTypeList:[],
     };
   },
   onLoad(paras) {
@@ -431,6 +445,14 @@ export default {
 	  
 	  //配套需求字段
 	  this.supportingEquipmentList = this.Dict.supporting_equipment.map((item, index) => {
+	    return {
+	      value: item.itemValue,
+	      name: item.itemText,
+	    };
+	  });
+	  
+	  
+	  this.propertyTypeList = this.Dict.property_type.map((item, index) => {
 	    return {
 	      value: item.itemValue,
 	      name: item.itemText,
@@ -524,6 +546,13 @@ export default {
 					})
 				}
 			})
+			
+			
+			that.propertyTypeList.forEach((item)=>{
+				if(that.brand.propertyType == item.value){
+					that.brand.propertyType = item.name
+				}
+			})
 
             console.log(that.bigPhotos)
             
@@ -552,13 +581,19 @@ export default {
 		},
 		
 		previewImage(urls,index){
-			
-			
 			uni.previewImage({
 				current:index,
 				urls:urls
 			})
-			
+		},
+		
+		makePhoneCall: function(tel) {
+			uni.makePhoneCall({
+				phoneNumber: tel,
+				success: () => {
+					console.log("成功拨打电话");
+				},
+			});
 		},
 		
 		ajaxGetBrandSpecialList(){
@@ -584,6 +619,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+	[v-cloak] {
+	    display: none;
+	}
 .v-brand-details {
   .swiper-box {
     height: 430rpx;
@@ -648,12 +686,21 @@ export default {
           font-size: 40rpx;
         }
         .btn {
-          color: #fcfbf9;
-          font-size: 24rpx;
-          line-height: 36rpx;
-          padding: 3rpx 9rpx;
-          background-color: #1476fd;
-          border-radius: 10rpx;
+        	.btnBox{
+        		color: #FCFBF9;
+        		font-size: 24rpx;
+        		line-height: 36rpx;
+        		padding: 3rpx 9rpx;
+        		background-color: #1476FD;
+        		border-radius: 10rpx;
+        		text-align: center;
+        	}
+        	.btnDes{
+        		color: #333;
+        		font-size: 20rpx;
+        		line-height: 36rpx;
+        		text-align: center;
+        	}
         }
       }
 

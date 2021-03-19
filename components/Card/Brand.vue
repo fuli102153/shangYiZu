@@ -15,8 +15,8 @@
 					<view>
 						<view class="tag" v-if="source.measureArea">需求面积：{{source.measureArea || ""}}m²</view>
 					</view>
-					<view v-if="propertyType(source.propertyType)">
-						<view class="tag">物业类型：{{propertyType(source.propertyType)}}</view>
+					<view v-if="source.propertyType">
+						<view class="tag">物业类型：{{source.propertyType}}</view>
 					</view>
 					<view>
 						<view class="tag">拓店数量：{{source.viewNum}}家</view>
@@ -61,14 +61,7 @@ export default {
 			uni.navigateTo({
 				url: '../../pages/Brand/BrandDetails?brandNo='+brandNo
 			})
-		},
-	 	propertyType(id) {
-			if (!id) {
-				return ''
-			}
-	 		let name = this.Dict.property_type.filter(item => item.itemValue === id);
-	 		return name[0].itemText ? name[0].itemText : ''
-	 	}
+		}
 	 }
 }
 </script>

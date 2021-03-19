@@ -1,4 +1,4 @@
-<template>
+<template >
 	<view class="v-shop-details">
 		
 		<view class="banner" >
@@ -55,7 +55,11 @@
 				<view class="title">
 					<text>{{shop.shopName || '-'}}</text>
 					<view class="btn" v-if="property.directLease">
-						平台直租
+						<view class="btnBox">平台直租</view>
+					</view>
+					<view class="btn" v-else>
+						<view class="btnBox">非平台直租</view>
+						<view class="btnDes">请谨慎交易</view>
 					</view>
 				</view>
 				<view class="shop-id">
@@ -67,7 +71,7 @@
 				</view>
 			</view>
 			<view class="title-tag" v-if="shop.label">
-				<view color="#B2B2B2" class="tag-item" v-for="(item, index) in shop.label ? shop.label.split(',') : []" :key="index">{{ item }}</view>
+				<view color="#B2B2B2" v-if="item" class="tag-item" v-for="(item, index) in shop.label ? shop.label.split(' ') : []" :key="index">{{ item }}</view>
 			</view>
 			
 		</view>
@@ -364,7 +368,7 @@
 	
 		
 		<!-- 认证信息 -->
-		<view class="attestation">
+		<view class="attestation" v-if="property.directLease==1">
 			<view class="title">
 				商铺认证
 			</view>
@@ -419,7 +423,10 @@
 					</view>
 					<van-button plain  class="share" size="large"  icon="share-o" id="shareShop" color="#1576FE" open-type="share">分享</van-button>
 				</view>
-				<view class="buttonBox"  @click="toSubscribe(shop.shopNo, shop.streetCode)">
+				<view class="buttonBox" v-if="property.directLease"  @click="toSubscribe(shop.shopNo, shop.streetCode)">
+					<view class="button" >预约看铺</view>
+				</view>
+				<view class="buttonBox" v-else @click="makePhoneCall(shop.contactMobile)">
 					<view class="button" >预约看铺</view>
 				</view>
 				
@@ -731,6 +738,15 @@
 				
 			},
 			
+			makePhoneCall: function(tel) {
+				uni.makePhoneCall({
+					phoneNumber: tel,
+					success: () => {
+						console.log("成功拨打电话");
+					},
+				});
+			},
+			
 			onShareAppMessage(res) {
 				console.log(res)
 				var type = res.target.id;
@@ -788,6 +804,7 @@
 </script>
 
 <style lang="scss" scoped>
+
 	.v-shop-details {
 		padding-bottom: 120rpx;
 		
@@ -840,12 +857,21 @@
 						font-size: 40rpx;
 					}
 					.btn {
-						color: #FCFBF9;
-						font-size: 24rpx;
-						line-height: 36rpx;
-						padding: 3rpx 9rpx;
-						background-color: #1476FD;
-						border-radius: 10rpx;
+						.btnBox{
+							color: #FCFBF9;
+							font-size: 24rpx;
+							line-height: 36rpx;
+							padding: 3rpx 9rpx;
+							background-color: #1476FD;
+							border-radius: 10rpx;
+							text-align: center;
+						}
+						.btnDes{
+							color: #333;
+							font-size: 20rpx;
+							line-height: 36rpx;
+							text-align: center;
+						}
 					}
 				}
 				
@@ -879,6 +905,7 @@
 					border-radius: 5rpx;
 				}
 			}
+			
 		}
 		
 		.shop-position {

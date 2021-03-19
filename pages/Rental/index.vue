@@ -41,6 +41,7 @@
             @click.native="changeDetailedLocation()"
             is-link
           />
+		  
 		  <van-field
 		    :value="form.monthRent"
 		    :error-message="errMsg.monthRent"
@@ -179,6 +180,16 @@
           </view>
 		  <!--每月租金/计租面积-->
           <view class="content" v-if="showStoreInfo">
+			  
+				<view class="radioBox" v-if="0">
+					<view class="updata-title">招租方式</view>
+					<view class="updata-radio">
+					   <van-radio-group :value="property.directLease" @change="onChangeRadio">
+							<van-radio style="display: inline-block;margin:20rpx 10rpx;" name="1">平台直租</van-radio>
+							<van-radio style="display: inline-block;margin:20rpx 10rpx;" name="0">其他</van-radio>
+						</van-radio-group>
+					</view>
+				</view>
 			  <van-field 
 			    :value="(form.monthRent && form.measureArea) ? (form.monthRent/form.measureArea).toFixed(2) : ''"
 			    clearable
@@ -214,6 +225,18 @@
 			    <text slot="button">%</text>
 			  </van-field>
 			  
+			  
+			  <van-field
+			    :value="form.propertyType"
+			    label="物业类型"
+			    placeholder="请选择您商铺物业类型"
+			    disabled
+			    @click.native="showActionSheet('propertyType')"
+			    is-link
+				arrow-direction="down"
+			    @input="changePropertyType"
+			  />
+			  
 			  <van-field
 			    :value="property.floorNum"
 			    clearable
@@ -224,17 +247,30 @@
 			  >
 			    <text slot="button">层</text>
 			  </van-field>
+			  
+			  <van-field
+			    :value="form.label"
+			    clearable
+			    label="店铺特色"
+			    placeholder="多个特色空格隔开"
+			    use-button-slot
+			    @input="changeLabel"
+			  >
+			  </van-field>
+			  
+			  
 			<van-field
-			  :value="form.propertyType"
-			  :error-message="errMsg.propertyType"
-			  label="物业类型"
-			  placeholder="请选择您商铺物业类型"
+			  :value="property.categoryNames"
+			  label="推荐业态"
+			  placeholder="请选择您商铺推荐业态"
 			  disabled
-			  @click.native="showActionSheet('propertyType')"
+			  @click.native="showEngineeringPopup('categoryNames')"
 			  is-link
-			  arrow-direction="down"
-			  @input="changePropertyType"
+			
+			
 			/>
+			
+			
 			
             <van-field
               :value="property.payMode"
@@ -576,6 +612,35 @@
         </view>
       </view>
     </van-popup>
+	
+	
+	<!-- 推荐业态 -->
+	<van-popup
+	  :show="typeShowEngineering"
+	  @close="onEngineeringClose"
+	  position="right"
+	  custom-style="width: 80%;height:100%"
+	>
+	  <view class="pop-content">
+	    <view class="hot">
+	      <view class="title"> 推荐业态 </view>
+	      <view class="hot-tag">
+	        <view
+	          color="#B2B2B2"
+	          class="tag-item"
+	          :class="typeSelectList.includes(index) ? 'active' : ''"
+	          v-for="(item, index) in typeList"
+	          :key="index"
+	          @click="selectTag(index)"
+	          >{{ item }}</view
+	        >
+	      </view>
+	    </view>
+	    <view class="btn">
+	      <van-button type="info" block @click="complete">完成</van-button>
+	    </view>
+	  </view>
+	</van-popup>
     <!-- 店铺信息 -->
     <!-- <van-popup
       :show="isStoreInfo"
@@ -590,7 +655,7 @@
 </template>
 
 <script>
-import { getShopAdd, getAreaStreets,qqMapToBMap } from "../../utils/api.js";
+import { getShopAdd, getAreaStreets,qqMapToBMap,getPropertyFormAllData } from "../../utils/api.js";
 // import StoreInfo from "./storeInfo";
 import Toast from "../../wxcomponents/vant/dist/toast/toast";
 
@@ -614,6 +679,7 @@ export default {
         propertyType: "",
         // 位置
         //position: "深圳市南山区粤海街道",
+		label:"",
         // 详细位置
         detailLocation: "",
         // 工程条件
@@ -632,6 +698,7 @@ export default {
         storeInfo: "",
 		
 		supportEqu:[],
+		
       },
       property: {
         
@@ -646,14 +713,15 @@ export default {
         depthLength: "",
         location: "",
 		taxRate: "",
-		directLease: '',
+		directLease: '0',
 		columnSpacing: '',
 		totalPowerSupply: '',
 		gasSupply: '',
 		smokeExhaust: '',
 		totalFreshAir: '',
 		waterSupplyCaliber: '',
-		dischargeCaliber: ''
+		dischargeCaliber: '',
+		categoryNames:'',//推荐业态 
       },
       errMsg: {
         // 联系人
@@ -715,6 +783,8 @@ export default {
       propertyStatusList: [],
       // 物业类型下拉菜单数据
       propertyTypeList: [],
+	  //推荐业态
+	  typeList: [],
 	  directLeaseList: [{value: 0, name: '不是'}, {value: 1, name: '是'}],
 
       fileList: [[], [], []],
@@ -724,6 +794,7 @@ export default {
 
       showEngineering: false,
       businessShowEngineering: false,
+	  typeShowEngineering:false,
 
       isStoreInfo: false,
 
@@ -733,6 +804,7 @@ export default {
 
       businessTypeList: [],
       businessSelectList: [],
+	  typeSelectList:[],
 	  
 	  //配套设施
 	  supportingEquipmentList:[],
@@ -766,38 +838,33 @@ export default {
 	    };
 	  });
 	  
+	   // 获取物业状况下拉菜单数据
+	  this.propertyStatusList = this.Dict.property_status.map((item, index) => {
+	    return {
+	      value: item.itemValue,
+	      name: item.itemText,
+	    };
+	  });
+	  
+	  
+	  this.propertyTypeList = this.Dict.property_type.map((item, index) => {
+	    return {
+	      value: item.itemValue,
+	      name: item.itemText,
+	    };
+	  });
+	  
     }
-    // 获取物业状况下拉菜单数据
-    if (
-      this.Dict &&
-      this.Dict.property_status &&
-      this.Dict.property_status.length > 0
-    ) {
-      this.propertyStatusList = this.Dict.property_status.map((item, index) => {
-        return {
-          value: item.itemValue,
-          name: item.itemText,
-        };
-      });
-    }
-    // 获取物业类型下拉菜单数据
-    if (
-      this.Dict &&
-      this.Dict.property_type &&
-      this.Dict.property_type.length > 0
-    ) {
-      this.propertyTypeList = this.Dict.property_type.map((item, index) => {
-        return {
-          value: item.itemValue,
-          name: item.itemText,
-        };
-      });
-    }
+   
+   
   },
   methods: {
     onChange(event) {
       this.checked = event.detail;
     },
+	onChangeRadio(event) {
+		this.property.directLease = event.detail;
+	},
 
     // 选择侧边框选项
     selectTag(index) {
@@ -806,8 +873,10 @@ export default {
         list = JSON.parse(JSON.stringify(this.selectList));
       } else if (this.popupType === "business_type") {
         list = JSON.parse(JSON.stringify(this.businessSelectList));
+      }else if (this.popupType === "categoryNames") {
+        list = JSON.parse(JSON.stringify(this.typeSelectList));
       }
-      console.log(1111, list);
+
       if (list.includes(index)) {
         list.forEach((item, idx) => {
           if (item === index) {
@@ -822,7 +891,9 @@ export default {
         this.selectList = list;
       } else if (this.popupType === "business_type") {
         this.businessSelectList = list;
-      }
+      }else if (this.popupType === "categoryNames") {
+	    this.typeSelectList = list;
+	  }
     },
     // 打开侧边弹窗
     showEngineeringPopup(type) {
@@ -836,13 +907,17 @@ export default {
         this.businessTypeList = this.Dict.business_type.map(
           (item) => item.itemText
         );
-      }
+      }else if(type  == "categoryNames"){
+		 this.typeShowEngineering = true;
+		 this.ajaxGetPropertyFormAllData();
+	  }
       this.popupType = type;
     },
 
     onEngineeringClose() {
       this.showEngineering = false;
       this.businessShowEngineering = false;
+	  this.typeShowEngineering = false;
     },
 
     // subimtStoreInfo(property) {
@@ -875,6 +950,13 @@ export default {
         });
         this.form.businessType = res.join(",");
         console.log(this.form.businessType);
+      }else if (this.popupType === "categoryNames") {
+        this.typeShowEngineering = false;
+        let res = this.typeSelectList.map((item) => {
+          return this.typeList[item];
+        });
+        this.property.categoryNames = res.join(",");
+        
       }
     },
 
@@ -1095,11 +1177,9 @@ export default {
 	changeTaxRate(e) {
 		this.property.taxRate = e.detail.trim();
 	},
-	changeDirectLease(e) {
-		this.property.directLease = e.detail.trim();
-	},
+
 	changeColumnSpacing(e) {
-		this.property.directLease = e.detail.trim();
+		this.property.columnSpacing = e.detail.trim();
 	},
     changPayMode(e) {
       this.property.payMode = e.detail.trim();
@@ -1119,6 +1199,9 @@ export default {
     changFloorNu(e) {
       this.property.floorNum = Number(e.detail.trim());
     },
+	changeLabel(e) {
+	  this.form.label = e.detail.trim();
+	},
     changFloorHeight(e) {
       this.property.floorHeight = e.detail.trim();
     },
@@ -1290,6 +1373,9 @@ export default {
         ),
         property: this.property,
       };
+	  
+	  
+	  
       console.log(this.checkInput());
       if (this.checkInput()) {
         params.accessToken = this.accessToken;
@@ -1317,6 +1403,33 @@ export default {
           });
       }
     },
+	
+	ajaxGetPropertyFormAllData() {
+		//ajax个人信息查询
+		var that = this;
+		const paras = {
+			
+		};
+		paras.accessToken = that.accessToken;
+	
+		getPropertyFormAllData(paras)
+			.then((res) => {
+				const data = res.data;
+				console.log(data);
+	
+				if (data.code == "200") {
+					that.typeList = [];
+					data.data.forEach((item) => {
+						that.typeList.push(item.name)
+					});
+					that.$forceUpdate();
+					console.log(that.typeList)
+				} else {}
+			})
+			.catch((error) => {});
+	},
+	
+	
   },
 };
 </script>
@@ -1350,6 +1463,27 @@ export default {
       color: #323232;
     }
   }
+  
+  .radioBox{
+	  padding: 0 20rpx;
+	  .updata-title{
+	  	color:#646566;
+	  	font-size: 32rpx;
+	  	margin:10rpx 0;
+		display: inline-block;
+		width: 180rpx;
+		padding-left:20rpx
+	  }
+	  .updata-radio{
+			display: inline-block;
+			width: 440rpx;
+	  	  	color:#646566;
+	  	  	font-size: 32rpx;
+	  	  	margin:10rpx 0;
+			text-align: center;
+	  	  }
+	  
+  }
 
   .submit-btn {
     padding: 0 20rpx;
@@ -1358,6 +1492,8 @@ export default {
       display: flex;
       flex-direction: column;
 		margin-right: 300rpx;
+		
+		
 		
 		.updata-title{
 			color:#646566;
@@ -1448,4 +1584,6 @@ export default {
 .van-uploader__preview {
   margin: 0rpx !important;
 }
+
+
 </style>

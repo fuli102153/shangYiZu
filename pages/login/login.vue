@@ -92,7 +92,6 @@
 									
 									var mobile = res.data.mobile
 									if(mobile){
-										//that._requestLogin();
 										that._requestLogin();
 									}else{
 										that.showLogin = false; 
@@ -104,57 +103,7 @@
 								}
 							})
 							
-							/*
-							wx.getUserInfo({
-							  success: function(res) {
-								
-								that.userInfo = res;
-								console.log(that.userInfo)
-								
-								
-								//判断用户有没有用手机号
-								uni.getStorage({
-									key: "__userDetail__",
-									success: (res) => {
-										//that._requestLogin();
-										
-										var mobile = res.data.mobile
-										if(mobile){
-											that._requestLogin();
-										}else{
-										
-										}
-									},
-									fail: () => {
-										//that._requestLogin();
-										
-									}
-								})
-								
-								
-								uni.setStorage({
-									key: "__userInfo__",
-									data: res,
-									success: (res) => {
-										//如果获取用户信息的电话号码失败，那么提示用户去绑定手机号
-									},
-									fail: () => {
-										uni.showModal({
-											title: '用户信息获取失败!',
-											showCancel:false
-										})
-									}
-								})
-								
-								
-								
-							  },
-							  fail:res=>{
-							      // 获取失败的去引导用户授权 
-								that.showLogin = false; 
-								
-							   }
-							})*/
+							
 							
 					    } else {
 							
@@ -254,7 +203,7 @@
 					userInfo(paras).then(res => {
 						const data = res.data;
 						
-						
+						console.log(data)
 						if(data.code=="200"){
 							setTimeout(() => {
 								Toast.clear();
@@ -263,10 +212,17 @@
 								key: "__userDetail__",
 								data: data.data,
 								success: (res) => {
+									//判断用户是否选择了角色
+									if(data.data.roleType !=1 && data.data.roleType !=2 && data.data.roleType !=3){
+										uni.navigateTo({
+											url: "/pages/login/select"
+										})
+									}else{
+										uni.switchTab({
+											 url: this.url,
+										});
+									}
 									
-									uni.switchTab({
-										 url: this.url,
-									});
 								},
 								fail: () => {
 									

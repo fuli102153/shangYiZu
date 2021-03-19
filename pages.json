@@ -1,5 +1,6 @@
 {
 	"pages": [
+		
 		{
 			"path": "pages/login/login",
 			"style": {
@@ -11,6 +12,18 @@
 				}
 			}
 		},
+		{
+			"path": "pages/login/select",
+			"style": {
+				"navigationBarTitleText": "选择身份",
+				"navigationStyle": "custom",
+				"usingComponents":{
+					"van-toast": "/wxcomponents/vant/dist/toast/index",
+					"van-dialog": "/wxcomponents/vant/dist/dialog/index"
+				}
+			}
+		},
+		
 		{
 			"path": "pages/Index/index",
 			"style": {
@@ -336,6 +349,8 @@
 					"van-uploader": "/wxcomponents/vant/dist/uploader/index",
 					"van-checkbox-group": "/wxcomponents/vant/dist/checkbox-group/index",
 					"van-checkbox": "/wxcomponents/vant/dist/checkbox/index",
+					"van-radio-group": "/wxcomponents/vant/dist/radio-group/index",
+					"van-radio": "/wxcomponents/vant/dist/radio/index",
 					"van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index",
 					"van-area": "/wxcomponents/vant/dist/area/index",
 					"van-toast": "/wxcomponents/vant/dist/toast/index",

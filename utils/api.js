@@ -375,3 +375,9 @@ export function getBrandCount(data){ return get(data,'open/brand/count')}
 // 43、头条详情
 export function getHeadlineDetail(data){ return get(data,'open/headline/getDetail')}
 
+// 44、项目详情
+export function getrojectDetail(data){ return get(data,'project/projectDetail')}
+
+// 45、设置用户角色
+export function getSetUserRole(data){ return get(data,'api/user/setUserRole')}
+

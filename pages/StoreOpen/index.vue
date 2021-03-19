@@ -185,6 +185,17 @@
             />
           </view>
           <view class="content" v-if="showTransactionInfo">
+			  
+			  <view class="radioBox" v-if="0">
+			  	<view class="updata-title">招租方式</view>
+			  	<view class="updata-radio">
+			  	   <van-radio-group :value="form.platType" @change="onChangeRadio">
+			  			<van-radio style="display: inline-block;margin:20rpx 10rpx;" name="0">平台直租</van-radio>
+			  			<van-radio style="display: inline-block;margin:20rpx 10rpx;" name="1">其他</van-radio>
+			  		</van-radio-group>
+			  	</view>
+			  </view>
+			  
             <van-field
               :value="form.monthRent"
               :error-message="errMsg.monthRent"
@@ -528,28 +539,27 @@ export default {
   data() {
     return {
       form: {
-        contactUsername: "张无忌",
-        contactMobile: "13487654321",
-        indentity: "个体商家",
-        businessType: "服装",
-  
-        propertyType: "社区底商",
-        province: "440300",
+        contactUsername: "",
+        contactMobile: "",
+        indentity: "",
+        businessType: "",
+        propertyType: "",
+        province: "",
         city: this.$Localtion.city.cityCode,
-        region: "440305",
-        street: "440305007",
+        region: "",
+        street: "",
         engineeringConditions: "",
-        monthRent: "25000",
-        measureArea: "100",
-        brandName: "喜茶",
-        brandProfile: "喜茶是一家新网红的奶茶，深受当代年轻人的喜欢",
-        targetCustomer: "80后",
+        monthRent: "",
+        measureArea: "",
+        brandName: "",
+        brandProfile: "",
+        targetCustomer: "",
         age: "",
-        customerAveragePrice: "20",
-        num: "6",
-        openjoin: "是",
+        customerAveragePrice: "",
+        num: "",
+        openjoin: "",
 		brandChar:"",
-        joinConditions: "20万的加盟费",
+        joinConditions: "",
         brandLogo: "",
         effectPhotos: "",
 		floorNum: "",
@@ -566,6 +576,7 @@ export default {
 		waterFee:"",//水务费用
 		eleFee:"",//电务费用
 		supportEqu:[],
+		platType:"1",
 
       },
       errMsg: {
@@ -701,6 +712,9 @@ export default {
     onChange(event) {
       this.checked = event.detail;
     },
+	onChangeRadio(event) {
+		this.form.platType = event.detail;
+	},
     // 选择侧边框选项
     selectTag(index) {
       let list = [];
@@ -1131,6 +1145,27 @@ export default {
         }
       }
     }
+  }
+  
+  .radioBox{
+  	  padding: 0 20rpx;
+  	  .updata-title{
+  	  	color:#646566;
+  	  	font-size: 32rpx;
+  	  	margin:10rpx 0;
+  		display: inline-block;
+  		width: 180rpx;
+  		padding-left:20rpx
+  	  }
+  	  .updata-radio{
+  			display: inline-block;
+  			width: 440rpx;
+  	  	  	color:#646566;
+  	  	  	font-size: 32rpx;
+  	  	  	margin:10rpx 0;
+  			text-align: center;
+  	  	  }
+  	  
   }
 
   .submit-btn {
