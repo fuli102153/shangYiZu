@@ -75,7 +75,7 @@
 			</view>
 			
 		</view>
-		<view class="shop-position" @click="goMap(latitude, longitude, shop.shopName)">
+		<view class="shop-position">
 			<view class="content">
 				<view class="icon" />
 				<view class="label">
@@ -85,7 +85,7 @@
 						</view>
 						<text>查看商场所有店铺</text>
 					</view>
-					<view class="title">
+					<view class="title" @click="goMap(latitude, longitude, shop.shopName)">
 						{{shop.detailLocation}}
 					</view>
 					<!-- <text>{{shop.addrPcas}}</text> -->
