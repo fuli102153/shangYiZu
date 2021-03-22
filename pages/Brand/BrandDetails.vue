@@ -62,7 +62,6 @@
 		  </view>
 		  <view class="btn" v-if="0">
 		  	<view class="btnBox">非平台直租</view>
-		  	<view class="btnDes">请谨慎交易</view>
 		  </view>
         </view>
         <view class="shop-rent">
