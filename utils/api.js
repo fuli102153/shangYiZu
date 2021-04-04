@@ -304,7 +304,7 @@ export function getBrandList(data){ return post(data,'open/brand/list')}
 export function getBrandDetail(data){ return get(data,'open/brand/detail')}
 
 //22、招租委托查询
-export function getMyShopList(data){ return post(data,'shop/api/myShopList')}
+export function getMyShopList(data){ return get(data,'shop/api/myShopList')}
 
 //23、商铺反馈
 export function getLookShopFeedback(data){ return post(data,'shop/api/lookShopFeedback')}

@@ -48,7 +48,7 @@
 		    required
 		    clearable
 		    label="每月租金"
-		    type="number"
+		    type="digit"
 		    placeholder="请输入您商铺的租金"
 		    @input="changeMonthRent"
 		    use-button-slot
@@ -61,7 +61,7 @@
             required
             clearable
             label="计租面积"
-            type="number"
+            type="digit"
             placeholder="请输入您商铺的面积"
             @input="changeMeasureArea"
             use-button-slot
@@ -204,7 +204,10 @@
 			  
 			  <van-field
 			    :value="property.insideArea"
+				:error-message="errMsg.insideArea"
 			    clearable
+				required
+				type="digit"
 			    label="套内面积"
 			    placeholder="您店铺的套内面积"
 			    use-button-slot
@@ -231,6 +234,7 @@
 			    label="物业类型"
 			    placeholder="请选择您商铺物业类型"
 			    disabled
+				required
 			    @click.native="showActionSheet('propertyType')"
 			    is-link
 				arrow-direction="down"
@@ -240,9 +244,11 @@
 			  <van-field
 			    :value="property.floorNum"
 			    clearable
+				required
 			    label="所在楼层"
 			    placeholder="您店铺的位置楼层"
 			    use-button-slot
+				type="number"
 			    @input="changFloorNu"
 			  >
 			    <text slot="button">层</text>
@@ -260,11 +266,12 @@
 			  
 			  
 			<van-field
-			  :value="property.categoryNames"
+			  :value="form.businessType"
 			  label="推荐业态"
 			  placeholder="请选择您商铺推荐业态"
 			  disabled
-			  @click.native="showEngineeringPopup('categoryNames')"
+			  required
+			  @click.native="showEngineeringPopup('business_type')"
 			  is-link
 			
 			
@@ -275,6 +282,7 @@
             <van-field
               :value="property.payMode"
               clearable
+			  required
               label="支付方式"
               placeholder="押二付一"
               @input="changPayMode"
@@ -290,6 +298,8 @@
               :value="form.freeTenancy"
               :error-message="errMsg.freeTenancy"
               clearable
+			   required
+			  type="digit"
               label="装修免租"
               placeholder="请输入您商铺的免租期"
               @input="changeFreeTenancy"
@@ -303,14 +313,17 @@
               label="转让费用"
               placeholder="您店铺的转让费"
               use-button-slot
+			  type="digit"
               @input="changTransferFee"
             >
               <text slot="button">元</text>
             </van-field>
 			<van-field
-			  :value="property.taxRate"
+			  :value="property.manageFee"
 			  clearable
+			   required
 			  label="管理费用"
+			  type="digit"
 			  placeholder="您店铺的管理费用"
 			  use-button-slot
 			  @input="changeTaxRate"
@@ -384,6 +397,8 @@
 			<van-field
 			  :value="property.floorHeight"
 			  clearable
+			  required
+			  type="digit"
 			  label="楼层层高"
 			  placeholder="您店铺的位置楼层"
 			  use-button-slot
@@ -394,7 +409,9 @@
 			<van-field
 			  :value="property.bayWidth"
 			  clearable
+			  required
 			  label="楼层开间"
+			  type="digit"
 			  placeholder="您店铺的层高"
 			  use-button-slot
 			  @input="changBayWidth"
@@ -404,7 +421,9 @@
 			<van-field
 			  :value="property.depthLength"
 			  clearable
+			  required
 			  label="楼层进深"
+			  type="digit"
 			  placeholder="您店铺的开间宽度"
 			  use-button-slot
 			  @input="changDepthLength"
@@ -415,6 +434,7 @@
 			  :value="property.columnSpacing"
 			  clearable
 			  label="柱间距离"
+			  type="digit"
 			  placeholder="您店铺的柱间距离"
 			  use-button-slot
 			  @input="changeColumnSpacing"
@@ -424,7 +444,9 @@
 			<van-field
 			  :value="property.waterRate"
 			  clearable
+			  required
 			  label="水务费用"
+			  type="digit"
 			  placeholder="您店铺的用水费用"
 			  use-button-slot
 			  @input="changWaterRate"
@@ -434,7 +456,9 @@
 			<van-field
 			  :value="property.powerRate"
 			  clearable
+			  required
 			  label="电务费用"
+			  type="digit"
 			  placeholder="您店铺的用电费用"
 			  use-button-slot
 			  @input="changPowerRate"
@@ -445,6 +469,7 @@
 			  :value="property.totalPowerSupply"
 			  clearable
 			  label="供电总量"
+			  type="digit"
 			  placeholder="您店铺的供电总量"
 			  use-button-slot
 			  @input="changeTotalPowerSupply"
@@ -454,6 +479,7 @@
 			<van-field
 			  :value="property.gasSupply"
 			  clearable
+			  type="digit"
 			  label="燃气总量"
 			  placeholder="您店铺的燃气总量"
 			  use-button-slot
@@ -465,6 +491,7 @@
 			  :value="property.smokeExhaust"
 			  clearable
 			  label="排烟总量"
+			  type="digit"
 			  placeholder="您店铺的排烟总量"
 			  use-button-slot
 			  @input="changeSmokeExhaust"
@@ -475,6 +502,7 @@
 			  :value="property.totalFreshAir"
 			  clearable
 			  label="新风总量"
+			  type="digit"
 			  placeholder="您店铺的新风总量"
 			  use-button-slot
 			  @input="changeTotalFreshAir"
@@ -485,6 +513,7 @@
 			  :value="property.waterSupplyCaliber"
 			  clearable
 			  label="给水口径"
+			  type="digit"
 			  placeholder="您店铺的给水口径"
 			  use-button-slot
 			  @input="changeWaterSupplyCaliber"
@@ -495,6 +524,7 @@
 			  :value="property.dischargeCaliber"
 			  clearable
 			  label="排污口径"
+			  type="digit"
 			  placeholder="您店铺的排污口径"
 			  use-button-slot
 			  @input="changeDischargeCaliber"
@@ -594,7 +624,7 @@
     >
       <view class="pop-content">
         <view class="hot">
-          <view class="title"> 热门搜索 </view>
+          <view class="title"> 推荐业态 </view>
           <view class="hot-tag">
             <view
               color="#B2B2B2"
@@ -753,6 +783,8 @@ export default {
         propertyEnvironment: "",
         // 店铺信息
         storeInfo: "",
+		
+		insideArea:"",
       },
       
       showStoreInfo: false,
@@ -874,7 +906,7 @@ export default {
       } else if (this.popupType === "business_type") {
         list = JSON.parse(JSON.stringify(this.businessSelectList));
       }else if (this.popupType === "categoryNames") {
-        list = JSON.parse(JSON.stringify(this.typeSelectList));
+        list = JSON.parse(JSON.stringify(this.businessSelectList));
       }
 
       if (list.includes(index)) {
@@ -892,7 +924,7 @@ export default {
       } else if (this.popupType === "business_type") {
         this.businessSelectList = list;
       }else if (this.popupType === "categoryNames") {
-	    this.typeSelectList = list;
+	    this.businessSelectList = list;
 	  }
     },
     // 打开侧边弹窗
@@ -909,7 +941,9 @@ export default {
         );
       }else if(type  == "categoryNames"){
 		 this.typeShowEngineering = true;
-		 this.ajaxGetPropertyFormAllData();
+		 this.businessTypeList = this.Dict.business_type.map(
+		   (item) => item.itemText
+		 );
 	  }
       this.popupType = type;
     },
@@ -1156,15 +1190,15 @@ export default {
     },
     //月租金
     changeMonthRent(e) {
-      this.form.monthRent = e.detail.trim();
+      this.form.monthRent = Number(e.detail.trim());
     },
     //面积
     changeMeasureArea(e) {
-      this.form.measureArea = e.detail.trim();
+      this.form.measureArea = Number(e.detail.trim());
     },
     //免租期
     changeFreeTenancy(e) {
-      this.form.freeTenancy = e.detail.trim();
+      this.form.freeTenancy = Number(e.detail.trim());
     },
     //物业环境
     changePropertyEnvironment(e) {
@@ -1172,14 +1206,14 @@ export default {
     },
 
     changTransferFee(e) {
-      this.property.transferFee = e.detail.trim();
+      this.property.transferFee = Number(e.detail.trim());
     },
 	changeTaxRate(e) {
-		this.property.taxRate = e.detail.trim();
+		this.property.manageFee = Number(e.detail.trim());
 	},
 
 	changeColumnSpacing(e) {
-		this.property.columnSpacing = e.detail.trim();
+		this.property.columnSpacing = Number(e.detail.trim());
 	},
     changPayMode(e) {
       this.property.payMode = e.detail.trim();
@@ -1188,10 +1222,10 @@ export default {
       this.property.rentIncrease = e.detail.trim();
     },
     changWaterRate(e) {
-      this.property.waterRate = e.detail.trim();
+      this.property.waterRate = Number(e.detail.trim());
     },
     changPowerRate(e) {
-      this.property.powerRate = e.detail.trim();
+      this.property.powerRate = Number(e.detail.trim());
     },
 	changInsideArea(e) {
       this.property.insideArea = Number(e.detail.trim());
@@ -1203,32 +1237,32 @@ export default {
 	  this.form.label = e.detail.trim();
 	},
     changFloorHeight(e) {
-      this.property.floorHeight = e.detail.trim();
+      this.property.floorHeight = Number(e.detail.trim());
     },
     changBayWidth(e) {
-      this.property.bayWidth = e.detail.trim();
+      this.property.bayWidth = Number(e.detail.trim());
     },
     changDepthLength(e) {
-      this.property.depthLength = e.detail.trim();
+      this.property.depthLength = Number(e.detail.trim());
     },
 	
 	changeTotalPowerSupply(e) {
-		this.property.totalPowerSupply = e.detail.trim();
+		this.property.totalPowerSupply = Number(e.detail.trim());
 	},
 	changeGasSupply(e) {
-		this.property.gasSupply = e.detail.trim();
+		this.property.gasSupply = Number(e.detail.trim());
 	},
 	changeSmokeExhaust(e) {
-		this.property.smokeExhaust = e.detail.trim();
+		this.property.smokeExhaust = Number(e.detail.trim());
 	},
 	changeTotalFreshAir(e) {
-		this.property.totalFreshAir = e.detail.trim();
+		this.property.totalFreshAir = Number(e.detail.trim());
 	},
 	changeWaterSupplyCaliber(e) {
-		this.property.waterSupplyCaliber = e.detail.trim();
+		this.property.waterSupplyCaliber = Number(e.detail.trim());
 	},
 	changeDischargeCaliber(e) {
-		this.property.dischargeCaliber = e.detail.trim();
+		this.property.dischargeCaliber = Number(e.detail.trim());
 	},
     changLocation(e) {
       this.property.location = e.detail.trim();
@@ -1269,33 +1303,70 @@ export default {
       if (!this.form.contactUsername) {
         this.errMsg.contactUsername = "联系人不能为空！";
         Toast.fail("联系人不能为空！");
-        console.log(1);
+      
         return false;
       } else if (!/^[1][3,4,5,7,8,9][0-9]{9}$/.test(this.form.contactMobile)) {
         this.errMsg.contactMobile = "请输入正确的电话号码";
         Toast.fail("请输入正确的电话号码！");
-        console.log(2);
+        
         return false;
       } else if (!this.form.detailLocation) {
         this.errMsg.detailLocation = "详细位置不能为空！";
         Toast.fail("详细位置不能为空！");
-        console.log(7);
+    
         return false;
       } else if (!this.form.monthRent) {
         this.errMsg.monthRent = "月租金不能为空！";
         Toast.fail("月租金不能为空！");
-        console.log(8);
+        
         return false;
       } else if (!this.form.measureArea) {
         this.errMsg.measureArea = "面积不能为空！";
         Toast.fail("面积不能为空！");
-        console.log(9);
+       
         return false;
       }else if (!this.form.shopPhotos) {
+		  
         Toast.fail("请上传至少一张平面图！");
         return false;
       }else if (!this.form.signBoardImg) {
         Toast.fail("请上传至少一张门面图！");
+        return false;
+      }else if (!this.property.insideArea) {
+        Toast.fail("套内面积不能为空！");
+        return false;
+      }else if (!this.form.propertyType) {
+        Toast.fail("物业类型不能为空！");
+        return false;
+      }else if (!this.property.floorNum) {
+        Toast.fail("所在楼层不能为空！");
+        return false;
+      }else if (!this.form.businessType) {
+        Toast.fail("推荐业态不能为空！");
+        return false;
+      }else if (!this.property.payMode) {
+        Toast.fail("支付方式不能为空！");
+        return false;
+      }else if (!this.form.freeTenancy) {
+        Toast.fail("装修免租不能为空！");
+        return false;
+      }else if (!this.property.manageFee) {
+        Toast.fail("管理费用不能为空！");
+        return false;
+      }else if (!this.property.floorHeight) {
+        Toast.fail("楼层层高不能为空！");
+        return false;
+      }else if (!this.property.bayWidth) {
+        Toast.fail("楼层开间不能为空！");
+        return false;
+      }else if (!this.property.depthLength) {
+        Toast.fail("楼层进深不能为空！");
+        return false;
+      }else if (!this.property.waterRate) {
+        Toast.fail("水务费用不能为空！");
+        return false;
+      }else if (!this.property.powerRate) {
+        Toast.fail("电务费用不能为空！");
         return false;
       } else {
         return true;
@@ -1364,7 +1435,7 @@ export default {
         shop: Object.assign(
           { ...this.form },
           {
-            appUid: this.userDetail.id,
+          
             cityId: this.cityId,
             regionId: this.regionId,
             streetId: this.streetId,
@@ -1374,7 +1445,7 @@ export default {
         property: this.property,
       };
 	  
-	  
+	  this.property.categoryNames = this.form.businessType;
 	  
       console.log(this.checkInput());
       if (this.checkInput()) {
@@ -1404,30 +1475,7 @@ export default {
       }
     },
 	
-	ajaxGetPropertyFormAllData() {
-		//ajax个人信息查询
-		var that = this;
-		const paras = {
-			
-		};
-		paras.accessToken = that.accessToken;
 	
-		getPropertyFormAllData(paras)
-			.then((res) => {
-				const data = res.data;
-				console.log(data);
-	
-				if (data.code == "200") {
-					that.typeList = [];
-					data.data.forEach((item) => {
-						that.typeList.push(item.name)
-					});
-					that.$forceUpdate();
-					console.log(that.typeList)
-				} else {}
-			})
-			.catch((error) => {});
-	},
 	
 	
   },
@@ -1554,6 +1602,7 @@ export default {
       .hot-tag {
         display: flex;
         flex-wrap: wrap;
+		
 
         .tag-item {
           margin-top: 20rpx;
@@ -1575,7 +1624,7 @@ export default {
     }
 
     .btn {
-      margin-top: 116rpx;
+      margin-top: 16rpx;
       padding: 0 128rpx;
     }
   }

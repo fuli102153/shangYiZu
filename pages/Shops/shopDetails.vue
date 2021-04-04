@@ -61,9 +61,7 @@
 						<view class="btnBox">非平台直租</view>
 					</view>
 				</view>
-				<view class="shop-id">
-					编号：{{ shop.shopNo || '-' }}
-				</view>
+				
 				<view class="shop-rent">
 					￥{{ shop.monthRent || '-'}}
 					<text>元/月</text>
@@ -93,6 +91,9 @@
 					<van-icon name="location" color="#BFBFBF"/>
 					<text>查看</text>
 				</view>
+			</view>
+			<view class="shop-id">
+				编号：{{ shop.shopNo || '-' }}
 			</view>
 			<view class="time">
 				更新时间：{{shop.createTime || '-'}}
@@ -225,7 +226,7 @@
 								管理费用
 							</view>
 							<view class="value">
-								{{property.taxRate || '-'}}元
+								{{property.manageFee || '-'}}元
 							</view>
 						</view>
 						
@@ -649,7 +650,7 @@
 					
 				})
 				.catch(error => {
-					Toast.fail(this.global.error);
+					
 				});
 			},
 			
@@ -703,7 +704,7 @@
 				var that = this;
 				const paras = {
 					shopNo:shopNo,
-					appUid:this.userDetail.id,
+				
 					type:1,
 					
 				};
@@ -757,7 +758,6 @@
 				var para={
 					shopNo:this.shop.shopNo,
 					type:type,
-					appUid:this.userDetail.id,
 					callBackUrl:"/pages/Shops/shopDetails?shopNo=" + this.shop.shopNo
 				}
 				return {
@@ -773,7 +773,6 @@
 				var that = this;
 				const paras = {
 					shopNo:shopNo,
-					appUid:this.userDetail.id,
 					type:1,
 					
 				};
@@ -827,20 +826,20 @@
 					font-size: 22rpx;
 					line-height: 36rpx;
 					padding: 5rpx 29rpx;
-					color: #FFFFFF;
+					color: #1476FD;
 					margin-right: 34rpx;
 				}
 				.active {
-					background: #FFFFFF;
-					color: #302f2c;
-					border-radius: 20rpx;
+					background:#1476FD;
+					color: #fff;
+					border-radius: 25rpx;
 				}
 			}
 		}
 		
 		.shop-name {
 			background-color: #fff;
-			padding: 47rpx 26rpx 40rpx;
+			padding: 20rpx 26rpx 5rpx;
 			position: relative;
 			top: -25rpx;
 			border-radius: 25rpx 25rpx 0 0;
@@ -874,11 +873,7 @@
 					}
 				}
 				
-				.shop-id {
-					font-size: 20rpx;
-					color: #9B9B9B;
-					margin-top: 10rpx;
-				}
+				
 				
 				.shop-rent {
 					font-size: 46rpx;
@@ -895,7 +890,7 @@
 				flex-wrap: wrap;
 				
 				.tag-item {
-					margin-top: 20rpx;
+					margin-top: 10rpx;
 					margin-right: 20rpx;
 					color: #1476FD;
 					font-size: 24rpx;
@@ -978,6 +973,17 @@
 				text-align: right;
 				font-size: 20rpx;
 				color: #A1A1A2;
+				width: 339rpx;
+				display: inline-block;
+			}
+			
+			.shop-id {
+				font-size: 20rpx;
+				text-align: left;
+				color: #9B9B9B;
+				margin-top: 10rpx;
+				width: 339rpx;
+				display: inline-block;
 			}
 		}
 		

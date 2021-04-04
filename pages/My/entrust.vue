@@ -227,7 +227,7 @@
 					this.pageSize = 10;
 				}
 				const paras = {
-					appUid:this.userDetail.id,
+					
 					pageNo: this.pageNo,
 					pageSize: this.pageSize,
 				};
@@ -328,6 +328,7 @@
 			padding: 70rpx 25rpx;
 			
 			.card {
+				position: relative;
 				.header {
 					width: 650rpx;
 					height: 61rpx;
@@ -339,7 +340,7 @@
 					justify-content: space-between;
 					align-items: center;
 					position: relative;
-					z-index: 1;
+					top:30rpx;
 					
 					.title {
 						font-size: 32rpx;
@@ -355,8 +356,7 @@
 					box-shadow: 0px 5rpx 5rpx 0px rgba(223, 223, 223, 0.26);
 					padding: 85rpx 56rpx;
 					border-radius: 30rpx;
-					position: relative;
-					top: -30rpx;
+					
 					
 					p {
 						line-height: 42rpx;

@@ -33,7 +33,7 @@
 				//ajax个人信息查询
 				var that = this;
 				const paras = {
-					appUid:this.userDetail.id,
+				
 					content:this.content,
 				};
 				paras.accessToken = that.accessToken;

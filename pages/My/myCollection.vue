@@ -67,7 +67,7 @@
 				}
 				
 				const paras = {
-					appUid:this.userDetail.id,
+					
 					pageNo: this.paras.pageNo ,
 					pageSize: this.paras.pageSize,
 					

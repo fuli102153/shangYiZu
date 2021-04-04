@@ -39,7 +39,7 @@
 					},
 					{
 						id:3,
-						name:"我要代理",
+						name:"我是代理",
 						icon:"../../static/images/icon_role_3.png",
 					}
 				],

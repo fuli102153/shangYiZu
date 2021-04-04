@@ -114,12 +114,6 @@
 			</view>
 			<van-empty v-if="shopList.length==0" description="暂无数据" />
 			<StoreCard v-for="(item,index) in shopList" :sourceData="item" :key="index"  />
-			<view class="loading" v-if="0">
-				<van-loading  size="24px">{{loadMoreText}}</van-loading>
-			</view>
-			<view class="loading" v-else-if="false">
-				{{loadMoreText}}
-			</view>
 		</view>
 		
 		<van-toast id="van-toast" />

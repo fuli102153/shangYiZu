@@ -60,27 +60,16 @@
 			<!--<SelectHeader @onChangeMit="onChangeMit"></SelectHeader>-->
 		</van-sticky>
 	
-		<view class="view-list">
-			<view class="store-list" >
-				
-				<van-empty v-if="shopList.length==0" description="暂无数据" />
-				<StoreCard v-else v-for="(item,index) in shopList" :sourceData="item" :key="index" />
-			</view>
-			<van-toast id="van-toast" />
-		</view>
-		<van-popup
-			:show="isShowPop" 
-			:overlay="false" 
-			:z-index="90"
-			custom-style="width: 675rpx; border-radius: 15rpx; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); top: 180rpx" 
-			@close="onSelectClose">
-			<view class="select-content">
+		
+		<view class="store-list">
+			<view class="select-content" :class="isOpen ? '' : 'select-content-open'" v-if="isShowPop">
+				<text class="open" @click="openMore">{{isOpen ? '收起' : '展开'}}</text>
 				<text>已选条件：</text>
-				<view class="item" v-if="paras.shopCategoryNames && paras.shopCategoryNames.length > 0">
+				<view class="item" :class="isOpen ? '' : 'item-open'"  v-if="paras.shopCategoryNames && paras.shopCategoryNames.length > 0">
 					<text class="label">
 						业态：
 					</text>
-					<view class="list">
+					<view class="list" :class="isOpen ? '' : 'openlist'">
 						<text class="txt" v-for="(item, index) in Object.keys(typeListData)" :key="index">
 							<text v-if="typeListData[item] && typeListData[item].length > 0">
 								<text>{{ item }} </text>
@@ -91,26 +80,31 @@
 						；
 					</view>
 				</view>
-				<view class="item" v-if="paras.streetId">
+				<view class="item"  :class="isOpen ? '' : 'item-open'"  v-if="paras.streetId">
 					<text class="label">
 						区域：
 					</text>
 					<text class="txt">{{paras.streetName}}</text>
 				</view>
-				<view class="item" v-if="paras.projectType">
+				<view class="item"  :class="isOpen ? '' : 'item-open'"  v-if="paras.projectType">
 					<text class="label">
 						物业：
 					</text>
 					<text class="txt">{{paras.propertyName}}</text>
 				</view>
-				<view class="item" v-if="paras.measureAreaEnd">
+				<view class="item"  :class="isOpen ? '' : 'item-open'"  v-if="paras.measureAreaEnd">
 					<text class="label">
 						面积：
 					</text>
 					<text class="txt">{{paras.measureAreaStart}}m²-{{paras.measureAreaEnd}}m²</text>
 				</view>
 			</view>
-		</van-popup>
+			
+			<van-empty v-if="shopList.length==0" description="暂无数据" />
+			<StoreCard v-else v-for="(item,index) in shopList" :sourceData="item" :key="index" />
+			
+		</view>
+		<van-toast id="van-toast" />
 	</view>
 </template>
 
@@ -200,6 +194,7 @@
 				rangeValue: ['', ''],
 				typeListItem: '',
 				typeListData: {},
+				isOpen: false
 			}
 		},
 		computed: {
@@ -284,6 +279,9 @@
 			this.reloadData();
 		},
 		methods: {
+			openMore() {
+				this.isOpen = !this.isOpen
+			},
 			format(val) {
 			  return val + 'm²'
 			},
@@ -874,15 +872,13 @@
 			}
 		}
 		
-		.view-list {
-			
-			
-			
-			.store-list {
-				flex: 1;
-				height: 100%;
-				overflow: auto;
-				padding: 0 36rpx;
+		.store-list {
+			padding: 0 36rpx;
+			.loading{
+				text-align: center;
+				padding: 20rpx;
+				font-size: 28rpx;
+				color: #969799;
 			}
 		}
 	}
@@ -964,10 +960,19 @@
 	}
 	.select-content {
 		padding: 23rpx 28rpx;
-		
+		margin-top:15rpx;
+		border-radius: 15rpx; box-shadow: 0px 5rpx 15rpx rgba(0, 0, 0, 0.2);
+		position: relative;
 		text {
 			font-size: 26rpx;
 			line-height: 36rpx;
+		}
+		.open {
+			position: absolute;
+			font-size: 26rpx;
+			color: #005AC8;
+			top: 68rpx;
+			right: 28rpx;
 		}
 		.item {
 			font-size: 22rpx;
@@ -977,12 +982,26 @@
 				width: 85rpx;
 			}
 			.list {
-				flex: 1;
+				width: 420rpx;
 			}
+			.openlist {
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			
 			.txt {
 				flex: 1;
 				color: #666666;
 			}
 		}
+		
+		.item-open {
+			margin-bottom: 20rpx;
+		}
+	}
+	.select-content-open {
+		height: 80rpx;
+		overflow: hidden;
 	}
 </style>

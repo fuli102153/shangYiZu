@@ -19,7 +19,7 @@
 						<view class="tag">物业类型：{{source.propertyType}}</view>
 					</view>
 					<view>
-						<view class="tag">拓店数量：{{source.viewNum}}家</view>
+						<view class="tag">拓店数量：{{source.num || "-"}}家</view>
 					</view>
 					<view class="hot-list">
 						<i class="hot" v-for="item in source.hits" :key="item"></i>

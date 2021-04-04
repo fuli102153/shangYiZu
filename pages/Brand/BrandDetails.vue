@@ -3,7 +3,7 @@
 	<view class="banner" >
 		<uni-swiper-dot   v-if="tabActive==0"  >
 			<swiper class="swiper-box" >
-				<swiper-item @click="previewImage(bigPhotos.length>0? bigPhotos : ['../../static/store.jpg'],index)" v-for="(item ,index) in brand.effectPhotos? brand.effectPhotos.split(',') : ['../../static/store.jpg']" :key="index">
+				<swiper-item @click="previewImage(bigPhotos.length>0? bigPhotos : ['../../static/store.jpg'],index)" v-for="(item ,index) in brand.brandLogo? brand.brandLogo.split(',') : ['../../static/store.jpg']" :key="index">
 					<view class="swiper-item">
 						<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
 					</view>
@@ -380,7 +380,8 @@
 			<van-button plain  class="share" size="large"  icon="share-o" id="shareShop" color="#1576FE" open-type="share">分享</van-button>
          
         </view>
-        <view class="button"  @click="makePhoneCall(Configs.service_phone)">联系直招</view>
+        <view class="button" v-if="brand.platType==0"  @click="makePhoneCall(Configs.service_phone)">联系开店</view>
+		<view class="button" v-else  @click="makePhoneCall(brand.contactMobile)">联系开店</view>
 	
       </view>
     </view>
@@ -400,9 +401,9 @@ export default {
     return {
 		tabList: [
 			{ name: 'LOGO', code: 0 },
-			{ name: '正面图', code: 1 },
-			{ name: '内部图', code: 2 },
-			{ name: '周边图', code: 3 },
+			{ name: '店招图', code: 1 },
+			{ name: '店内图', code: 2 },
+			{ name: '店内图', code: 3 },
 		],
 		  // 图片切换
 		tabActive: 0,
@@ -495,39 +496,54 @@ export default {
             that.brand.engineeringConditions = that.brand.engineeringConditions.split(
               ","
             );
-
-            var infoPhotos = that.brand.brandLogo.split(",");
-			var frontImg = that.brand.frontImg.split(",");
-			var innerImg = that.brand.innerImg.split(",");
-			var aroundImg = that.brand.aroundImg.split(",");
+			
+            var infoPhotos = [that.brand.brandLogo];
+			var frontImg = that.brand.frontImgArr;
+			var innerImg = that.brand.innerImgArr;
+			var aroundImg = that.brand.aroundImgArr;
 			
 			that.bigPhotos = [];
 			that.frontImg = [];
 			that.innerImg = [];
 			that.aroundImg = [];
+			console.log("infoPhotos--------------------------------------")
 			
 			infoPhotos.forEach((item)=>{
 				var _index = item.lastIndexOf(".");
 				var bigPhoto = item.slice(0,_index)+"_thumb"+item.slice(_index)
 				that.bigPhotos.push(bigPhoto);
+			
             })
-			
+		
 			frontImg.forEach((item)=>{
-				var _index = item.lastIndexOf(".");
-				var bigPhoto = item.slice(0,_index)+"_thumb"+item.slice(_index)
-				that.frontImg.push(bigPhoto);
+				
+				if(item){
+					var _index = item.lastIndexOf(".");
+					var bigPhoto = item.slice(0,_index)+"_thumb"+item.slice(_index)
+					that.frontImg.push(bigPhoto);
+				}
+				
+				
 			})
-			
+		
 			innerImg.forEach((item)=>{
-				var _index = item.lastIndexOf(".");
-				var bigPhoto = item.slice(0,_index)+"_thumb"+item.slice(_index)
-				that.innerImg.push(bigPhoto);
+				
+				if(item){
+					var _index = item.lastIndexOf(".");
+					var bigPhoto = item.slice(0,_index)+"_thumb"+item.slice(_index)
+					that.innerImg.push(bigPhoto);
+					console.log(that.innerImg)
+				}
+				
 			})
 			
 			aroundImg.forEach((item)=>{
-				var _index = item.lastIndexOf(".");
-				var bigPhoto = item.slice(0,_index)+"_thumb"+item.slice(_index)
-				that.aroundImg.push(bigPhoto);
+				if(item){
+					var _index = item.lastIndexOf(".");
+					var bigPhoto = item.slice(0,_index)+"_thumb"+item.slice(_index)
+					that.aroundImg.push(bigPhoto);
+				}
+				
 			})
 			
 			
@@ -580,6 +596,7 @@ export default {
 		},
 		
 		previewImage(urls,index){
+			console.log(urls)
 			uni.previewImage({
 				current:index,
 				urls:urls
@@ -639,16 +656,16 @@ export default {
       left: 36rpx;
       display: flex;
       .tab-item {
-        font-size: 22rpx;
-        line-height: 36rpx;
-        padding: 5rpx 29rpx;
-        color: #ffffff;
-        margin-right: 34rpx;
+      	font-size: 22rpx;
+      	line-height: 36rpx;
+      	padding: 5rpx 29rpx;
+      	color: #1476FD;
+      	margin-right: 34rpx;
       }
       .active {
-        background: #ffffff;
-        color: #302f2c;
-        border-radius: 20rpx;
+      	background:#1476FD;
+      	color: #fff;
+      	border-radius: 25rpx;
       }
     }
   }
@@ -669,7 +686,7 @@ export default {
 
   .shop-name {
     background-color: #fff;
-    padding: 47rpx 26rpx 0;
+    padding: 20rpx 26rpx 0;
     position: relative;
     top: -25rpx;
     border-radius: 25rpx 25rpx 0 0;
@@ -719,7 +736,7 @@ export default {
       flex-wrap: wrap;
 
       .tag-item {
-        margin-top: 20rpx;
+        margin-top: 10rpx;
         margin-right: 20rpx;
         color: #1476fd;
         font-size: 24rpx;

@@ -51,6 +51,7 @@
             :value="form.measureArea"
             :error-message="errMsg.measureArea"
             required
+			type="digit"
             clearable
             label="面积需求"
             placeholder="请输入您商铺的面积"
@@ -98,7 +99,7 @@
 			    </view>
 			  </view>
 			<view class="updata">
-			  <view class="updata-title"><text class="red">*</text> 正面图</view>
+			  <view class="updata-title"><text class="red">*</text> 店招图</view>
 			  <view class="updata-image">
 				<view class="image-type">
 				  <van-uploader
@@ -120,7 +121,7 @@
 			  </view>
 			</view>
 			<view class="updata">
-			  <view class="updata-title">内部图</view>
+			  <view class="updata-title">店内图</view>
 			  <view class="updata-image">
 				<view class="image-type">
 				  <van-uploader
@@ -142,7 +143,7 @@
 			  </view>
 			</view>
 			<view class="updata">
-			  <view class="updata-title">周边图</view>
+			  <view class="updata-title">店内图</view>
 			  <view class="updata-image">
 				<view class="image-type">
 				  <van-uploader
@@ -199,7 +200,7 @@
             <van-field
               :value="form.monthRent"
               :error-message="errMsg.monthRent"
-             
+             type="digit"
               clearable
               label="租金意向"
               placeholder="请输入您期望的月租金"
@@ -212,6 +213,7 @@
               :value="form.customerAveragePrice"
               :error-message="errMsg.customerAveragePrice"
               clearable
+			  type="digit"
               label="客单价格"
               placeholder="请输入您开店的人均消费单价"
               @input="changeCustomerAveragePrice"
@@ -230,6 +232,7 @@
               :value="form.age"
               :error-message="errMsg.age"
               clearable
+			  type="digit"
               label="客群年龄"
               placeholder="请输入您开店针对的客群年龄"
               @input="changeAge"
@@ -239,6 +242,8 @@
 			  :value="form.floorNum"
 			  :error-message="errMsg.floorNum"
 			  clearable
+			  required
+			  type="number"
 			  label="楼层要求"
 			  placeholder="请输入您开店的楼层要求"
 			  @input="changeFloorNum"
@@ -249,8 +254,9 @@
             <van-field
               :value="form.num"
               :error-message="errMsg.num"
-              required
               clearable
+			  required
+			  type="number"
               label="开店数量"
               placeholder="请输入您计划开店的数量"
               @input="changeNum"
@@ -264,6 +270,7 @@
 			  label="物业需求"
 			  placeholder="请选择您商铺物业需求"
 			  disabled
+			  required
 			  @click.native="showActionSheet('propertyType')"
 			  is-link
 			  arrow-direction="down"
@@ -274,7 +281,7 @@
               :value="form.openjoin"
               :error-message="errMsg.openjoin"
               label="允许加盟"
-              required
+         
               disabled
               @click.native="showActionSheet('openjoin')"
               is-link
@@ -283,7 +290,7 @@
             />
 			<van-field
 			  :value="form.brandChar"
-			  required
+		
 			  clearable
 			  label="品牌特色"
 			  placeholder="多个特色空格隔开"
@@ -292,7 +299,6 @@
             <van-field
               :value="form.brandProfile"
               :error-message="errMsg.brandProfile"
-              required
               clearable
               label="品牌简介"
               placeholder="请简单介绍一下您的品牌是什么样的店铺"
@@ -322,6 +328,7 @@
             <van-field
               :value="form.floorHeight"
               clearable
+			  type="digit"
               label="楼层层高"
               placeholder="您店铺的位置楼层"
               use-button-slot
@@ -332,6 +339,7 @@
             <van-field
               :value="form.bayWidth"
               clearable
+			  type="digit"
               label="楼层开间"
               placeholder="您店铺的层高"
               use-button-slot
@@ -342,6 +350,7 @@
             <van-field
               :value="form.depthLength"
               clearable
+			  type="digit"
               label="楼层进深"
               placeholder="您店铺的开间宽度"
               use-button-slot
@@ -352,6 +361,7 @@
 			<van-field
 			  :value="form.columnSpacing"
 			  clearable
+			  type="digit"
 			  label="商铺柱距"
 			  placeholder="您店铺的商铺柱距"
 			  use-button-slot
@@ -362,6 +372,7 @@
 			<van-field
 			  :value="form.waterFee"
 			  clearable
+			  type="digit"
 			  label="水务费用"
 			  placeholder="您店铺的水务费用"
 			  use-button-slot
@@ -373,6 +384,7 @@
 			<van-field
 			  :value="form.eleFee"
 			  clearable
+			  type="digit"
 			  label="电务费用"
 			  placeholder="您店铺的电务费用"
 			  use-button-slot
@@ -384,6 +396,7 @@
             <van-field
               :value="form.totalPowerSupply"
               clearable
+			  type="digit"
               label="供电总量"
               placeholder="您店铺的供电总量"
               use-button-slot
@@ -394,6 +407,7 @@
             <van-field
               :value="form.gasSupply"
               clearable
+			  type="digit"
               label="燃气总量"
               placeholder="您店铺的燃气总量"
               use-button-slot
@@ -404,6 +418,7 @@
             <van-field
               :value="form.smokeExhaust"
               clearable
+			  type="digit"
               label="排烟总量"
               placeholder="您店铺的排烟总量"
               use-button-slot
@@ -414,6 +429,7 @@
             <van-field
               :value="form.totalFreshAir"
               clearable
+			  type="digit"
               label="新风总量"
               placeholder="您店铺的新风总量"
               use-button-slot
@@ -424,6 +440,7 @@
             <van-field
               :value="form.waterSupplyCaliber"
               clearable
+			  type="digit"
               label="给水口径"
               placeholder="您店铺的给水口径"
               use-button-slot
@@ -600,6 +617,7 @@ export default {
         joinConditions: "",
         brandLogo: "",
         effectPhotos: "",
+		floorNum:"",
       },
       showTransactionInfo: false,
       showEngineeringParameters: false,
@@ -887,11 +905,11 @@ export default {
     },
     //月租金
     changeMonthRent(e) {
-      this.form.monthRent = e.detail.trim();
+      this.form.monthRent = Number(e.detail.trim());
     },
     //面积
     changeMeasureArea(e) {
-      this.form.measureArea = e.detail.trim();
+      this.form.measureArea = Number(e.detail.trim());
     },
     changeBrandName(e) {
       this.form.brandName = e.detail.trim();
@@ -903,13 +921,13 @@ export default {
       this.form.targetCustomer = e.detail.trim();
     },
     changeAge(e) {
-      this.form.age = e.detail.trim();
+      this.form.age = Number(e.detail.trim());
     },
     changeCustomerAveragePrice(e) {
-      this.form.customerAveragePrice = e.detail.trim();
+      this.form.customerAveragePrice = Number(e.detail.trim());
     },
     changeNum(e) {
-      this.form.num = e.detail.trim();
+      this.form.num = Number(e.detail.trim());
     },
     changeJoinConditions(e) {
       this.form.joinConditions = e.detail.trim();
@@ -918,44 +936,44 @@ export default {
 	  this.form.brandChar = e.detail.trim();
 	},
 	changeFloorNum(e) {
-      this.form.floorNum = e.detail.trim();
+      this.form.floorNum = Number(e.detail.trim());
     },
     changFloorHeight(e) {
-      this.form.floorHeight = e.detail.trim();
+      this.form.floorHeight = Number(e.detail.trim());
     },
     changBayWidth(e) {
-      this.form.bayWidth = e.detail.trim();
+      this.form.bayWidth = Number(e.detail.trim());
     },
     changDepthLength(e) {
-      this.form.depthLength = e.detail.trim();
+      this.form.depthLength = Number(e.detail.trim());
     },
 	changColumnSpacing(e) {
-	  this.form.columnSpacing = e.detail.trim();
+	  this.form.columnSpacing = Number(e.detail.trim());
 	},
 	changWaterFee(e) {
-	  this.form.waterFee = e.detail.trim();
+	  this.form.waterFee = Number(e.detail.trim());
 	},
 	changEleFee(e) {
-	  this.form.eleFee = e.detail.trim();
+	  this.form.eleFee = Number(e.detail.trim());
 	},
 
     changeTotalPowerSupply(e) {
-      this.form.totalPowerSupply = e.detail.trim();
+      this.form.totalPowerSupply = Number(e.detail.trim());
     },
     changeGasSupply(e) {
-      this.form.gasSupply = e.detail.trim();
+      this.form.gasSupply = Number(e.detail.trim());
     },
     changeSmokeExhaust(e) {
-      this.form.smokeExhaust = e.detail.trim();
+      this.form.smokeExhaust = Number(e.detail.trim());
     },
     changeTotalFreshAir(e) {
-      this.form.totalFreshAir = e.detail.trim();
+      this.form.totalFreshAir = Number(e.detail.trim());
     },
     changeWaterSupplyCaliber(e) {
-      this.form.waterSupplyCaliber = e.detail.trim();
+      this.form.waterSupplyCaliber = Number(e.detail.trim());
     },
     changeDischargeCaliber(e) {
-      this.form.dischargeCaliber = e.detail.trim();
+      this.form.dischargeCaliber = Number(e.detail.trim());
     },
 	changeSupportEqu(e){
 		this.form.supportEqu = e.detail;
@@ -1005,13 +1023,17 @@ export default {
         this.errMsg.brandName = "品牌名称不能为空！";
         Toast.fail("品牌名称不能为空！");
         return false;
-      } else if (!this.form.brandProfile) {
-        this.errMsg.brandProfile = "品牌简介不能为空！";
-        Toast.fail("品牌简介不能为空！");
+      }else if (!this.form.floorNum) {
+        this.errMsg.floorNum = "楼层要求不能为空！";
+        Toast.fail("楼层要求不能为空！");
         return false;
-      } else if (!this.form.num) {
-        this.errMsg.num = "数量不能为空！";
-        Toast.fail("数量不能为空！");
+      }else if (!this.form.num) {
+        this.errMsg.num = "开店数量不能为空！";
+        Toast.fail("开店数量不能为空！");
+        return false;
+      }else if (!this.form.propertyType) {
+        this.errMsg.propertyType = "物业需求不能为空！";
+        Toast.fail("物业需求不能为空！");
         return false;
       } else {
         return true;
@@ -1021,7 +1043,7 @@ export default {
     //提交数据
     submit() {
       const params = this.form;
-      params.openjoin = this.form.openjoin == "是" ? 1 : 0;
+      
 	  //配套，以,分割
 	  if(this.form.supportEqu){
 		  params.supportEqu = this.form.supportEqu.join(",");
@@ -1079,6 +1101,8 @@ export default {
           forbidClick: true,
           loadingType: "spinner",
         });
+		
+		params.openjoin = this.form.openjoin == "是" ? 1 : 0;
         console.log(params);
         getBrandAdd(params)
           .then((res) => {

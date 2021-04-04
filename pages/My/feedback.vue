@@ -53,7 +53,7 @@
 				var that = this;
 				
 				const paras = {
-					appUid:this.userDetail.id,
+					
 					shopNo:shopNo,
 					pageNo:1,
 					pageSize:10,

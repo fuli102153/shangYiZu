@@ -163,7 +163,7 @@
 					mobile:that.mobile,
 					shopNo:that.shopNo,
 					streetCode: that.streetCode,
-					appUid:that.userDetail.id,
+				
 					type:1,
 					subscribeTimeStart:that.startDateStr,
 					subscribeTimeEnd:that.endDateStr,
