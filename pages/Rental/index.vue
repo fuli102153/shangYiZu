@@ -87,6 +87,7 @@
                     :file-list="fileList[0]"
                     max-count="1"
                     @after-read="afterRead($event, 0, 'fileList')"
+					@delete="deleteImg($event, 0, 'fileList')"
                     preview-size="126rpx"
                   />
                 </view>
@@ -95,6 +96,7 @@
                     :file-list="fileList[1]"
                     max-count="1"
                     @after-read="afterRead($event, 1, 'fileList')"
+					@delete="deleteImg($event, 1, 'fileList')"
                     preview-size="126rpx"
                   />
                 </view>
@@ -109,6 +111,7 @@
 			        :file-list="signBoardImg[0]"
 			        max-count="1"
 			        @after-read="afterRead($event, 0, 'signBoardImg')"
+					@delete="deleteImg($event, 0, 'signBoardImg')"
 			        preview-size="126rpx"
 			      />
 			    </view>
@@ -117,6 +120,7 @@
 			        :file-list="signBoardImg[1]"
 			        max-count="1"
 			        @after-read="afterRead($event, 1, 'signBoardImg')"
+					@delete="deleteImg($event, 1, 'signBoardImg')"
 			        preview-size="126rpx"
 			      />
 			    </view>
@@ -131,6 +135,7 @@
 			        :file-list="shopInsideImg[0]"
 			        max-count="1"
 			        @after-read="afterRead($event, 0, 'shopInsideImg')"
+					@delete="deleteImg($event, 0, 'shopInsideImg')"
 			        preview-size="126rpx"
 			      />
 			    </view>
@@ -139,6 +144,7 @@
 			        :file-list="shopInsideImg[1]"
 			        max-count="1"
 			        @after-read="afterRead($event, 1, 'shopInsideImg')"
+					@delete="deleteImg($event, 1, 'shopInsideImg')"
 			        preview-size="126rpx"
 			      />
 			    </view>
@@ -153,6 +159,7 @@
 			        :file-list="shopPeripheryImg[0]"
 			        max-count="1"
 			        @after-read="afterRead($event, 0, 'shopPeripheryImg')"
+					@delete="deleteImg($event, 0, 'shopPeripheryImg')"
 			        preview-size="126rpx"
 			      />
 			    </view>
@@ -161,6 +168,7 @@
 			        :file-list="shopPeripheryImg[1]"
 			        max-count="1"
 			        @after-read="afterRead($event, 1, 'shopPeripheryImg')"
+					@delete="deleteImg($event, 1, 'shopPeripheryImg')"
 			        preview-size="126rpx"
 			      />
 			    </view>
@@ -1061,11 +1069,68 @@ export default {
     hideCityPosition() {
       this.positionShow = false;
     },
+	
+	//删除图片
+	deleteImg(event, index, type){
+		var that = this;
+		if (type === 'fileList') {
+			that.fileList[index] = [];
+		} else if (type === 'signBoardImg') {
+			that.signBoardImg[index] = [];
+		} else if (type === 'shopInsideImg') {
+			that.shopInsideImg[index] = [];
+		} else if (type === 'shopPeripheryImg') {
+			that.shopPeripheryImg[index] = [];
+		}
+		
+		that.$forceUpdate();
+	},
     // 上传图片
     afterRead(event, index, type) {
       const { file } = event.detail;
       var that = this;
       // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
+	  
+	  if (type === 'fileList') {
+		  that.fileList[index] = [
+			{
+			  url: "",
+			  name: "",
+			  status: 'uploading',
+			  message: '上传中',
+			},
+		  ];
+	  } else if (type === 'signBoardImg') {
+		  that.signBoardImg[index] = [
+			{
+			  url: "",
+			  name: "",
+			  status: 'uploading',
+			  message: '上传中',
+			},
+		  ];
+	  } else if (type === 'shopInsideImg') {
+		  that.shopInsideImg[index] = [
+			{
+			  url: "",
+			  name: "",
+			  status: 'uploading',
+			  message: '上传中',
+			},
+		  ];
+	  } else if (type === 'shopPeripheryImg') {
+		  that.shopPeripheryImg[index] = [
+			{
+			 url: "",
+			 name: "",
+			 status: 'uploading',
+			 message: '上传中',
+			},
+		  ];
+	  }
+	  
+	  that.$forceUpdate();
+	  
       wx.uploadFile({
         url: this.HOST + "api/upload",
         filePath: file.path,

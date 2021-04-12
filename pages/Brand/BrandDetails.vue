@@ -12,16 +12,16 @@
 		</uni-swiper-dot> 
 		<uni-swiper-dot   v-else-if="tabActive==1"  >
 			<swiper class="swiper-box" >
-				<swiper-item @click="previewImage(frontImg.length>0? frontImg : ['../../static/store.jpg'],index)" v-for="(item ,index) in brand.frontImg? brand.frontImg.split(',') : ['../../static/store.jpg']" :key="index">
+				<swiper-item @click="previewImage(effectImg.length>0? effectImg : ['../../static/store.jpg'],index)" v-for="(item ,index) in brand.effectPhotos? brand.effectPhotos.split(',') : ['../../static/store.jpg']" :key="index">
 					<view class="swiper-item">
 						<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
 					</view>
 				</swiper-item>
 			</swiper>
-		</uni-swiper-dot> 
+		</uni-swiper-dot>
 		<uni-swiper-dot   v-else-if="tabActive==2"  >
 			<swiper class="swiper-box" >
-				<swiper-item @click="previewImage(innerImg.length>0? innerImg : ['../../static/store.jpg'],index)" v-for="(item ,index) in brand.innerImg? brand.innerImg.split(',') : ['../../static/store.jpg']" :key="index">
+				<swiper-item @click="previewImage(frontImg.length>0? frontImg : ['../../static/store.jpg'],index)" v-for="(item ,index) in brand.frontImg? brand.frontImg.split(',') : ['../../static/store.jpg']" :key="index">
 					<view class="swiper-item">
 						<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
 					</view>
@@ -30,13 +30,14 @@
 		</uni-swiper-dot> 
 		<uni-swiper-dot   v-else-if="tabActive==3"  >
 			<swiper class="swiper-box" >
-				<swiper-item @click="previewImage(aroundImg.length>0? aroundImg : ['../../static/store.jpg'],index)" v-for="(item ,index) in brand.aroundImg? brand.aroundImg.split(',') : ['../../static/store.jpg']" :key="index">
+				<swiper-item @click="previewImage(innerImg.length>0? innerImg : ['../../static/store.jpg'],index)" v-for="(item ,index) in brand.innerImg? brand.innerImg.split(',') : ['../../static/store.jpg']" :key="index">
 					<view class="swiper-item">
 						<image :src="item" mode="" style="width: 100%; height: 430rpx;"></image>
 					</view>
 				</swiper-item>
 			</swiper>
 		</uni-swiper-dot> 
+		 
 		<view class="banner-tab">
 			<view 
 				class="tab-item" 
@@ -401,9 +402,10 @@ export default {
     return {
 		tabList: [
 			{ name: 'LOGO', code: 0 },
-			{ name: '店招图', code: 1 },
-			{ name: '店内图', code: 2 },
+			{ name: '效果图', code: 1 },
+			{ name: '店招图', code: 2 },
 			{ name: '店内图', code: 3 },
+			
 		],
 		  // 图片切换
 		tabActive: 0,
@@ -420,6 +422,7 @@ export default {
 		brand: {},
 		brandList: [],
 		bigPhotos:[],
+		effectImg:[],//效果
 		frontImg:[],//店招
 		innerImg:[],//内部
 		aroundImg:[],//周边
@@ -498,11 +501,13 @@ export default {
             );
 			
             var infoPhotos = [that.brand.brandLogo];
+			var effectImg = that.brand.effectPhotosArr;
 			var frontImg = that.brand.frontImgArr;
 			var innerImg = that.brand.innerImgArr;
 			var aroundImg = that.brand.aroundImgArr;
 			
 			that.bigPhotos = [];
+			that.effectImg = [];
 			that.frontImg = [];
 			that.innerImg = [];
 			that.aroundImg = [];
@@ -514,6 +519,17 @@ export default {
 				that.bigPhotos.push(bigPhoto);
 			
             })
+			
+			effectImg.forEach((item)=>{
+				
+				if(item){
+					var _index = item.lastIndexOf(".");
+					var bigPhoto = item.slice(0,_index)+"_thumb"+item.slice(_index)
+					that.effectImg.push(bigPhoto);
+				}
+				
+				
+			})
 		
 			frontImg.forEach((item)=>{
 				

@@ -291,12 +291,12 @@
 						text: "不限",
 						value: "",
 					}];
-				/*
+				
 				this.Dict.property_type.forEach((item)=>{
 					this.propertyList.push({
 						text: item.itemText, value: item.itemValue
 					})
-				})*/
+				})
 				this.searchAreaList = [{
 						text: "不限",
 						value: "",

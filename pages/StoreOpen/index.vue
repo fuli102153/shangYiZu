@@ -61,12 +61,11 @@
             <text slot="button">m²</text>
           </van-field>
 
-          <van-field
+          <van-field 
             :value="form.position"
             :error-message="errMsg.position"
             label="开店区域"
             placeholder="请选择您商铺所在位置"
-            required
             disabled
             @click.native="showPosition('position')"
             is-link
@@ -84,20 +83,38 @@
 			          :file-list="fileList[0]"
 			          max-count="1"
 			          @after-read="afterRead($event, 0, 'fileList')"
+					  @delete="deleteImg($event, 0, 'fileList')"
 			          preview-size="126rpx"
 			        />
 			      </view>
+				</view>
+			  </view>
+			  
+			  
+			  <view class="updata">
+			    <view class="updata-title"> 效果图</view>
+			    <view class="updata-image">
+				  <view class="image-type">
+					<van-uploader
+					  :file-list="effectImg[0]"
+					  max-count="1"
+					  @after-read="afterRead($event, 0, 'effectImg')"
+					 @delete="deleteImg($event, 0, 'effectImg')"
+					  preview-size="126rpx"
+					/>
+				  </view>
 			      <view class="image-type">
 			        <van-uploader
-			          :file-list="fileList[1]"
+			          :file-list="effectImg[1]"
 			          max-count="1"
-			          @after-read="afterRead($event, 1, 'fileList')"
+			          @after-read="afterRead($event, 1, 'effectImg')"
+			  		@delete="deleteImg($event, 1, 'effectImg')"
 			          preview-size="126rpx"
 			        />
-			      </view>
-			    
+			  		</view>
 			    </view>
 			  </view>
+			  
 			<view class="updata">
 			  <view class="updata-title"><text class="red">*</text> 店招图</view>
 			  <view class="updata-image">
@@ -106,6 +123,7 @@
 					:file-list="frontImg[0]"
 					max-count="1"
 					@after-read="afterRead($event, 0, 'frontImg')"
+					@delete="deleteImg($event, 0, 'frontImg')"
 					preview-size="126rpx"
 				  />
 				</view>
@@ -114,6 +132,7 @@
 					:file-list="frontImg[1]"
 					max-count="1"
 					@after-read="afterRead($event, 1, 'frontImg')"
+					@delete="deleteImg($event, 1, 'frontImg')"
 					preview-size="126rpx"
 				  />
 				</view>
@@ -128,6 +147,7 @@
 					:file-list="innerImg[0]"
 					max-count="1"
 					@after-read="afterRead($event, 0, 'innerImg')"
+					@delete="deleteImg($event, 0, 'innerImg')"
 					preview-size="126rpx"
 				  />
 				</view>
@@ -136,13 +156,14 @@
 					:file-list="innerImg[1]"
 					max-count="1"
 					@after-read="afterRead($event, 1, 'innerImg')"
+					@delete="deleteImg($event, 1, 'innerImg')"
 					preview-size="126rpx"
 				  />
 				</view>
 			   
 			  </view>
 			</view>
-			<view class="updata">
+			<view class="updata" v-if="0">
 			  <view class="updata-title">店内图</view>
 			  <view class="updata-image">
 				<view class="image-type">
@@ -150,6 +171,7 @@
 					:file-list="aroundImg[0]"
 					max-count="1"
 					@after-read="afterRead($event, 0, 'aroundImg')"
+					@delete="deleteImg($event, 0, 'aroundImg')"
 					preview-size="126rpx"
 				  />
 				</view>
@@ -158,6 +180,7 @@
 					:file-list="aroundImg[1]"
 					max-count="1"
 					@after-read="afterRead($event, 1, 'aroundImg')"
+					@delete="deleteImg($event, 1, 'aroundImg')"
 					preview-size="126rpx"
 				  />
 				</view>
@@ -501,6 +524,7 @@
     <van-action-sheet :show="positionShow">
       <van-area
         :area-list="areaList"
+		:columns-placeholder="['不限', '不限', '不限']"
         :value="positionValue"
         @cancel="hideCityPosition"
         @confirm="getCityPosition"
@@ -659,6 +683,7 @@ export default {
       ],
 
       fileList: [[], []],
+	  effectImg: [[], []],
       frontImg: [[], []],
       innerImg: [[], []],
       aroundImg: [[], []],
@@ -800,29 +825,98 @@ export default {
       console.log(event.detail);
       let position = "";
       event.detail.values.forEach((item) => {
-        position += item.name;
+		console.log(item)
+        position += item?item.name:"";
       });
       this.form.position = position;
       this.positionValue =
-        event.detail.values[event.detail.values.length - 1].code;
+        event.detail.values[event.detail.values.length - 1] ? event.detail.values[event.detail.values.length - 1].code : "";
       // 城市code
       this.form.province = "广东省";
-      this.form.city = event.detail.values[0].name;
+      this.form.city = event.detail.values[0] ? event.detail.values[0].name : "";
       // 区域code
-      this.form.region = event.detail.values[1].name;
+      this.form.region = event.detail.values[1] ? event.detail.values[1].name : "";
       // 街道code
-      this.form.street = event.detail.values[2].name;
+      this.form.street = event.detail.values[2] ? event.detail.values[2].name : "";
       this.positionShow = false;
     },
     // 隐藏位置弹窗
     hideCityPosition() {
       this.positionShow = false;
     },
+	
+	//删除图片
+	deleteImg(event, index, type){
+		var that = this;
+		if (type === 'fileList') {
+			that.fileList[index] = [];
+		} else if (type === 'effectImg') {
+			that.effectImg[index] = [];
+		}else if (type === 'frontImg') {
+			that.frontImg[index] = [];
+		} else if (type === 'innerImg') {
+			that.innerImg[index] = [];
+		} else if (type === 'aroundImg') {
+			that.aroundImg[index] = [];
+		}
+		
+		that.$forceUpdate();
+	},
+	
     // 上传图片
     afterRead(event, index, type) {
       const { file } = event.detail;
       var that = this;
       // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
+	  if (type === "fileList") {
+	    that.fileList[index] = [
+	      {
+	        url: "",
+	        name: "",
+			status: 'uploading',
+			message: '上传中',
+	      },
+	    ];
+	  } else if (type === "effectImg") {
+	    that.effectImg[index] = [
+	      {
+	        url: "",
+	        name: "",
+	        status: 'uploading',
+	        message: '上传中',
+	      },
+	    ];
+	  }else if (type === "frontImg") {
+	    that.frontImg[index] = [
+	      {
+	        url: "",
+	        name: "",
+	        status: 'uploading',
+	        message: '上传中',
+	      },
+	    ];
+	  } else if (type === "innerImg") {
+	    that.innerImg[index] = [
+	      {
+	        url: "",
+	        name: "",
+	        status: 'uploading',
+	        message: '上传中',
+	      },
+	    ];
+	  } else if (type === "aroundImg") {
+	    that.aroundImg[index] = [
+	      {
+	        url: "",
+	        name: "",
+	        status: 'uploading',
+	        message: '上传中',
+	      },
+	    ];
+	  }
+	  that.$forceUpdate();
+	  
+	  
       wx.uploadFile({
         url: this.HOST + "api/upload",
         filePath: file.path,
@@ -841,13 +935,26 @@ export default {
               {
                 url: JSON.parse(res.data)["data"],
                 name: "",
+				status: 'done',
+				message: '上传完成',
               },
             ];
-          } else if (type === "frontImg") {
+          } else if (type === "effectImg") {
+            that.effectImg[index] = [
+              {
+                url: JSON.parse(res.data)["data"],
+                name: "",
+				status: 'done',
+				message: '上传完成',
+              },
+            ];
+          }else if (type === "frontImg") {
             that.frontImg[index] = [
               {
                 url: JSON.parse(res.data)["data"],
                 name: "",
+				status: 'done',
+				message: '上传完成',
               },
             ];
           } else if (type === "innerImg") {
@@ -855,6 +962,8 @@ export default {
               {
                 url: JSON.parse(res.data)["data"],
                 name: "",
+				status: 'done',
+				message: '上传完成',
               },
             ];
           } else if (type === "aroundImg") {
@@ -862,6 +971,8 @@ export default {
               {
                 url: JSON.parse(res.data)["data"],
                 name: "",
+				status: 'done',
+				message: '上传完成',
               },
             ];
           }
@@ -1071,6 +1182,14 @@ export default {
 	  this.form.brandLogo = url.join(",");
 	  
 	  var url = [];
+	  this.effectImg.forEach((item) => {
+	    if (item[0] && item[0].url) {
+	      url.push(item[0].url);
+	    }
+	  });
+	  this.form.effectPhotos = url.join(",");
+	  
+	  var url = [];
 	  this.frontImg.forEach((item) => {
 	    if (item[0] && item[0].url) {
 	      url.push(item[0].url);
@@ -1198,7 +1317,7 @@ export default {
     .updata {
       display: flex;
       flex-direction: column;
-      margin-right: 300rpx;
+     
 	  
 	  .updata-title{
 	  	color:#646566;
@@ -1212,11 +1331,13 @@ export default {
 	  }
 
       .updata-image {
-        display: flex;
-        justify-content: space-between;
-      		padding:10rpx 26rpx;
+        
+      	padding:10rpx 26rpx;
+		width: 100%;
         .image-type {
           text-align: center;
+		  margin:0 28rpx  0 0rpx;
+		  display: inline-block;
       
           .image-text {
             font-size: 28rpx;
